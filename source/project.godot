@@ -10,9 +10,24 @@ config_version=5
 
 [application]
 
-config/name="source"
+config/name="snatched"
+run/main_scene="uid://dd4o6wthimh6i"
+config/use_custom_user_dir=true
+config/custom_user_dir_name="snatched"
 config/features=PackedStringArray("4.6", "GL Compatibility")
-config/icon="res://icon.svg"
+run/max_fps=144
+boot_splash/bg_color=Color(0, 0, 0, 1)
+boot_splash/show_image=false
+boot_splash/stretch_mode=0
+boot_splash/use_filter=false
+config/icon="uid://c6yb8kwipfi3k"
+
+[display]
+
+window/size/viewport_width=800
+window/size/viewport_height=600
+window/stretch/mode="viewport"
+window/vsync/vsync_mode=0
 
 [physics]
 
@@ -23,3 +38,4 @@ config/icon="res://icon.svg"
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+environment/defaults/default_clear_color=Color(0, 0, 0, 1)

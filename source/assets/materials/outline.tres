@@ -1,0 +1,20 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://c0u7g8udxmn5m"]
+
+[ext_resource type="Shader" uid="uid://cbrxjr3b446wu" path="res://assets/shaders/outline.gdshader" id="1_0lybl"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_0lybl")
+shader_parameter/cutout_light = 0.0
+shader_parameter/cutout_dark = 0.0
+shader_parameter/cutout_sensitivity = 0.10000000149012
+shader_parameter/depth_threshold = 0.28500001283898
+shader_parameter/normal_threshold = 0.66000003135
+shader_parameter/depth_fade_dist = 26.0000011875
+shader_parameter/line_thickness = 2.11600010051
+shader_parameter/thickness_dark = 0.986000046835
+shader_parameter/use_smart_color = true
+shader_parameter/contrast_threshold = 0.19200000912
+shader_parameter/line_color_on_light = Color(0, 0, 0, 1)
+shader_parameter/line_color_on_dark = Color(1, 1, 1, 1)
+shader_parameter/fixed_line_color = Color(0, 0, 0, 1)
