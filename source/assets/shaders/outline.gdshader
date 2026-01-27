@@ -3,7 +3,8 @@ render_mode unshaded, depth_test_disabled, cull_disabled, skip_vertex_transform;
 
 uniform sampler2D screen_texture : hint_screen_texture, filter_nearest;
 uniform sampler2D depth_texture : hint_depth_texture, filter_nearest;
-uniform sampler2D normal_texture : hint_normal_roughness_texture, filter_nearest;
+// Removed normal_texture for compatibility mode
+// uniform sampler2D normal_texture : hint_normal_roughness_texture, filter_nearest;
 
 // --- DYNAMIC CUTOUT SETTINGS ---
 group_uniforms Sketchy_Style;
@@ -33,6 +34,33 @@ void vertex() {
 	POSITION = vec4(VERTEX.xy, 1.0, 1.0);
 }
 
+// Reconstruct view-space position from depth
+vec3 get_view_position(vec2 screen_uv, float depth, mat4 inv_proj_mat) {
+	vec4 ndc = vec4(screen_uv * 2.0 - 1.0, depth, 1.0);
+	vec4 view_pos = inv_proj_mat * ndc;
+	return view_pos.xyz / view_pos.w;
+}
+
+// Reconstruct normal from depth by sampling neighbors
+vec3 get_normal_from_depth(vec2 screen_uv, float depth, vec2 texel_size, mat4 inv_proj_mat) {
+	vec3 pos = get_view_position(screen_uv, depth, inv_proj_mat);
+
+	// Sample neighbors for derivatives
+	vec2 offset_x = vec2(texel_size.x, 0.0);
+	vec2 offset_y = vec2(0.0, texel_size.y);
+
+	float depth_x = texture(depth_texture, screen_uv + offset_x).r;
+	float depth_y = texture(depth_texture, screen_uv + offset_y).r;
+
+	vec3 pos_x = get_view_position(screen_uv + offset_x, depth_x, inv_proj_mat);
+	vec3 pos_y = get_view_position(screen_uv + offset_y, depth_y, inv_proj_mat);
+
+	vec3 tangent = pos_x - pos;
+	vec3 bitangent = pos_y - pos;
+
+	return normalize(cross(tangent, bitangent));
+}
+
 float get_depth(vec2 uv, mat4 inv_proj_mat) {
 	float depth = texture(depth_texture, uv).r;
 	vec3 ndc = vec3(uv * 2.0 - 1.0, depth);
@@ -43,6 +71,13 @@ float get_depth(vec2 uv, mat4 inv_proj_mat) {
 
 float get_luminance(vec3 color) {
 	return dot(color, vec3(0.2126, 0.7152, 0.0722));
+}
+
+// Simple hash function for noise
+float hash(vec3 p) {
+    p = fract(p * 0.3183099 + .1);
+    p *= 17.0;
+    return fract(p.x * p.y * p.z * (p.x + p.y + p.z));
 }
 
 void fragment() {
@@ -61,21 +96,30 @@ void fragment() {
 	vec2 offset = texel_size * current_thickness;
 	// ----------------------------------------
 
+	float depth_raw = texture(depth_texture, SCREEN_UV).r;
 	float depth_center = get_depth(SCREEN_UV, INV_PROJECTION_MATRIX);
-	vec4 normal_data = texture(normal_texture, SCREEN_UV);
-	vec3 normal_center = normal_data.rgb * 2.0 - 1.0;
-	float object_noise = normal_data.a; 
+
+	// Reconstruct normal from depth
+	vec3 normal_center = get_normal_from_depth(SCREEN_UV, depth_raw, texel_size, INV_PROJECTION_MATRIX);
+
+	// Generate object noise from world position
+	vec3 view_pos = get_view_position(SCREEN_UV, depth_raw, INV_PROJECTION_MATRIX);
+	vec3 world_pos = (INV_VIEW_MATRIX * vec4(view_pos, 1.0)).xyz;
+	// Scale world pos to get appropriate noise frequency
+	float object_noise = hash(world_pos * 10.0);
 
 	// 3. Neighbor Sampling (Using Dynamic Offset)
 	vec2 uv_up = SCREEN_UV + vec2(0.0, -offset.y);
 	vec2 uv_right = SCREEN_UV + vec2(offset.x, 0.0);
-	vec2 uv_down = SCREEN_UV + vec2(0.0, offset.y);
-	vec2 uv_left = SCREEN_UV + vec2(-offset.x, 0.0);
 
 	float d_up = get_depth(uv_up, INV_PROJECTION_MATRIX);
 	float d_right = get_depth(uv_right, INV_PROJECTION_MATRIX);
-	vec3 n_up = texture(normal_texture, uv_up).rgb * 2.0 - 1.0;
-	vec3 n_right = texture(normal_texture, uv_right).rgb * 2.0 - 1.0;
+
+	float d_raw_up = texture(depth_texture, uv_up).r;
+	float d_raw_right = texture(depth_texture, uv_right).r;
+
+	vec3 n_up = get_normal_from_depth(uv_up, d_raw_up, texel_size, INV_PROJECTION_MATRIX);
+	vec3 n_right = get_normal_from_depth(uv_right, d_raw_right, texel_size, INV_PROJECTION_MATRIX);
 
 	// 4. Edge Detection
 	float depth_diff = abs(depth_center - d_up) + abs(depth_center - d_right);
@@ -99,6 +143,9 @@ void fragment() {
 	// --- 6. RE-CALCULATE BRIGHTNESS (Smoothed) ---
 	// We re-calculate brightness using neighbors for the CUTOUT logic
 	// to prevent flickering, even though we used center pixel for thickness.
+	vec2 uv_down = SCREEN_UV + vec2(0.0, offset.y);
+	vec2 uv_left = SCREEN_UV + vec2(-offset.x, 0.0);
+
 	vec3 c_up = texture(screen_texture, uv_up).rgb;
 	vec3 c_right = texture(screen_texture, uv_right).rgb;
 	vec3 c_down = texture(screen_texture, uv_down).rgb;
