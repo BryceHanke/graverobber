@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://bvt0l60nmgv4s" path="res://scripts/player/player_controller.gd" id="1_rkuj1"]
 [ext_resource type="Script" uid="uid://v23xafiwc0lo" path="res://scripts/input/input_gather.gd" id="2_0owmy"]
 [ext_resource type="Script" uid="uid://0x2i8kdr51fu" path="res://scripts/camera/camera_movement.gd" id="2_qek5x"]
+[ext_resource type="Material" uid="uid://c0u7g8udxmn5m" path="res://assets/materials/outline.tres" id="3_5gtgg"]
 [ext_resource type="Script" uid="uid://dlyn7myxb1v18" path="res://scripts/statemachine/statemachine.gd" id="5_5tt2p"]
 [ext_resource type="Script" uid="uid://bs6sc1frb1nfc" path="res://scripts/player/ground/idle.gd" id="6_rkuj1"]
 [ext_resource type="Script" uid="uid://b01bw7djd0wvp" path="res://scripts/player/ground/walk.gd" id="7_ers80"]
@@ -14,6 +15,10 @@ radial_segments = 16
 rings = 2
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8xumb"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_h17s1"]
+material = ExtResource("3_5gtgg")
+size = Vector2(5, 5)
 
 [node name="player" type="CharacterBody3D" unique_id=1570651658]
 axis_lock_angular_x = true
@@ -49,6 +54,9 @@ script = ExtResource("2_qek5x")
 cam = NodePath(".")
 head = NodePath("../..")
 lean = NodePath("..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="head/lean/camera" unique_id=2138079720]
+mesh = SubResource("QuadMesh_h17s1")
 
 [node name="logic" type="Node" parent="." unique_id=717132806]
 

@@ -1,15 +1,21 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cw3vtka5voiak"]
+[gd_resource type="ShaderMaterial" format=3 uid="uid://cw3vtka5voiak"]
 
 [ext_resource type="Shader" uid="uid://dcxcwwd03jc52" path="res://assets/shaders/dither.gdshader" id="1_52sdg"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_mohoo"]
+
+[sub_resource type="NoiseTexture3D" id="NoiseTexture3D_dsv2q"]
+noise = SubResource("FastNoiseLite_mohoo")
 
 [resource]
 render_priority = 0
 shader = ExtResource("1_52sdg")
 shader_parameter/lit_color = Color(1, 1, 1, 1)
 shader_parameter/shadow_color = Color(0, 0, 0, 1)
-shader_parameter/global_ambient = Color(0.1, 0.1, 0.1, 1)
+shader_parameter/global_ambient = Color(0, 0, 0, 1)
 shader_parameter/dither_pixel_size = 2.0000000475
 shader_parameter/dither_density = 1024.0
-shader_parameter/dither_spread = 0.5240000241914801
+shader_parameter/dither_spread = 0.75000003492648
 shader_parameter/light_boost = 2.0
+shader_parameter/outline_noise_tex = SubResource("NoiseTexture3D_dsv2q")
 shader_parameter/outline_noise_scale = 5.0
