@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode blend_mix, depth_draw_opaque, cull_back, ambient_light_disabled;
+render_mode blend_mix, depth_draw_opaque, cull_back, ambient_light_disabled, specular_disabled;
 
 // --- UNIFORMS ---
 uniform sampler2D texture_albedo : source_color, filter_nearest;
@@ -20,10 +20,6 @@ uniform float dither_spread : hint_range(0.01, 1.0) = 0.5;
 
 group_uniforms Lighting;
 uniform float light_boost : hint_range(1.0, 100.0) = 2.0;
-
-group_uniforms Sketchy_Style;
-uniform sampler3D outline_noise_tex : filter_linear, repeat_enable;
-uniform float outline_noise_scale : hint_range(0.1, 20.0) = 5.0;
 
 // --- VARYINGS ---
 varying vec3 v_local_pos;
@@ -68,10 +64,6 @@ void fragment() {
     vec4 tex = texture(texture_albedo, UV);
     float texture_brightness = get_lum(tex.rgb);
 
-    // Optional: Roughness Noise
-    float cutout_noise = texture(outline_noise_tex, v_local_pos * outline_noise_scale).r;
-    ROUGHNESS = cutout_noise;
-
     // --- AMBIENT PASS ---
     // Combined Brightness = Ambient Light * Texture Dark/Lightness
     float ambient_brightness = get_lum(global_ambient);
@@ -87,6 +79,7 @@ void fragment() {
     // 4. Output: Mix Black and White based on dither bit
     EMISSION = mix(shadow_color, lit_color, dither_bit);
     ALBEDO = vec3(0.0); // Disable engine lighting
+    SPECULAR = 0.0;
 }
 
 void light() {
