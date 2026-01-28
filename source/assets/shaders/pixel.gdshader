@@ -13,7 +13,7 @@ uniform int dither_type : hint_enum("Bayer 8x8", "Bayer 4x4", "Blue Noise", "Whi
 // Relative size of dither dots to the virtual pixels
 uniform float dither_pixel_size : hint_range(1.0, 8.0) = 1.0;
 uniform float dither_spread : hint_range(0.01, 2.0) = 0.5;
-uniform float dither_smoothing : hint_range(0.0, 2.0) = 0.05;
+uniform float dither_smoothing : hint_range(0.0, 2.0) = 0.0;
 uniform sampler2D blue_noise_texture : hint_default_white, filter_nearest, repeat_enable;
 
 // --- MATRICES ---

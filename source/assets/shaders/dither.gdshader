@@ -9,12 +9,6 @@ uniform vec3 lit_color : source_color = vec3(1.0, 1.0, 1.0);
 uniform vec3 shadow_color : source_color = vec3(0.0, 0.0, 0.0);
 uniform vec3 global_ambient : source_color = vec3(0.1, 0.1, 0.1);
 
-// --- MATERIAL PROPERTIES ---
-group_uniforms Material_Properties;
-uniform float roughness : hint_range(0.0, 1.0) = 0.5;
-uniform float metallic : hint_range(0.0, 1.0) = 0.0;
-uniform float specular : hint_range(0.0, 1.0) = 0.5;
-
 // --- DITHERING STYLE ---
 group_uniforms Dithering_Style;
 uniform int dither_type : hint_enum("Bayer 8x8", "Bayer 4x4", "Blue Noise", "White Noise", "Diffused") = 0;
@@ -143,9 +137,9 @@ void fragment() {
     // Direct lights will be added in light().
     EMISSION = vec3(0.0);
 
-    ROUGHNESS = roughness;
-    METALLIC = metallic;
-    SPECULAR = specular;
+    ROUGHNESS = 1.0;
+    METALLIC = 0.0;
+    SPECULAR = 0.0;
 }
 
 void light() {
