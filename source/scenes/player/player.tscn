@@ -12,6 +12,8 @@
 [ext_resource type="Script" uid="uid://dmw47mb382ebt" path="res://scripts/player/ground/jump.gd" id="8_nwn0c"]
 [ext_resource type="Script" uid="uid://brdohbduwyyb6" path="res://scripts/player/ground/fall.gd" id="9_y4pjd"]
 [ext_resource type="Material" uid="uid://bkwmprrotrwg5" path="res://assets/materials/pixel.tres" id="11_je7p5"]
+[ext_resource type="Material" path="res://assets/materials/pixel_canvas.tres" id="12_cvmat"]
+[ext_resource type="Script" path="res://scripts/pixel_canvas_updater.gd" id="13_cvscr"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_6agyq"]
 radial_segments = 16
@@ -73,6 +75,18 @@ handle_input_locally = false
 size = Vector2i(960, 540)
 render_target_update_mode = 4
 
+[node name="CanvasLayer" type="CanvasLayer" parent="head/lean/camera/SubViewportContainer/hand_view"]
+
+[node name="ColorRect" type="ColorRect" parent="head/lean/camera/SubViewportContainer/hand_view/CanvasLayer" node_paths=PackedStringArray("camera")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+material = ExtResource("12_cvmat")
+script = ExtResource("13_cvscr")
+camera = NodePath("../../camera")
+
 [node name="camera" type="Camera3D" parent="head/lean/camera/SubViewportContainer/hand_view" unique_id=1232050989 node_paths=PackedStringArray("cam")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 cull_mask = 1047554
@@ -104,6 +118,7 @@ omni_attenuation = 2.0
 
 [node name="PixelDither" type="MeshInstance3D" parent="head/lean/camera/SubViewportContainer/hand_view/camera" unique_id=928078202]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.255314)
+visible = false
 material_override = ExtResource("11_je7p5")
 mesh = SubResource("QuadMesh_h17s1")
 

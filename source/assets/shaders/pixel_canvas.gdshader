@@ -8,8 +8,8 @@ uniform int pixel_factor : hint_range(1, 16) = 4;
 uniform float pixel_aspect : hint_range(0.1, 10.0) = 1.0;
 
 uniform sampler2D screen_texture : hint_screen_texture, filter_nearest;
-uniform sampler2D depth_texture : filter_nearest;
-uniform sampler2D normal_roughness_texture : filter_nearest;
+uniform sampler2D depth_texture : hint_depth_texture, filter_nearest;
+uniform sampler2D normal_roughness_texture : hint_normal_roughness_texture, filter_nearest;
 
 uniform mat4 inv_proj_mat;
 uniform mat4 inv_view_mat;
