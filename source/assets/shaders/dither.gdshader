@@ -11,12 +11,14 @@ uniform vec3 global_ambient : source_color = vec3(0.1, 0.1, 0.1);
 
 // --- DITHERING STYLE ---
 group_uniforms Dithering_Style;
+uniform int dither_type : hint_enum("Bayer 8x8", "Bayer 4x4", "Blue Noise", "White Noise", "Diffused") = 0;
 // How "chunky" the pixels are
 uniform float dither_pixel_size : hint_range(1.0, 8.0) = 2.0;
 // How dense the grid is (Higher = smaller dots)
 uniform float dither_density = 2048.0;
 // Smoothness of the gradient (0.01 = Hard Cut, 0.5 = Smooth Fade)
 uniform float dither_spread : hint_range(0.01, 1.0) = 0.5;
+uniform sampler2D blue_noise_texture : hint_default_white, filter_nearest, repeat_enable;
 
 group_uniforms Lighting;
 uniform float light_boost : hint_range(1.0, 100.0) = 2.0;
@@ -36,6 +38,14 @@ const int bayer8[64] = {
     42, 26, 38, 22, 41, 25, 37, 21
 };
 
+// --- 4x4 BAYER MATRIX ---
+const int bayer4[16] = {
+    0, 8, 2, 10,
+    12, 4, 14, 6,
+    3, 11, 1, 9,
+    15, 7, 13, 5
+};
+
 void vertex() {
     v_local_pos = VERTEX;
 }
@@ -46,7 +56,32 @@ float get_uv_dither(vec2 uv, float density, float pixel_size) {
     vec2 raw_grid_pos = uv * density;
     vec2 stepped_pos = floor(raw_grid_pos / pixel_size);
 
-    // Bayer Matrix Lookup
+    if (dither_type == 1) { // Bayer 4x4
+        int x = int(mod(stepped_pos.x, 4.0));
+        int y = int(mod(stepped_pos.y, 4.0));
+        int idx = y * 4 + x;
+        return float(bayer4[idx]) / 16.0;
+    }
+    else if (dither_type == 2) { // Blue Noise
+        vec2 tex_size = vec2(textureSize(blue_noise_texture, 0));
+        if (tex_size.x <= 1.0) {
+            // Fallback to Diffused (IGN) if no texture
+            vec3 magic = vec3(0.06711056, 0.00583715, 52.9829189);
+            return fract(magic.z * fract(dot(stepped_pos, magic.xy)));
+        }
+        // Use texture repeat
+        vec2 tex_uv = stepped_pos / tex_size;
+        return texture(blue_noise_texture, tex_uv).r;
+    }
+    else if (dither_type == 3) { // White Noise
+        return fract(sin(dot(stepped_pos, vec2(12.9898, 78.233))) * 43758.5453);
+    }
+    else if (dither_type == 4) { // Diffused (IGN)
+        vec3 magic = vec3(0.06711056, 0.00583715, 52.9829189);
+        return fract(magic.z * fract(dot(stepped_pos, magic.xy)));
+    }
+
+    // Default: Bayer 8x8 (dither_type == 0)
     int x = int(mod(stepped_pos.x, 8.0));
     int y = int(mod(stepped_pos.y, 8.0));
     int bayer_idx = y * 8 + x;
