@@ -18,6 +18,7 @@ uniform float dither_pixel_size : hint_range(1.0, 8.0) = 2.0;
 uniform float dither_density = 2048.0;
 // Smoothness of the gradient (0.01 = Hard Cut, 0.5 = Smooth Fade)
 uniform float dither_spread : hint_range(0.01, 1.0) = 0.5;
+uniform float dither_smoothing : hint_range(0.0, 1.0) = 0.05;
 uniform sampler2D blue_noise_texture : hint_default_white, filter_nearest, repeat_enable;
 
 group_uniforms Lighting;
@@ -109,7 +110,12 @@ void fragment() {
 
     // 3. Apply Threshold with Spread
     float dithered_val = total_ambient_lum + (noise_val - 0.5) * dither_spread;
-    float dither_bit = step(0.5, dithered_val);
+    float dither_bit;
+    if (dither_smoothing < 0.001) {
+        dither_bit = step(0.5, dithered_val);
+    } else {
+        dither_bit = smoothstep(0.5 - dither_smoothing, 0.5 + dither_smoothing, dithered_val);
+    }
 
     // 4. Output: Mix Black and White based on dither bit
     EMISSION = mix(shadow_color, lit_color, dither_bit);
@@ -134,7 +140,12 @@ void light() {
 
     // 3. Apply Threshold
     float dithered_val = total_lum + (noise_val - 0.5) * dither_spread;
-    float dither_bit = step(0.5, dithered_val);
+    float dither_bit;
+    if (dither_smoothing < 0.001) {
+        dither_bit = step(0.5, dithered_val);
+    } else {
+        dither_bit = smoothstep(0.5 - dither_smoothing, 0.5 + dither_smoothing, dithered_val);
+    }
 
     // 4. Add Light (White only)
     vec3 add_light = mix(vec3(0.0), lit_color, dither_bit);
