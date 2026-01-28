@@ -109,7 +109,9 @@ void fragment() {
 
     // Bounce Light (Simulating ground bounce, so facing down gets light)
     vec3 world_normal = (INV_VIEW_MATRIX * vec4(NORMAL, 0.0)).xyz;
-    float bounce_factor = max(0.0, -world_normal.y);
+    float bounce_factor = -world_normal.y * 0.5 + 0.5;
+    bounce_factor = clamp(bounce_factor, 0.0, 1.0);
+    bounce_factor = pow(bounce_factor, 2.0);
     float bounce_lum = bounce_strength * bounce_factor;
 
     float total_ambient_lum = (ambient_brightness + bounce_lum) * texture_brightness;
