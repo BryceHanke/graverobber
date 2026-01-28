@@ -16,5 +16,5 @@ shader_parameter/thickness_dark = 0.714000033915
 shader_parameter/use_smart_color = true
 shader_parameter/contrast_threshold = 0.5
 shader_parameter/line_color_on_light = Color(0, 0, 0, 1)
-shader_parameter/line_color_on_dark = Color(0.8627451, 0.8627451, 0.8666667, 1)
+shader_parameter/line_color_on_dark = Color(1, 1, 1, 1)
 shader_parameter/fixed_line_color = Color(0, 0, 0, 1)
