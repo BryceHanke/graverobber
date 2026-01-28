@@ -1,10 +1,11 @@
-shader_type canvas_item;
+shader_type spatial;
+render_mode unshaded, depth_test_disabled, cull_disabled, skip_vertex_transform;
 
 // How big each "pixel" should be. 
 uniform int pixel_factor : hint_range(1, 16) = 4;
 
 uniform sampler2D screen_texture : hint_screen_texture, filter_nearest;
-uniform mat4 inv_view_matrix;
+uniform sampler2D depth_texture : hint_depth_texture, filter_nearest;
 
 // --- DITHERING UNIFORMS ---
 uniform vec3 lit_color : source_color = vec3(1.0, 1.0, 1.0);
@@ -36,8 +37,26 @@ const int bayer4[16] = {
     15, 7, 13, 5
 };
 
+void vertex() {
+	POSITION = vec4(VERTEX.xy, 1.0, 1.0);
+}
+
 float get_lum(vec3 color) {
     return dot(color, vec3(0.299, 0.587, 0.114));
+}
+
+vec3 get_view_pos(vec2 uv, mat4 inv_proj_mat) {
+	float depth = texture(depth_texture, uv).r;
+	vec3 ndc = vec3(uv * 2.0 - 1.0, depth);
+	vec4 view = inv_proj_mat * vec4(ndc, 1.0);
+	return view.xyz / view.w;
+}
+
+vec3 get_reconstructed_normal(vec2 uv, vec2 texel_size, mat4 inv_proj) {
+	vec3 pos = get_view_pos(uv, inv_proj);
+	vec3 pos_right = get_view_pos(uv + vec2(texel_size.x, 0.0), inv_proj);
+	vec3 pos_up = get_view_pos(uv + vec2(0.0, -texel_size.y), inv_proj);
+	return normalize(cross(pos_right - pos, pos_up - pos));
 }
 
 float get_dither_value(vec2 pixel_pos) {
@@ -75,33 +94,40 @@ float get_dither_value(vec2 pixel_pos) {
 }
 
 void fragment() {
-    vec2 screen_size_pixels = 1.0 / SCREEN_PIXEL_SIZE;
-    vec2 grid_size = screen_size_pixels / float(pixel_factor);
+    vec2 texel_size = vec2(1.0) / VIEWPORT_SIZE;
+    vec2 grid_size = VIEWPORT_SIZE / float(pixel_factor);
 
     // Calculate snapped UV for pixelation
-    vec2 snapped_uv = floor(UV * grid_size) / grid_size;
+    vec2 snapped_uv = floor(SCREEN_UV * grid_size) / grid_size;
     
     // Get Color
     vec3 col = texture(screen_texture, snapped_uv).rgb;
     float lum = get_lum(col);
 
-    // Get Dither Value using the integer grid coordinates
-    // We use floor(UV * grid_size) which is integer coordinates (0..grid_width, 0..grid_height)
+    // Reconstruct World Position and Normal
+    vec3 view_pos = get_view_pos(snapped_uv, INV_PROJECTION_MATRIX);
+    vec3 world_pos = (INV_VIEW_MATRIX * vec4(view_pos, 1.0)).xyz;
+    vec3 view_normal = get_reconstructed_normal(snapped_uv, texel_size, INV_PROJECTION_MATRIX);
+    vec3 world_normal = normalize((INV_VIEW_MATRIX * vec4(view_normal, 0.0)).xyz);
 
-    // Spherically mapped around the view for stability
-    vec2 ndc = UV * 2.0 - 1.0;
-    float aspect = SCREEN_PIXEL_SIZE.y / SCREEN_PIXEL_SIZE.x;
-    vec3 view_dir = normalize(vec3(ndc.x * aspect, ndc.y, -1.0));
-    vec3 world_dir = mat3(inv_view_matrix) * view_dir;
+    // Triplanar / Box Projection for Dither Pattern
+    vec3 blend = abs(world_normal);
+    blend /= (blend.x + blend.y + blend.z);
 
-    float phi = atan(world_dir.z, world_dir.x);
-    float theta = acos(world_dir.y);
+    // Determine dominant axis
+    vec2 dither_uv;
+    if (blend.x > blend.y && blend.x > blend.z) {
+        dither_uv = world_pos.zy;
+    } else if (blend.y > blend.z) {
+        dither_uv = world_pos.xz;
+    } else {
+        dither_uv = world_pos.xy;
+    }
 
-    // Map spherical coordinates to pixel grid density
-    // 1.57 (PI/2) is approx the FOV width
-    vec2 dither_uv = vec2(phi, theta) * (grid_size.x / 1.57);
+    // Scale world UVs to pixel grid density roughly
+    // Assuming 1 unit ~ 32 pixels density for typical scenes
+    vec2 pixel_coord = floor(dither_uv * 32.0);
 
-    vec2 pixel_coord = floor(dither_uv);
     float noise_val = get_dither_value(pixel_coord);
 
     // Apply Dither Threshold
@@ -114,5 +140,5 @@ void fragment() {
         dither_bit = smoothstep(0.5 - dither_smoothing, 0.5 + dither_smoothing, dithered_val);
     }
 
-    COLOR = vec4(mix(shadow_color, lit_color, dither_bit), 1.0);
+    ALBEDO = mix(shadow_color, lit_color, dither_bit);
 }
