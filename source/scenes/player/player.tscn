@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://dmw47mb382ebt" path="res://scripts/player/ground/jump.gd" id="8_nwn0c"]
 [ext_resource type="Script" uid="uid://brdohbduwyyb6" path="res://scripts/player/ground/fall.gd" id="9_y4pjd"]
 [ext_resource type="Material" uid="uid://bkwmprrotrwg5" path="res://assets/materials/pixel.tres" id="11_je7p5"]
+[ext_resource type="Script" path="res://scripts/camera/pixel_stabilizer.gd" id="12_stabilizer"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_6agyq"]
 radial_segments = 16
@@ -103,3 +104,5 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+script = ExtResource("12_stabilizer")
+camera = NodePath("../../head/lean/camera")
