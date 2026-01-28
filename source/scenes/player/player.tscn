@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://b01bw7djd0wvp" path="res://scripts/player/ground/walk.gd" id="7_ers80"]
 [ext_resource type="Script" uid="uid://dmw47mb382ebt" path="res://scripts/player/ground/jump.gd" id="8_nwn0c"]
 [ext_resource type="Script" uid="uid://brdohbduwyyb6" path="res://scripts/player/ground/fall.gd" id="9_y4pjd"]
+[ext_resource type="Material" uid="uid://bkwmprrotrwg5" path="res://assets/materials/pixel.tres" id="11_je7p5"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_6agyq"]
 radial_segments = 16
@@ -90,3 +91,14 @@ metadata/_custom_type_script = "uid://dmw47mb382ebt"
 script = ExtResource("9_y4pjd")
 player = NodePath("../../..")
 metadata/_custom_type_script = "uid://brdohbduwyyb6"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1219918890]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=1614269815]
+material = ExtResource("11_je7p5")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

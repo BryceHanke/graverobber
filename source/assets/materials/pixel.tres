@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://bkwmprrotrwg5"]
+
+[ext_resource type="Shader" path="res://assets/shaders/pixel.gdshader" id="1_pmb4f"]
+
+[resource]
+shader = ExtResource("1_pmb4f")
+shader_parameter/pixel_factor = 2
