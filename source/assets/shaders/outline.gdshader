@@ -3,7 +3,6 @@ render_mode unshaded, depth_test_disabled, cull_disabled, skip_vertex_transform;
 
 uniform sampler2D screen_texture : hint_screen_texture, filter_nearest;
 uniform sampler2D depth_texture : hint_depth_texture, filter_nearest;
-uniform sampler2D normal_texture : hint_normal_roughness_texture, filter_nearest;
 
 // --- DYNAMIC CUTOUT SETTINGS ---
 group_uniforms Sketchy_Style;
@@ -33,12 +32,22 @@ void vertex() {
 	POSITION = vec4(VERTEX.xy, 1.0, 1.0);
 }
 
-float get_depth(vec2 uv, mat4 inv_proj_mat) {
+vec3 get_view_pos(vec2 uv, mat4 inv_proj_mat) {
 	float depth = texture(depth_texture, uv).r;
 	vec3 ndc = vec3(uv * 2.0 - 1.0, depth);
 	vec4 view = inv_proj_mat * vec4(ndc, 1.0);
-	view.xyz /= view.w;
-	return -view.z;
+	return view.xyz / view.w;
+}
+
+vec3 get_reconstructed_normal(vec2 uv, vec2 texel_size, mat4 inv_proj) {
+	vec3 pos = get_view_pos(uv, inv_proj);
+	vec3 pos_right = get_view_pos(uv + vec2(texel_size.x, 0.0), inv_proj);
+	vec3 pos_up = get_view_pos(uv + vec2(0.0, -texel_size.y), inv_proj);
+	return normalize(cross(pos_right - pos, pos_up - pos));
+}
+
+float random(vec2 uv) {
+	return fract(sin(dot(uv, vec2(12.9898, 78.233))) * 43758.5453);
 }
 
 float get_luminance(vec3 color) {
@@ -61,10 +70,10 @@ void fragment() {
 	vec2 offset = texel_size * current_thickness;
 	// ----------------------------------------
 
-	float depth_center = get_depth(SCREEN_UV, INV_PROJECTION_MATRIX);
-	vec4 normal_data = texture(normal_texture, SCREEN_UV);
-	vec3 normal_center = normal_data.rgb * 2.0 - 1.0;
-	float object_noise = normal_data.a; 
+	vec3 pos_center = get_view_pos(SCREEN_UV, INV_PROJECTION_MATRIX);
+	float depth_center = -pos_center.z;
+	vec3 normal_center = get_reconstructed_normal(SCREEN_UV, texel_size, INV_PROJECTION_MATRIX);
+	float object_noise = random(pos_center.xy);
 
 	// 3. Neighbor Sampling (Using Dynamic Offset)
 	vec2 uv_up = SCREEN_UV + vec2(0.0, -offset.y);
@@ -72,10 +81,11 @@ void fragment() {
 	vec2 uv_down = SCREEN_UV + vec2(0.0, offset.y);
 	vec2 uv_left = SCREEN_UV + vec2(-offset.x, 0.0);
 
-	float d_up = get_depth(uv_up, INV_PROJECTION_MATRIX);
-	float d_right = get_depth(uv_right, INV_PROJECTION_MATRIX);
-	vec3 n_up = texture(normal_texture, uv_up).rgb * 2.0 - 1.0;
-	vec3 n_right = texture(normal_texture, uv_right).rgb * 2.0 - 1.0;
+	float d_up = -get_view_pos(uv_up, INV_PROJECTION_MATRIX).z;
+	float d_right = -get_view_pos(uv_right, INV_PROJECTION_MATRIX).z;
+
+	vec3 n_up = get_reconstructed_normal(uv_up, texel_size, INV_PROJECTION_MATRIX);
+	vec3 n_right = get_reconstructed_normal(uv_right, texel_size, INV_PROJECTION_MATRIX);
 
 	// 4. Edge Detection
 	float depth_diff = abs(depth_center - d_up) + abs(depth_center - d_right);
