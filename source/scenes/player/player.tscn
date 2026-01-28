@@ -59,10 +59,6 @@ cam = NodePath(".")
 head = NodePath("../..")
 lean = NodePath("..")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="head/lean/camera" unique_id=2138079720]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
-mesh = SubResource("QuadMesh_h17s1")
-
 [node name="PixelDither" type="MeshInstance3D" parent="head/lean/camera"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
 material_override = ExtResource("11_je7p5")
