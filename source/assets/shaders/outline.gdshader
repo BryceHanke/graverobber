@@ -1,131 +1,102 @@
 shader_type spatial;
-render_mode unshaded, depth_test_disabled, cull_disabled, skip_vertex_transform;
+render_mode unshaded, cull_disabled;
 
-uniform sampler2D screen_texture : hint_screen_texture, filter_nearest;
-uniform sampler2D depth_texture : hint_depth_texture, filter_nearest;
-uniform sampler2D normal_texture : hint_normal_roughness_texture, filter_nearest;
+// This shader implements an outline effect compatible with Godot's Compatibility renderer (GLES3).
+// It reconstructs normals from the depth texture instead of relying on the Normal/Roughness texture
+// (which is only available in Forward+ and Mobile renderers).
 
-// --- DYNAMIC CUTOUT SETTINGS ---
-group_uniforms Sketchy_Style;
-uniform float cutout_light : hint_range(0.0, 1.0) = 0.0;
-uniform float cutout_dark : hint_range(0.0, 1.0) = 1.0;
-uniform float cutout_sensitivity : hint_range(0.1, 5.0) = 1.0;
+uniform sampler2D screen_texture : hint_screen_texture, filter_linear_mipmap;
+uniform sampler2D depth_texture : hint_depth_texture, filter_linear_mipmap;
 
-group_uniforms Sensitivity;
-uniform float depth_threshold : hint_range(0.01, 1.0) = 0.05;
+uniform vec4 outline_color : source_color = vec4(0.0, 0.0, 0.0, 1.0);
+uniform float outline_width : hint_range(0.0, 10.0) = 1.0;
+uniform float depth_threshold : hint_range(0.0, 0.1) = 0.01;
 uniform float normal_threshold : hint_range(0.0, 1.0) = 0.6;
-uniform float depth_fade_dist : hint_range(1.0, 100.0) = 20.0;
 
-group_uniforms Styling;
-// Maximum thickness (In the Light)
-uniform float line_thickness : hint_range(0.0, 5.0) = 2.0;
-// Minimum thickness (In the Dark) - Set lower to make lines thin out!
-uniform float thickness_dark : hint_range(0.0, 5.0) = 0.5; 
-
-group_uniforms Smart_Color;
-uniform bool use_smart_color = true;
-uniform float contrast_threshold : hint_range(0.0, 1.0) = 0.5;
-uniform vec4 line_color_on_light : source_color = vec4(0.0, 0.0, 0.0, 1.0);
-uniform vec4 line_color_on_dark : source_color = vec4(1.0, 1.0, 1.0, 1.0);
-uniform vec4 fixed_line_color : source_color = vec4(0.0, 0.0, 0.0, 1.0);
-
-void vertex() {
-	POSITION = vec4(VERTEX.xy, 1.0, 1.0);
+// Reconstruct view-space position from depth
+vec3 get_view_position(vec2 screen_uv, float depth, mat4 inv_proj_mat) {
+	// Godot's depth buffer is 0.0 to 1.0.
+	// In NDC, z is usually -1 to 1 for OpenGL, or 0 to 1 for Vulkan.
+	// However, using the INV_PROJECTION_MATRIX with the raw depth value usually works
+	// because the matrix matches the projection used.
+	// We map 0..1 to -1..1 for OpenGL if needed, but Godot abstracts this.
+	// Let's assume standard NDC construction.
+	vec4 ndc = vec4(screen_uv * 2.0 - 1.0, depth, 1.0);
+	vec4 view_pos = inv_proj_mat * ndc;
+	return view_pos.xyz / view_pos.w;
 }
 
-float get_depth(vec2 uv, mat4 inv_proj_mat) {
-	float depth = texture(depth_texture, uv).r;
-	vec3 ndc = vec3(uv * 2.0 - 1.0, depth);
-	vec4 view = inv_proj_mat * vec4(ndc, 1.0);
-	view.xyz /= view.w;
-	return -view.z;
-}
+// Reconstruct normal from depth by sampling neighbors
+vec3 get_normal_from_depth(vec2 screen_uv, float depth, vec2 texel_size, mat4 inv_proj_mat) {
+	vec3 pos = get_view_position(screen_uv, depth, inv_proj_mat);
 
-float get_luminance(vec3 color) {
-	return dot(color, vec3(0.2126, 0.7152, 0.0722));
+	// Sample neighbors for derivatives
+	vec2 offset_x = vec2(texel_size.x, 0.0);
+	vec2 offset_y = vec2(0.0, texel_size.y);
+
+	float depth_x = texture(depth_texture, screen_uv + offset_x).r;
+	float depth_y = texture(depth_texture, screen_uv + offset_y).r;
+
+	vec3 pos_x = get_view_position(screen_uv + offset_x, depth_x, inv_proj_mat);
+	vec3 pos_y = get_view_position(screen_uv + offset_y, depth_y, inv_proj_mat);
+
+	vec3 tangent = pos_x - pos;
+	vec3 bitangent = pos_y - pos;
+
+	return normalize(cross(tangent, bitangent));
 }
 
 void fragment() {
-	vec2 texel_size = vec2(1.0) / VIEWPORT_SIZE;
+	vec2 texel_size = 1.0 / VIEWPORT_SIZE;
+	float depth = texture(depth_texture, SCREEN_UV).r;
 
-	// 1. Sample Center Data FIRST
-	// We need the color immediately to determine thickness
-	vec3 color_center = texture(screen_texture, SCREEN_UV).rgb;
-	float center_lum = get_luminance(color_center);
+	// Do not draw outline on background (depth = 0 or 1 depending on convention, usually 0 is near, 1 is far?
+	// Godot Reverse Z? No, default is standard Z usually, but let's check.
+	// If depth is very far, we skip.
+	// In Godot 4, standard depth is 0 (near) to 1 (far) or reversed.
+	// Usually 1.0 is background in standard Z, 0.0 in reverse Z.
+	// We'll check if depth is valid.
 
-	// --- 2. DYNAMIC THICKNESS CALCULATION ---
-	// Interpolate between thickness_dark and line_thickness based on brightness
-	float current_thickness = mix(thickness_dark, line_thickness, center_lum);
-	
-	// Apply the calculated thickness to the offset
-	vec2 offset = texel_size * current_thickness;
-	// ----------------------------------------
+	vec3 normal = get_normal_from_depth(SCREEN_UV, depth, texel_size, INV_PROJECTION_MATRIX);
 
-	float depth_center = get_depth(SCREEN_UV, INV_PROJECTION_MATRIX);
-	vec4 normal_data = texture(normal_texture, SCREEN_UV);
-	vec3 normal_center = normal_data.rgb * 2.0 - 1.0;
-	float object_noise = normal_data.a; 
+	// Edge detection
+	float half_width = outline_width;
+	// Sample neighbors at outline_width distance
+	vec2 offset_x = vec2(texel_size.x, 0.0) * half_width;
+	vec2 offset_y = vec2(0.0, texel_size.y) * half_width;
 
-	// 3. Neighbor Sampling (Using Dynamic Offset)
-	vec2 uv_up = SCREEN_UV + vec2(0.0, -offset.y);
-	vec2 uv_right = SCREEN_UV + vec2(offset.x, 0.0);
-	vec2 uv_down = SCREEN_UV + vec2(0.0, offset.y);
-	vec2 uv_left = SCREEN_UV + vec2(-offset.x, 0.0);
+	float d_l = texture(depth_texture, SCREEN_UV - offset_x).r;
+	float d_r = texture(depth_texture, SCREEN_UV + offset_x).r;
+	float d_u = texture(depth_texture, SCREEN_UV - offset_y).r;
+	float d_d = texture(depth_texture, SCREEN_UV + offset_y).r;
 
-	float d_up = get_depth(uv_up, INV_PROJECTION_MATRIX);
-	float d_right = get_depth(uv_right, INV_PROJECTION_MATRIX);
-	vec3 n_up = texture(normal_texture, uv_up).rgb * 2.0 - 1.0;
-	vec3 n_right = texture(normal_texture, uv_right).rgb * 2.0 - 1.0;
+	vec3 n_l = get_normal_from_depth(SCREEN_UV - offset_x, d_l, texel_size, INV_PROJECTION_MATRIX);
+	vec3 n_r = get_normal_from_depth(SCREEN_UV + offset_x, d_r, texel_size, INV_PROJECTION_MATRIX);
+	vec3 n_u = get_normal_from_depth(SCREEN_UV - offset_y, d_u, texel_size, INV_PROJECTION_MATRIX);
+	vec3 n_d = get_normal_from_depth(SCREEN_UV + offset_y, d_d, texel_size, INV_PROJECTION_MATRIX);
 
-	// 4. Edge Detection
-	float depth_diff = abs(depth_center - d_up) + abs(depth_center - d_right);
-	float is_depth_edge = step(depth_threshold, depth_diff);
-	
-	float dot_up = clamp(dot(normal_center, n_up), 0.0, 1.0);
-	float dot_right = clamp(dot(normal_center, n_right), 0.0, 1.0);
-	float is_normal_edge = step(dot_up, normal_threshold) + step(dot_right, normal_threshold);
-	is_normal_edge = clamp(is_normal_edge, 0.0, 1.0);
+	// Depth edge
+	// We can simply check the difference in depth.
+	// However, depth difference depends on distance.
+	// A better metric is view space distance.
+	// But simple depth diff is often enough for outlines.
+	float depth_diff = abs(depth - d_l) + abs(depth - d_r) + abs(depth - d_u) + abs(depth - d_d);
 
-	float edge = max(is_depth_edge, is_normal_edge);
+	// Normal edge
+	// Dot product of current normal with neighbors.
+	// If flat surface, dot is 1. If edge, dot is < 1.
+	float normal_diff = dot(normal, n_l) + dot(normal, n_r) + dot(normal, n_u) + dot(normal, n_d);
+	// 4 neighbors. If all same, sum is 4.
+	// We want to know how much it deviates from 4.
+	float normal_edge_val = 4.0 - normal_diff;
 
-	// 5. Initial Discard
-	if (edge < 0.1) discard;
-	
-	// Borders and Distance
-	vec2 border_dist = min(SCREEN_UV, 1.0 - SCREEN_UV);
-	if (border_dist.x < 0.002 || border_dist.y < 0.002) discard;
-	if (depth_center > depth_fade_dist) discard;
+	float edge = 0.0;
 
-	// --- 6. RE-CALCULATE BRIGHTNESS (Smoothed) ---
-	// We re-calculate brightness using neighbors for the CUTOUT logic
-	// to prevent flickering, even though we used center pixel for thickness.
-	vec3 c_up = texture(screen_texture, uv_up).rgb;
-	vec3 c_right = texture(screen_texture, uv_right).rgb;
-	vec3 c_down = texture(screen_texture, uv_down).rgb;
-	vec3 c_left = texture(screen_texture, uv_left).rgb;
-	
-	vec3 avg_color = (color_center + c_up + c_right + c_down + c_left) / 5.0;
-	float avg_brightness = get_luminance(avg_color);
-	
-	// Apply sensitivity curve (make shadows impact cutoff faster)
-	float cutout_brightness = pow(avg_brightness, cutout_sensitivity);
-
-	// --- 7. DYNAMIC CUTOUT LOGIC ---
-	float dynamic_threshold = mix(cutout_dark, cutout_light, cutout_brightness);
-	
-	if (object_noise < dynamic_threshold) {
-		discard;
+	// Combine
+	if (depth_diff > depth_threshold || normal_edge_val > normal_threshold) {
+		edge = 1.0;
 	}
 
-	// 8. Color Logic (Smart Color)
-	vec3 final_color = fixed_line_color.rgb;
-	if (use_smart_color) {
-		if (avg_brightness > contrast_threshold) {
-			final_color = line_color_on_light.rgb;
-		} else {
-			final_color = line_color_on_dark.rgb;
-		}
-	}
-
-	ALBEDO = final_color;
+	vec4 screen_color = texture(screen_texture, SCREEN_UV);
+	ALBEDO = mix(screen_color.rgb, outline_color.rgb, edge * outline_color.a);
 }

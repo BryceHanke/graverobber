@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bvt0l60nmgv4s" path="res://scripts/player/player_controller.gd" id="1_rkuj1"]
 [ext_resource type="Script" uid="uid://v23xafiwc0lo" path="res://scripts/input/input_gather.gd" id="2_0owmy"]
+[ext_resource type="Material" uid="uid://cw3vtka5voiak" path="res://assets/materials/dither.tres" id="2_h17s1"]
 [ext_resource type="Script" uid="uid://0x2i8kdr51fu" path="res://scripts/camera/camera_movement.gd" id="2_qek5x"]
 [ext_resource type="Material" uid="uid://c0u7g8udxmn5m" path="res://assets/materials/outline.tres" id="3_5gtgg"]
 [ext_resource type="Script" uid="uid://dlyn7myxb1v18" path="res://scripts/statemachine/statemachine.gd" id="5_5tt2p"]
@@ -35,6 +36,7 @@ acceleration = 2.0
 strafe_speed = 5.0
 
 [node name="mesh" type="MeshInstance3D" parent="." unique_id=295009724]
+material_override = ExtResource("2_h17s1")
 mesh = SubResource("CapsuleMesh_6agyq")
 
 [node name="collision" type="CollisionShape3D" parent="." unique_id=1018871596]
@@ -56,6 +58,7 @@ head = NodePath("../..")
 lean = NodePath("..")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="head/lean/camera" unique_id=2138079720]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
 mesh = SubResource("QuadMesh_h17s1")
 
 [node name="logic" type="Node" parent="." unique_id=717132806]
