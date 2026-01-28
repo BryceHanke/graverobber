@@ -1,43 +1,60 @@
 shader_type spatial;
 render_mode unshaded, depth_test_disabled, cull_disabled, skip_vertex_transform;
 
-// How big each "pixel" should be. 
+// --- PIXELATION ---
+group_uniforms Pixelation;
+// How big each "pixel" should be.
 uniform int pixel_factor : hint_range(1, 16) = 4;
+// Stretch the pixels (e.g. 2.0 = tall pixels)
+uniform float pixel_aspect : hint_range(0.1, 10.0) = 1.0;
 
 uniform sampler2D screen_texture : hint_screen_texture, filter_nearest;
 uniform sampler2D depth_texture : hint_depth_texture, filter_nearest;
 uniform sampler2D normal_roughness_texture : hint_normal_roughness_texture, filter_nearest;
 
-// --- DITHERING UNIFORMS ---
+// --- COLOR & PALETTE ---
+group_uniforms Color_Style;
+uniform int color_mode : hint_enum("1-Bit", "Monochrome", "Original", "Posterized") = 0;
 uniform vec3 lit_color : source_color = vec3(1.0, 1.0, 1.0);
 uniform vec3 shadow_color : source_color = vec3(0.0, 0.0, 0.0);
+// Amount of colors per channel in Posterized mode
+uniform float palette_size : hint_range(1.0, 16.0) = 4.0;
+uniform float contrast : hint_range(0.0, 2.0) = 1.0;
+uniform float brightness : hint_range(-1.0, 1.0) = 0.0;
 
+
+// --- DITHERING ---
+group_uniforms Dithering;
+uniform int dither_mode : hint_enum("World Space", "Screen Space") = 0;
 uniform int dither_type : hint_enum("Bayer 8x8", "Bayer 4x4", "Blue Noise", "White Noise", "Diffused") = 0;
 // Relative size of dither dots to the virtual pixels
 uniform float dither_pixel_size : hint_range(1.0, 8.0) = 1.0;
+// Scale the pattern globally
+uniform float dither_scale : hint_range(0.1, 10.0) = 1.0;
+// Offset the pattern (can be used for scrolling)
+uniform vec2 dither_offset = vec2(0.0);
 uniform float dither_spread : hint_range(0.01, 2.0) = 0.5;
 uniform float dither_smoothing : hint_range(0.0, 2.0) = 0.0;
 uniform sampler2D blue_noise_texture : hint_default_white, filter_nearest, repeat_enable;
 
-// --- OUTLINE UNIFORMS ---
-group_uniforms Sketchy_Style;
+// --- OUTLINES ---
+group_uniforms Outline_Settings;
+uniform bool outline_enabled = true;
+uniform int outline_mode : hint_enum("Normal + Depth", "Normal Only", "Depth Only") = 0;
+uniform int outline_color_mode : hint_enum("Fixed", "Smart", "Invert") = 1;
+uniform float line_thickness : hint_range(0.0, 5.0) = 2.0;
+uniform float thickness_dark : hint_range(0.0, 5.0) = 0.5;
+
+group_uniforms Outline_Sensitivity;
+uniform float depth_threshold : hint_range(0.01, 1.0) = 0.05;
+uniform float normal_threshold : hint_range(0.0, 1.0) = 0.6;
+uniform float depth_fade_dist : hint_range(1.0, 100.0) = 20.0;
 uniform float cutout_light : hint_range(0.0, 1.0) = 0.0;
 uniform float cutout_dark : hint_range(0.0, 1.0) = 1.0;
 uniform float cutout_sensitivity : hint_range(0.1, 5.0) = 1.0;
 
-group_uniforms Sensitivity;
-uniform float depth_threshold : hint_range(0.01, 1.0) = 0.05;
-uniform float normal_threshold : hint_range(0.0, 1.0) = 0.6;
-uniform float depth_fade_dist : hint_range(1.0, 100.0) = 20.0;
-
-group_uniforms Styling;
-// Maximum thickness (In the Light)
-uniform float line_thickness : hint_range(0.0, 5.0) = 2.0;
-// Minimum thickness (In the Dark) - Set lower to make lines thin out!
-uniform float thickness_dark : hint_range(0.0, 5.0) = 0.5;
-
-group_uniforms Smart_Color;
-uniform bool use_smart_color = true;
+group_uniforms Outline_Colors;
+uniform bool use_smart_color = true; // Kept for compatibility, but `outline_color_mode` supersedes
 uniform float contrast_threshold : hint_range(0.0, 1.0) = 0.5;
 uniform vec4 line_color_on_light : source_color = vec4(0.0, 0.0, 0.0, 1.0);
 uniform vec4 line_color_on_dark : source_color = vec4(1.0, 1.0, 1.0, 1.0);
@@ -91,8 +108,10 @@ vec3 get_reconstructed_normal(vec2 uv, vec2 texel_size, mat4 inv_proj) {
 }
 
 float get_dither_value(vec2 pixel_pos) {
+    // Apply dither offset
+    vec2 p = pixel_pos + dither_offset;
     // Quantize dither sampling based on dither_pixel_size
-    vec2 scaled_pos = floor(pixel_pos / dither_pixel_size);
+    vec2 scaled_pos = floor(p / dither_pixel_size);
     
     if (dither_type == 1) { // Bayer 4x4
         int x = int(mod(scaled_pos.x, 4.0));
@@ -126,8 +145,11 @@ float get_dither_value(vec2 pixel_pos) {
 
 void fragment() {
     vec2 texel_size = vec2(1.0) / VIEWPORT_SIZE;
-    vec2 grid_size_pixels = VIEWPORT_SIZE / float(pixel_factor);
-    vec2 virtual_texel_size = vec2(1.0) / grid_size_pixels; // Size of one virtual pixel in UV space
+
+    // Adjust grid size for aspect ratio
+    vec2 effective_pixel_size = vec2(float(pixel_factor), float(pixel_factor) * pixel_aspect);
+    vec2 grid_size_pixels = VIEWPORT_SIZE / effective_pixel_size;
+    vec2 virtual_texel_size = vec2(1.0) / grid_size_pixels;
 
     // Calculate snapped UV for pixelation
     vec2 snapped_uv = floor(SCREEN_UV * grid_size_pixels) / grid_size_pixels;
@@ -137,6 +159,10 @@ void fragment() {
 
     // Get Base Color
     vec3 col = texture(screen_texture, center_uv).rgb;
+
+    // Apply brightness/contrast
+    col = (col - 0.5) * contrast + 0.5 + brightness;
+
     float lum = get_lum(col);
 
     // --- OUTLINE LOGIC ---
@@ -156,8 +182,8 @@ void fragment() {
     // Neighbor Sampling
     vec2 uv_up = center_uv + vec2(0.0, -offset.y);
     vec2 uv_right = center_uv + vec2(offset.x, 0.0);
-    vec2 uv_down = center_uv + vec2(0.0, offset.y); // Used for color avg
-    vec2 uv_left = center_uv + vec2(-offset.x, 0.0); // Used for color avg
+    vec2 uv_down = center_uv + vec2(0.0, offset.y);
+    vec2 uv_left = center_uv + vec2(-offset.x, 0.0);
 
     float d_up = -get_view_pos(uv_up, INV_PROJECTION_MATRIX).z;
     float d_right = -get_view_pos(uv_right, INV_PROJECTION_MATRIX).z;
@@ -174,11 +200,15 @@ void fragment() {
     float is_normal_edge = step(dot_up, normal_threshold) + step(dot_right, normal_threshold);
     is_normal_edge = clamp(is_normal_edge, 0.0, 1.0);
 
+    // Mode mask
+    if (outline_mode == 1) is_depth_edge = 0.0; // Normal Only
+    if (outline_mode == 2) is_normal_edge = 0.0; // Depth Only
+
     float edge = max(is_depth_edge, is_normal_edge);
 
     // Should we draw outline?
     bool draw_outline = false;
-    if (edge >= 0.1) {
+    if (outline_enabled && edge >= 0.1) {
         draw_outline = true;
 
         // Borders check
@@ -206,13 +236,17 @@ void fragment() {
             // Apply color if outline persists
             if (draw_outline) {
                  vec3 final_outline_color = fixed_line_color.rgb;
-                 if (use_smart_color) {
+
+                 if (outline_color_mode == 2) { // Invert
+                     final_outline_color = vec3(1.0) - col;
+                 } else if (outline_color_mode == 1 || use_smart_color) { // Smart
                     if (avg_brightness > contrast_threshold) {
                         final_outline_color = line_color_on_light.rgb;
                     } else {
                         final_outline_color = line_color_on_dark.rgb;
                     }
                  }
+
                  col = final_outline_color;
                  lum = get_lum(col); // Update lum for dithering
             }
@@ -220,30 +254,36 @@ void fragment() {
     }
 
 
-    // --- DITHERING LOGIC (Applied to col) ---
+    // --- DITHERING LOGIC ---
 
-    // Reconstruct World Position and Normal (using center_uv for consistency)
-    vec3 view_pos = get_view_pos(center_uv, INV_PROJECTION_MATRIX);
-    vec3 world_pos = (INV_VIEW_MATRIX * vec4(view_pos, 1.0)).xyz;
-    vec3 view_normal = get_reconstructed_normal(center_uv, virtual_texel_size, INV_PROJECTION_MATRIX);
-    vec3 world_normal = normalize((INV_VIEW_MATRIX * vec4(view_normal, 0.0)).xyz);
+    vec2 pixel_coord;
+    if (dither_mode == 1) { // Screen Space
+         // Scale SCREEN_UV to pixels then apply user scaling
+         pixel_coord = floor(SCREEN_UV * VIEWPORT_SIZE / (dither_pixel_size / dither_scale));
+    } else { // World Space
+        // Reconstruct World Position
+        vec3 view_pos = get_view_pos(center_uv, INV_PROJECTION_MATRIX);
+        vec3 world_pos = (INV_VIEW_MATRIX * vec4(view_pos, 1.0)).xyz;
+        vec3 view_normal = get_reconstructed_normal(center_uv, virtual_texel_size, INV_PROJECTION_MATRIX);
+        vec3 world_normal = normalize((INV_VIEW_MATRIX * vec4(view_normal, 0.0)).xyz);
 
-    // Triplanar / Box Projection for Dither Pattern
-    vec3 blend = abs(world_normal);
-    blend /= (blend.x + blend.y + blend.z);
+        // Triplanar / Box Projection for Dither Pattern
+        vec3 blend = abs(world_normal);
+        blend /= (blend.x + blend.y + blend.z);
 
-    // Determine dominant axis
-    vec2 dither_uv;
-    if (blend.x > blend.y && blend.x > blend.z) {
-        dither_uv = world_pos.zy;
-    } else if (blend.y > blend.z) {
-        dither_uv = world_pos.xz;
-    } else {
-        dither_uv = world_pos.xy;
+        // Determine dominant axis
+        vec2 dither_uv;
+        if (blend.x > blend.y && blend.x > blend.z) {
+            dither_uv = world_pos.zy;
+        } else if (blend.y > blend.z) {
+            dither_uv = world_pos.xz;
+        } else {
+            dither_uv = world_pos.xy;
+        }
+
+        // Scale world UVs to pixel grid density roughly
+        pixel_coord = floor(dither_uv * 32.0 * dither_scale);
     }
-
-    // Scale world UVs to pixel grid density roughly
-    vec2 pixel_coord = floor(dither_uv * 32.0);
 
     float noise_val = get_dither_value(pixel_coord);
 
@@ -257,5 +297,30 @@ void fragment() {
         dither_bit = smoothstep(0.5 - dither_smoothing, 0.5 + dither_smoothing, dithered_val);
     }
 
-    ALBEDO = mix(shadow_color, lit_color, dither_bit);
+    // --- FINAL COMPOSITION ---
+    vec3 final_color;
+
+    if (color_mode == 0) { // 1-Bit
+        final_color = mix(shadow_color, lit_color, dither_bit);
+    }
+    else if (color_mode == 1) { // Monochrome
+        // Map 0..1 lum to shadow..lit
+        final_color = mix(shadow_color, lit_color, clamp(dithered_val, 0.0, 1.0));
+    }
+    else if (color_mode == 2) { // Original
+         // Here dithering might be used to modulate brightness slightly?
+         // Or we just ignore dither_bit unless we want to apply noise.
+         // Let's overlay the dither noise gently
+         float noise_overlay = (noise_val - 0.5) * dither_spread * 0.2; // subtle
+         final_color = clamp(col + noise_overlay, 0.0, 1.0);
+    }
+    else if (color_mode == 3) { // Posterized
+        // Quantize channels
+        final_color = floor(col * palette_size) / palette_size;
+        // Optionally add dither to smooth bands
+        float dither_shift = (noise_val - 0.5) * (1.0 / palette_size) * dither_spread;
+        final_color = floor((col + dither_shift) * palette_size) / palette_size;
+    }
+
+    ALBEDO = final_color;
 }

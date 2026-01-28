@@ -1,13 +1,13 @@
 shader_type spatial;
 render_mode blend_mix, depth_draw_opaque, cull_back;
 
-// --- UNIFORMS ---
+// --- COLOR & PALETTE ---
+group_uniforms Color_Style;
+uniform int color_mode : hint_enum("1-Bit", "Monochrome", "Original", "Posterized") = 0;
 uniform sampler2D texture_albedo : source_color, filter_nearest;
-// The color of the "dots" (usually White)
 uniform vec3 lit_color : source_color = vec3(1.0, 1.0, 1.0);
-// The color of the background (usually Black)
 uniform vec3 shadow_color : source_color = vec3(0.0, 0.0, 0.0);
-uniform vec3 global_ambient : source_color = vec3(0.1, 0.1, 0.1);
+uniform float palette_size : hint_range(1.0, 16.0) = 4.0;
 
 // --- DITHERING STYLE ---
 group_uniforms Dithering_Style;
@@ -19,9 +19,15 @@ uniform float dither_density = 2048.0;
 // Smoothness of the gradient (0.01 = Hard Cut, 0.5 = Smooth Fade)
 uniform float dither_spread : hint_range(0.01, 2.0) = 0.5;
 uniform float dither_smoothing : hint_range(0.0, 2.0) = 0.05;
+uniform float shadow_bias : hint_range(-1.0, 1.0) = 0.0;
 uniform sampler2D blue_noise_texture : hint_default_white, filter_nearest, repeat_enable;
 
+group_uniforms Texture_Controls;
+uniform vec2 uv_scale = vec2(1.0, 1.0);
+uniform vec2 uv_offset = vec2(0.0, 0.0);
+
 group_uniforms Lighting;
+uniform vec3 global_ambient : source_color = vec3(0.1, 0.1, 0.1);
 uniform float light_boost : hint_range(1.0, 100.0) = 2.0;
 
 group_uniforms Bounce_Lighting;
@@ -99,9 +105,13 @@ float get_lum(vec3 color) {
 }
 
 void fragment() {
-    // 1. Get Texture Brightness (Ignore Texture Color)
-    vec4 tex = texture(texture_albedo, UV);
-    float texture_brightness = get_lum(tex.rgb);
+    // 0. Texture Read with Scale/Offset
+    vec2 uv = UV * uv_scale + uv_offset;
+    vec4 tex = texture(texture_albedo, uv);
+    vec3 base_color = tex.rgb;
+
+    // 1. Get Brightness
+    float texture_brightness = get_lum(base_color);
 
     // --- AMBIENT PASS ---
     // Combined Brightness = Ambient Light * Texture Dark/Lightness
@@ -117,10 +127,10 @@ void fragment() {
     float total_ambient_lum = (ambient_brightness + bounce_lum) * texture_brightness;
 
     // 2. Dither Calculation (UV Mapped)
-    float noise_val = get_uv_dither(UV, dither_density, dither_pixel_size);
+    float noise_val = get_uv_dither(uv, dither_density, dither_pixel_size);
 
-    // 3. Apply Threshold with Spread
-    float dithered_val = total_ambient_lum + (noise_val - 0.5) * dither_spread;
+    // 3. Apply Threshold with Spread and Bias
+    float dithered_val = total_ambient_lum + (noise_val - 0.5) * dither_spread + shadow_bias;
     float dither_bit;
     if (dither_smoothing < 0.001) {
         dither_bit = step(0.5, dithered_val);
@@ -128,23 +138,41 @@ void fragment() {
         dither_bit = smoothstep(0.5 - dither_smoothing, 0.5 + dither_smoothing, dithered_val);
     }
 
-    // 4. Output: Mix Black and White based on dither bit
-    // We set ALBEDO so that Ambient and GI can affect the base colors.
-    ALBEDO = mix(shadow_color, lit_color, dither_bit);
+    // 4. Output Logic
+
+    vec3 final_albedo;
+
+    if (color_mode == 0) { // 1-Bit
+         final_albedo = mix(shadow_color, lit_color, dither_bit);
+    }
+    else if (color_mode == 1) { // Monochrome
+         final_albedo = mix(shadow_color, lit_color, clamp(dithered_val, 0.0, 1.0));
+    }
+    else if (color_mode == 2) { // Original
+         final_albedo = base_color;
+    }
+    else if (color_mode == 3) { // Posterized
+         // Quantize the base color
+         final_albedo = floor(base_color * palette_size) / palette_size;
+    }
+
+    ALBEDO = final_albedo;
 
     // Disable Emission so we don't double-light.
-    // The "Lit" part is now in ALBEDO, which will be lit by environment.
-    // Direct lights will be added in light().
     EMISSION = vec3(0.0);
 
+    // Pass dither noise in Roughness for potential post-processing effects
     ROUGHNESS = noise_val;
     METALLIC = 0.0;
     SPECULAR = 0.0;
 }
 
 void light() {
-    vec4 tex = texture(texture_albedo, UV);
-    float texture_brightness = get_lum(tex.rgb);
+    // 0. Texture Read
+    vec2 uv = UV * uv_scale + uv_offset;
+    vec4 tex = texture(texture_albedo, uv);
+    vec3 base_color = tex.rgb;
+    float texture_brightness = get_lum(base_color);
 
     // 1. Calculate Dynamic Light Brightness
     float NdotL = max(0.0, dot(NORMAL, LIGHT));
@@ -155,10 +183,10 @@ void light() {
     float total_lum = light_brightness * texture_brightness;
 
     // 2. Recalculate Dither for Light Pass
-    float noise_val = get_uv_dither(UV, dither_density, dither_pixel_size);
+    float noise_val = get_uv_dither(uv, dither_density, dither_pixel_size);
 
     // 3. Apply Threshold
-    float dithered_val = total_lum + (noise_val - 0.5) * dither_spread;
+    float dithered_val = total_lum + (noise_val - 0.5) * dither_spread + shadow_bias;
     float dither_bit;
     if (dither_smoothing < 0.001) {
         dither_bit = step(0.5, dithered_val);
@@ -166,9 +194,16 @@ void light() {
         dither_bit = smoothstep(0.5 - dither_smoothing, 0.5 + dither_smoothing, dithered_val);
     }
 
-    // 4. Add Light (White only)
-    vec3 add_light = mix(vec3(0.0), lit_color, dither_bit);
+    // 4. Add Light
 
-    // Add to SPECULAR_LIGHT to overlay on top of standard Diffuse/Ambient
-    SPECULAR_LIGHT += add_light;
+    if (color_mode == 0) { // 1-Bit
+         SPECULAR_LIGHT += mix(vec3(0.0), lit_color, dither_bit);
+    }
+    else if (color_mode == 1) { // Monochrome
+         SPECULAR_LIGHT += mix(vec3(0.0), lit_color, clamp(dithered_val, 0.0, 1.0));
+    }
+    else {
+         // Original / Posterized
+         DIFFUSE_LIGHT += LIGHT_COLOR * NdotL * ATTENUATION * base_color;
+    }
 }
