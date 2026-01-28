@@ -4,6 +4,7 @@ shader_type canvas_item;
 uniform int pixel_factor : hint_range(1, 16) = 4;
 
 uniform sampler2D screen_texture : hint_screen_texture, filter_nearest;
+uniform mat4 inv_view_matrix;
 
 // --- DITHERING UNIFORMS ---
 uniform vec3 lit_color : source_color = vec3(1.0, 1.0, 1.0);
@@ -86,7 +87,21 @@ void fragment() {
 
     // Get Dither Value using the integer grid coordinates
     // We use floor(UV * grid_size) which is integer coordinates (0..grid_width, 0..grid_height)
-    vec2 pixel_coord = floor(UV * grid_size);
+
+    // Spherically mapped around the view for stability
+    vec2 ndc = UV * 2.0 - 1.0;
+    float aspect = SCREEN_PIXEL_SIZE.y / SCREEN_PIXEL_SIZE.x;
+    vec3 view_dir = normalize(vec3(ndc.x * aspect, ndc.y, -1.0));
+    vec3 world_dir = mat3(inv_view_matrix) * view_dir;
+
+    float phi = atan(world_dir.z, world_dir.x);
+    float theta = acos(world_dir.y);
+
+    // Map spherical coordinates to pixel grid density
+    // 1.57 (PI/2) is approx the FOV width
+    vec2 dither_uv = vec2(phi, theta) * (grid_size.x / 1.57);
+
+    vec2 pixel_coord = floor(dither_uv);
     float noise_val = get_dither_value(pixel_coord);
 
     // Apply Dither Threshold
