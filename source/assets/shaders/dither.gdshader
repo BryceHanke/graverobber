@@ -137,7 +137,7 @@ void fragment() {
     // Direct lights will be added in light().
     EMISSION = vec3(0.0);
 
-    ROUGHNESS = 1.0;
+    ROUGHNESS = noise_val;
     METALLIC = 0.0;
     SPECULAR = 0.0;
 }

@@ -3,6 +3,7 @@ render_mode unshaded, depth_test_disabled, cull_disabled, skip_vertex_transform;
 
 uniform sampler2D screen_texture : hint_screen_texture, filter_nearest;
 uniform sampler2D depth_texture : hint_depth_texture, filter_nearest;
+uniform sampler2D normal_roughness_texture : hint_normal_roughness_texture, filter_nearest;
 
 // --- DYNAMIC CUTOUT SETTINGS ---
 group_uniforms Sketchy_Style;
@@ -73,7 +74,7 @@ void fragment() {
 	vec3 pos_center = get_view_pos(SCREEN_UV, INV_PROJECTION_MATRIX);
 	float depth_center = -pos_center.z;
 	vec3 normal_center = get_reconstructed_normal(SCREEN_UV, texel_size, INV_PROJECTION_MATRIX);
-	float object_noise = random(pos_center.xy);
+	float object_noise = texture(normal_roughness_texture, SCREEN_UV).a;
 
 	// 3. Neighbor Sampling (Using Dynamic Offset)
 	vec2 uv_up = SCREEN_UV + vec2(0.0, -offset.y);
