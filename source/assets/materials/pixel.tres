@@ -1,7 +1,48 @@
 [gd_resource type="ShaderMaterial" format=3 uid="uid://bkwmprrotrwg5"]
 
-[ext_resource type="Shader" path="res://assets/shaders/pixel.gdshader" id="1_pmb4f"]
+[ext_resource type="Shader" uid="uid://d0bv8q2atrbtp" path="res://assets/shaders/pixel.gdshader" id="1_pmb4f"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_pmb4f"]
+frequency = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_kxnkg"]
+width = 2048
+height = 2048
+noise = SubResource("FastNoiseLite_pmb4f")
+seamless = true
 
 [resource]
+render_priority = 0
 shader = ExtResource("1_pmb4f")
 shader_parameter/pixel_factor = 2
+shader_parameter/pixel_aspect = 1.0
+shader_parameter/color_mode = 0
+shader_parameter/lit_color = Color(0.6883454, 0.72468156, 0.68639374, 1)
+shader_parameter/shadow_color = Color(0.027105369, 0.006692902, 0.0020255218, 1)
+shader_parameter/palette_size = 2.0000000475
+shader_parameter/contrast = 1.0
+shader_parameter/brightness = 0.0
+shader_parameter/dither_mode = 0
+shader_parameter/dither_type = 2
+shader_parameter/dither_pixel_size = 1.0
+shader_parameter/dither_scale = 1.0
+shader_parameter/dither_offset = Vector2(0, 0)
+shader_parameter/dither_spread = 0.7580000353064801
+shader_parameter/dither_smoothing = 0.0
+shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_kxnkg")
+shader_parameter/outline_enabled = true
+shader_parameter/outline_mode = 0
+shader_parameter/outline_color_mode = 1
+shader_parameter/line_thickness = 1.50000007125
+shader_parameter/thickness_dark = 2.000000095
+shader_parameter/depth_threshold = 0.75000003492648
+shader_parameter/normal_threshold = 0.250000011875
+shader_parameter/depth_fade_dist = 20.0
+shader_parameter/cutout_light = 0.250000011875
+shader_parameter/cutout_dark = 0.2510000119225
+shader_parameter/cutout_sensitivity = 1.0
+shader_parameter/use_smart_color = true
+shader_parameter/contrast_threshold = 0.150000007125
+shader_parameter/line_color_on_light = Color(0, 0, 0, 1)
+shader_parameter/line_color_on_dark = Color(1, 1, 1, 1)
+shader_parameter/fixed_line_color = Color(0, 0, 0, 1)

@@ -14,10 +14,10 @@ func _process(delta):
 	if randi_range(0,255) <= probability:
 		flicker = true
 	if flicker == true:
-		light_energy = lerp(light_energy, min_range, 5 * delta)
+		light_energy = lerp(light_energy, min_range, delta)
 		await get_tree().create_timer(0.5).timeout.connect(reset_brightness)
 	if flicker == false:
-		light_energy = lerp(light_energy, max_range, 15 * delta)
+		light_energy = lerp(light_energy, max_range, delta)
 
 func reset_brightness():
 	flicker = false
