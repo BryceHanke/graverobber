@@ -37,6 +37,7 @@ acceleration = 2.0
 strafe_speed = 5.0
 
 [node name="mesh" type="MeshInstance3D" parent="." unique_id=295009724]
+visible = false
 material_override = ExtResource("2_h17s1")
 mesh = SubResource("CapsuleMesh_6agyq")
 

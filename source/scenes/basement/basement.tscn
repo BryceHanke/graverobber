@@ -1,93 +1,24 @@
 [gd_scene format=3 uid="uid://buees15b05rxh"]
 
 [ext_resource type="PackedScene" uid="uid://cxk27w5ficlco" path="res://scenes/player/player.tscn" id="1_02yi3"]
+[ext_resource type="PackedScene" uid="uid://bsiqxtfk530sa" path="res://assets/models/basement.blend" id="2_apig6"]
 [ext_resource type="Material" uid="uid://cw3vtka5voiak" path="res://assets/materials/dither.tres" id="2_w75rf"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_02yi3"]
-emission_enabled = true
-emission = Color(1, 1, 1, 1)
-emission_energy_multiplier = 5.0
 
 [node name="basement" type="Node3D" unique_id=1878113114]
 
 [node name="Player" parent="." unique_id=17728297 instance=ExtResource("1_02yi3")]
 
-[node name="basement" type="CSGCombiner3D" parent="." unique_id=681377971]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+[node name="basement2" parent="." unique_id=1227399186 instance=ExtResource("2_apig6")]
+
+[node name="basement3" parent="basement2/basement" parent_id_path=PackedInt32Array(1227399186, 1379268473) index="0" unique_id=1599575474]
 material_override = ExtResource("2_w75rf")
-use_collision = true
 
-[node name="basement" type="CSGBox3D" parent="basement" unique_id=197629975]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 0.5, -1.4210855e-14)
-flip_faces = true
-size = Vector3(10, 3, 8)
+[node name="OmniLight3D" type="OmniLight3D" parent="basement2/basement/bulb2" parent_id_path=PackedInt32Array(1227399186, 104406781) index="0" unique_id=368238582]
 
-[node name="stair_well" type="CSGBox3D" parent="basement" unique_id=2095758269]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5, 2.5, 0)
-flip_faces = true
-size = Vector3(2, 7, 8)
-
-[node name="stairs" type="CSGBox3D" parent="basement" unique_id=1102510053]
-transform = Transform3D(1, 0, 0, 0, 0.81915206, -0.57357645, 0, 0.57357645, 0.81915206, 9.5, -1, -2)
-operation = 2
-flip_faces = true
-size = Vector3(2, 4, 8)
-
-[node name="door_way" type="CSGBox3D" parent="basement" unique_id=635155503]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5, 4.4, -4.9999995)
-flip_faces = true
-size = Vector3(2, 3.2, 3)
-
-[node name="cell" type="CSGBox3D" parent="." unique_id=1122712140]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -2.5)
+[node name="cell2" parent="basement2/basement" parent_id_path=PackedInt32Array(1227399186, 1379268473) index="2" unique_id=485295074]
 material_override = ExtResource("2_w75rf")
-use_collision = true
-size = Vector3(9, 4, 0.5)
 
-[node name="CSGBox3D2" type="CSGBox3D" parent="cell" unique_id=723065647]
-operation = 2
-size = Vector3(7.5, 2.6000001, 1)
-
-[node name="CSGBox3D3" type="CSGBox3D" parent="cell" unique_id=960777723]
-size = Vector3(0.2, 2.6000001, 0.2)
-
-[node name="CSGBox3D4" type="CSGBox3D" parent="cell" unique_id=792541764]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
-size = Vector3(0.2, 2.6000001, 0.2)
-
-[node name="CSGBox3D5" type="CSGBox3D" parent="cell" unique_id=243406094]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
-size = Vector3(0.2, 2.6000001, 0.2)
-
-[node name="CSGBox3D6" type="CSGBox3D" parent="cell" unique_id=1699274330]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 0)
-size = Vector3(0.2, 2.6000001, 0.2)
-
-[node name="CSGBox3D7" type="CSGBox3D" parent="cell" unique_id=177777240]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 0)
-size = Vector3(0.2, 2.6000001, 0.2)
-
-[node name="CSGBox3D8" type="CSGBox3D" parent="cell" unique_id=1442370657]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
-size = Vector3(0.2, 2.6000001, 0.2)
-
-[node name="CSGBox3D9" type="CSGBox3D" parent="cell" unique_id=504126011]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
-size = Vector3(0.2, 2.6000001, 0.2)
-
-[node name="door" type="CSGBox3D" parent="." unique_id=1763853452]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.4, 4.4, -9.5)
+[node name="door2" parent="basement2/basement" parent_id_path=PackedInt32Array(1227399186, 1379268473) index="3" unique_id=1095195411]
 material_override = ExtResource("2_w75rf")
-size = Vector3(2, 3.2, 0.2)
 
-[node name="bulb" type="CSGSphere3D" parent="." unique_id=1805645313]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9459383, -6)
-material_override = SubResource("StandardMaterial3D_02yi3")
-radius = 0.09
-
-[node name="SpotLight3D" type="OmniLight3D" parent="bulb" unique_id=1961606885]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, -0.26261878, 0)
-light_energy = 2.357
-shadow_enabled = true
-omni_range = 35.783
-omni_attenuation = 2.0
+[editable path="basement2"]

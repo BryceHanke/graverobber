@@ -5,16 +5,23 @@
 [resource]
 render_priority = 0
 shader = ExtResource("1_0lybl")
+<<<<<<< Updated upstream
 shader_parameter/cutout_light = 0.13200000627
 shader_parameter/cutout_dark = 0.3130000148675
 shader_parameter/cutout_sensitivity = 1.08300004818262
 shader_parameter/depth_threshold = 0.27400001231647997
+=======
+shader_parameter/cutout_light = 0.3670000174325
+shader_parameter/cutout_dark = 0.7630000362425
+shader_parameter/cutout_sensitivity = 3.18300014793262
+shader_parameter/depth_threshold = 0.50000002305148
+>>>>>>> Stashed changes
 shader_parameter/normal_threshold = 0.6
 shader_parameter/depth_fade_dist = 20.0
-shader_parameter/line_thickness = 2.106000100035
-shader_parameter/thickness_dark = 0.714000033915
+shader_parameter/line_thickness = 1.6210000769975
+shader_parameter/thickness_dark = 1.0670000506825
 shader_parameter/use_smart_color = true
-shader_parameter/contrast_threshold = 0.5
+shader_parameter/contrast_threshold = 0.15600000741
 shader_parameter/line_color_on_light = Color(0, 0, 0, 1)
 shader_parameter/line_color_on_dark = Color(1, 1, 1, 1)
 shader_parameter/fixed_line_color = Color(0, 0, 0, 1)
