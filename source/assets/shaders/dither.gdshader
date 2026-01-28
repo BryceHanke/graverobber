@@ -26,7 +26,6 @@ uniform sampler3D outline_noise_tex : filter_linear, repeat_enable;
 uniform float outline_noise_scale : hint_range(0.1, 20.0) = 5.0;
 
 // --- VARYINGS ---
-varying vec3 v_world_dir;
 varying vec3 v_local_pos;
 
 // --- 8x8 BAYER MATRIX ---
@@ -43,21 +42,12 @@ const int bayer8[64] = {
 
 void vertex() {
     v_local_pos = VERTEX;
-    // Calculate direction from camera to vertex for Sphere Mapping
-    vec3 world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
-    vec3 camera_pos = INV_VIEW_MATRIX[3].xyz;
-    v_world_dir = world_pos - camera_pos;
 }
 
-// --- SPHERICAL DITHER MAPPING ---
-float get_sphere_dither(vec3 dir, float density, float pixel_size) {
-    vec3 d = normalize(dir);
-    // Project 3D direction onto 2D Equirectangular Map
-    vec2 sphere_uv = vec2(atan(d.z, d.x) / (2.0 * 3.14159), acos(d.y) / 3.14159);
-    sphere_uv.x *= 2.0; // Aspect Ratio Fix
-
+// --- DITHER MAPPING ---
+float get_uv_dither(vec2 uv, float density, float pixel_size) {
     // Quantize the UVs (The "Pixel" Look)
-    vec2 raw_grid_pos = sphere_uv * density;
+    vec2 raw_grid_pos = uv * density;
     vec2 stepped_pos = floor(raw_grid_pos / pixel_size);
 
     // Bayer Matrix Lookup
@@ -87,8 +77,8 @@ void fragment() {
     float ambient_brightness = get_lum(global_ambient);
     float total_ambient_lum = ambient_brightness * texture_brightness;
 
-    // 2. Dither Calculation (Spherical)
-    float noise_val = get_sphere_dither(v_world_dir, dither_density, dither_pixel_size);
+    // 2. Dither Calculation (UV Mapped)
+    float noise_val = get_uv_dither(UV, dither_density, dither_pixel_size);
 
     // 3. Apply Threshold with Spread
     float dithered_val = total_ambient_lum + (noise_val - 0.5) * dither_spread;
@@ -111,10 +101,8 @@ void light() {
     // Combined Brightness
     float total_lum = light_brightness * texture_brightness;
 
-    // 2. Recalculate Spherical Dither for Light Pass
-    // We need to fetch the view direction again in the light function
-    vec3 world_dir = (INV_VIEW_MATRIX * vec4(VIEW, 0.0)).xyz;
-    float noise_val = get_sphere_dither(world_dir, dither_density, dither_pixel_size);
+    // 2. Recalculate Dither for Light Pass
+    float noise_val = get_uv_dither(UV, dither_density, dither_pixel_size);
 
     // 3. Apply Threshold
     float dithered_val = total_lum + (noise_val - 0.5) * dither_spread;
