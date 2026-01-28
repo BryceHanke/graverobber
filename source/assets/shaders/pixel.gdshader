@@ -183,7 +183,8 @@ void fragment() {
 
         // Borders check
         vec2 border_dist = min(center_uv, 1.0 - center_uv);
-        if (border_dist.x < 0.002 || border_dist.y < 0.002) draw_outline = false;
+        vec2 margin = virtual_texel_size * (max(line_thickness, thickness_dark) + 1.0);
+        if (border_dist.x < margin.x || border_dist.y < margin.y) draw_outline = false;
         if (depth_center > depth_fade_dist) draw_outline = false;
 
         // Cutout Logic
