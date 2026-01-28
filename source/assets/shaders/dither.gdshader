@@ -24,6 +24,9 @@ uniform sampler2D blue_noise_texture : hint_default_white, filter_nearest, repea
 group_uniforms Lighting;
 uniform float light_boost : hint_range(1.0, 100.0) = 2.0;
 
+group_uniforms Bounce_Lighting;
+uniform float bounce_strength : hint_range(0.0, 5.0) = 0.5;
+
 // --- VARYINGS ---
 varying vec3 v_local_pos;
 
@@ -103,7 +106,13 @@ void fragment() {
     // --- AMBIENT PASS ---
     // Combined Brightness = Ambient Light * Texture Dark/Lightness
     float ambient_brightness = get_lum(global_ambient);
-    float total_ambient_lum = ambient_brightness * texture_brightness;
+
+    // Bounce Light (Simulating ground bounce, so facing down gets light)
+    vec3 world_normal = (INV_VIEW_MATRIX * vec4(NORMAL, 0.0)).xyz;
+    float bounce_factor = max(0.0, -world_normal.y);
+    float bounce_lum = bounce_strength * bounce_factor;
+
+    float total_ambient_lum = (ambient_brightness + bounce_lum) * texture_brightness;
 
     // 2. Dither Calculation (UV Mapped)
     float noise_val = get_uv_dither(UV, dither_density, dither_pixel_size);
