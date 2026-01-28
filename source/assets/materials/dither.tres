@@ -6,11 +6,12 @@
 frequency = 1.0
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_bn"]
-width = 64
-height = 64
+width = 1024
+height = 1024
 generate_mipmaps = false
-seamless = true
 noise = SubResource("FastNoiseLite_mohoo")
+seamless = true
+in_3d_space = true
 
 [resource]
 render_priority = 0
@@ -18,8 +19,9 @@ shader = ExtResource("1_52sdg")
 shader_parameter/lit_color = Color(0.8633995, 0.8646732, 0.86815065, 1)
 shader_parameter/shadow_color = Color(0, 0, 0, 1)
 shader_parameter/global_ambient = Color(0, 0, 0, 1)
+shader_parameter/dither_type = 2
 shader_parameter/dither_pixel_size = 2.0000000475
 shader_parameter/dither_density = 1024.0
 shader_parameter/dither_spread = 0.75000003492648
-shader_parameter/light_boost = 2.0
 shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_bn")
+shader_parameter/light_boost = 2.0
