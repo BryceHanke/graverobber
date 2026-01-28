@@ -3,8 +3,13 @@
 [ext_resource type="Shader" uid="uid://dcxcwwd03jc52" path="res://assets/shaders/dither.gdshader" id="1_52sdg"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_mohoo"]
+frequency = 1.0
 
-[sub_resource type="NoiseTexture3D" id="NoiseTexture3D_dsv2q"]
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_bn"]
+width = 64
+height = 64
+generate_mipmaps = false
+seamless = true
 noise = SubResource("FastNoiseLite_mohoo")
 
 [resource]
@@ -17,5 +22,4 @@ shader_parameter/dither_pixel_size = 2.0000000475
 shader_parameter/dither_density = 1024.0
 shader_parameter/dither_spread = 0.75000003492648
 shader_parameter/light_boost = 2.0
-shader_parameter/outline_noise_tex = SubResource("NoiseTexture3D_dsv2q")
-shader_parameter/outline_noise_scale = 5.0
+shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_bn")
