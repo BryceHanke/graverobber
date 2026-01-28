@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode blend_mix, depth_draw_opaque, cull_back, ambient_light_disabled, specular_disabled;
+render_mode blend_mix, depth_draw_opaque, cull_back, ambient_light_disabled, specular_disabled, fog_disabled;
 
 // --- UNIFORMS ---
 uniform sampler2D texture_albedo : source_color, filter_nearest;
