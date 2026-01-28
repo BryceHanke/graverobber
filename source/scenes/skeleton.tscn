@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://dbyxevifbn2b7"]
+
+[ext_resource type="PackedScene" uid="uid://dasbkbutylnws" path="res://assets/models/skeleton/skeleton.blend" id="1_txkty"]
+[ext_resource type="Material" uid="uid://cw3vtka5voiak" path="res://assets/materials/dither.tres" id="2_ivqcw"]
+
+[node name="skeleton" unique_id=1598640796 instance=ExtResource("1_txkty")]
+
+[node name="SubTool-0-3517926" parent="." index="0" unique_id=732247116]
+material_override = ExtResource("2_ivqcw")

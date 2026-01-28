@@ -1,48 +1,6 @@
-[gd_resource type="ShaderMaterial" load_steps=4 format=3]
+[gd_resource type="ShaderMaterial" format=3 uid="uid://dybw45uqt8yyk"]
 
-[ext_resource type="Shader" path="res://assets/shaders/pixel_canvas.gdshader" id="1_canvas"]
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_noise"]
-frequency = 1.0
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_noise"]
-width = 2048
-height = 2048
-noise = SubResource("FastNoiseLite_noise")
-seamless = true
+[ext_resource type="Shader" uid="uid://boocdpyrhd1n3" path="res://assets/shaders/pixel_canvas.gdshader" id="1_canvas"]
 
 [resource]
-render_priority = 0
 shader = ExtResource("1_canvas")
-shader_parameter/pixel_factor = 2
-shader_parameter/pixel_aspect = 1.0
-shader_parameter/color_mode = 0
-shader_parameter/lit_color = Color(0.688345, 0.724682, 0.686394, 1)
-shader_parameter/shadow_color = Color(0.0271054, 0.0066929, 0.00202552, 1)
-shader_parameter/palette_size = 4.0
-shader_parameter/contrast = 1.0
-shader_parameter/brightness = 0.0
-shader_parameter/dither_mode = 0
-shader_parameter/dither_type = 2
-shader_parameter/dither_pixel_size = 1.0
-shader_parameter/dither_scale = 1.0
-shader_parameter/dither_offset = Vector2(0, 0)
-shader_parameter/dither_spread = 0.758
-shader_parameter/dither_smoothing = 0.0
-shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_noise")
-shader_parameter/outline_enabled = true
-shader_parameter/outline_mode = 0
-shader_parameter/outline_color_mode = 1
-shader_parameter/line_thickness = 1.5
-shader_parameter/thickness_dark = 2.0
-shader_parameter/depth_threshold = 0.75
-shader_parameter/normal_threshold = 0.25
-shader_parameter/depth_fade_dist = 20.0
-shader_parameter/cutout_light = 0.25
-shader_parameter/cutout_dark = 0.251
-shader_parameter/cutout_sensitivity = 1.0
-shader_parameter/use_smart_color = true
-shader_parameter/contrast_threshold = 0.15
-shader_parameter/line_color_on_light = Color(0, 0, 0, 1)
-shader_parameter/line_color_on_dark = Color(1, 1, 1, 1)
-shader_parameter/fixed_line_color = Color(0, 0, 0, 1)
