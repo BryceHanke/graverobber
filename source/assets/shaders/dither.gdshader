@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode blend_mix, depth_draw_opaque, cull_back, ambient_light_disabled, specular_disabled, fog_disabled;
+render_mode blend_mix, depth_draw_opaque, cull_back;
 
 // --- UNIFORMS ---
 uniform sampler2D texture_albedo : source_color, filter_nearest;
@@ -8,6 +8,12 @@ uniform vec3 lit_color : source_color = vec3(1.0, 1.0, 1.0);
 // The color of the background (usually Black)
 uniform vec3 shadow_color : source_color = vec3(0.0, 0.0, 0.0);
 uniform vec3 global_ambient : source_color = vec3(0.1, 0.1, 0.1);
+
+// --- MATERIAL PROPERTIES ---
+group_uniforms Material_Properties;
+uniform float roughness : hint_range(0.0, 1.0) = 0.5;
+uniform float metallic : hint_range(0.0, 1.0) = 0.0;
+uniform float specular : hint_range(0.0, 1.0) = 0.5;
 
 // --- DITHERING STYLE ---
 group_uniforms Dithering_Style;
@@ -129,9 +135,17 @@ void fragment() {
     }
 
     // 4. Output: Mix Black and White based on dither bit
-    EMISSION = mix(shadow_color, lit_color, dither_bit);
-    ALBEDO = vec3(0.0); // Disable engine lighting
-    SPECULAR = 0.0;
+    // We set ALBEDO so that Ambient and GI can affect the base colors.
+    ALBEDO = mix(shadow_color, lit_color, dither_bit);
+
+    // Disable Emission so we don't double-light.
+    // The "Lit" part is now in ALBEDO, which will be lit by environment.
+    // Direct lights will be added in light().
+    EMISSION = vec3(0.0);
+
+    ROUGHNESS = roughness;
+    METALLIC = metallic;
+    SPECULAR = specular;
 }
 
 void light() {
@@ -161,5 +175,6 @@ void light() {
     // 4. Add Light (White only)
     vec3 add_light = mix(vec3(0.0), lit_color, dither_bit);
 
+    // Add to SPECULAR_LIGHT to overlay on top of standard Diffuse/Ambient
     SPECULAR_LIGHT += add_light;
 }
