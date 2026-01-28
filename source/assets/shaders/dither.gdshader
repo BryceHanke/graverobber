@@ -17,8 +17,8 @@ uniform float dither_pixel_size : hint_range(1.0, 8.0) = 2.0;
 // How dense the grid is (Higher = smaller dots)
 uniform float dither_density = 2048.0;
 // Smoothness of the gradient (0.01 = Hard Cut, 0.5 = Smooth Fade)
-uniform float dither_spread : hint_range(0.01, 1.0) = 0.5;
-uniform float dither_smoothing : hint_range(0.0, 1.0) = 0.05;
+uniform float dither_spread : hint_range(0.01, 2.0) = 0.5;
+uniform float dither_smoothing : hint_range(0.0, 2.0) = 0.05;
 uniform sampler2D blue_noise_texture : hint_default_white, filter_nearest, repeat_enable;
 
 group_uniforms Lighting;

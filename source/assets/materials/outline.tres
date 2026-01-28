@@ -1,33 +1,20 @@
-[gd_resource type="ShaderMaterial" format=3 uid="uid://c0u7g8udxmn5m"]
+[gd_resource type="ShaderMaterial" format=3 uid="uid://dy5nandnjkeqk"]
 
 [ext_resource type="Shader" uid="uid://cbrxjr3b446wu" path="res://assets/shaders/outline.gdshader" id="1_0lybl"]
 
 [resource]
 render_priority = 0
 shader = ExtResource("1_0lybl")
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-shader_parameter/cutout_light = 0.13200000627
-shader_parameter/cutout_dark = 0.3130000148675
-shader_parameter/cutout_sensitivity = 1.08300004818262
-shader_parameter/depth_threshold = 0.27400001231647997
-=======
-=======
->>>>>>> Stashed changes
-shader_parameter/cutout_light = 0.3670000174325
-shader_parameter/cutout_dark = 0.7630000362425
-shader_parameter/cutout_sensitivity = 3.18300014793262
-shader_parameter/depth_threshold = 0.50000002305148
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-shader_parameter/normal_threshold = 0.6
+shader_parameter/cutout_light = 0.0
+shader_parameter/cutout_dark = 1.0
+shader_parameter/cutout_sensitivity = 2.5710001188626204
+shader_parameter/depth_threshold = 0.87800004100648
+shader_parameter/normal_threshold = 0.6000000285
 shader_parameter/depth_fade_dist = 20.0
-shader_parameter/line_thickness = 1.6210000769975
-shader_parameter/thickness_dark = 1.0670000506825
+shader_parameter/line_thickness = 2.0
+shader_parameter/thickness_dark = 2.000000095
 shader_parameter/use_smart_color = true
-shader_parameter/contrast_threshold = 0.15600000741
+shader_parameter/contrast_threshold = 0.1790000085025
 shader_parameter/line_color_on_light = Color(0, 0, 0, 1)
 shader_parameter/line_color_on_dark = Color(1, 1, 1, 1)
 shader_parameter/fixed_line_color = Color(0, 0, 0, 1)

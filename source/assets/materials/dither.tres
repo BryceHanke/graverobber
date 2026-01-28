@@ -1,9 +1,10 @@
 [gd_resource type="ShaderMaterial" format=3 uid="uid://cw3vtka5voiak"]
 
 [ext_resource type="Shader" uid="uid://dcxcwwd03jc52" path="res://assets/shaders/dither.gdshader" id="1_52sdg"]
+[ext_resource type="Texture2D" uid="uid://bt3p36ojgoxw" path="res://assets/textures/atlas.png" id="2_dsv2q"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_mohoo"]
-frequency = 0.5147
+frequency = 1.0
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_bn"]
 width = 2048
@@ -15,12 +16,15 @@ in_3d_space = true
 [resource]
 render_priority = 0
 shader = ExtResource("1_52sdg")
-shader_parameter/lit_color = Color(0.8633995, 0.8646732, 0.86815065, 1)
+shader_parameter/texture_albedo = ExtResource("2_dsv2q")
+shader_parameter/lit_color = Color(1, 1, 1, 1)
 shader_parameter/shadow_color = Color(0, 0, 0, 1)
 shader_parameter/global_ambient = Color(0, 0, 0, 1)
 shader_parameter/dither_type = 2
-shader_parameter/dither_pixel_size = 2.0000000475
+shader_parameter/dither_pixel_size = 1.0
 shader_parameter/dither_density = 2048.0
 shader_parameter/dither_spread = 0.75000003492648
+shader_parameter/dither_smoothing = 0.05
 shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_bn")
 shader_parameter/light_boost = 2.0
+shader_parameter/bounce_strength = 0.0
