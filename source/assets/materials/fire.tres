@@ -1,0 +1,20 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://df8il2uirnn8t"]
+
+[ext_resource type="Shader" uid="uid://baou1b5dia1q1" path="res://assets/shaders/fire.gdshader" id="1_8fblr"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_8fblr")
+shader_parameter/flame_height = 1.8
+shader_parameter/taper_factor = 1.0
+shader_parameter/deviation = Vector3(0, 0, 0)
+shader_parameter/turbulence_speed = 3.0
+shader_parameter/turbulence_force = 2.0
+shader_parameter/inner_color = Color(1, 1, 1, 1)
+shader_parameter/outer_color = Color(1, 1, 1, 1)
+shader_parameter/bottom_color = Color(0, 0, 0, 1)
+shader_parameter/emission = 5.0
+shader_parameter/max_alpha = 0.4
+shader_parameter/border_width = 0.75
+shader_parameter/bottom_color_fade_y_end = 0.2
+shader_parameter/bottom_color_fade_y_start = 0.6

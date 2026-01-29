@@ -9,6 +9,11 @@ uniform vec3 lit_color : source_color = vec3(1.0, 1.0, 1.0);
 uniform vec3 shadow_color : source_color = vec3(0.0, 0.0, 0.0);
 uniform float palette_size : hint_range(1.0, 16.0) = 4.0;
 
+// --- TRANSPARENCY ---
+group_uniforms Transparency;
+uniform bool use_transparency = false;
+uniform float alpha_threshold : hint_range(0.0, 1.0) = 0.5;
+
 // --- DITHERING STYLE ---
 group_uniforms Dithering_Style;
 uniform int dither_type : hint_enum("Bayer 8x8", "Bayer 4x4", "Blue Noise", "White Noise", "Diffused") = 0;
@@ -109,6 +114,10 @@ void fragment() {
     vec2 uv = UV * uv_scale + uv_offset;
     vec4 tex = texture(texture_albedo, uv);
     vec3 base_color = tex.rgb;
+
+    if (use_transparency && tex.a < alpha_threshold) {
+        discard;
+    }
 
     // 1. Get Brightness
     float texture_brightness = get_lum(base_color);
