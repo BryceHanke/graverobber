@@ -15,7 +15,7 @@
 [ext_resource type="Shader" uid="uid://d0bv8q2atrbtp" path="res://assets/shaders/pixel.gdshader" id="13_gx1jg"]
 [ext_resource type="Texture2D" uid="uid://d8mapeiowbk3" path="res://assets/textures/hand.png" id="14_fcs02"]
 [ext_resource type="Texture2D" uid="uid://bt3p36ojgoxw" path="res://assets/textures/atlas.png" id="14_myrg7"]
-[ext_resource type="Shader" uid="uid://baou1b5dia1q1" path="res://assets/shaders/fire.gdshader" id="16_myrg7"]
+[ext_resource type="Material" uid="uid://df8il2uirnn8t" path="res://assets/materials/fire.tres" id="16_myrg7"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_6agyq"]
 radial_segments = 16
@@ -71,7 +71,7 @@ shader_parameter/lit_color = Color(1, 1, 1, 1)
 shader_parameter/shadow_color = Color(0, 0, 0, 1)
 shader_parameter/palette_size = 4.0
 shader_parameter/use_transparency = true
-shader_parameter/alpha_threshold = 0.10800000512999999
+shader_parameter/alpha_threshold = 0.10800000513
 shader_parameter/dither_type = 2
 shader_parameter/dither_pixel_size = 2.0000000475
 shader_parameter/dither_density = 512.0
@@ -131,27 +131,9 @@ shader_parameter/line_color_on_light = Color(0, 0, 0, 1)
 shader_parameter/line_color_on_dark = Color(1, 1, 1, 1)
 shader_parameter/fixed_line_color = Color(0, 0, 0, 1)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_uf5tr"]
-render_priority = 0
-shader = ExtResource("16_myrg7")
-shader_parameter/flame_height = 1.8
-shader_parameter/taper_factor = 1.0
-shader_parameter/deviation = Vector3(0, 0, 0)
-shader_parameter/turbulence_speed = 3.0
-shader_parameter/turbulence_force = 2.0
-shader_parameter/inner_color = Color(1, 1, 1, 1)
-shader_parameter/outer_color = Color(1, 1, 1, 1)
-shader_parameter/bottom_color = Color(0, 0, 0, 1)
-shader_parameter/emission = 5.0
-shader_parameter/max_alpha = 0.4
-shader_parameter/border_width = 0.75
-shader_parameter/bottom_color_fade_y_end = 0.2
-shader_parameter/bottom_color_fade_y_start = 0.6
-
 [sub_resource type="SphereMesh" id="SphereMesh_lgqa7"]
-material = SubResource("ShaderMaterial_uf5tr")
-radius = 0.042
-height = 0.1
+radius = 0.03
+height = 0.084
 radial_segments = 12
 rings = 12
 
@@ -295,4 +277,5 @@ mesh = SubResource("QuadMesh_h17s1")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/hand_view/camera" unique_id=1066189633]
 transform = Transform3D(0.98534495, 0.008503544, -0.17037062, -0.0029888097, 0.9994646, 0.032582857, 0.17055507, -0.03159582, 0.9848428, 0.4490895, 0.03187418, -0.48968878)
 layers = 2
+material_override = ExtResource("16_myrg7")
 mesh = SubResource("SphereMesh_lgqa7")
