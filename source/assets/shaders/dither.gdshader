@@ -9,16 +9,6 @@ uniform vec3 lit_color : source_color = vec3(1.0, 1.0, 1.0);
 uniform vec3 shadow_color : source_color = vec3(0.0, 0.0, 0.0);
 uniform float palette_size : hint_range(1.0, 16.0) = 4.0;
 
-// --- TRANSPARENCY ---
-group_uniforms Transparency;
-uniform bool use_transparency = false;
-uniform float alpha_threshold : hint_range(0.0, 1.0) = 0.5;
-uniform float static_opacity : hint_range(0.0, 1.0) = 1.0;
-uniform bool use_chroma_key = false;
-uniform vec3 chroma_key_color : source_color = vec3(0.0, 1.0, 0.0);
-uniform float chroma_key_threshold : hint_range(0.0, 1.0) = 0.1;
-uniform float chroma_key_softness : hint_range(0.0, 1.0) = 0.01;
-
 // --- DITHERING STYLE ---
 group_uniforms Dithering_Style;
 uniform int dither_type : hint_enum("Bayer 8x8", "Bayer 4x4", "Blue Noise", "White Noise", "Diffused") = 0;
@@ -77,8 +67,8 @@ float get_uv_dither(vec2 uv, float density, float pixel_size) {
     vec2 stepped_pos = floor(raw_grid_pos / pixel_size);
 
     if (dither_type == 1) { // Bayer 4x4
-        int x = int(stepped_pos.x) & 3;
-        int y = int(stepped_pos.y) & 3;
+        int x = int(mod(stepped_pos.x, 4.0));
+        int y = int(mod(stepped_pos.y, 4.0));
         int idx = y * 4 + x;
         return float(bayer4[idx]) / 16.0;
     }
@@ -102,8 +92,8 @@ float get_uv_dither(vec2 uv, float density, float pixel_size) {
     }
 
     // Default: Bayer 8x8 (dither_type == 0)
-    int x = int(stepped_pos.x) & 7;
-    int y = int(stepped_pos.y) & 7;
+    int x = int(mod(stepped_pos.x, 8.0));
+    int y = int(mod(stepped_pos.y, 8.0));
     int bayer_idx = y * 8 + x;
 
     return float(bayer8[bayer_idx]) / 64.0;
@@ -119,23 +109,6 @@ void fragment() {
     vec2 uv = UV * uv_scale + uv_offset;
     vec4 tex = texture(texture_albedo, uv);
     vec3 base_color = tex.rgb;
-
-    // Calculate Alpha
-    float alpha = use_transparency ? tex.a : 1.0;
-
-    if (use_chroma_key) {
-        float diff = distance(base_color, chroma_key_color);
-        float chroma_alpha = smoothstep(chroma_key_threshold, chroma_key_threshold + chroma_key_softness, diff);
-        alpha = min(alpha, chroma_alpha);
-    }
-
-    alpha *= static_opacity;
-
-    if (use_transparency && alpha < alpha_threshold) {
-        discard;
-    }
-
-    ALPHA = alpha;
 
     // 1. Get Brightness
     float texture_brightness = get_lum(base_color);

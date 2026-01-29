@@ -68,11 +68,9 @@ adjustment_color_correction = SubResource("GradientTexture1D_6wvo0")
 
 [node name="basement" type="Node3D" unique_id=1878113114]
 
-[node name="Player" parent="." unique_id=17728297 instance=ExtResource("1_02yi3")]
-
 [node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=368238582]
-transform = Transform3D(-0.77337825, -0.004410951, 0.6339293, 0.30163303, 0.8769697, 0.374087, -0.557587, 0.4805247, -0.67689914, 0, 1.7566001, -6)
-light_energy = 2.1416276
+transform = Transform3D(0.822033, -0.040446717, -0.56800103, 0.30163297, 0.87696975, 0.37408698, 0.48298916, -0.47883984, 0.7330984, 0, 1.7566001, -6)
+light_energy = 2.105819
 shadow_enabled = true
 omni_range = 20.0
 omni_attenuation = 2.0
@@ -112,5 +110,7 @@ environment = SubResource("Environment_5fs4t")
 
 [node name="skeleton" parent="." unique_id=1598640796 instance=ExtResource("7_olr0t")]
 transform = Transform3D(0.035954494, -0.27767164, 0.002396658, 0.00010630745, 0.0024304462, 0.27998942, -0.2776819, -0.035952233, 0.00041750885, 0.20566285, -0.8910773, -3.4789197)
+
+[node name="player" parent="." unique_id=1570651658 instance=ExtResource("1_02yi3")]
 
 [editable path="basement2"]

@@ -26,12 +26,6 @@ uniform float brightness : hint_range(-1.0, 1.0) = 0.0;
 
 group_uniforms Transparency;
 uniform bool use_transparency = false;
-uniform float alpha_threshold : hint_range(0.0, 1.0) = 0.5;
-uniform float static_opacity : hint_range(0.0, 1.0) = 1.0;
-uniform bool use_chroma_key = false;
-uniform vec3 chroma_key_color : source_color = vec3(0.0, 1.0, 0.0);
-uniform float chroma_key_threshold : hint_range(0.0, 1.0) = 0.1;
-uniform float chroma_key_softness : hint_range(0.0, 1.0) = 0.01;
 
 
 // --- DITHERING ---
@@ -121,8 +115,8 @@ float get_dither_value(vec2 pixel_pos) {
     vec2 scaled_pos = floor(p / dither_pixel_size);
 
     if (dither_type == 1) { // Bayer 4x4
-        int x = int(scaled_pos.x) & 3;
-        int y = int(scaled_pos.y) & 3;
+        int x = int(mod(scaled_pos.x, 4.0));
+        int y = int(mod(scaled_pos.y, 4.0));
         int idx = y * 4 + x;
         return float(bayer4[idx]) / 16.0;
     }
@@ -144,8 +138,8 @@ float get_dither_value(vec2 pixel_pos) {
     }
 
     // Default Bayer 8x8
-    int x = int(scaled_pos.x) & 7;
-    int y = int(scaled_pos.y) & 7;
+    int x = int(mod(scaled_pos.x, 8.0));
+    int y = int(mod(scaled_pos.y, 8.0));
     int bayer_idx = y * 8 + x;
     return float(bayer8[bayer_idx]) / 64.0;
 }
@@ -222,7 +216,7 @@ void fragment() {
 
         // Borders check
         vec2 border_dist = min(center_uv, 1.0 - center_uv);
-        vec2 margin = virtual_texel_size * (max(line_thickness, thickness_dark) + 2.0);
+        vec2 margin = virtual_texel_size * (max(line_thickness, thickness_dark) + 1.0);
         if (border_dist.x < margin.x || border_dist.y < margin.y) draw_outline = false;
         if (depth_center > depth_fade_dist) draw_outline = false;
 
@@ -268,7 +262,7 @@ void fragment() {
     vec2 pixel_coord;
     if (dither_mode == 1) { // Screen Space
          // Scale SCREEN_UV to pixels then apply user scaling
-         pixel_coord = floor(SCREEN_UV * viewport_size * dither_scale);
+         pixel_coord = floor(SCREEN_UV * viewport_size / (dither_pixel_size / dither_scale));
     } else { // World Space
         // Reconstruct World Position
         vec3 view_pos = get_view_pos(center_uv, inv_proj_mat);
@@ -331,20 +325,5 @@ void fragment() {
         final_color = floor((col + dither_shift) * palette_size) / palette_size;
     }
 
-    float alpha = use_transparency ? source_col.a : 1.0;
-
-    if (use_chroma_key) {
-        vec3 raw_col = source_col.rgb;
-        float diff = distance(raw_col, chroma_key_color);
-        float chroma_alpha = smoothstep(chroma_key_threshold, chroma_key_threshold + chroma_key_softness, diff);
-        alpha = min(alpha, chroma_alpha);
-    }
-
-    alpha *= static_opacity;
-
-    if (use_transparency && alpha < alpha_threshold) {
-        discard;
-    }
-
-    COLOR = vec4(final_color, alpha);
+    COLOR = vec4(final_color, use_transparency ? source_col.a : 1.0);
 }
