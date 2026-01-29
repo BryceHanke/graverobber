@@ -224,7 +224,7 @@ void fragment() {
 
         // Borders check
         vec2 border_dist = min(center_uv, 1.0 - center_uv);
-        vec2 margin = virtual_texel_size * (max(line_thickness, thickness_dark) + 1.0);
+        vec2 margin = virtual_texel_size * (max(line_thickness, thickness_dark) + 2.0);
         if (border_dist.x < margin.x || border_dist.y < margin.y) draw_outline = false;
         if (depth_center > depth_fade_dist) draw_outline = false;
 
@@ -270,7 +270,7 @@ void fragment() {
     vec2 pixel_coord;
     if (dither_mode == 1) { // Screen Space
          // Scale SCREEN_UV to pixels then apply user scaling
-         pixel_coord = floor(SCREEN_UV * VIEWPORT_SIZE / (dither_pixel_size / dither_scale));
+         pixel_coord = floor(SCREEN_UV * VIEWPORT_SIZE * dither_scale);
     } else { // World Space
         // Reconstruct World Position
         vec3 view_pos = get_view_pos(center_uv, INV_PROJECTION_MATRIX);
