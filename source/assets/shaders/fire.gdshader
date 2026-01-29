@@ -29,8 +29,10 @@ uniform float dither_density = 2048.0;
 uniform sampler2D blue_noise_texture : hint_default_white, filter_nearest, repeat_enable;
 uniform vec2 dither_motion = vec2(0.0, 0.0);
 
-group_uniforms Fire_Style;
+group_uniforms Fire_Pixelization;
 uniform bool should_pixelate_fire = false;
+uniform float fire_pixel_density = 512.0;
+uniform float fire_pixel_size : hint_range(1.0, 16.0) = 4.0;
 
 
 // --- 8x8 BAYER MATRIX ---
@@ -104,7 +106,7 @@ void vertex() {
 void fragment() {
 	vec2 used_uv = UV;
 	if (should_pixelate_fire) {
-		float pixel_scale = dither_density / dither_pixel_size;
+		float pixel_scale = fire_pixel_density / fire_pixel_size;
 		used_uv = floor(UV * pixel_scale) / pixel_scale;
 	}
 
