@@ -27,6 +27,10 @@ uniform float dither_pixel_size : hint_range(1.0, 8.0) = 2.0;
 // How dense the grid is (Higher = smaller dots)
 uniform float dither_density = 2048.0;
 uniform sampler2D blue_noise_texture : hint_default_white, filter_nearest, repeat_enable;
+uniform vec2 dither_motion = vec2(0.0, 0.0);
+
+group_uniforms Fire_Style;
+uniform bool should_pixelate_fire = false;
 
 
 // --- 8x8 BAYER MATRIX ---
@@ -98,7 +102,13 @@ void vertex() {
 }
 
 void fragment() {
-	float height = 1.0 - UV.y;
+	vec2 used_uv = UV;
+	if (should_pixelate_fire) {
+		float pixel_scale = dither_density / dither_pixel_size;
+		used_uv = floor(UV * pixel_scale) / pixel_scale;
+	}
+
+	float height = 1.0 - used_uv.y;
 	float vision_dot = dot(normalize(NORMAL), normalize(VIEW));
 	float edge = 1.0 - vision_dot;
 
@@ -106,19 +116,20 @@ void fragment() {
 	height_fade = pow(height_fade, 4.0);
 
 	ALPHA = height_fade - pow(vision_dot, 3.0) * 0.1;
-	ALPHA = mix(edge, ALPHA, pow(UV.y, 0.05));
+	ALPHA = mix(edge, ALPHA, pow(used_uv.y, 0.05));
 
 	ALPHA *= pow(vision_dot, 1.5);
 	ALPHA = clamp(ALPHA, 0.0, max_alpha);
 
-	ALBEDO = mix(inner_color, outer_color, pow(edge, 1.0 - border_width) + 0.5 - UV.y);
+	ALBEDO = mix(inner_color, outer_color, pow(edge, 1.0 - border_width) + 0.5 - used_uv.y);
 
 	ALBEDO = mix(ALBEDO, bottom_color, smoothstep(bottom_color_fade_y_start, bottom_color_fade_y_end, height));
 
 	EMISSION = ALBEDO * vision_dot * emission;
 
 	// Dithering Logic
-	float noise_val = get_uv_dither(UV, dither_density, dither_pixel_size);
+	vec2 dither_uv = UV + dither_motion * TIME;
+	float noise_val = get_uv_dither(dither_uv, dither_density, dither_pixel_size);
 	if (ALPHA <= noise_val) {
 		discard;
 	}
