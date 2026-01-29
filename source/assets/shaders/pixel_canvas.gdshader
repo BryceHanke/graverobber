@@ -121,8 +121,8 @@ float get_dither_value(vec2 pixel_pos) {
     vec2 scaled_pos = floor(p / dither_pixel_size);
 
     if (dither_type == 1) { // Bayer 4x4
-        int x = int(mod(scaled_pos.x, 4.0));
-        int y = int(mod(scaled_pos.y, 4.0));
+        int x = int(scaled_pos.x) & 3;
+        int y = int(scaled_pos.y) & 3;
         int idx = y * 4 + x;
         return float(bayer4[idx]) / 16.0;
     }
@@ -144,8 +144,8 @@ float get_dither_value(vec2 pixel_pos) {
     }
 
     // Default Bayer 8x8
-    int x = int(mod(scaled_pos.x, 8.0));
-    int y = int(mod(scaled_pos.y, 8.0));
+    int x = int(scaled_pos.x) & 7;
+    int y = int(scaled_pos.y) & 7;
     int bayer_idx = y * 8 + x;
     return float(bayer8[bayer_idx]) / 64.0;
 }

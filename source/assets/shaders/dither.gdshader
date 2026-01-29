@@ -77,8 +77,8 @@ float get_uv_dither(vec2 uv, float density, float pixel_size) {
     vec2 stepped_pos = floor(raw_grid_pos / pixel_size);
 
     if (dither_type == 1) { // Bayer 4x4
-        int x = int(mod(stepped_pos.x, 4.0));
-        int y = int(mod(stepped_pos.y, 4.0));
+        int x = int(stepped_pos.x) & 3;
+        int y = int(stepped_pos.y) & 3;
         int idx = y * 4 + x;
         return float(bayer4[idx]) / 16.0;
     }
@@ -102,8 +102,8 @@ float get_uv_dither(vec2 uv, float density, float pixel_size) {
     }
 
     // Default: Bayer 8x8 (dither_type == 0)
-    int x = int(mod(stepped_pos.x, 8.0));
-    int y = int(mod(stepped_pos.y, 8.0));
+    int x = int(stepped_pos.x) & 7;
+    int y = int(stepped_pos.y) & 7;
     int bayer_idx = y * 8 + x;
 
     return float(bayer8[bayer_idx]) / 64.0;
