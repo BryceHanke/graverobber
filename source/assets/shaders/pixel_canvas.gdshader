@@ -8,8 +8,8 @@ uniform int pixel_factor : hint_range(1, 16) = 4;
 uniform float pixel_aspect : hint_range(0.1, 10.0) = 1.0;
 
 uniform sampler2D screen_texture : hint_screen_texture, filter_nearest;
-uniform sampler2D depth_texture : hint_depth_texture, filter_nearest;
-uniform sampler2D normal_roughness_texture : hint_normal_roughness_texture, filter_nearest;
+uniform sampler2D depth_texture : filter_nearest;
+uniform sampler2D normal_roughness_texture : filter_nearest;
 
 uniform mat4 inv_proj_mat;
 uniform mat4 inv_view_mat;
@@ -27,7 +27,7 @@ uniform float brightness : hint_range(-1.0, 1.0) = 0.0;
 
 // --- DITHERING ---
 group_uniforms Dithering;
-uniform int dither_mode : hint_enum("World Space", "Screen Space") = 0;
+uniform int dither_mode : hint_enum("World Space", "Screen Space") = 1;
 uniform int dither_type : hint_enum("Bayer 8x8", "Bayer 4x4", "Blue Noise", "White Noise", "Diffused") = 0;
 // Relative size of dither dots to the virtual pixels
 uniform float dither_pixel_size : hint_range(1.0, 8.0) = 1.0;
@@ -41,7 +41,7 @@ uniform sampler2D blue_noise_texture : hint_default_white, filter_nearest, repea
 
 // --- OUTLINES ---
 group_uniforms Outline_Settings;
-uniform bool outline_enabled = true;
+uniform bool outline_enabled = false;
 uniform int outline_mode : hint_enum("Normal + Depth", "Normal Only", "Depth Only") = 0;
 uniform int outline_color_mode : hint_enum("Fixed", "Smart", "Invert") = 1;
 uniform float line_thickness : hint_range(0.0, 5.0) = 2.0;
