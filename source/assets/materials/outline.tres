@@ -5,8 +5,8 @@
 [resource]
 render_priority = 0
 shader = ExtResource("1_0lybl")
-shader_parameter/cutout_light = 0.0
-shader_parameter/cutout_dark = 1.0
+shader_parameter/cutout_light = 0.2810000133475
+shader_parameter/cutout_dark = 0.65600003116
 shader_parameter/cutout_sensitivity = 2.5710001188626204
 shader_parameter/depth_threshold = 0.87800004100648
 shader_parameter/normal_threshold = 0.6000000285

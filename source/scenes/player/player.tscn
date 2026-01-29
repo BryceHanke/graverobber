@@ -12,8 +12,6 @@
 [ext_resource type="Script" uid="uid://dmw47mb382ebt" path="res://scripts/player/ground/jump.gd" id="8_nwn0c"]
 [ext_resource type="Script" uid="uid://brdohbduwyyb6" path="res://scripts/player/ground/fall.gd" id="9_y4pjd"]
 [ext_resource type="Material" uid="uid://bkwmprrotrwg5" path="res://assets/materials/pixel.tres" id="11_je7p5"]
-[ext_resource type="Material" uid="uid://dybw45uqt8yyk" path="res://assets/materials/pixel_canvas.tres" id="12_cvmat"]
-[ext_resource type="Script" uid="uid://demv00bgsrcav" path="res://scripts/pixel_canvas_updater.gd" id="13_cvscr"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_6agyq"]
 radial_segments = 16
@@ -62,60 +60,6 @@ cam = NodePath(".")
 head = NodePath("../..")
 lean = NodePath("..")
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="head/lean/camera" unique_id=897390686]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="hand_view" type="SubViewport" parent="head/lean/camera/SubViewportContainer" unique_id=476380750]
-transparent_bg = true
-handle_input_locally = false
-size = Vector2i(960, 540)
-render_target_update_mode = 4
-
-[node name="CanvasLayer" type="CanvasLayer" parent="head/lean/camera/SubViewportContainer/hand_view" unique_id=2025463293]
-
-[node name="ColorRect" type="ColorRect" parent="head/lean/camera/SubViewportContainer/hand_view/CanvasLayer" unique_id=694535350 node_paths=PackedStringArray("camera")]
-material = ExtResource("12_cvmat")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("13_cvscr")
-camera = NodePath("../../camera")
-
-[node name="camera" type="Camera3D" parent="head/lean/camera/SubViewportContainer/hand_view" unique_id=1232050989 node_paths=PackedStringArray("cam")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-cull_mask = 1047554
-fov = 90.0
-far = 1000000.0
-script = ExtResource("6_fm80t")
-cam = NodePath("../../..")
-
-[node name="CSGSphere3D" type="CSGSphere3D" parent="head/lean/camera/SubViewportContainer/hand_view/camera" unique_id=1261278218]
-transform = Transform3D(-0.5595855, 0.45227537, 0.46588218, 0.032064516, 0.8491569, -0.3536389, -0.82815224, -0.2727263, -0.3284905, 0.46816957, -0.29589373, -0.43792683)
-layers = 2
-material_override = ExtResource("2_h17s1")
-cast_shadow = 0
-radius = 0.20076649
-
-[node name="CSGCylinder3D" type="CSGCylinder3D" parent="head/lean/camera/SubViewportContainer/hand_view/camera/CSGSphere3D" unique_id=276680950]
-transform = Transform3D(0.97184676, 0.21123469, -0.1043933, -0.14146179, 0.87740064, 0.45842886, 0.18842834, -0.43075353, 0.8825803, 0.045652986, 0.2005781, -0.11901051)
-layers = 2
-material_override = ExtResource("2_h17s1")
-radius = 0.0146484375
-height = 0.1817627
-
-[node name="OmniLight3D" type="OmniLight3D" parent="head/lean/camera/SubViewportContainer/hand_view/camera/CSGSphere3D/CSGCylinder3D" unique_id=1411284164]
-transform = Transform3D(1.0099075, -0.04810448, 0.14547756, 5.2154064e-08, 1.0564908, -0.33256066, -1.7881393e-07, 0, 1.3971363, -0.0017665923, 0.11356315, -0.0144328475)
-layers = 2
-light_energy = 0.25
-omni_range = 10.0
-omni_attenuation = 2.0
-
 [node name="OmniLight3D" type="OmniLight3D" parent="head/lean/camera" unique_id=1302507535]
 transform = Transform3D(1, -1.4754977e-08, 6.063575e-08, 1.4754977e-08, 1, 0, -6.063575e-08, 8.946791e-16, 1, 0.4741906, 0.011592686, -0.5164102)
 light_energy = 0.25
@@ -157,3 +101,53 @@ metadata/_custom_type_script = "uid://dmw47mb382ebt"
 script = ExtResource("9_y4pjd")
 player = NodePath("../../..")
 metadata/_custom_type_script = "uid://brdohbduwyyb6"
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=897390686]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="hand_view" type="SubViewport" parent="SubViewportContainer" unique_id=476380750]
+transparent_bg = true
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+size = Vector2i(960, 540)
+
+[node name="camera" type="Camera3D" parent="SubViewportContainer/hand_view" unique_id=1232050989 node_paths=PackedStringArray("cam")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+cull_mask = 1047554
+fov = 90.0
+far = 1000000.0
+script = ExtResource("6_fm80t")
+cam = NodePath("../../../head/lean/camera")
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="SubViewportContainer/hand_view/camera" unique_id=1261278218]
+transform = Transform3D(-0.5595855, 0.45227534, 0.6944862, 0.03206451, 0.84915686, -0.5271665, -0.8281521, -0.2727264, -0.48967788, 0.46816957, -0.29589373, -0.43792683)
+layers = 2
+material_override = ExtResource("2_h17s1")
+cast_shadow = 0
+radius = 0.20076649
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="SubViewportContainer/hand_view/camera/CSGSphere3D" unique_id=276680950]
+transform = Transform3D(0.97184676, 0.21123469, -0.1043933, -0.14146179, 0.87740064, 0.45842886, 0.18842834, -0.43075353, 0.8825803, 0.045652986, 0.2005781, -0.11901051)
+layers = 2
+material_override = ExtResource("2_h17s1")
+radius = 0.0146484375
+height = 0.1817627
+
+[node name="OmniLight3D" type="OmniLight3D" parent="SubViewportContainer/hand_view/camera/CSGSphere3D/CSGCylinder3D" unique_id=1411284164]
+transform = Transform3D(1, -5.1642417e-08, 1.7938927e-07, 5.1642417e-08, 1, 0, -1.7938927e-07, 9.264096e-15, 1, -0.0017665923, 0.11356315, -0.0144328475)
+layers = 2
+light_energy = 0.25
+omni_range = 10.0
+omni_attenuation = 2.0
+
+[node name="PixelDither" type="MeshInstance3D" parent="SubViewportContainer/hand_view/camera" unique_id=128672787]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.12943125)
+layers = 2
+material_override = ExtResource("11_je7p5")
+mesh = SubResource("QuadMesh_h17s1")

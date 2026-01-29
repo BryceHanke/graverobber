@@ -71,8 +71,8 @@ adjustment_color_correction = SubResource("GradientTexture1D_6wvo0")
 [node name="Player" parent="." unique_id=17728297 instance=ExtResource("1_02yi3")]
 
 [node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=368238582]
-transform = Transform3D(-0.9462181, 0.22720021, 0.23032834, 0.30163303, 0.8769697, 0.374087, -0.116998374, 0.42344245, -0.898336, 0, 1.7566001, -6)
-light_energy = 2.0081558
+transform = Transform3D(-0.77337825, -0.004410951, 0.6339293, 0.30163303, 0.8769697, 0.374087, -0.557587, 0.4805247, -0.67689914, 0, 1.7566001, -6)
+light_energy = 2.1416276
 shadow_enabled = true
 omni_range = 20.0
 omni_attenuation = 2.0
