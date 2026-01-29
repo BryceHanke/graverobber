@@ -19,6 +19,10 @@ uniform float border_width: hint_range(0.0, 1.0, 0.01) = 0.75;
 uniform float bottom_color_fade_y_end: hint_range(0.0, 1.0, 0.01) = 0.2;
 uniform float bottom_color_fade_y_start: hint_range(0.0, 1.0, 0.01) = 0.6;
 
+uniform sampler2D noise_texture : filter_linear_mipmap, repeat_enable;
+uniform vec2 noise_scale = vec2(1.0, 1.0);
+uniform vec2 noise_speed = vec2(0.0, 1.0);
+
 void vertex() {
 	vec3 _deviation = vec3(deviation.x, 0, deviation.z) * 0.2;
 	float height = (1.0 - UV.y);
@@ -43,6 +47,9 @@ void fragment() {
 
 	ALPHA *= pow(vision_dot, 1.5);
 	ALPHA = clamp(ALPHA, 0.0, max_alpha);
+
+	float noise_val = texture(noise_texture, used_uv * noise_scale + TIME * noise_speed).r;
+	ALPHA *= noise_val;
 
 	ALBEDO = mix(inner_color, outer_color, pow(edge, 1.0 - border_width) + 0.5 - used_uv.y);
 
