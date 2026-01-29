@@ -22,6 +22,9 @@ uniform float palette_size : hint_range(1.0, 16.0) = 4.0;
 uniform float contrast : hint_range(0.0, 2.0) = 1.0;
 uniform float brightness : hint_range(-1.0, 1.0) = 0.0;
 
+group_uniforms Transparency;
+uniform bool use_transparency = false;
+
 
 // --- DITHERING ---
 group_uniforms Dithering;
@@ -158,7 +161,8 @@ void fragment() {
     vec2 center_uv = snapped_uv + virtual_texel_size * 0.5;
 
     // Get Base Color
-    vec3 col = texture(screen_texture, center_uv).rgb;
+    vec4 source_col = texture(screen_texture, center_uv);
+    vec3 col = source_col.rgb;
 
     // Apply brightness/contrast
     col = (col - 0.5) * contrast + 0.5 + brightness;
@@ -323,4 +327,7 @@ void fragment() {
     }
 
     ALBEDO = final_color;
+    if (use_transparency) {
+        ALPHA = source_col.a;
+    }
 }
