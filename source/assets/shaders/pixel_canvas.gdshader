@@ -26,6 +26,12 @@ uniform float brightness : hint_range(-1.0, 1.0) = 0.0;
 
 group_uniforms Transparency;
 uniform bool use_transparency = false;
+uniform float alpha_threshold : hint_range(0.0, 1.0) = 0.5;
+uniform float static_opacity : hint_range(0.0, 1.0) = 1.0;
+uniform bool use_chroma_key = false;
+uniform vec3 chroma_key_color : source_color = vec3(0.0, 1.0, 0.0);
+uniform float chroma_key_threshold : hint_range(0.0, 1.0) = 0.1;
+uniform float chroma_key_softness : hint_range(0.0, 1.0) = 0.01;
 
 
 // --- DITHERING ---
@@ -325,5 +331,20 @@ void fragment() {
         final_color = floor((col + dither_shift) * palette_size) / palette_size;
     }
 
-    COLOR = vec4(final_color, use_transparency ? source_col.a : 1.0);
+    float alpha = use_transparency ? source_col.a : 1.0;
+
+    if (use_chroma_key) {
+        vec3 raw_col = source_col.rgb;
+        float diff = distance(raw_col, chroma_key_color);
+        float chroma_alpha = smoothstep(chroma_key_threshold, chroma_key_threshold + chroma_key_softness, diff);
+        alpha = min(alpha, chroma_alpha);
+    }
+
+    alpha *= static_opacity;
+
+    if (use_transparency && alpha < alpha_threshold) {
+        discard;
+    }
+
+    COLOR = vec4(final_color, alpha);
 }

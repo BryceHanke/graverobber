@@ -13,6 +13,11 @@ uniform float palette_size : hint_range(1.0, 16.0) = 4.0;
 group_uniforms Transparency;
 uniform bool use_transparency = false;
 uniform float alpha_threshold : hint_range(0.0, 1.0) = 0.5;
+uniform float static_opacity : hint_range(0.0, 1.0) = 1.0;
+uniform bool use_chroma_key = false;
+uniform vec3 chroma_key_color : source_color = vec3(0.0, 1.0, 0.0);
+uniform float chroma_key_threshold : hint_range(0.0, 1.0) = 0.1;
+uniform float chroma_key_softness : hint_range(0.0, 1.0) = 0.01;
 
 // --- DITHERING STYLE ---
 group_uniforms Dithering_Style;
@@ -115,9 +120,22 @@ void fragment() {
     vec4 tex = texture(texture_albedo, uv);
     vec3 base_color = tex.rgb;
 
-    if (use_transparency && tex.a < alpha_threshold) {
+    // Calculate Alpha
+    float alpha = use_transparency ? tex.a : 1.0;
+
+    if (use_chroma_key) {
+        float diff = distance(base_color, chroma_key_color);
+        float chroma_alpha = smoothstep(chroma_key_threshold, chroma_key_threshold + chroma_key_softness, diff);
+        alpha = min(alpha, chroma_alpha);
+    }
+
+    alpha *= static_opacity;
+
+    if (use_transparency && alpha < alpha_threshold) {
         discard;
     }
+
+    ALPHA = alpha;
 
     // 1. Get Brightness
     float texture_brightness = get_lum(base_color);
