@@ -24,6 +24,7 @@ uniform float brightness : hint_range(-1.0, 1.0) = 0.0;
 
 group_uniforms Transparency;
 uniform bool use_transparency = false;
+uniform bool depth_cull_sky = false;
 uniform float alpha_threshold : hint_range(0.0, 1.0) = 0.5;
 uniform float static_opacity : hint_range(0.0, 1.0) = 1.0;
 uniform bool use_chroma_key = false;
@@ -332,9 +333,21 @@ void fragment() {
         final_color = floor((col + dither_shift) * palette_size) / palette_size;
     }
 
+    if (depth_cull_sky && depth_center > depth_fade_dist) {
+        if (!use_transparency) {
+            final_color = shadow_color;
+        }
+    }
+
     ALBEDO = final_color;
 
     float alpha = use_transparency ? source_col.a : 1.0;
+
+    if (depth_cull_sky && depth_center > depth_fade_dist) {
+        if (use_transparency) {
+            alpha = 0.0;
+        }
+    }
 
     if (use_chroma_key) {
         vec3 raw_col = source_col.rgb;
