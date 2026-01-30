@@ -218,7 +218,12 @@ void fragment() {
     float sobel_y = (d_bl + 2.0 * d_bm + d_br) - (d_tl + 2.0 * d_tm + d_tr);
 
     float depth_edge = sqrt(sobel_x * sobel_x + sobel_y * sobel_y);
-    float is_depth_edge = step(edge_threshold_sobel, depth_edge);
+
+    // Randomize threshold to break alignment patterns
+    float noise_r = random(center_uv);
+    float dithered_threshold = edge_threshold_sobel * (0.85 + 0.3 * noise_r);
+
+    float is_depth_edge = step(dithered_threshold, depth_edge);
 
     // Normal Edge (Legacy Cross Check)
     // We reuse center_uv + offset for this to keep compatibility with thickness logic if needed,
