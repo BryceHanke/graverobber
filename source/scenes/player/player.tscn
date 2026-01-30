@@ -26,102 +26,15 @@ rings = 2
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8xumb"]
 
-[sub_resource type="Animation" id="Animation_ioxgp"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../../../mesh:mesh:height")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [2.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("../../../collision:shape:height")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [2.0]
-}
-
-[sub_resource type="Animation" id="Animation_8ydkj"]
-resource_name = "crouch"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../../../mesh:mesh:height")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [2.0, 1.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("../../../collision:shape:height")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [2.0, 1.0]
-}
-
-[sub_resource type="Animation" id="Animation_lgqa7"]
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../../../collision:shape:height")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [1.0, 2.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("../../../mesh:mesh:height")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [1.0, 2.0]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_3j4b4"]
-_data = {
-&"RESET": SubResource("Animation_ioxgp"),
-&"crouch": SubResource("Animation_8ydkj"),
-&"uncrouch": SubResource("Animation_lgqa7")
-}
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lgqa7"]
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_mohoo"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_inglc"]
 frequency = 1.0
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_bn"]
 width = 2048
 height = 2048
-noise = SubResource("FastNoiseLite_mohoo")
+noise = SubResource("FastNoiseLite_inglc")
 seamless = true
 in_3d_space = true
 
@@ -171,6 +84,16 @@ shader_parameter/global_ambient = Color(0, 0, 0, 1)
 shader_parameter/light_boost = 2.4730000699675
 shader_parameter/bounce_strength = 0.0
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_mohoo"]
+frequency = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_8ydkj"]
+width = 2048
+height = 2048
+noise = SubResource("FastNoiseLite_mohoo")
+seamless = true
+in_3d_space = true
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8ydkj"]
 render_priority = 0
 shader = ExtResource("13_fcs02")
@@ -187,7 +110,7 @@ shader_parameter/dither_density = 512.0
 shader_parameter/dither_spread = 0.05500000191398
 shader_parameter/dither_smoothing = 0.150000007125
 shader_parameter/shadow_bias = 0.3950000662624999
-shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_bn")
+shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_8ydkj")
 shader_parameter/uv_scale = Vector2(1, 1)
 shader_parameter/uv_offset = Vector2(0, 0)
 shader_parameter/global_ambient = Color(1, 1, 1, 1)
@@ -272,6 +195,8 @@ shader_parameter/depth_fade_dist = 14.0000006175
 shader_parameter/cutout_light = 0.0
 shader_parameter/cutout_dark = 0.0
 shader_parameter/cutout_sensitivity = 0.10000000149012
+shader_parameter/use_noise_cutout = false
+shader_parameter/cutout_noise_scale = 1.0
 shader_parameter/use_smart_color = true
 shader_parameter/contrast_threshold = 0.18000000855
 shader_parameter/line_color_on_light = Color(0, 0, 0, 1)
@@ -322,7 +247,7 @@ lean = NodePath("..")
 [node name="OmniLight3D" type="OmniLight3D" parent="head/lean/camera" unique_id=1302507535]
 transform = Transform3D(0.62314665, 0.008226224, -0.78206176, -0.021657908, 0.99974275, -0.0067410865, 0.7818051, 0.021138508, 0.6231645, 0.49774396, 0.03346014, -0.41518673)
 visible = false
-light_energy = 0.015909467
+light_energy = 0.01671517
 light_cull_mask = 4294967293
 shadow_enabled = true
 shadow_caster_mask = 4294967291
@@ -371,9 +296,6 @@ script = ExtResource("12_lgqa7")
 player = NodePath("../../..")
 metadata/_custom_type_script = "uid://vptqvkhe206v"
 
-[node name="crouch" type="AnimationPlayer" parent="logic/move/crouch" unique_id=334931493]
-libraries/ = SubResource("AnimationLibrary_3j4b4")
-
 [node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=897390686]
 visible = false
 texture_filter = 1
@@ -394,6 +316,7 @@ render_target_update_mode = 0
 
 [node name="camera" type="Camera3D" parent="SubViewportContainer/hand_view" unique_id=1232050989 node_paths=PackedStringArray("cam")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+visible = false
 cull_mask = 1047554
 fov = 90.0
 far = 1000000.0
@@ -412,7 +335,7 @@ smooth_faces = false
 [node name="OmniLight3D" type="OmniLight3D" parent="SubViewportContainer/hand_view/camera/match" unique_id=1411284164]
 transform = Transform3D(0.99999857, -4.4703537e-08, 2.0861627e-07, 4.4703484e-08, 0.99999976, -7.4499553e-09, -2.0861626e-07, 7.449973e-09, 0.9999986, 0, 0.07, 0)
 layers = 2
-light_energy = 0.032146115
+light_energy = 0.029992701
 light_size = 0.46
 omni_range = 10.0
 script = ExtResource("4_kvlxm")
@@ -428,7 +351,7 @@ shaded = true
 texture_filter = 2
 texture = ExtResource("14_fcs02")
 
-[node name="Sprite3D2" type="Sprite3D" parent="SubViewportContainer/hand_view/camera" unique_id=2089370123]
+[node name="Sprite3D2" type="Sprite3D" parent="SubViewportContainer/hand_view/camera" unique_id=2089370123 node_paths=PackedStringArray("animation_player")]
 transform = Transform3D(0.14020793, -0.0038245765, -0.17593202, -0.004873045, 0.22477622, -0.008769959, 0.17590606, 0.0092752995, 0.13998571, 0.48481196, 0.052017212, -0.46456638)
 layers = 2
 material_override = SubResource("ShaderMaterial_8ydkj")
@@ -439,6 +362,7 @@ texture = ExtResource("16_uf5tr")
 hframes = 4
 frame = 1
 script = ExtResource("17_lgqa7")
+animation_player = NodePath("AnimationPlayer")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="SubViewportContainer/hand_view/camera/Sprite3D2" unique_id=2142478786]
 libraries/ = SubResource("AnimationLibrary_ioxgp")
