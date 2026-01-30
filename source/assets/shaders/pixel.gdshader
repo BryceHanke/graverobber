@@ -49,8 +49,6 @@ uniform int outline_color_mode : hint_enum("Fixed", "Smart", "Invert") = 1;
 uniform float line_thickness : hint_range(0.0, 5.0) = 2.0;
 uniform float thickness_dark : hint_range(0.0, 5.0) = 0.5;
 uniform float edge_threshold_sobel : hint_range(0.0, 5.0) = 1.0;
-uniform vec4 edge_color : source_color = vec4(0.0, 0.0, 0.0, 1.0);
-
 group_uniforms Outline_Sensitivity;
 uniform float depth_threshold : hint_range(0.01, 1.0) = 0.05;
 uniform float normal_threshold : hint_range(0.0, 1.0) = 0.6;
@@ -363,7 +361,9 @@ void fragment() {
 
     if (color_mode == 0) { // 1-Bit
         if (draw_outline) {
-            final_color = edge_color.rgb;
+            float dist_lit = distance(col, lit_color);
+            float dist_shadow = distance(col, shadow_color);
+            final_color = (dist_lit < dist_shadow) ? lit_color : shadow_color;
         } else {
             // Lighting Quantization (Posterize Luminance)
             float bands = max(2.0, palette_size);
