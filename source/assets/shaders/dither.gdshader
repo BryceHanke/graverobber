@@ -17,10 +17,12 @@ uniform float alpha_threshold : hint_range(0.0, 1.0) = 0.5;
 // --- DITHERING STYLE ---
 group_uniforms Dithering_Style;
 uniform int dither_type : hint_enum("Bayer 8x8", "Bayer 4x4", "Blue Noise", "White Noise", "Diffused") = 0;
+uniform int dither_mode : hint_enum("Object UV", "Screen Space", "World Space") = 2;
 // How "chunky" the pixels are
 uniform float dither_pixel_size : hint_range(1.0, 8.0) = 2.0;
 // How dense the grid is (Higher = smaller dots)
 uniform float dither_density = 2048.0;
+uniform float world_dither_density = 32.0;
 // Smoothness of the gradient (0.01 = Hard Cut, 0.5 = Smooth Fade)
 uniform float dither_spread : hint_range(0.01, 2.0) = 0.5;
 uniform float dither_smoothing : hint_range(0.0, 2.0) = 0.05;
@@ -40,6 +42,7 @@ uniform float bounce_strength : hint_range(0.0, 5.0) = 0.5;
 
 // --- VARYINGS ---
 varying vec3 v_local_pos;
+varying vec3 v_world_pos;
 
 // --- 8x8 BAYER MATRIX ---
 const int bayer8[64] = {
@@ -63,6 +66,7 @@ const int bayer4[16] = {
 
 void vertex() {
     v_local_pos = VERTEX;
+    v_world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 }
 
 // --- DITHER MAPPING ---
@@ -135,8 +139,27 @@ void fragment() {
 
     float total_ambient_lum = (ambient_brightness + bounce_lum) * texture_brightness;
 
-    // 2. Dither Calculation (UV Mapped)
-    float noise_val = get_uv_dither(uv, dither_density, dither_pixel_size);
+    // 2. Dither Calculation
+    vec2 dither_uv;
+    if (dither_mode == 0) { // Object UV
+        dither_uv = uv;
+    } else if (dither_mode == 1) { // Screen Space
+        dither_uv = SCREEN_UV;
+    } else { // World Space
+        // Triplanar Mapping
+        vec3 world_norm = normalize((INV_VIEW_MATRIX * vec4(NORMAL, 0.0)).xyz);
+        vec3 blend = abs(world_norm);
+        blend /= (blend.x + blend.y + blend.z);
+        if (blend.x > blend.y && blend.x > blend.z) {
+             dither_uv = v_world_pos.zy;
+        } else if (blend.y > blend.z) {
+             dither_uv = v_world_pos.xz;
+        } else {
+             dither_uv = v_world_pos.xy;
+        }
+    }
+    float density = (dither_mode == 2) ? world_dither_density : dither_density;
+    float noise_val = get_uv_dither(dither_uv, density, dither_pixel_size);
 
     // 3. Apply Threshold with Spread and Bias
     float dithered_val = total_ambient_lum + (noise_val - 0.5) * dither_spread + shadow_bias;
@@ -192,7 +215,25 @@ void light() {
     float total_lum = light_brightness * texture_brightness;
 
     // 2. Recalculate Dither for Light Pass
-    float noise_val = get_uv_dither(uv, dither_density, dither_pixel_size);
+    vec2 dither_uv;
+    if (dither_mode == 0) { // Object UV
+        dither_uv = uv;
+    } else if (dither_mode == 1) { // Screen Space
+        dither_uv = SCREEN_UV;
+    } else { // World Space
+        vec3 world_norm = normalize((INV_VIEW_MATRIX * vec4(NORMAL, 0.0)).xyz);
+        vec3 blend = abs(world_norm);
+        blend /= (blend.x + blend.y + blend.z);
+        if (blend.x > blend.y && blend.x > blend.z) {
+             dither_uv = v_world_pos.zy;
+        } else if (blend.y > blend.z) {
+             dither_uv = v_world_pos.xz;
+        } else {
+             dither_uv = v_world_pos.xy;
+        }
+    }
+    float density = (dither_mode == 2) ? world_dither_density : dither_density;
+    float noise_val = get_uv_dither(dither_uv, density, dither_pixel_size);
 
     // 3. Apply Threshold
     float dithered_val = total_lum + (noise_val - 0.5) * dither_spread + shadow_bias;
