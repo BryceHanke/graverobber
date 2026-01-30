@@ -49,6 +49,8 @@ uniform int outline_mode : hint_enum("Normal + Depth", "Normal Only", "Depth Onl
 uniform int outline_color_mode : hint_enum("Fixed", "Smart", "Invert") = 1;
 uniform float line_thickness : hint_range(0.0, 5.0) = 2.0;
 uniform float thickness_dark : hint_range(0.0, 5.0) = 0.5;
+uniform float edge_threshold_sobel : hint_range(0.0, 5.0) = 1.0;
+uniform vec4 edge_color : source_color = vec4(0.0, 0.0, 0.0, 1.0);
 
 group_uniforms Outline_Sensitivity;
 uniform float depth_threshold : hint_range(0.01, 1.0) = 0.05;
@@ -101,6 +103,11 @@ vec3 get_view_pos(vec2 uv, mat4 inv_proj) {
 	vec3 ndc = vec3(uv * 2.0 - 1.0, depth);
 	vec4 view = inv_proj * vec4(ndc, 1.0);
 	return view.xyz / view.w;
+}
+
+float get_linear_depth(vec2 uv, mat4 inv_proj) {
+	vec3 view_pos = get_view_pos(uv, inv_proj);
+	return -view_pos.z;
 }
 
 vec3 get_reconstructed_normal(vec2 uv, vec2 texel_size, mat4 inv_proj) {
@@ -184,21 +191,39 @@ void fragment() {
     vec3 normal_center = get_reconstructed_normal(center_uv, virtual_texel_size, inv_proj_mat);
     float object_noise = texture(normal_roughness_texture, center_uv).a;
 
-    // Neighbor Sampling
-    vec2 uv_up = center_uv + vec2(0.0, -offset.y);
-    vec2 uv_right = center_uv + vec2(offset.x, 0.0);
-    vec2 uv_down = center_uv + vec2(0.0, offset.y);
-    vec2 uv_left = center_uv + vec2(-offset.x, 0.0);
+    // --- EDGE DETECTION (SOBEL) ---
+    // Sample 3x3 neighborhood of linear depth
+    vec2 off = virtual_texel_size; // Use 1 pixel step for sharp Sobel
 
-    float d_up = -get_view_pos(uv_up, inv_proj_mat).z;
-    float d_right = -get_view_pos(uv_right, inv_proj_mat).z;
+    // Top Row
+    float d_tl = get_linear_depth(center_uv + vec2(-off.x, -off.y), inv_proj_mat);
+    float d_tm = get_linear_depth(center_uv + vec2(0.0,    -off.y), inv_proj_mat);
+    float d_tr = get_linear_depth(center_uv + vec2(off.x,  -off.y), inv_proj_mat);
 
-    vec3 n_up = get_reconstructed_normal(uv_up, virtual_texel_size, inv_proj_mat);
-    vec3 n_right = get_reconstructed_normal(uv_right, virtual_texel_size, inv_proj_mat);
+    // Middle Row
+    float d_ml = get_linear_depth(center_uv + vec2(-off.x, 0.0), inv_proj_mat);
+    float d_mr = get_linear_depth(center_uv + vec2(off.x,  0.0), inv_proj_mat);
 
-    // Edge Detection
-    float depth_diff = abs(depth_center - d_up) + abs(depth_center - d_right);
-    float is_depth_edge = step(depth_threshold, depth_diff);
+    // Bottom Row
+    float d_bl = get_linear_depth(center_uv + vec2(-off.x, off.y), inv_proj_mat);
+    float d_bm = get_linear_depth(center_uv + vec2(0.0,    off.y), inv_proj_mat);
+    float d_br = get_linear_depth(center_uv + vec2(off.x,  off.y), inv_proj_mat);
+
+    // Sobel X
+    float sobel_x = (d_tr + 2.0 * d_mr + d_br) - (d_tl + 2.0 * d_ml + d_bl);
+
+    // Sobel Y
+    float sobel_y = (d_bl + 2.0 * d_bm + d_br) - (d_tl + 2.0 * d_tm + d_tr);
+
+    float depth_edge = sqrt(sobel_x * sobel_x + sobel_y * sobel_y);
+    float is_depth_edge = step(edge_threshold_sobel, depth_edge);
+
+    // Normal Edge (Legacy Cross Check)
+    // We reuse center_uv + offset for this to keep compatibility with thickness logic if needed,
+    // but usually Sobel is preferred. Let's keep a simple cross check for normals.
+    vec2 n_off = virtual_texel_size;
+    vec3 n_up = get_reconstructed_normal(center_uv + vec2(0.0, -n_off.y), virtual_texel_size, inv_proj_mat);
+    vec3 n_right = get_reconstructed_normal(center_uv + vec2(n_off.x, 0.0), virtual_texel_size, inv_proj_mat);
 
     float dot_up = clamp(dot(normal_center, n_up), 0.0, 1.0);
     float dot_right = clamp(dot(normal_center, n_right), 0.0, 1.0);
@@ -224,6 +249,11 @@ void fragment() {
 
         // Cutout Logic
         if (draw_outline) {
+            vec2 uv_up = center_uv + vec2(0.0, -offset.y);
+            vec2 uv_right = center_uv + vec2(offset.x, 0.0);
+            vec2 uv_down = center_uv + vec2(0.0, offset.y);
+            vec2 uv_left = center_uv + vec2(-offset.x, 0.0);
+
             vec3 c_up = texture(screen_texture, uv_up).rgb;
             vec3 c_right = texture(screen_texture, uv_right).rgb;
             vec3 c_down = texture(screen_texture, uv_down).rgb;
@@ -333,8 +363,18 @@ void fragment() {
     // --- FINAL COMPOSITION ---
     vec3 final_color;
 
-    if (color_mode == 0) { // 1-Bit
-        final_color = mix(shadow_color, lit_color, dither_bit);
+    if (color_mode == 0) { // 1-Bit (Protocol B)
+        if (draw_outline) {
+            final_color = edge_color.rgb;
+        } else {
+            // Lighting Quantization (Posterize Luminance)
+            float bands = max(2.0, palette_size);
+            float q_lum = floor(lum * bands) / (bands - 1.0);
+
+            // Compare with Dither
+            float bit = step(noise_val, q_lum);
+            final_color = mix(shadow_color, lit_color, bit);
+        }
     }
     else if (color_mode == 1) { // Monochrome
         // Map 0..1 lum to shadow..lit
