@@ -86,6 +86,10 @@ const int bayer4[16] = {
     15, 7, 13, 5
 };
 
+float random(vec2 uv) {
+	return fract(sin(dot(uv, vec2(12.9898, 78.233))) * 43758.5453);
+}
+
 void vertex() {
 	POSITION = vec4(VERTEX.xy, 1.0, 1.0);
 }
@@ -263,8 +267,11 @@ void fragment() {
             float check_noise = object_noise;
             if (use_noise_cutout) {
                 vec2 cutout_coord;
+                float noise_r = random(center_uv);
+                vec2 rand_uv = vec2(noise_r) * 0.5;
+
                 if (dither_mode == 1) { // Screen Space
-                     cutout_coord = floor(SCREEN_UV * VIEWPORT_SIZE / (dither_pixel_size / cutout_noise_scale));
+                     cutout_coord = floor(SCREEN_UV * VIEWPORT_SIZE / (dither_pixel_size / cutout_noise_scale) + rand_uv);
                 } else { // World Space
                     vec3 view_pos = get_view_pos(center_uv, INV_PROJECTION_MATRIX);
                     vec3 world_pos = (INV_VIEW_MATRIX * vec4(view_pos, 1.0)).xyz;
@@ -283,7 +290,7 @@ void fragment() {
                         dither_uv = world_pos.xy;
                     }
 
-                    cutout_coord = floor(dither_uv * 32.0 * cutout_noise_scale);
+                    cutout_coord = floor(dither_uv * 32.0 * cutout_noise_scale + rand_uv);
                 }
                 check_noise = get_dither_value(cutout_coord);
             }
