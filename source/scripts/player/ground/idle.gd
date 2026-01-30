@@ -10,3 +10,4 @@ func Update(_delta: float):
 	walk_trans()
 	fall_trans()
 	jump_trans()
+	crouch_trans()

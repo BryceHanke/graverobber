@@ -3,7 +3,7 @@
 [ext_resource type="Shader" uid="uid://baou1b5dia1q1" path="res://assets/shaders/fire.gdshader" id="1_8fblr"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_8fblr"]
-frequency = 0.0118
+frequency = 0.0033
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ooebj"]
 noise = SubResource("FastNoiseLite_8fblr")
@@ -16,16 +16,16 @@ shader = ExtResource("1_8fblr")
 shader_parameter/flame_height = 1.8
 shader_parameter/taper_factor = 0.80000001192096
 shader_parameter/deviation = Vector3(0.14, 0.16, -0.25)
-shader_parameter/turbulence_speed = 6.0
-shader_parameter/turbulence_force = 3.0
-shader_parameter/inner_color = Color(1, 1, 1, 1)
-shader_parameter/outer_color = Color(1, 1, 1, 1)
+shader_parameter/turbulence_speed = 3.0
+shader_parameter/turbulence_force = 2.0
+shader_parameter/inner_color = Color(0, 0, 0, 1)
+shader_parameter/outer_color = Color(0.80784315, 0.84705883, 0.81960785, 1)
 shader_parameter/bottom_color = Color(0, 0, 0, 1)
-shader_parameter/emission = 24.90000035613868
-shader_parameter/max_alpha = 0.66999998502416
+shader_parameter/emission = 5.0000000596048
+shader_parameter/max_alpha = 0.4499999899416
 shader_parameter/border_width = 0.75
 shader_parameter/bottom_color_fade_y_end = 0.2
 shader_parameter/bottom_color_fade_y_start = 0.6
 shader_parameter/noise_texture = SubResource("NoiseTexture2D_ooebj")
-shader_parameter/noise_scale = Vector2(1, 1)
-shader_parameter/noise_speed = Vector2(0, 1)
+shader_parameter/noise_scale = Vector2(0.5, 1)
+shader_parameter/noise_speed = Vector2(1, 1)

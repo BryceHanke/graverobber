@@ -4,18 +4,21 @@
 [ext_resource type="Script" uid="uid://v23xafiwc0lo" path="res://scripts/input/input_gather.gd" id="2_0owmy"]
 [ext_resource type="Material" uid="uid://cw3vtka5voiak" path="res://assets/materials/dither.tres" id="2_h17s1"]
 [ext_resource type="Script" uid="uid://0x2i8kdr51fu" path="res://scripts/camera/camera_movement.gd" id="2_qek5x"]
+[ext_resource type="Script" uid="uid://1xbyyhgroi2r" path="res://scripts/misc/light_flicker.gd" id="4_kvlxm"]
 [ext_resource type="Script" uid="uid://dlyn7myxb1v18" path="res://scripts/statemachine/statemachine.gd" id="5_5tt2p"]
+[ext_resource type="PackedScene" uid="uid://dg7xl4dtseqsv" path="res://scenes/pixel_dither.tscn" id="5_kvlxm"]
 [ext_resource type="Script" uid="uid://c5cfuh8tg3iw5" path="res://scripts/camera/hand_camera.gd" id="6_fm80t"]
 [ext_resource type="Script" uid="uid://bs6sc1frb1nfc" path="res://scripts/player/ground/idle.gd" id="6_rkuj1"]
 [ext_resource type="Script" uid="uid://b01bw7djd0wvp" path="res://scripts/player/ground/walk.gd" id="7_ers80"]
 [ext_resource type="Script" uid="uid://dmw47mb382ebt" path="res://scripts/player/ground/jump.gd" id="8_nwn0c"]
 [ext_resource type="Script" uid="uid://brdohbduwyyb6" path="res://scripts/player/ground/fall.gd" id="9_y4pjd"]
-[ext_resource type="Material" uid="uid://bkwmprrotrwg5" path="res://assets/materials/pixel.tres" id="11_je7p5"]
+[ext_resource type="Script" uid="uid://vptqvkhe206v" path="res://scripts/player/ground/crouch.gd" id="12_lgqa7"]
 [ext_resource type="Shader" uid="uid://dcxcwwd03jc52" path="res://assets/shaders/dither.gdshader" id="13_fcs02"]
 [ext_resource type="Shader" uid="uid://d0bv8q2atrbtp" path="res://assets/shaders/pixel.gdshader" id="13_gx1jg"]
 [ext_resource type="Texture2D" uid="uid://d8mapeiowbk3" path="res://assets/textures/hand.png" id="14_fcs02"]
 [ext_resource type="Texture2D" uid="uid://bt3p36ojgoxw" path="res://assets/textures/atlas.png" id="14_myrg7"]
-[ext_resource type="Material" uid="uid://df8il2uirnn8t" path="res://assets/materials/fire.tres" id="16_myrg7"]
+[ext_resource type="Texture2D" uid="uid://dyoswsent6pjx" path="res://assets/textures/flame.png" id="16_uf5tr"]
+[ext_resource type="Script" uid="uid://1aj1hxpkdetj" path="res://scripts/misc/flame.gd" id="17_lgqa7"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_6agyq"]
 radial_segments = 16
@@ -23,9 +26,92 @@ rings = 2
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8xumb"]
 
-[sub_resource type="QuadMesh" id="QuadMesh_h17s1"]
-material = ExtResource("11_je7p5")
-size = Vector2(5, 5)
+[sub_resource type="Animation" id="Animation_ioxgp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../../../mesh:mesh:height")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [2.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../../../collision:shape:height")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [2.0]
+}
+
+[sub_resource type="Animation" id="Animation_8ydkj"]
+resource_name = "crouch"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../../../mesh:mesh:height")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [2.0, 1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../../../collision:shape:height")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [2.0, 1.0]
+}
+
+[sub_resource type="Animation" id="Animation_lgqa7"]
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../../../collision:shape:height")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 2.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../../../mesh:mesh:height")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 2.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3j4b4"]
+_data = {
+&"RESET": SubResource("Animation_ioxgp"),
+&"crouch": SubResource("Animation_8ydkj"),
+&"uncrouch": SubResource("Animation_lgqa7")
+}
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lgqa7"]
 
@@ -71,31 +157,92 @@ shader_parameter/lit_color = Color(1, 1, 1, 1)
 shader_parameter/shadow_color = Color(0, 0, 0, 1)
 shader_parameter/palette_size = 4.0
 shader_parameter/use_transparency = true
-shader_parameter/alpha_threshold = 0.10800000513
+shader_parameter/alpha_threshold = 0.034000001615
 shader_parameter/dither_type = 2
 shader_parameter/dither_pixel_size = 2.0000000475
 shader_parameter/dither_density = 512.0
-shader_parameter/dither_spread = 0.24000001070148
-shader_parameter/dither_smoothing = 0.1600000076
-shader_parameter/shadow_bias = 0.2970000616074999
+shader_parameter/dither_spread = 0.05500000191398
+shader_parameter/dither_smoothing = 0.150000007125
+shader_parameter/shadow_bias = 0.3950000662624999
 shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_bn")
 shader_parameter/uv_scale = Vector2(1, 1)
 shader_parameter/uv_offset = Vector2(0, 0)
 shader_parameter/global_ambient = Color(0, 0, 0, 1)
-shader_parameter/light_boost = 2.50000007125
+shader_parameter/light_boost = 2.4730000699675
 shader_parameter/bounce_strength = 0.0
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_pmb4f"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8ydkj"]
+render_priority = 0
+shader = ExtResource("13_fcs02")
+shader_parameter/color_mode = 0
+shader_parameter/texture_albedo = ExtResource("16_uf5tr")
+shader_parameter/lit_color = Color(1, 1, 1, 1)
+shader_parameter/shadow_color = Color(1, 1, 1, 1)
+shader_parameter/palette_size = 4.0
+shader_parameter/use_transparency = true
+shader_parameter/alpha_threshold = 0.1210000057475
+shader_parameter/dither_type = 4
+shader_parameter/dither_pixel_size = 2.0000000475
+shader_parameter/dither_density = 512.0
+shader_parameter/dither_spread = 0.05500000191398
+shader_parameter/dither_smoothing = 0.150000007125
+shader_parameter/shadow_bias = 0.3950000662624999
+shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_bn")
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/global_ambient = Color(1, 1, 1, 1)
+shader_parameter/light_boost = 100.0
+shader_parameter/bounce_strength = 5.0
+
+[sub_resource type="Animation" id="Animation_3j4b4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="Animation" id="Animation_yj68g"]
+resource_name = "flame"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ioxgp"]
+_data = {
+&"RESET": SubResource("Animation_3j4b4"),
+&"flame": SubResource("Animation_yj68g")
+}
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_uf5tr"]
 frequency = 1.0
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_kxnkg"]
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_lgqa7"]
 width = 2048
 height = 2048
-noise = SubResource("FastNoiseLite_pmb4f")
+noise = SubResource("FastNoiseLite_uf5tr")
 seamless = true
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ugbui"]
-render_priority = 0
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3j4b4"]
+render_priority = 10
 shader = ExtResource("13_gx1jg")
 shader_parameter/pixel_factor = 2
 shader_parameter/pixel_aspect = 1.0
@@ -103,39 +250,37 @@ shader_parameter/color_mode = 0
 shader_parameter/lit_color = Color(0.80702174, 0.8471323, 0.8198613, 1)
 shader_parameter/shadow_color = Color(0.027105369, 0.006692902, 0.0020255218, 1)
 shader_parameter/palette_size = 4.0
-shader_parameter/contrast = 0.50000002375
-shader_parameter/brightness = 0.0
+shader_parameter/contrast = 0.750000035625
+shader_parameter/brightness = 4.7499999933364734e-08
 shader_parameter/use_transparency = true
 shader_parameter/dither_mode = 1
-shader_parameter/dither_type = 2
+shader_parameter/dither_type = 3
 shader_parameter/dither_pixel_size = 2.0000000475
 shader_parameter/dither_scale = 2.00000009174012
 shader_parameter/dither_offset = Vector2(0, 0)
-shader_parameter/dither_spread = 0.39100001787398
+shader_parameter/dither_spread = 0.5
 shader_parameter/dither_smoothing = 0.0
-shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_kxnkg")
+shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_lgqa7")
 shader_parameter/outline_enabled = true
 shader_parameter/outline_mode = 0
 shader_parameter/outline_color_mode = 1
-shader_parameter/line_thickness = 3.5930001706675
+shader_parameter/line_thickness = 2.000000095
 shader_parameter/thickness_dark = 2.000000095
-shader_parameter/depth_threshold = 0.7310000340239801
-shader_parameter/normal_threshold = 0.15200000722
-shader_parameter/depth_fade_dist = 20.0
+shader_parameter/depth_threshold = 1.0
+shader_parameter/normal_threshold = 0.002000000095
+shader_parameter/depth_fade_dist = 14.0000006175
 shader_parameter/cutout_light = 0.0
 shader_parameter/cutout_dark = 0.0
 shader_parameter/cutout_sensitivity = 0.10000000149012
 shader_parameter/use_smart_color = true
-shader_parameter/contrast_threshold = 0.142000006745
+shader_parameter/contrast_threshold = 0.18000000855
 shader_parameter/line_color_on_light = Color(0, 0, 0, 1)
 shader_parameter/line_color_on_dark = Color(1, 1, 1, 1)
 shader_parameter/fixed_line_color = Color(0, 0, 0, 1)
 
-[sub_resource type="SphereMesh" id="SphereMesh_lgqa7"]
-radius = 0.03
-height = 0.084
-radial_segments = 12
-rings = 12
+[sub_resource type="QuadMesh" id="QuadMesh_yj68g"]
+material = SubResource("ShaderMaterial_3j4b4")
+size = Vector2(5, 5)
 
 [node name="player" type="CharacterBody3D" unique_id=1570651658]
 axis_lock_angular_x = true
@@ -146,7 +291,6 @@ floor_snap_length = 0.5
 script = ExtResource("1_rkuj1")
 maximum_speed = 10.0
 walk_speed = 5.0
-run_speed = 10.0
 jump_height = 2.5
 acceleration = 2.0
 strafe_speed = 5.0
@@ -176,16 +320,21 @@ head = NodePath("../..")
 lean = NodePath("..")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="head/lean/camera" unique_id=1302507535]
-transform = Transform3D(1, -1.4754977e-08, 6.063575e-08, 1.4754977e-08, 1, 0, -6.063575e-08, 8.946791e-16, 1, 0.4741906, 0.011592686, -0.20700732)
-light_energy = 0.25
+transform = Transform3D(0.62314665, 0.008226224, -0.78206176, -0.021657908, 0.99974275, -0.0067410865, 0.7818051, 0.021138508, 0.6231645, 0.49774396, 0.03346014, -0.41518673)
+visible = false
+light_energy = 0.015909467
+light_cull_mask = 4294967293
 shadow_enabled = true
 shadow_caster_mask = 4294967291
-omni_range = 10.0
+omni_range = 15.0
 omni_attenuation = 2.0
+script = ExtResource("4_kvlxm")
+probability = 50
+min_range = 0.0
+max_range = 0.03
 
-[node name="PixelDither" type="MeshInstance3D" parent="head/lean/camera" unique_id=773093077]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.67)
-mesh = SubResource("QuadMesh_h17s1")
+[node name="PixelDither" parent="head/lean/camera" unique_id=93580127 instance=ExtResource("5_kvlxm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.6292108)
 
 [node name="logic" type="Node" parent="." unique_id=717132806]
 
@@ -217,7 +366,16 @@ script = ExtResource("9_y4pjd")
 player = NodePath("../../..")
 metadata/_custom_type_script = "uid://brdohbduwyyb6"
 
+[node name="crouch" type="Node" parent="logic/move" unique_id=1066699845 node_paths=PackedStringArray("player")]
+script = ExtResource("12_lgqa7")
+player = NodePath("../../..")
+metadata/_custom_type_script = "uid://vptqvkhe206v"
+
+[node name="crouch" type="AnimationPlayer" parent="logic/move/crouch" unique_id=334931493]
+libraries/ = SubResource("AnimationLibrary_3j4b4")
+
 [node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=897390686]
+visible = false
 texture_filter = 1
 material = SubResource("ShaderMaterial_lgqa7")
 anchors_preset = 15
@@ -232,7 +390,7 @@ transparent_bg = true
 handle_input_locally = false
 canvas_item_default_texture_filter = 0
 size = Vector2i(960, 540)
-render_target_update_mode = 4
+render_target_update_mode = 0
 
 [node name="camera" type="Camera3D" parent="SubViewportContainer/hand_view" unique_id=1232050989 node_paths=PackedStringArray("cam")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
@@ -242,40 +400,50 @@ far = 1000000.0
 script = ExtResource("6_fm80t")
 cam = NodePath("../../../head/lean/camera")
 
-[node name="CSGCylinder3D" type="CSGCylinder3D" parent="SubViewportContainer/hand_view/camera" unique_id=276680950]
-transform = Transform3D(-0.47695017, -0.020529598, 0.87869287, -0.18829457, 0.9789027, -0.07933605, -0.85852575, -0.2032943, -0.47075215, 0.45068818, -0.06136927, -0.47216058)
+[node name="match" type="CSGCylinder3D" parent="SubViewportContainer/hand_view/camera" unique_id=276680950]
+transform = Transform3D(0.3901671, -0.013110429, 0.92065185, 0.016064346, 0.9998432, 0.0074302256, -0.9206051, 0.011890574, 0.39031652, 0.48962447, -0.039318383, -0.4644176)
 layers = 2
 material_override = SubResource("ShaderMaterial_myrg7")
-radius = 0.009
+radius = 0.003
 height = 0.1817627
-sides = 3
+sides = 6
 smooth_faces = false
 
-[node name="OmniLight3D" type="OmniLight3D" parent="SubViewportContainer/hand_view/camera/CSGCylinder3D" unique_id=1411284164]
-transform = Transform3D(0.99999857, -2.9802322e-06, 1.4305115e-06, 4.4703484e-08, 0.99999976, 2.4586916e-07, -2.0861626e-07, 7.450581e-09, 0.9999986, -0.02, 0.163, -0.073)
+[node name="OmniLight3D" type="OmniLight3D" parent="SubViewportContainer/hand_view/camera/match" unique_id=1411284164]
+transform = Transform3D(0.99999857, -4.4703537e-08, 2.0861627e-07, 4.4703484e-08, 0.99999976, -7.4499553e-09, -2.0861626e-07, 7.449973e-09, 0.9999986, 0, 0.07, 0)
 layers = 2
-light_energy = 0.041
-light_size = 1.0
+light_energy = 0.032146115
+light_size = 0.46
 omni_range = 10.0
+script = ExtResource("4_kvlxm")
+probability = 50
+min_range = 0.01
+max_range = 0.05
 
 [node name="Sprite3D" type="Sprite3D" parent="SubViewportContainer/hand_view/camera" unique_id=1527820100]
-transform = Transform3D(0.095, 0, 0, 0, 0.09035037, 0.029356616, 0, -0.029356616, 0.09035037, 0.44, -0.215, -0.437)
+transform = Transform3D(0.056457404, -0.0080463225, -0.075979, 0.017925004, 0.093229905, 0.0034462423, 0.074271426, -0.016384115, 0.056923702, 0.52117676, -0.20807844, -0.4318061)
 layers = 2
 material_override = SubResource("ShaderMaterial_kvlxm")
 shaded = true
 texture_filter = 2
 texture = ExtResource("14_fcs02")
 
-[node name="PixelDither" type="MeshInstance3D" parent="SubViewportContainer/hand_view/camera" unique_id=128672787]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.2977446)
+[node name="Sprite3D2" type="Sprite3D" parent="SubViewportContainer/hand_view/camera" unique_id=2089370123]
+transform = Transform3D(0.14020793, -0.0038245765, -0.17593202, -0.004873045, 0.22477622, -0.008769959, 0.17590606, 0.0092752995, 0.13998571, 0.48481196, 0.052017212, -0.46456638)
 layers = 2
-material_override = SubResource("ShaderMaterial_ugbui")
+material_override = SubResource("ShaderMaterial_8ydkj")
 cast_shadow = 0
-gi_mode = 0
-mesh = SubResource("QuadMesh_h17s1")
+shaded = true
+texture_filter = 2
+texture = ExtResource("16_uf5tr")
+hframes = 4
+frame = 1
+script = ExtResource("17_lgqa7")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/hand_view/camera" unique_id=1066189633]
-transform = Transform3D(0.98534495, 0.008503544, -0.17037062, -0.0029888097, 0.9994646, 0.032582857, 0.17055507, -0.03159582, 0.9848428, 0.4490895, 0.03187418, -0.48968878)
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SubViewportContainer/hand_view/camera/Sprite3D2" unique_id=2142478786]
+libraries/ = SubResource("AnimationLibrary_ioxgp")
+
+[node name="PixelDither" type="MeshInstance3D" parent="SubViewportContainer/hand_view/camera" unique_id=900704282]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.37776482)
 layers = 2
-material_override = ExtResource("16_myrg7")
-mesh = SubResource("SphereMesh_lgqa7")
+mesh = SubResource("QuadMesh_yj68g")

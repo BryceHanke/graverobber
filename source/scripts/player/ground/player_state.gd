@@ -4,11 +4,11 @@ class_name player_state
 @export var player : player_controller
 
 func idle_trans():
-	if player.ig.input_direction.length() == 0.0 && player.is_on_floor():
+	if player.ig.input_direction.length() == 0.0 && player.is_on_floor() && !Input.is_action_pressed("crouch"):
 		Transitioned.emit(self, "idle")
 
 func walk_trans():
-	if player.ig.input_direction.length() != 0.0 && player.is_on_floor() && player.can_move:
+	if player.ig.input_direction.length() != 0.0 && player.is_on_floor() && player.can_move && !Input.is_action_pressed("crouch"):
 		Transitioned.emit(self, "walk")
 
 func fall_trans():
@@ -19,6 +19,10 @@ func jump_trans():
 	if player.is_on_floor():
 		if Input.is_action_pressed("jump"):
 			Transitioned.emit(self, "jump")
+
+func crouch_trans():
+	if Input.is_action_pressed("crouch"):
+		Transitioned.emit(self, "crouch")
 
 func move(_delta):
 	var current_speed = player.velocity.dot(player.move_dir)
