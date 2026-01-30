@@ -57,6 +57,8 @@ uniform float depth_fade_dist : hint_range(1.0, 100.0) = 20.0;
 uniform float cutout_light : hint_range(0.0, 1.0) = 0.0;
 uniform float cutout_dark : hint_range(0.0, 1.0) = 1.0;
 uniform float cutout_sensitivity : hint_range(0.1, 5.0) = 1.0;
+uniform bool use_noise_cutout = false;
+uniform float cutout_noise_scale : hint_range(0.1, 10.0) = 1.0;
 
 group_uniforms Outline_Colors;
 uniform bool use_smart_color = true; // Kept for compatibility, but `outline_color_mode` supersedes
@@ -232,7 +234,35 @@ void fragment() {
             float cutout_brightness = pow(avg_brightness, cutout_sensitivity);
             float dynamic_threshold = mix(cutout_dark, cutout_light, cutout_brightness);
 
-            if (object_noise < dynamic_threshold) {
+            float check_noise = object_noise;
+            if (use_noise_cutout) {
+                vec2 cutout_coord;
+                if (dither_mode == 1) { // Screen Space
+                     cutout_coord = floor(SCREEN_UV * viewport_size / (dither_pixel_size / cutout_noise_scale));
+                } else { // World Space
+                    vec3 view_pos = get_view_pos(center_uv, inv_proj_mat);
+                    vec3 world_pos = (inv_view_mat * vec4(view_pos, 1.0)).xyz;
+                    vec3 view_normal = get_reconstructed_normal(center_uv, virtual_texel_size, inv_proj_mat);
+                    vec3 world_normal = normalize((inv_view_mat * vec4(view_normal, 0.0)).xyz);
+
+                    vec3 blend = abs(world_normal);
+                    blend /= (blend.x + blend.y + blend.z);
+
+                    vec2 dither_uv;
+                    if (blend.x > blend.y && blend.x > blend.z) {
+                        dither_uv = world_pos.zy;
+                    } else if (blend.y > blend.z) {
+                        dither_uv = world_pos.xz;
+                    } else {
+                        dither_uv = world_pos.xy;
+                    }
+
+                    cutout_coord = floor(dither_uv * 32.0 * cutout_noise_scale);
+                }
+                check_noise = get_dither_value(cutout_coord);
+            }
+
+            if (check_noise < dynamic_threshold) {
                 draw_outline = false;
             }
 
