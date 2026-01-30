@@ -30,7 +30,7 @@ uniform bool use_transparency = false;
 
 // --- DITHERING ---
 group_uniforms Dithering;
-uniform int dither_mode : hint_enum("World Space", "Screen Space") = 1;
+uniform int dither_mode : hint_enum("World Space", "Screen Space") = 0;
 uniform int dither_type : hint_enum("Bayer 8x8", "Bayer 4x4", "Blue Noise", "White Noise", "Diffused") = 0;
 // Relative size of dither dots to the virtual pixels
 uniform float dither_pixel_size : hint_range(1.0, 8.0) = 1.0;

@@ -34,6 +34,7 @@ uniform int dither_type : hint_enum("Bayer 8x8", "Bayer 4x4", "Blue Noise", "Whi
 uniform float dither_pixel_size : hint_range(1.0, 8.0) = 1.0;
 // Scale the pattern globally
 uniform float dither_scale : hint_range(0.1, 10.0) = 1.0;
+uniform float dither_density = 32.0;
 // Offset the pattern (can be used for scrolling)
 uniform vec2 dither_offset = vec2(0.0);
 uniform float dither_spread : hint_range(0.01, 2.0) = 0.5;
@@ -47,6 +48,8 @@ uniform int outline_mode : hint_enum("Normal + Depth", "Normal Only", "Depth Onl
 uniform int outline_color_mode : hint_enum("Fixed", "Smart", "Invert") = 1;
 uniform float line_thickness : hint_range(0.0, 5.0) = 2.0;
 uniform float thickness_dark : hint_range(0.0, 5.0) = 0.5;
+uniform float edge_threshold_sobel : hint_range(0.0, 5.0) = 1.0;
+uniform vec4 edge_color : source_color = vec4(0.0, 0.0, 0.0, 1.0);
 
 group_uniforms Outline_Sensitivity;
 uniform float depth_threshold : hint_range(0.01, 1.0) = 0.05;
@@ -103,6 +106,11 @@ vec3 get_view_pos(vec2 uv, mat4 inv_proj_mat) {
 	vec3 ndc = vec3(uv * 2.0 - 1.0, depth);
 	vec4 view = inv_proj_mat * vec4(ndc, 1.0);
 	return view.xyz / view.w;
+}
+
+float get_linear_depth(vec2 uv, mat4 inv_proj) {
+	vec3 view_pos = get_view_pos(uv, inv_proj);
+	return -view_pos.z;
 }
 
 vec3 get_reconstructed_normal(vec2 uv, vec2 texel_size, mat4 inv_proj) {
@@ -185,21 +193,40 @@ void fragment() {
     vec3 normal_center = get_reconstructed_normal(center_uv, virtual_texel_size, INV_PROJECTION_MATRIX);
     float object_noise = texture(normal_roughness_texture, center_uv).a;
 
-    // Neighbor Sampling
+    // Neighbor Sampling for Cutout (legacy/simple)
     vec2 uv_up = center_uv + vec2(0.0, -offset.y);
     vec2 uv_right = center_uv + vec2(offset.x, 0.0);
     vec2 uv_down = center_uv + vec2(0.0, offset.y);
     vec2 uv_left = center_uv + vec2(-offset.x, 0.0);
 
-    float d_up = -get_view_pos(uv_up, INV_PROJECTION_MATRIX).z;
-    float d_right = -get_view_pos(uv_right, INV_PROJECTION_MATRIX).z;
+    // --- EDGE DETECTION (SOBEL) ---
+    vec2 off = virtual_texel_size;
 
-    vec3 n_up = get_reconstructed_normal(uv_up, virtual_texel_size, INV_PROJECTION_MATRIX);
-    vec3 n_right = get_reconstructed_normal(uv_right, virtual_texel_size, INV_PROJECTION_MATRIX);
+    // Top Row
+    float d_tl = get_linear_depth(center_uv + vec2(-off.x, -off.y), INV_PROJECTION_MATRIX);
+    float d_tm = get_linear_depth(center_uv + vec2(0.0,    -off.y), INV_PROJECTION_MATRIX);
+    float d_tr = get_linear_depth(center_uv + vec2(off.x,  -off.y), INV_PROJECTION_MATRIX);
 
-    // Edge Detection
-    float depth_diff = abs(depth_center - d_up) + abs(depth_center - d_right);
-    float is_depth_edge = step(depth_threshold, depth_diff);
+    // Middle Row
+    float d_ml = get_linear_depth(center_uv + vec2(-off.x, 0.0), INV_PROJECTION_MATRIX);
+    float d_mr = get_linear_depth(center_uv + vec2(off.x,  0.0), INV_PROJECTION_MATRIX);
+
+    // Bottom Row
+    float d_bl = get_linear_depth(center_uv + vec2(-off.x, off.y), INV_PROJECTION_MATRIX);
+    float d_bm = get_linear_depth(center_uv + vec2(0.0,    off.y), INV_PROJECTION_MATRIX);
+    float d_br = get_linear_depth(center_uv + vec2(off.x,  off.y), INV_PROJECTION_MATRIX);
+
+    // Sobel X
+    float sobel_x = (d_tr + 2.0 * d_mr + d_br) - (d_tl + 2.0 * d_ml + d_bl);
+    // Sobel Y
+    float sobel_y = (d_bl + 2.0 * d_bm + d_br) - (d_tl + 2.0 * d_tm + d_tr);
+
+    float depth_edge = sqrt(sobel_x * sobel_x + sobel_y * sobel_y);
+    float is_depth_edge = step(edge_threshold_sobel, depth_edge);
+
+    // Normal Edge Check (Cross)
+    vec3 n_up = get_reconstructed_normal(center_uv + vec2(0.0, -off.y), virtual_texel_size, INV_PROJECTION_MATRIX);
+    vec3 n_right = get_reconstructed_normal(center_uv + vec2(off.x, 0.0), virtual_texel_size, INV_PROJECTION_MATRIX);
 
     float dot_up = clamp(dot(normal_center, n_up), 0.0, 1.0);
     float dot_right = clamp(dot(normal_center, n_right), 0.0, 1.0);
@@ -316,7 +343,7 @@ void fragment() {
         }
 
         // Scale world UVs to pixel grid density roughly
-        pixel_coord = floor(dither_uv * 32.0 * dither_scale);
+        pixel_coord = floor(dither_uv * dither_density * dither_scale);
     }
 
     float noise_val = get_dither_value(pixel_coord);
@@ -335,7 +362,16 @@ void fragment() {
     vec3 final_color;
 
     if (color_mode == 0) { // 1-Bit
-        final_color = mix(shadow_color, lit_color, dither_bit);
+        if (draw_outline) {
+            final_color = edge_color.rgb;
+        } else {
+            // Lighting Quantization (Posterize Luminance)
+            float bands = max(2.0, palette_size);
+            float q_lum = floor(lum * bands) / (bands - 1.0);
+
+            float bit = step(noise_val, q_lum);
+            final_color = mix(shadow_color, lit_color, bit);
+        }
     }
     else if (color_mode == 1) { // Monochrome
         // Map 0..1 lum to shadow..lit
