@@ -3,7 +3,6 @@ render_mode blend_mix, depth_draw_opaque, cull_back;
 
 // --- COLOR & PALETTE ---
 group_uniforms Color_Style;
-uniform int color_mode : hint_enum("Bit-Depth", "Monochrome", "Original", "Posterized") = 0;
 uniform sampler2D texture_albedo : source_color, filter_nearest;
 uniform vec3 lit_color : source_color = vec3(1.0, 1.0, 1.0);
 uniform vec3 shadow_color : source_color = vec3(0.0, 0.0, 0.0);
@@ -29,7 +28,6 @@ uniform float dither_density = 2048.0;
 uniform float world_dither_density = 32.0;
 // Smoothness of the gradient (0.01 = Hard Cut, 0.5 = Smooth Fade)
 uniform float dither_spread : hint_range(0.01, 2.0) = 0.5;
-uniform float dither_smoothing : hint_range(0.0, 2.0) = 0.05;
 uniform float shadow_bias : hint_range(-1.0, 1.0) = 0.0;
 uniform sampler2D blue_noise_texture : hint_default_white, filter_nearest, repeat_enable;
 
@@ -45,7 +43,6 @@ group_uniforms Bounce_Lighting;
 uniform float bounce_strength : hint_range(0.0, 5.0) = 0.5;
 
 // --- VARYINGS ---
-varying vec3 v_local_pos;
 varying vec3 v_world_pos;
 
 // --- 8x8 BAYER MATRIX ---
@@ -69,7 +66,6 @@ const int bayer4[16] = {
 };
 
 void vertex() {
-    v_local_pos = VERTEX;
     v_world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 }
 
@@ -165,75 +161,31 @@ void fragment() {
     float density = (dither_mode == 2) ? world_dither_density : dither_density;
     float noise_val = get_uv_dither(dither_uv, density, dither_pixel_size);
 
-    // 3. Apply Threshold with Spread and Bias
-    float dithered_val = total_ambient_lum + (noise_val - 0.5) * dither_spread + shadow_bias;
-    float dither_bit;
-    if (dither_smoothing < 0.001) {
-        dither_bit = step(0.5, dithered_val);
-    } else {
-        dither_bit = smoothstep(0.5 - dither_smoothing, 0.5 + dither_smoothing, dithered_val);
-    }
-
     // 4. Output Logic
-
     vec3 final_albedo;
 
     // Determine Palette Size
-    float p_size = palette_size;
+    float p_size;
     if (use_bit_depth) {
-        if (color_mode == 0 || color_mode == 1) {
-            p_size = pow(2.0, color_depth);
-        } else {
-            p_size = pow(2.0, color_depth / 3.0);
-        }
+        p_size = pow(2.0, color_depth);
+    } else {
+        p_size = palette_size;
     }
 
-    if (color_mode == 0) { // Bit-Depth
-         float bands = max(2.0, p_size);
-         float noise_scaled = (noise_val - 0.5) * dither_spread / bands;
-         float val = total_ambient_lum + noise_scaled + shadow_bias;
-         val = clamp(val, 0.0, 1.0);
-         val = floor(val * bands);
-         val = clamp(val, 0.0, bands - 1.0);
-         val /= (bands - 1.0);
+    // Bit-Depth Logic
+     float bands = max(2.0, p_size);
+     float noise_scaled = (noise_val - 0.5) * dither_spread / bands;
+     float val = total_ambient_lum + noise_scaled + shadow_bias;
+     val = clamp(val, 0.0, 1.0);
+     val = floor(val * bands);
+     val = clamp(val, 0.0, bands - 1.0);
+     val /= (bands - 1.0);
 
-         if (use_gradient) {
-             final_albedo = texture(color_gradient, vec2(val, 0.0)).rgb;
-         } else {
-             final_albedo = mix(shadow_color, lit_color, val);
-         }
-    }
-    else if (color_mode == 1) { // Monochrome
-         float val;
-         if (use_bit_depth) {
-             float bands = max(2.0, p_size);
-             float noise_scaled = (noise_val - 0.5) * dither_spread / bands;
-             val = total_ambient_lum + noise_scaled + shadow_bias;
-             val = clamp(val, 0.0, 1.0);
-             val = floor(val * bands) / (bands - 1.0);
-         } else {
-             val = clamp(dithered_val, 0.0, 1.0);
-         }
-
-         if (use_gradient) {
-             final_albedo = texture(color_gradient, vec2(val, 0.0)).rgb;
-         } else {
-             final_albedo = mix(shadow_color, lit_color, val);
-         }
-    }
-    else if (color_mode == 2) { // Original
-         final_albedo = base_color;
-    }
-    else if (color_mode == 3) { // Posterized
-         if (use_gradient) {
-             float lum = get_lum(base_color);
-             float q_lum = floor(lum * p_size) / p_size;
-             final_albedo = texture(color_gradient, vec2(q_lum, 0.0)).rgb;
-         } else {
-             // Quantize the base color
-             final_albedo = floor(base_color * p_size) / p_size;
-         }
-    }
+     if (use_gradient) {
+         final_albedo = texture(color_gradient, vec2(val, 0.0)).rgb;
+     } else {
+         final_albedo = mix(shadow_color, lit_color, val);
+     }
 
     ALBEDO = final_albedo;
 
@@ -282,74 +234,28 @@ void light() {
     float density = (dither_mode == 2) ? world_dither_density : dither_density;
     float noise_val = get_uv_dither(dither_uv, density, dither_pixel_size);
 
-    // 3. Apply Threshold
-    float dithered_val = total_lum + (noise_val - 0.5) * dither_spread + shadow_bias;
-    float dither_bit;
-    if (dither_smoothing < 0.001) {
-        dither_bit = step(0.5, dithered_val);
-    } else {
-        dither_bit = smoothstep(0.5 - dither_smoothing, 0.5 + dither_smoothing, dithered_val);
-    }
-
-    // Determine Palette Size for Light Pass consistency
-    float p_size = palette_size;
+    // Determine Palette Size
+    float p_size;
     if (use_bit_depth) {
-        if (color_mode == 0 || color_mode == 1) {
-            p_size = pow(2.0, color_depth);
-        } else {
-            p_size = pow(2.0, color_depth / 3.0);
-        }
+        p_size = pow(2.0, color_depth);
+    } else {
+        p_size = palette_size;
     }
 
     // 4. Add Light
+    // Bit-Depth Logic
+     float bands = max(2.0, p_size);
+     float noise_scaled = (noise_val - 0.5) * dither_spread / bands;
+     float val = total_lum + noise_scaled + shadow_bias;
+     val = clamp(val, 0.0, 1.0);
+     val = floor(val * bands);
+     val = clamp(val, 0.0, bands - 1.0);
+     val /= (bands - 1.0);
 
-    if (color_mode == 0) { // Bit-Depth
-         float bands = max(2.0, p_size);
-         float noise_scaled = (noise_val - 0.5) * dither_spread / bands;
-         float val = total_lum + noise_scaled + shadow_bias;
-         val = clamp(val, 0.0, 1.0);
-         val = floor(val * bands);
-         val = clamp(val, 0.0, bands - 1.0);
-         val /= (bands - 1.0);
-
-         if (use_gradient) {
-             vec3 lit_c = texture(color_gradient, vec2(1.0, 0.0)).rgb;
-             SPECULAR_LIGHT += mix(vec3(0.0), lit_c, val);
-         } else {
-             SPECULAR_LIGHT += mix(vec3(0.0), lit_color, val);
-         }
-    }
-    else if (color_mode == 1) { // Monochrome
-         float val;
-         if (use_bit_depth) {
-             float bands = max(2.0, p_size);
-             float noise_scaled = (noise_val - 0.5) * dither_spread / bands;
-             val = total_lum + noise_scaled + shadow_bias;
-             val = clamp(val, 0.0, 1.0);
-             val = floor(val * bands) / (bands - 1.0);
-         } else {
-             val = clamp(dithered_val, 0.0, 1.0);
-         }
-
-         if (use_gradient) {
-             // Sample gradient at full light intensity
-             vec3 lit_c = texture(color_gradient, vec2(1.0, 0.0)).rgb;
-             SPECULAR_LIGHT += mix(vec3(0.0), lit_c, val);
-         } else {
-             SPECULAR_LIGHT += mix(vec3(0.0), lit_color, val);
-         }
-    }
-    else {
-         // Original / Posterized
-         vec3 effective_albedo = base_color;
-         if (color_mode == 3 && use_gradient) {
-             float lum = get_lum(base_color);
-             float q_lum = floor(lum * p_size) / p_size;
-             effective_albedo = texture(color_gradient, vec2(q_lum, 0.0)).rgb;
-         } else if (color_mode == 3) {
-             effective_albedo = floor(base_color * p_size) / p_size;
-         }
-
-         DIFFUSE_LIGHT += LIGHT_COLOR * NdotL * ATTENUATION * effective_albedo;
-    }
+     if (use_gradient) {
+         vec3 lit_c = texture(color_gradient, vec2(1.0, 0.0)).rgb;
+         SPECULAR_LIGHT += mix(vec3(0.0), lit_c, val);
+     } else {
+         SPECULAR_LIGHT += mix(vec3(0.0), lit_color, val);
+     }
 }

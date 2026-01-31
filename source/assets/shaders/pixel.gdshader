@@ -14,12 +14,11 @@ uniform sampler2D normal_roughness_texture : hint_normal_roughness_texture, filt
 
 // --- COLOR & PALETTE ---
 group_uniforms Color_Style;
-uniform int color_mode : hint_enum("Bit-Depth", "Monochrome", "Original", "Posterized") = 0;
 uniform vec3 lit_color : source_color = vec3(1.0, 1.0, 1.0);
 uniform vec3 shadow_color : source_color = vec3(0.0, 0.0, 0.0);
 uniform sampler2D color_gradient : source_color;
 uniform bool use_gradient = false;
-// Amount of colors per channel in Posterized mode
+// Amount of colors per channel (used if use_bit_depth is false)
 uniform float palette_size : hint_range(1.0, 16.0) = 4.0;
 uniform bool use_bit_depth = false;
 uniform float color_depth : hint_range(1.0, 32.0) = 8.0;
@@ -43,7 +42,6 @@ uniform float dither_density = 32.0;
 // Offset the pattern (can be used for scrolling)
 uniform vec2 dither_offset = vec2(0.0);
 uniform float dither_spread : hint_range(0.01, 2.0) = 0.5;
-uniform float dither_smoothing : hint_range(0.0, 2.0) = 0.0;
 uniform sampler2D blue_noise_texture : hint_default_white, filter_nearest, repeat_enable;
 
 // --- OUTLINES ---
@@ -55,7 +53,6 @@ uniform float line_thickness : hint_range(0.0, 5.0) = 2.0;
 uniform float thickness_dark : hint_range(0.0, 5.0) = 0.5;
 uniform float edge_threshold_sobel : hint_range(0.0, 5.0) = 1.0;
 group_uniforms Outline_Sensitivity;
-uniform float depth_threshold : hint_range(0.01, 1.0) = 0.05;
 uniform float normal_threshold : hint_range(0.0, 1.0) = 0.6;
 uniform float depth_fade_dist : hint_range(1.0, 100.0) = 20.0;
 uniform float cutout_light : hint_range(0.0, 1.0) = 0.0;
@@ -164,7 +161,7 @@ float get_dither_value(vec2 pixel_pos) {
 }
 
 void fragment() {
-    vec2 texel_size = vec2(1.0) / VIEWPORT_SIZE;
+    // vec2 texel_size = vec2(1.0) / VIEWPORT_SIZE; // Unused
 
     // Adjust grid size for aspect ratio
     vec2 effective_pixel_size = vec2(float(pixel_factor), float(pixel_factor) * pixel_aspect);
@@ -185,13 +182,6 @@ void fragment() {
     col = (col - 0.5) * contrast + 0.5 + brightness;
 
     float lum = get_lum(col);
-
-    vec3 lit_c = lit_color;
-    vec3 shadow_c = shadow_color;
-    if (use_gradient) {
-        lit_c = texture(color_gradient, vec2(1.0, 0.0)).rgb;
-        shadow_c = texture(color_gradient, vec2(0.0, 0.0)).rgb;
-    }
 
     // --- OUTLINE LOGIC ---
     // 1. Calculate thickness based on center luminance
@@ -273,7 +263,14 @@ void fragment() {
             if (use_transparency) {
                 ALPHA = 0.0;
             } else {
-                ALBEDO = shadow_c;
+                // If we cull sky, we can set to shadow color or just black/transparent
+                // The original code set ALBEDO = shadow_c;
+                // Since we removed early shadow_c calc, we can just use shadow_color if use_gradient is false, or 0.
+                if (use_gradient) {
+                    ALBEDO = texture(color_gradient, vec2(0.0, 0.0)).rgb;
+                } else {
+                    ALBEDO = shadow_color;
+                }
             }
         }
 
@@ -292,8 +289,8 @@ void fragment() {
             float check_noise = object_noise;
             if (use_noise_cutout) {
                 vec2 cutout_coord;
-                float noise_r = random(center_uv);
-                vec2 rand_uv = vec2(noise_r) * 0.5;
+                float noise_r_cutout = random(center_uv);
+                vec2 rand_uv = vec2(noise_r_cutout) * 0.5;
 
                 if (dither_mode == 1) { // Screen Space
                      cutout_coord = floor(SCREEN_UV * VIEWPORT_SIZE / (dither_pixel_size / cutout_noise_scale) + rand_uv);
@@ -378,70 +375,29 @@ void fragment() {
 
     float noise_val = get_dither_value(pixel_coord);
 
-    // Apply Dither Threshold
-    float dithered_val = lum + (noise_val - 0.5) * dither_spread;
-    float dither_bit;
-
-    if (dither_smoothing < 0.001) {
-        dither_bit = step(0.5, dithered_val);
-    } else {
-        dither_bit = smoothstep(0.5 - dither_smoothing, 0.5 + dither_smoothing, dithered_val);
-    }
-
     // --- FINAL COMPOSITION ---
     vec3 final_color;
 
-    float p_size = palette_size;
+    // Calculate bands (Bit-Depth Logic)
+    float bands;
     if (use_bit_depth) {
-        if (color_mode == 0 || color_mode == 1) {
-            p_size = pow(2.0, color_depth);
-        } else {
-            p_size = pow(2.0, color_depth / 3.0);
-        }
+        bands = pow(2.0, color_depth);
+    } else {
+        bands = palette_size;
     }
+    bands = max(2.0, bands);
 
-    if (color_mode == 0) { // Bit-Depth
-        float bands = max(2.0, p_size);
-        float noise_scaled = (noise_val - 0.5) * dither_spread / bands;
-        float val = clamp(lum + noise_scaled, 0.0, 1.0);
-        val = floor(val * bands);
-        val = clamp(val, 0.0, bands - 1.0);
-        val /= (bands - 1.0);
+    // Quantize with dither
+    float noise_scaled = (noise_val - 0.5) * dither_spread / bands;
+    float val = clamp(lum + noise_scaled, 0.0, 1.0);
+    val = floor(val * bands);
+    val = clamp(val, 0.0, bands - 1.0);
+    val /= (bands - 1.0);
 
-        if (use_gradient) {
-            final_color = texture(color_gradient, vec2(val, 0.0)).rgb;
-        } else {
-            final_color = mix(shadow_c, lit_c, val);
-        }
-    }
-    else if (color_mode == 1) { // Monochrome
-        // Map 0..1 lum to shadow..lit
-        if (use_gradient) {
-            final_color = texture(color_gradient, vec2(clamp(dithered_val, 0.0, 1.0), 0.0)).rgb;
-        } else {
-            final_color = mix(shadow_c, lit_c, clamp(dithered_val, 0.0, 1.0));
-        }
-    }
-    else if (color_mode == 2) { // Original
-         // Here dithering might be used to modulate brightness slightly?
-         // Or we just ignore dither_bit unless we want to apply noise.
-         // Let's overlay the dither noise gently
-         float noise_overlay = (noise_val - 0.5) * dither_spread * 0.2; // subtle
-         final_color = clamp(col + noise_overlay, 0.0, 1.0);
-    }
-    else if (color_mode == 3) { // Posterized
-        if (use_gradient) {
-            // Gradient Map on Posterized Luminance
-            float lum_val = get_lum(col);
-            float dither_shift = (noise_val - 0.5) * (1.0 / p_size) * dither_spread;
-            float q_lum = floor((lum_val + dither_shift) * p_size) / p_size;
-            final_color = texture(color_gradient, vec2(q_lum, 0.0)).rgb;
-        } else {
-            // Quantize channels
-            // Optionally add dither to smooth bands
-            float dither_shift = (noise_val - 0.5) * (1.0 / p_size) * dither_spread;
-            final_color = floor((col + dither_shift) * p_size) / p_size;
-        }
+    if (use_gradient) {
+        final_color = texture(color_gradient, vec2(val, 0.0)).rgb;
+    } else {
+        final_color = mix(shadow_color, lit_color, val);
     }
 
     ALBEDO = final_color;
