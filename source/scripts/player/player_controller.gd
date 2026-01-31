@@ -13,13 +13,20 @@ class_name player_controller
 
 @export var strafe_speed : float = 7.0
 
-var can_move := true
+@export var crouching_speed := 3.0
+@export var min_height := 0.75
+@export var max_height := 2.0
+
+@export var can_move := true
 var move_speed : float = 0.0
 var move_dir : Vector3
 var gravity = Vector3()
 
-@onready var camera : Camera3D = $head/lean/camera
+@export var camera : Camera3D
 @onready var ig : input_gather = $logic/input_gather
+@onready var mesh = $mesh
+@onready var collision = $collision
+
 
 func _process(delta):
 	mouse_change()

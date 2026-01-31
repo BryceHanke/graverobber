@@ -3,7 +3,7 @@ class_name input_gather
 
 var input_direction : Vector2
 
-var gather_input : bool = true
+@export var gather_input : bool = true
 
 func _process(delta):
 	if gather_input:

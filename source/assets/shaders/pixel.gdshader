@@ -264,7 +264,6 @@ void fragment() {
             } else {
                 ALBEDO = shadow_color;
             }
-            return;
         }
 
         // Cutout Logic

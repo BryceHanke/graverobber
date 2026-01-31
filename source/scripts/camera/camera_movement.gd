@@ -25,7 +25,7 @@ func _unhandled_input(event):
 		mouse_movement(event)
 
 func _physics_process(delta):
-	if canlook:
+	if canlook == true:
 		cam.rotation.x = clampf(cam.rotation.x, deg_to_rad(-90), deg_to_rad(90))
 
 func _process(delta):
@@ -40,6 +40,6 @@ func _process(delta):
 		player.can_move = true
 
 func mouse_movement(event):
-	if canlook:
+	if canlook == true:
 		head.rotate((head.transform.basis.y).normalized(),(-event.relative.x) * (SENS * sensMult))
 		rotate(transform.basis.x,(-event.relative.y) * (SENS * sensMult))

@@ -6,6 +6,7 @@ func Enter():
 	player.move_speed = player.crouch_speed
 
 func Physics_Update(_delta: float):
+	handle_crouch(true, _delta)
 	player.apply_floor_snap()
 	friction(.1,_delta)
 	if player.can_move:

@@ -1,7 +1,6 @@
 [gd_resource type="ShaderMaterial" format=3 uid="uid://cw3vtka5voiak"]
 
 [ext_resource type="Shader" uid="uid://dcxcwwd03jc52" path="res://assets/shaders/dither.gdshader" id="1_52sdg"]
-[ext_resource type="Texture2D" uid="uid://bt3p36ojgoxw" path="res://assets/textures/atlas.png" id="2_dsv2q"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_5fs4t"]
 frequency = 1.0
@@ -17,15 +16,16 @@ in_3d_space = true
 render_priority = 0
 shader = ExtResource("1_52sdg")
 shader_parameter/color_mode = 0
-shader_parameter/texture_albedo = ExtResource("2_dsv2q")
 shader_parameter/lit_color = Color(1, 1, 1, 1)
 shader_parameter/shadow_color = Color(0, 0, 0, 1)
 shader_parameter/palette_size = 4.0
 shader_parameter/use_transparency = false
 shader_parameter/alpha_threshold = 0.5
-shader_parameter/dither_type = 0
+shader_parameter/dither_type = 2
+shader_parameter/dither_mode = 2
 shader_parameter/dither_pixel_size = 2.0000000475
 shader_parameter/dither_density = 2048.0
+shader_parameter/world_dither_density = 32.0
 shader_parameter/dither_spread = 0.25000001117647996
 shader_parameter/dither_smoothing = 0.150000007125
 shader_parameter/shadow_bias = 0.150000054625

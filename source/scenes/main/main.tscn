@@ -1,13 +1,38 @@
 [gd_scene format=3 uid="uid://dd4o6wthimh6i"]
 
 [ext_resource type="Script" uid="uid://fitoxms2xoac" path="res://scripts/main_menu/main_menu.gd" id="1_hyk8p"]
-[ext_resource type="Texture2D" uid="uid://bon4j5ir646qd" path="res://assets/textures/eye_open-sheet.png" id="2_iuonh"]
+[ext_resource type="FontFile" uid="uid://5isvb6xg3rjw" path="res://assets/fonts/pixeled/Pixeled.ttf" id="3_k2fmo"]
+
+[sub_resource type="Animation" id="Animation_iuonh"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_k2fmo"]
+resource_name = "fade_out"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("main_menu/VBoxContainer:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.99),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_l3cfh"]
+_data = {
+&"RESET": SubResource("Animation_iuonh"),
+&"fade_out": SubResource("Animation_k2fmo")
+}
 
 [node name="main" type="Node" unique_id=1867945120]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=370722979]
 
 [node name="main_menu" type="Control" parent="CanvasLayer" unique_id=598065444]
+texture_filter = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -16,24 +41,42 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_hyk8p")
 
-[node name="EyeOpen" type="Sprite2D" parent="CanvasLayer/main_menu" unique_id=474434675]
-position = Vector2(480, 270)
-texture = ExtResource("2_iuonh")
-hframes = 9
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/main_menu" unique_id=1843006329]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.02745098, 0.08627451, 0.105882354, 1)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/main_menu" unique_id=825884006]
-layout_mode = 0
-offset_left = 79.0
-offset_top = 114.0
-offset_right = 174.0
-offset_bottom = 180.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -47.5
+offset_top = -33.0
+offset_right = 47.5
+offset_bottom = 33.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="new game" type="Button" parent="CanvasLayer/main_menu/VBoxContainer" unique_id=808461501]
 layout_mode = 2
-text = "New Game"
+theme_override_fonts/font = ExtResource("3_k2fmo")
+text = "Start"
 flat = true
 
 [node name="continue" type="Button" parent="CanvasLayer/main_menu/VBoxContainer" unique_id=2113120493]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_k2fmo")
 text = "Continue"
 flat = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer" unique_id=1763498125]
+libraries/ = SubResource("AnimationLibrary_l3cfh")
+
+[connection signal="pressed" from="CanvasLayer/main_menu/VBoxContainer/new game" to="CanvasLayer/main_menu" method="_on_new_game_pressed"]

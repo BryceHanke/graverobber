@@ -1,23 +1,39 @@
 [gd_scene format=3 uid="uid://cd7vj51tbhiu1"]
 
+[ext_resource type="Shader" uid="uid://txp2yc11qlpm" path="res://assets/shaders/sky.gdshader" id="1_t23v0"]
 [ext_resource type="Shader" uid="uid://dcxcwwd03jc52" path="res://assets/shaders/dither.gdshader" id="2_3ffmx"]
 [ext_resource type="Material" uid="uid://cw3vtka5voiak" path="res://assets/materials/dither.tres" id="2_t23v0"]
 [ext_resource type="PackedScene" uid="uid://cxk27w5ficlco" path="res://scenes/player/player.tscn" id="3_3ffmx"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_l8dq3"]
-sky_top_color = Color(1, 1, 1, 1)
-sky_horizon_color = Color(0, 0, 0, 1)
-sky_curve = 0.31057933
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_t23v0"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_yrasx"]
+noise = SubResource("FastNoiseLite_t23v0")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wjoh7"]
+shader = ExtResource("1_t23v0")
+shader_parameter/use_directional_light = false
+shader_parameter/sun_color = Color(1, 1, 1, 1)
+shader_parameter/sun_energy = 46.185
+shader_parameter/cloud_color = Color(0.296, 0.402, 0.521, 1)
+shader_parameter/cloud_density = 5.0
+shader_parameter/cloud_depth = 2.0
+shader_parameter/cloud_sag = 2.0
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_yrasx")
+shader_parameter/noise_tiling = Vector2(1, 1)
+shader_parameter/wind_speed = Vector2(0.5, 0.5)
+shader_parameter/ground_bottom_color = Color(0.2, 0.169, 0.133, 1)
+shader_parameter/ground_curve = 0.2650000125875
+shader_parameter/exposure = 1.0
 
 [sub_resource type="Sky" id="Sky_yrasx"]
-sky_material = SubResource("ProceduralSkyMaterial_l8dq3")
+sky_material = SubResource("ShaderMaterial_wjoh7")
 
 [sub_resource type="Environment" id="Environment_wjoh7"]
 background_mode = 2
 background_color = Color(1, 1, 1, 1)
 sky = SubResource("Sky_yrasx")
 ambient_light_source = 3
-ambient_light_sky_contribution = 0.4
 tonemap_mode = 4
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_mohoo"]
@@ -40,8 +56,10 @@ shader_parameter/palette_size = 4.0
 shader_parameter/use_transparency = false
 shader_parameter/alpha_threshold = 0.5
 shader_parameter/dither_type = 0
+shader_parameter/dither_mode = 2
 shader_parameter/dither_pixel_size = 2.0000000475
 shader_parameter/dither_density = 2048.0
+shader_parameter/world_dither_density = 32.0
 shader_parameter/dither_spread = 0.5
 shader_parameter/dither_smoothing = 0.05
 shader_parameter/shadow_bias = 0.0
@@ -72,8 +90,10 @@ shader_parameter/palette_size = 4.0
 shader_parameter/use_transparency = false
 shader_parameter/alpha_threshold = 0.5
 shader_parameter/dither_type = 0
+shader_parameter/dither_mode = 2
 shader_parameter/dither_pixel_size = 2.0000000475
 shader_parameter/dither_density = 2048.0
+shader_parameter/world_dither_density = 32.0
 shader_parameter/dither_spread = 0.25000001117647996
 shader_parameter/dither_smoothing = 0.150000007125
 shader_parameter/shadow_bias = 0.150000054625
@@ -94,8 +114,10 @@ shader_parameter/palette_size = 4.0
 shader_parameter/use_transparency = false
 shader_parameter/alpha_threshold = 0.5
 shader_parameter/dither_type = 0
+shader_parameter/dither_mode = 2
 shader_parameter/dither_pixel_size = 2.0000000475
 shader_parameter/dither_density = 512.0
+shader_parameter/world_dither_density = 32.0
 shader_parameter/dither_spread = 1.3090000614789798
 shader_parameter/dither_smoothing = 1.530000072675
 shader_parameter/shadow_bias = 0.5150000719625001
