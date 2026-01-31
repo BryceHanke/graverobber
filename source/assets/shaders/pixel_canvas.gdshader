@@ -19,6 +19,8 @@ group_uniforms Color_Style;
 uniform int color_mode : hint_enum("1-Bit", "Monochrome", "Original", "Posterized") = 0;
 uniform vec3 lit_color : source_color = vec3(1.0, 1.0, 1.0);
 uniform vec3 shadow_color : source_color = vec3(0.0, 0.0, 0.0);
+uniform sampler2D color_gradient : source_color;
+uniform bool use_gradient = false;
 // Amount of colors per channel in Posterized mode
 uniform float palette_size : hint_range(1.0, 16.0) = 4.0;
 uniform float contrast : hint_range(0.0, 2.0) = 1.0;
@@ -178,6 +180,13 @@ void fragment() {
     col = (col - 0.5) * contrast + 0.5 + brightness;
 
     float lum = get_lum(col);
+
+    vec3 lit_c = lit_color;
+    vec3 shadow_c = shadow_color;
+    if (use_gradient) {
+        lit_c = texture(color_gradient, vec2(1.0, 0.0)).rgb;
+        shadow_c = texture(color_gradient, vec2(0.0, 0.0)).rgb;
+    }
 
     // --- OUTLINE LOGIC ---
     // 1. Calculate thickness based on center luminance
@@ -375,9 +384,9 @@ void fragment() {
 
     if (color_mode == 0) { // 1-Bit (Protocol B)
         if (draw_outline) {
-            float dist_lit = distance(col, lit_color);
-            float dist_shadow = distance(col, shadow_color);
-            final_color = (dist_lit < dist_shadow) ? lit_color : shadow_color;
+            float dist_lit = distance(col, lit_c);
+            float dist_shadow = distance(col, shadow_c);
+            final_color = (dist_lit < dist_shadow) ? lit_c : shadow_c;
         } else {
             // Lighting Quantization (Posterize Luminance)
             float bands = max(2.0, palette_size);
@@ -385,12 +394,20 @@ void fragment() {
 
             // Compare with Dither
             float bit = step(noise_val, q_lum);
-            final_color = mix(shadow_color, lit_color, bit);
+            if (use_gradient) {
+                final_color = texture(color_gradient, vec2(bit, 0.0)).rgb;
+            } else {
+                final_color = mix(shadow_c, lit_c, bit);
+            }
         }
     }
     else if (color_mode == 1) { // Monochrome
         // Map 0..1 lum to shadow..lit
-        final_color = mix(shadow_color, lit_color, clamp(dithered_val, 0.0, 1.0));
+        if (use_gradient) {
+            final_color = texture(color_gradient, vec2(clamp(dithered_val, 0.0, 1.0), 0.0)).rgb;
+        } else {
+            final_color = mix(shadow_c, lit_c, clamp(dithered_val, 0.0, 1.0));
+        }
     }
     else if (color_mode == 2) { // Original
          // Here dithering might be used to modulate brightness slightly?
