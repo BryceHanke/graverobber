@@ -190,7 +190,9 @@ void fragment() {
 
     if (color_mode == 0) { // Bit-Depth
          float bands = max(2.0, p_size);
-         float val = clamp(dithered_val, 0.0, 1.0);
+         float noise_scaled = (noise_val - 0.5) * dither_spread / bands;
+         float val = total_ambient_lum + noise_scaled + shadow_bias;
+         val = clamp(val, 0.0, 1.0);
          val = floor(val * bands);
          val = clamp(val, 0.0, bands - 1.0);
          val /= (bands - 1.0);
@@ -202,10 +204,15 @@ void fragment() {
          }
     }
     else if (color_mode == 1) { // Monochrome
-         float val = clamp(dithered_val, 0.0, 1.0);
+         float val;
          if (use_bit_depth) {
              float bands = max(2.0, p_size);
+             float noise_scaled = (noise_val - 0.5) * dither_spread / bands;
+             val = total_ambient_lum + noise_scaled + shadow_bias;
+             val = clamp(val, 0.0, 1.0);
              val = floor(val * bands) / (bands - 1.0);
+         } else {
+             val = clamp(dithered_val, 0.0, 1.0);
          }
 
          if (use_gradient) {
@@ -298,7 +305,9 @@ void light() {
 
     if (color_mode == 0) { // Bit-Depth
          float bands = max(2.0, p_size);
-         float val = clamp(dithered_val, 0.0, 1.0);
+         float noise_scaled = (noise_val - 0.5) * dither_spread / bands;
+         float val = total_lum + noise_scaled + shadow_bias;
+         val = clamp(val, 0.0, 1.0);
          val = floor(val * bands);
          val = clamp(val, 0.0, bands - 1.0);
          val /= (bands - 1.0);
@@ -311,10 +320,15 @@ void light() {
          }
     }
     else if (color_mode == 1) { // Monochrome
-         float val = clamp(dithered_val, 0.0, 1.0);
+         float val;
          if (use_bit_depth) {
              float bands = max(2.0, p_size);
+             float noise_scaled = (noise_val - 0.5) * dither_spread / bands;
+             val = total_lum + noise_scaled + shadow_bias;
+             val = clamp(val, 0.0, 1.0);
              val = floor(val * bands) / (bands - 1.0);
+         } else {
+             val = clamp(dithered_val, 0.0, 1.0);
          }
 
          if (use_gradient) {
