@@ -8,9 +8,8 @@ uniform vec3 lit_color : source_color = vec3(1.0, 1.0, 1.0);
 uniform vec3 shadow_color : source_color = vec3(0.0, 0.0, 0.0);
 uniform sampler2D color_gradient : source_color;
 uniform bool use_gradient = false;
-uniform float palette_size : hint_range(1.0, 16.0) = 4.0;
-uniform bool use_bit_depth = false;
-uniform float color_depth : hint_range(1.0, 32.0) = 8.0;
+// Amount of colors/bands
+uniform float color_depth : hint_range(1.0, 256.0) = 32.0;
 
 // --- TRANSPARENCY ---
 group_uniforms Transparency;
@@ -165,15 +164,8 @@ void fragment() {
     vec3 final_albedo;
 
     // Determine Palette Size
-    float p_size;
-    if (use_bit_depth) {
-        p_size = pow(2.0, color_depth);
-    } else {
-        p_size = palette_size;
-    }
-
     // Bit-Depth Logic
-     float bands = max(2.0, p_size);
+     float bands = max(2.0, color_depth);
      float noise_scaled = (noise_val - 0.5) * dither_spread / bands;
      float val = total_ambient_lum + noise_scaled + shadow_bias;
      val = clamp(val, 0.0, 1.0);
@@ -235,16 +227,9 @@ void light() {
     float noise_val = get_uv_dither(dither_uv, density, dither_pixel_size);
 
     // Determine Palette Size
-    float p_size;
-    if (use_bit_depth) {
-        p_size = pow(2.0, color_depth);
-    } else {
-        p_size = palette_size;
-    }
-
     // 4. Add Light
     // Bit-Depth Logic
-     float bands = max(2.0, p_size);
+     float bands = max(2.0, color_depth);
      float noise_scaled = (noise_val - 0.5) * dither_spread / bands;
      float val = total_lum + noise_scaled + shadow_bias;
      val = clamp(val, 0.0, 1.0);

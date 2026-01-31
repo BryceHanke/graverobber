@@ -18,10 +18,8 @@ uniform vec3 lit_color : source_color = vec3(1.0, 1.0, 1.0);
 uniform vec3 shadow_color : source_color = vec3(0.0, 0.0, 0.0);
 uniform sampler2D color_gradient : source_color;
 uniform bool use_gradient = false;
-// Amount of colors per channel (used if use_bit_depth is false)
-uniform float palette_size : hint_range(1.0, 16.0) = 4.0;
-uniform bool use_bit_depth = false;
-uniform float color_depth : hint_range(1.0, 32.0) = 8.0;
+// Amount of colors/bands
+uniform float color_depth : hint_range(1.0, 256.0) = 32.0;
 uniform float contrast : hint_range(0.0, 2.0) = 1.0;
 uniform float brightness : hint_range(-1.0, 1.0) = 0.0;
 
@@ -379,12 +377,7 @@ void fragment() {
     vec3 final_color;
 
     // Calculate bands (Bit-Depth Logic)
-    float bands;
-    if (use_bit_depth) {
-        bands = pow(2.0, color_depth);
-    } else {
-        bands = palette_size;
-    }
+    float bands = color_depth;
     bands = max(2.0, bands);
 
     // Quantize with dither
