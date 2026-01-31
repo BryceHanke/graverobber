@@ -20,6 +20,7 @@ uniform vec3 lit_color : source_color = vec3(1.0, 1.0, 1.0);
 uniform vec3 shadow_color : source_color = vec3(0.0, 0.0, 0.0);
 uniform sampler2D color_gradient : source_color;
 uniform bool use_gradient = false;
+uniform bool use_inverse_gradient = false;
 // Amount of colors/bands
 uniform float color_depth : hint_range(1.0, 256.0) = 32.0;
 uniform float contrast : hint_range(0.0, 2.0) = 1.0;
@@ -374,7 +375,8 @@ void fragment() {
     val /= (bands - 1.0);
 
     if (use_gradient) {
-        final_color = texture(color_gradient, vec2(val, 0.0)).rgb;
+        float gradient_val = use_inverse_gradient ? 1.0 - val : val;
+        final_color = texture(color_gradient, vec2(gradient_val, 0.0)).rgb;
     } else {
         final_color = mix(shadow_color, lit_color, val);
     }
