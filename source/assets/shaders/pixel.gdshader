@@ -434,11 +434,18 @@ void fragment() {
          final_color = clamp(col + noise_overlay, 0.0, 1.0);
     }
     else if (color_mode == 3) { // Posterized
-        // Quantize channels
-        final_color = floor(col * p_size) / p_size;
-        // Optionally add dither to smooth bands
-        float dither_shift = (noise_val - 0.5) * (1.0 / p_size) * dither_spread;
-        final_color = floor((col + dither_shift) * p_size) / p_size;
+        if (use_gradient) {
+            // Gradient Map on Posterized Luminance
+            float lum_val = get_lum(col);
+            float dither_shift = (noise_val - 0.5) * (1.0 / p_size) * dither_spread;
+            float q_lum = floor((lum_val + dither_shift) * p_size) / p_size;
+            final_color = texture(color_gradient, vec2(q_lum, 0.0)).rgb;
+        } else {
+            // Quantize channels
+            // Optionally add dither to smooth bands
+            float dither_shift = (noise_val - 0.5) * (1.0 / p_size) * dither_spread;
+            final_color = floor((col + dither_shift) * p_size) / p_size;
+        }
     }
 
     ALBEDO = final_color;

@@ -7,6 +7,8 @@ uniform int color_mode : hint_enum("1-Bit", "Monochrome", "Original", "Posterize
 uniform sampler2D texture_albedo : source_color, filter_nearest;
 uniform vec3 lit_color : source_color = vec3(1.0, 1.0, 1.0);
 uniform vec3 shadow_color : source_color = vec3(0.0, 0.0, 0.0);
+uniform sampler2D color_gradient : source_color;
+uniform bool use_gradient = false;
 uniform float palette_size : hint_range(1.0, 16.0) = 4.0;
 uniform bool use_bit_depth = false;
 uniform float color_depth : hint_range(1.0, 32.0) = 8.0;
@@ -176,20 +178,48 @@ void fragment() {
 
     vec3 final_albedo;
 
+    // Determine Palette Size
+    float p_size = palette_size;
+    if (use_bit_depth) {
+        if (color_mode == 0 || color_mode == 1) {
+            p_size = pow(2.0, color_depth);
+        } else {
+            p_size = pow(2.0, color_depth / 3.0);
+        }
+    }
+
     if (color_mode == 0) { // 1-Bit
-         final_albedo = mix(shadow_color, lit_color, dither_bit);
+         if (use_gradient) {
+             final_albedo = texture(color_gradient, vec2(dither_bit, 0.0)).rgb;
+         } else {
+             final_albedo = mix(shadow_color, lit_color, dither_bit);
+         }
     }
     else if (color_mode == 1) { // Monochrome
-         final_albedo = mix(shadow_color, lit_color, clamp(dithered_val, 0.0, 1.0));
+         float val = clamp(dithered_val, 0.0, 1.0);
+         if (use_bit_depth) {
+             float bands = max(2.0, p_size);
+             val = floor(val * bands) / (bands - 1.0);
+         }
+
+         if (use_gradient) {
+             final_albedo = texture(color_gradient, vec2(val, 0.0)).rgb;
+         } else {
+             final_albedo = mix(shadow_color, lit_color, val);
+         }
     }
     else if (color_mode == 2) { // Original
          final_albedo = base_color;
     }
     else if (color_mode == 3) { // Posterized
-         // Quantize the base color
-         float p_size = palette_size;
-         if (use_bit_depth) p_size = pow(2.0, color_depth / 3.0);
-         final_albedo = floor(base_color * p_size) / p_size;
+         if (use_gradient) {
+             float lum = get_lum(base_color);
+             float q_lum = floor(lum * p_size) / p_size;
+             final_albedo = texture(color_gradient, vec2(q_lum, 0.0)).rgb;
+         } else {
+             // Quantize the base color
+             final_albedo = floor(base_color * p_size) / p_size;
+         }
     }
 
     ALBEDO = final_albedo;
@@ -248,16 +278,52 @@ void light() {
         dither_bit = smoothstep(0.5 - dither_smoothing, 0.5 + dither_smoothing, dithered_val);
     }
 
+    // Determine Palette Size for Light Pass consistency
+    float p_size = palette_size;
+    if (use_bit_depth) {
+        if (color_mode == 0 || color_mode == 1) {
+            p_size = pow(2.0, color_depth);
+        } else {
+            p_size = pow(2.0, color_depth / 3.0);
+        }
+    }
+
     // 4. Add Light
 
     if (color_mode == 0) { // 1-Bit
-         SPECULAR_LIGHT += mix(vec3(0.0), lit_color, dither_bit);
+         if (use_gradient) {
+             vec3 lit_c = texture(color_gradient, vec2(1.0, 0.0)).rgb;
+             SPECULAR_LIGHT += mix(vec3(0.0), lit_c, dither_bit);
+         } else {
+             SPECULAR_LIGHT += mix(vec3(0.0), lit_color, dither_bit);
+         }
     }
     else if (color_mode == 1) { // Monochrome
-         SPECULAR_LIGHT += mix(vec3(0.0), lit_color, clamp(dithered_val, 0.0, 1.0));
+         float val = clamp(dithered_val, 0.0, 1.0);
+         if (use_bit_depth) {
+             float bands = max(2.0, p_size);
+             val = floor(val * bands) / (bands - 1.0);
+         }
+
+         if (use_gradient) {
+             // Sample gradient at full light intensity
+             vec3 lit_c = texture(color_gradient, vec2(1.0, 0.0)).rgb;
+             SPECULAR_LIGHT += mix(vec3(0.0), lit_c, val);
+         } else {
+             SPECULAR_LIGHT += mix(vec3(0.0), lit_color, val);
+         }
     }
     else {
          // Original / Posterized
-         DIFFUSE_LIGHT += LIGHT_COLOR * NdotL * ATTENUATION * base_color;
+         vec3 effective_albedo = base_color;
+         if (color_mode == 3 && use_gradient) {
+             float lum = get_lum(base_color);
+             float q_lum = floor(lum * p_size) / p_size;
+             effective_albedo = texture(color_gradient, vec2(q_lum, 0.0)).rgb;
+         } else if (color_mode == 3) {
+             effective_albedo = floor(base_color * p_size) / p_size;
+         }
+
+         DIFFUSE_LIGHT += LIGHT_COLOR * NdotL * ATTENUATION * effective_albedo;
     }
 }
