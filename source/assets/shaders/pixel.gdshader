@@ -21,6 +21,8 @@ uniform sampler2D color_gradient : source_color;
 uniform bool use_gradient = false;
 // Amount of colors per channel in Posterized mode
 uniform float palette_size : hint_range(1.0, 16.0) = 4.0;
+uniform bool use_bit_depth = false;
+uniform float color_depth : hint_range(1.0, 32.0) = 8.0;
 uniform float contrast : hint_range(0.0, 2.0) = 1.0;
 uniform float brightness : hint_range(-1.0, 1.0) = 0.0;
 
@@ -389,6 +391,15 @@ void fragment() {
     // --- FINAL COMPOSITION ---
     vec3 final_color;
 
+    float p_size = palette_size;
+    if (use_bit_depth) {
+        if (color_mode == 0 || color_mode == 1) {
+            p_size = pow(2.0, color_depth);
+        } else {
+            p_size = pow(2.0, color_depth / 3.0);
+        }
+    }
+
     if (color_mode == 0) { // 1-Bit
         if (draw_outline) {
             float dist_lit = distance(col, lit_c);
@@ -396,7 +407,7 @@ void fragment() {
             final_color = (dist_lit < dist_shadow) ? lit_c : shadow_c;
         } else {
             // Lighting Quantization (Posterize Luminance)
-            float bands = max(2.0, palette_size);
+            float bands = max(2.0, p_size);
             float q_lum = floor(lum * bands) / (bands - 1.0);
 
             float bit = step(noise_val, q_lum);
@@ -424,10 +435,10 @@ void fragment() {
     }
     else if (color_mode == 3) { // Posterized
         // Quantize channels
-        final_color = floor(col * palette_size) / palette_size;
+        final_color = floor(col * p_size) / p_size;
         // Optionally add dither to smooth bands
-        float dither_shift = (noise_val - 0.5) * (1.0 / palette_size) * dither_spread;
-        final_color = floor((col + dither_shift) * palette_size) / palette_size;
+        float dither_shift = (noise_val - 0.5) * (1.0 / p_size) * dither_spread;
+        final_color = floor((col + dither_shift) * p_size) / p_size;
     }
 
     ALBEDO = final_color;

@@ -8,6 +8,8 @@ uniform sampler2D texture_albedo : source_color, filter_nearest;
 uniform vec3 lit_color : source_color = vec3(1.0, 1.0, 1.0);
 uniform vec3 shadow_color : source_color = vec3(0.0, 0.0, 0.0);
 uniform float palette_size : hint_range(1.0, 16.0) = 4.0;
+uniform bool use_bit_depth = false;
+uniform float color_depth : hint_range(1.0, 32.0) = 8.0;
 
 // --- TRANSPARENCY ---
 group_uniforms Transparency;
@@ -185,7 +187,9 @@ void fragment() {
     }
     else if (color_mode == 3) { // Posterized
          // Quantize the base color
-         final_albedo = floor(base_color * palette_size) / palette_size;
+         float p_size = palette_size;
+         if (use_bit_depth) p_size = pow(2.0, color_depth / 3.0);
+         final_albedo = floor(base_color * p_size) / p_size;
     }
 
     ALBEDO = final_albedo;
