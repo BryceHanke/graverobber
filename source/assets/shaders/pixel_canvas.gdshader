@@ -16,7 +16,7 @@ uniform mat4 inv_view_mat;
 
 // --- COLOR & PALETTE ---
 group_uniforms Color_Style;
-uniform int color_mode : hint_enum("1-Bit", "Monochrome", "Original", "Posterized") = 0;
+uniform int color_mode : hint_enum("Bit-Depth", "Monochrome", "Original", "Posterized") = 0;
 uniform vec3 lit_color : source_color = vec3(1.0, 1.0, 1.0);
 uniform vec3 shadow_color : source_color = vec3(0.0, 0.0, 0.0);
 uniform sampler2D color_gradient : source_color;
@@ -393,23 +393,17 @@ void fragment() {
         }
     }
 
-    if (color_mode == 0) { // 1-Bit (Protocol B)
-        if (draw_outline) {
-            float dist_lit = distance(col, lit_c);
-            float dist_shadow = distance(col, shadow_c);
-            final_color = (dist_lit < dist_shadow) ? lit_c : shadow_c;
-        } else {
-            // Lighting Quantization (Posterize Luminance)
-            float bands = max(2.0, p_size);
-            float q_lum = floor(lum * bands) / (bands - 1.0);
+    if (color_mode == 0) { // Bit-Depth
+        float bands = max(2.0, p_size);
+        float val = clamp(dithered_val, 0.0, 1.0);
+        val = floor(val * bands);
+        val = clamp(val, 0.0, bands - 1.0);
+        val /= (bands - 1.0);
 
-            // Compare with Dither
-            float bit = step(noise_val, q_lum);
-            if (use_gradient) {
-                final_color = texture(color_gradient, vec2(bit, 0.0)).rgb;
-            } else {
-                final_color = mix(shadow_c, lit_c, bit);
-            }
+        if (use_gradient) {
+            final_color = texture(color_gradient, vec2(val, 0.0)).rgb;
+        } else {
+            final_color = mix(shadow_c, lit_c, val);
         }
     }
     else if (color_mode == 1) { // Monochrome
