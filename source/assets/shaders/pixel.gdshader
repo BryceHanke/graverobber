@@ -402,7 +402,8 @@ void fragment() {
 
     if (color_mode == 0) { // Bit-Depth
         float bands = max(2.0, p_size);
-        float val = clamp(dithered_val, 0.0, 1.0);
+        float noise_scaled = (noise_val - 0.5) * dither_spread / bands;
+        float val = clamp(lum + noise_scaled, 0.0, 1.0);
         val = floor(val * bands);
         val = clamp(val, 0.0, bands - 1.0);
         val /= (bands - 1.0);
