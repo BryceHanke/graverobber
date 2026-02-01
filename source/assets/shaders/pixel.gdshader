@@ -226,9 +226,7 @@ void fragment() {
 
     float depth_edge = sqrt(sobel_x * sobel_x + sobel_y * sobel_y);
 
-    // Randomize threshold to break alignment patterns
-    float noise_r = random(center_uv);
-    float dithered_threshold = edge_threshold_sobel * (0.85 + 0.3 * noise_r);
+    float dithered_threshold = edge_threshold_sobel;
 
     float is_depth_edge = step(dithered_threshold, depth_edge);
 
