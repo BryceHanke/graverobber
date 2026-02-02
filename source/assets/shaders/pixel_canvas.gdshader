@@ -297,11 +297,11 @@ void fragment() {
 
                     vec2 dither_uv;
                     if (blend.x > blend.y && blend.x > blend.z) {
-                        dither_uv = world_pos.zy;
+                        dither_uv = vec2(world_pos.z * -sign(world_normal.x), world_pos.y);
                     } else if (blend.y > blend.z) {
-                        dither_uv = world_pos.xz;
+                        dither_uv = vec2(world_pos.x, world_pos.z * -sign(world_normal.y));
                     } else {
-                        dither_uv = world_pos.xy;
+                        dither_uv = vec2(world_pos.x * sign(world_normal.z), world_pos.y);
                     }
 
                     cutout_coord = floor(dither_uv * 32.0 * cutout_noise_scale + rand_uv);
@@ -354,11 +354,11 @@ void fragment() {
         // Determine dominant axis
         vec2 dither_uv;
         if (blend.x > blend.y && blend.x > blend.z) {
-            dither_uv = world_pos.zy;
+            dither_uv = vec2(world_pos.z * -sign(world_normal.x), world_pos.y);
         } else if (blend.y > blend.z) {
-            dither_uv = world_pos.xz;
+            dither_uv = vec2(world_pos.x, world_pos.z * -sign(world_normal.y));
         } else {
-            dither_uv = world_pos.xy;
+            dither_uv = vec2(world_pos.x * sign(world_normal.z), world_pos.y);
         }
 
         // Scale world UVs to pixel grid density roughly
