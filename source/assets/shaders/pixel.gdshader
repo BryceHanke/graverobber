@@ -36,7 +36,7 @@ void fragment() {
 	uv += (1.0 / grid_size) * 0.5;
 
 	// Outline Logic
-	vec2 outline_uv = SCREEN_UV;
+	vec2 outline_uv = uv;
 	vec2 texel_size = vec2(1.0) / VIEWPORT_SIZE; // Use screen pixels for outlines
 	float effective_thickness = clamp(line_thickness, min_line_width, max_line_width);
 	vec2 offset_size = texel_size * effective_thickness;
