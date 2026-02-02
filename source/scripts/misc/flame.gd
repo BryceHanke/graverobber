@@ -1,3 +1,4 @@
+@tool
 extends Sprite3D
 
 @export var animation_player : AnimationPlayer

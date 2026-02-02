@@ -2,7 +2,9 @@
 
 [ext_resource type="PackedScene" uid="uid://dvae5gvtvcw1r" path="res://scenes/wheelchair.tscn" id="2_k2fmo"]
 [ext_resource type="PackedScene" uid="uid://dg7xl4dtseqsv" path="res://scenes/pixel_dither.tscn" id="3_l3cfh"]
+[ext_resource type="Material" uid="uid://bkwmprrotrwg5" path="res://assets/materials/pixel.tres" id="4_6q06x"]
 [ext_resource type="PackedScene" uid="uid://dxwwdfsun0hba" path="res://scenes/cell.tscn" id="4_l3cfh"]
+[ext_resource type="Texture2D" uid="uid://cdr3agq0jdx7y" path="res://assets/textures/colors.tres" id="5_ow5a4"]
 
 [sub_resource type="Animation" id="Animation_6q06x"]
 length = 0.001
@@ -17,17 +19,44 @@ _data = {
 &"intro_cutscene": SubResource("Animation_l3cfh")
 }
 
-[node name="Main" type="Node3D" unique_id=1106574498]
+[sub_resource type="Environment" id="Environment_hujxm"]
+tonemap_mode = 4
+glow_bloom = 0.48
+volumetric_fog_albedo = Color(0.6955032, 0.6955031, 0.6955031, 1)
+volumetric_fog_emission = Color(0.4661808, 0.46618086, 0.46618068, 1)
+adjustment_enabled = true
+adjustment_brightness = 0.85
+adjustment_color_correction = ExtResource("5_ow5a4")
 
-[node name="cell" parent="." unique_id=954708517 instance=ExtResource("4_l3cfh")]
+[sub_resource type="Environment" id="Environment_yyfjg"]
+tonemap_mode = 4
+glow_bloom = 0.48
+volumetric_fog_albedo = Color(0.6955032, 0.6955031, 0.6955031, 1)
+volumetric_fog_emission = Color(0.4661808, 0.46618086, 0.46618068, 1)
+adjustment_enabled = true
+adjustment_brightness = 0.85
+adjustment_color_correction = ExtResource("5_ow5a4")
+
+[node name="Main" type="Node3D" unique_id=1106574498]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1514278286]
 libraries/ = SubResource("AnimationLibrary_6q06x")
+
+[node name="cell" parent="." unique_id=954708517 instance=ExtResource("4_l3cfh")]
 
 [node name="wheelchair" parent="." unique_id=372267110 instance=ExtResource("2_k2fmo")]
 
 [node name="PixelDither" parent="." unique_id=93580127 instance=ExtResource("3_l3cfh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.21698296)
+material_override = ExtResource("4_6q06x")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1999611765]
+environment = SubResource("Environment_hujxm")
 fov = 90.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=524840437]
+environment = SubResource("Environment_yyfjg")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=775802674]
+offset_right = 40.0
+offset_bottom = 40.0
