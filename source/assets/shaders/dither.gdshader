@@ -240,9 +240,9 @@ void light() {
      val /= (bands - 1.0);
 
      if (use_gradient) {
-         float gradient_pos = use_inverse_gradient ? 0.0 : 1.0;
+         float gradient_pos = use_inverse_gradient ? 1.0 - val : val;
          vec3 lit_c = texture(color_gradient, vec2(gradient_pos, 0.0)).rgb;
-         SPECULAR_LIGHT += mix(vec3(0.0), lit_c, val);
+         SPECULAR_LIGHT += lit_c;
      } else {
          SPECULAR_LIGHT += mix(vec3(0.0), lit_color, val);
      }
