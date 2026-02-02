@@ -375,7 +375,7 @@ void fragment() {
     bands = max(2.0, bands);
 
     // Quantize with dither
-    float noise_scaled = (noise_val - 0.5) * dither_spread / bands;
+    float noise_scaled = (noise_val - 0.5) * dither_spread / (bands - 1.0);
     float val = clamp(lum + noise_scaled, 0.0, 1.0);
     val = floor(val * bands);
     val = clamp(val, 0.0, bands - 1.0);
