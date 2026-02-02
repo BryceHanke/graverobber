@@ -42,7 +42,9 @@ void fragment() {
 	vec2 offset_size = texel_size * effective_thickness;
 
 	vec3 view_pos_c = get_view_position_from_depth(outline_uv, INV_PROJECTION_MATRIX);
-	vec3 normal_c = texture(normal_texture, outline_uv).rgb * 2.0 - 1.0;
+	vec4 normal_sample = texture(normal_texture, outline_uv);
+	vec3 normal_c = normal_sample.rgb * 2.0 - 1.0;
+	float roughness_c = normal_sample.a;
 
 	vec2 offsets[4] = {
 		vec2(0.0, -1.0),
@@ -53,25 +55,28 @@ void fragment() {
 
 	float edge_intensity = 0.0;
 
-	for (int i = 0; i < 4; i++) {
-		vec2 uv_n = outline_uv + offsets[i] * offset_size;
+	// Only calculate outlines if roughness is above threshold (0.0 means no outlines)
+	if (roughness_c >= 0.04) {
+		for (int i = 0; i < 4; i++) {
+			vec2 uv_n = outline_uv + offsets[i] * offset_size;
 
-		// Check bounds to avoid edge artifacts
-		if (uv_n.x < 0.0 || uv_n.x > 1.0 || uv_n.y < 0.0 || uv_n.y > 1.0) {
-			continue;
-		}
+			// Check bounds to avoid edge artifacts
+			if (uv_n.x < 0.0 || uv_n.x > 1.0 || uv_n.y < 0.0 || uv_n.y > 1.0) {
+				continue;
+			}
 
-		vec3 view_pos_n = get_view_position_from_depth(uv_n, INV_PROJECTION_MATRIX);
-		vec3 normal_n = texture(normal_texture, uv_n).rgb * 2.0 - 1.0;
+			vec3 view_pos_n = get_view_position_from_depth(uv_n, INV_PROJECTION_MATRIX);
+			vec3 normal_n = texture(normal_texture, uv_n).rgb * 2.0 - 1.0;
 
-		float dist = distance(view_pos_c, view_pos_n);
-		if (dist > depth_threshold) {
-			edge_intensity += 1.0;
-		}
+			float dist = distance(view_pos_c, view_pos_n);
+			if (dist > depth_threshold) {
+				edge_intensity += 1.0;
+			}
 
-		float dot_diff = dot(normal_c, normal_n);
-		if (dot_diff < normal_threshold) {
-			edge_intensity += 1.0;
+			float dot_diff = dot(normal_c, normal_n);
+			if (dot_diff < normal_threshold) {
+				edge_intensity += 1.0;
+			}
 		}
 	}
 
