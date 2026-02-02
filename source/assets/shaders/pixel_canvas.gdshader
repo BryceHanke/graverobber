@@ -382,10 +382,10 @@ void fragment() {
     val /= (bands - 1.0);
 
     if (use_gradient) {
-        float gradient_val = use_inverse_gradient ? 1.0 - val : val;
+        float gradient_val = use_inverse_gradient ? val : 1.0 - val;
         final_color = texture(color_gradient, vec2(gradient_val, 0.0)).rgb;
     } else {
-        final_color = mix(shadow_color, lit_color, val);
+        final_color = mix(lit_color, shadow_color, val);
     }
 
     COLOR = vec4(final_color, use_transparency ? source_col.a : 1.0);
