@@ -212,7 +212,7 @@ void light() {
     if (dither_mode == 0) { // Object UV
         dither_uv = uv;
     } else if (dither_mode == 1) { // Screen Space
-        dither_uv = SCREEN_UV;
+        dither_uv = FRAGCOORD.xy / VIEWPORT_SIZE;
     } else { // World Space
         vec3 world_norm = normalize((INV_VIEW_MATRIX * vec4(NORMAL, 0.0)).xyz);
         vec3 blend = abs(world_norm);
