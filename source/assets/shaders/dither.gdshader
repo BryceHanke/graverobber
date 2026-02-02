@@ -199,15 +199,7 @@ void light() {
     vec3 base_color = tex.rgb;
     float texture_brightness = get_lum(base_color);
 
-    // 1. Calculate Dynamic Light Brightness
-    float NdotL = max(0.0, dot(NORMAL, LIGHT));
-    vec3 light_intensity = LIGHT_COLOR * NdotL * ATTENUATION * light_boost;
-    float light_brightness = get_lum(light_intensity);
-
-    // Combined Brightness
-    float total_lum = light_brightness * texture_brightness;
-
-    // 2. Recalculate Dither for Light Pass
+    // 1. Recalculate Dither for Light Pass
     vec2 dither_uv;
     if (dither_mode == 0) { // Object UV
         dither_uv = uv;
@@ -227,6 +219,15 @@ void light() {
     }
     float density = (dither_mode == 2) ? world_dither_density : dither_density;
     float noise_val = get_uv_dither(dither_uv, density, dither_pixel_size);
+
+    // 2. Calculate Dynamic Light Brightness
+    float shadow_attenuation = step(noise_val, ATTENUATION);
+    float NdotL = max(0.0, dot(NORMAL, LIGHT));
+    vec3 light_intensity = LIGHT_COLOR * NdotL * shadow_attenuation * light_boost;
+    float light_brightness = get_lum(light_intensity);
+
+    // Combined Brightness
+    float total_lum = light_brightness * texture_brightness;
 
     // Determine Palette Size
     // 4. Add Light
