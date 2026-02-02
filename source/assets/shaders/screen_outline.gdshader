@@ -1,4 +1,5 @@
-shader_type canvas_item;
+shader_type spatial;
+render_mode unshaded, depth_test_disabled, cull_disabled, skip_vertex_transform;
 
 // Textures
 uniform sampler2D screen_texture : hint_screen_texture, filter_nearest;
@@ -14,13 +15,6 @@ uniform float normal_threshold : hint_range(0.0, 1.0) = 0.5; // Sensitivity for 
 // Optional clamping for line width
 uniform float min_line_width = 0.0;
 uniform float max_line_width = 10.0;
-
-// Required for View Space Reconstruction
-// Godot 4 CanvasItem shaders do not have built-in access to the 3D Camera's Inverse Projection Matrix.
-// This must be passed via script (e.g., material.set_shader_parameter("inv_proj", camera.get_global_transform().inverse()))
-// Actually, it should be the inverse PROJECTION matrix, not transform.
-// So: camera.get_camera_projection().inverse()
-uniform mat4 inv_proj;
 
 // View Space Reconstruction Logic
 // We reconstruct the View Space Position (Vector3) from the depth buffer.
@@ -44,6 +38,10 @@ vec3 get_view_position_from_depth(vec2 uv, mat4 inv_mat) {
 	return view_pos.xyz;
 }
 
+void vertex() {
+	POSITION = vec4(VERTEX.xy, 1.0, 1.0);
+}
+
 void fragment() {
 	vec2 texel_size = vec2(1.0) / VIEWPORT_SIZE;
 
@@ -54,7 +52,7 @@ void fragment() {
 	vec2 offset_size = texel_size * effective_thickness;
 
 	// Center Pixel
-	vec3 view_pos_c = get_view_position_from_depth(SCREEN_UV, inv_proj);
+	vec3 view_pos_c = get_view_position_from_depth(SCREEN_UV, INV_PROJECTION_MATRIX);
 	vec3 normal_c = texture(normal_texture, SCREEN_UV).rgb * 2.0 - 1.0;
 
 	// Neighbors (Up, Down, Left, Right)
@@ -71,7 +69,7 @@ void fragment() {
 		vec2 uv_n = SCREEN_UV + offsets[i] * offset_size;
 
 		// Neighbor View Position
-		vec3 view_pos_n = get_view_position_from_depth(uv_n, inv_proj);
+		vec3 view_pos_n = get_view_position_from_depth(uv_n, INV_PROJECTION_MATRIX);
 
 		// Neighbor Normal
 		vec3 normal_n = texture(normal_texture, uv_n).rgb * 2.0 - 1.0;
@@ -96,5 +94,5 @@ void fragment() {
 
 	// Mix line color with screen color
 	vec4 original_color = texture(screen_texture, SCREEN_UV);
-	COLOR = mix(original_color, line_color, edge_intensity * line_color.a);
+	ALBEDO = mix(original_color.rgb, line_color.rgb, edge_intensity * line_color.a);
 }
