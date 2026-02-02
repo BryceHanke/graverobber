@@ -255,6 +255,11 @@ void fragment() {
     if (outline_enabled && edge >= 0.1) {
         draw_outline = true;
 
+        // Check for "no outline" flag from dither shader (Roughness < 0.02)
+        if (object_noise < 0.02) {
+            draw_outline = false;
+        }
+
         // Depth Cull (Foreground Mask) - Suppress outlines on background pixels
         float min_neighbor_depth = min(depth_center, min(d_tl, min(d_tm, min(d_tr, min(d_ml, min(d_mr, min(d_bl, min(d_bm, d_br))))))));
         if (depth_center > min_neighbor_depth + edge_threshold_sobel) {
