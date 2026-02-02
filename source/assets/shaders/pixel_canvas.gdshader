@@ -281,7 +281,7 @@ void fragment() {
             float check_noise = object_noise;
             if (use_noise_cutout) {
                 vec2 cutout_coord;
-                float noise_r_cutout = random(center_uv);
+                float noise_r_cutout = object_noise;
                 vec2 rand_uv = vec2(noise_r_cutout) * 0.5;
 
                 if (dither_mode == 1) { // Screen Space
