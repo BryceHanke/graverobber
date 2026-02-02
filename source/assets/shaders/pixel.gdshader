@@ -230,13 +230,18 @@ void fragment() {
 
     float is_depth_edge = step(dithered_threshold, depth_edge);
 
-    // Normal Edge Check (Cross)
-    vec3 n_up = get_reconstructed_normal(center_uv + vec2(0.0, -off.y), virtual_texel_size, INV_PROJECTION_MATRIX);
-    vec3 n_right = get_reconstructed_normal(center_uv + vec2(off.x, 0.0), virtual_texel_size, INV_PROJECTION_MATRIX);
+    // Normal Edge Check (Cross - 4 neighbors)
+    vec3 n_up = get_reconstructed_normal(uv_up, virtual_texel_size, INV_PROJECTION_MATRIX);
+    vec3 n_right = get_reconstructed_normal(uv_right, virtual_texel_size, INV_PROJECTION_MATRIX);
+    vec3 n_down = get_reconstructed_normal(uv_down, virtual_texel_size, INV_PROJECTION_MATRIX);
+    vec3 n_left = get_reconstructed_normal(uv_left, virtual_texel_size, INV_PROJECTION_MATRIX);
 
     float dot_up = clamp(dot(normal_center, n_up), 0.0, 1.0);
     float dot_right = clamp(dot(normal_center, n_right), 0.0, 1.0);
-    float is_normal_edge = step(dot_up, normal_threshold) + step(dot_right, normal_threshold);
+    float dot_down = clamp(dot(normal_center, n_down), 0.0, 1.0);
+    float dot_left = clamp(dot(normal_center, n_left), 0.0, 1.0);
+
+    float is_normal_edge = step(dot_up, normal_threshold) + step(dot_right, normal_threshold) + step(dot_down, normal_threshold) + step(dot_left, normal_threshold);
     is_normal_edge = clamp(is_normal_edge, 0.0, 1.0);
 
     // Mode mask
@@ -249,6 +254,12 @@ void fragment() {
     bool draw_outline = false;
     if (outline_enabled && edge >= 0.1) {
         draw_outline = true;
+
+        // Depth Cull (Foreground Mask) - Suppress outlines on background pixels
+        float min_neighbor_depth = min(depth_center, min(d_tl, min(d_tm, min(d_tr, min(d_ml, min(d_mr, min(d_bl, min(d_bm, d_br))))))));
+        if (depth_center > min_neighbor_depth + edge_threshold_sobel) {
+            draw_outline = false;
+        }
 
         // Borders check
         vec2 border_dist = min(center_uv, 1.0 - center_uv);
