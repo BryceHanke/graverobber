@@ -195,7 +195,7 @@ void fragment() {
 
     // --- EDGE DETECTION (SOBEL) ---
     // Sample 3x3 neighborhood of linear depth
-    vec2 off = virtual_texel_size; // Use 1 pixel step for sharp Sobel
+    vec2 off = offset; // Use 1 pixel step for sharp Sobel
 
     // Top Row
     float d_tl = get_linear_depth(center_uv + vec2(-off.x, -off.y), inv_proj_mat);
@@ -226,7 +226,7 @@ void fragment() {
     // Normal Edge (Legacy Cross Check)
     // We reuse center_uv + offset for this to keep compatibility with thickness logic if needed,
     // but usually Sobel is preferred. Let's keep a simple cross check for normals.
-    vec2 n_off = virtual_texel_size;
+    vec2 n_off = offset;
     vec3 n_up = get_reconstructed_normal(center_uv + vec2(0.0, -n_off.y), virtual_texel_size, inv_proj_mat);
     vec3 n_right = get_reconstructed_normal(center_uv + vec2(n_off.x, 0.0), virtual_texel_size, inv_proj_mat);
 
