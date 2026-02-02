@@ -112,7 +112,7 @@ float get_dither_noise(vec2 uv) {
 
 float quantize_value(float lum, float noise) {
 	float bands = max(2.0, color_depth);
-	float noise_scaled = (noise - 0.5) * dither_spread / bands;
+	float noise_scaled = (noise - 0.5) * dither_spread / (bands - 1.0);
 	float val = lum + noise_scaled + shadow_bias;
 	val = clamp(val, 0.0, 1.0);
 	val = floor(val * bands);
@@ -190,8 +190,8 @@ void fragment() {
 		final_albedo = mix(shadow_color, lit_color, val);
 	}
 
-	ALBEDO = final_albedo;
-	EMISSION = vec3(0.0);
+	ALBEDO = vec3(0.0);
+	EMISSION = final_albedo;
 }
 
 void light() {
@@ -204,10 +204,9 @@ void light() {
 	// 1. Dither Calculation - Reuse from Fragment
 	float noise_val = ROUGHNESS;
 
-	// 2. Calculate Dynamic Light Brightness (with Dithered Shadow)
+	// 2. Calculate Dynamic Light Brightness
 	float NdotL = max(0.0, dot(NORMAL, LIGHT));
-	float dithered_attenuation = step(noise_val, ATTENUATION);
-	vec3 light_intensity = LIGHT_COLOR * NdotL * dithered_attenuation * light_boost;
+	vec3 light_intensity = LIGHT_COLOR * NdotL * ATTENUATION * light_boost;
 	float light_brightness = get_lum(light_intensity);
 
 	// 3. Combined Brightness
