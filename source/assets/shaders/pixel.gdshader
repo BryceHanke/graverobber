@@ -203,7 +203,7 @@ void fragment() {
     vec2 uv_left = center_uv + vec2(-offset.x, 0.0);
 
     // --- EDGE DETECTION (SOBEL) ---
-    vec2 off = virtual_texel_size;
+    vec2 off = offset;
 
     // Top Row
     float d_tl = get_linear_depth(center_uv + vec2(-off.x, -off.y), INV_PROJECTION_MATRIX);
