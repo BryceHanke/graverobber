@@ -13,3 +13,4 @@ func Update(_delta: float):
 		walk_trans()
 		jump_trans()
 		crouch_trans()
+	

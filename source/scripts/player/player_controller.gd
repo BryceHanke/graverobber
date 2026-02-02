@@ -13,7 +13,7 @@ class_name player_controller
 
 @export var strafe_speed : float = 7.0
 
-@export var crouching_speed := 3.0
+@export var crouching_speed := 5.0
 @export var min_height := 0.75
 @export var max_height := 2.0
 

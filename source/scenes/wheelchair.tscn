@@ -1,0 +1,186 @@
+[gd_scene format=3 uid="uid://dvae5gvtvcw1r"]
+
+[ext_resource type="PackedScene" uid="uid://cmi6rk4iio68s" path="res://assets/models/wheelchair.blend" id="1_id7l6"]
+[ext_resource type="Shader" uid="uid://dcxcwwd03jc52" path="res://assets/shaders/dither.gdshader" id="2_k6fyf"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_5fs4t"]
+frequency = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_6yijy"]
+width = 2048
+height = 2048
+noise = SubResource("FastNoiseLite_5fs4t")
+seamless = true
+in_3d_space = true
+
+[sub_resource type="Gradient" id="Gradient_pmb4f"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.203125, 0.41562498, 0.640625, 0.828125)
+colors = PackedColorArray(0.047058824, 0.09803922, 0.07450981, 1, 0.28627452, 0.3764706, 0.29803923, 1, 0.6392157, 0.64705884, 0.43529412, 1, 0.8666667, 0.7058824, 0.7294118, 1, 0.8862745, 0.8862745, 0.85882354, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_mohoo"]
+gradient = SubResource("Gradient_pmb4f")
+width = 5
+use_hdr = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kvwbb"]
+render_priority = 0
+shader = ExtResource("2_k6fyf")
+shader_parameter/lit_color = Color(1, 1, 1, 1)
+shader_parameter/shadow_color = Color(0, 0, 0, 1)
+shader_parameter/color_gradient = SubResource("GradientTexture1D_mohoo")
+shader_parameter/use_gradient = true
+shader_parameter/use_inverse_gradient = false
+shader_parameter/color_depth = 8.0000003325
+shader_parameter/use_transparency = false
+shader_parameter/alpha_threshold = 0.5
+shader_parameter/dither_type = 1
+shader_parameter/dither_mode = 2
+shader_parameter/dither_pixel_size = 2.0
+shader_parameter/dither_density = 2048.0
+shader_parameter/world_dither_density = 128.0
+shader_parameter/dither_spread = 1.00000004680148
+shader_parameter/shadow_bias = 0.2450000591374999
+shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_6yijy")
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/global_ambient = Color(0.047058824, 0.09803922, 0.07450981, 1)
+shader_parameter/light_boost = 2.0
+shader_parameter/bounce_strength = 0.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m4lv8"]
+render_priority = 0
+shader = ExtResource("2_k6fyf")
+shader_parameter/lit_color = Color(1, 1, 1, 1)
+shader_parameter/shadow_color = Color(0, 0, 0, 1)
+shader_parameter/color_gradient = SubResource("GradientTexture1D_mohoo")
+shader_parameter/use_gradient = true
+shader_parameter/use_inverse_gradient = false
+shader_parameter/color_depth = 8.0000003325
+shader_parameter/use_transparency = false
+shader_parameter/alpha_threshold = 0.5
+shader_parameter/dither_type = 1
+shader_parameter/dither_mode = 2
+shader_parameter/dither_pixel_size = 2.0
+shader_parameter/dither_density = 2048.0
+shader_parameter/world_dither_density = 128.0
+shader_parameter/dither_spread = 1.00000004680148
+shader_parameter/shadow_bias = 0.04900004982750006
+shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_6yijy")
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/global_ambient = Color(0.047058824, 0.09803922, 0.07450981, 1)
+shader_parameter/light_boost = 2.0
+shader_parameter/bounce_strength = 0.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qtgio"]
+render_priority = 0
+shader = ExtResource("2_k6fyf")
+shader_parameter/lit_color = Color(1, 1, 1, 1)
+shader_parameter/shadow_color = Color(0, 0, 0, 1)
+shader_parameter/color_gradient = SubResource("GradientTexture1D_mohoo")
+shader_parameter/use_gradient = true
+shader_parameter/use_inverse_gradient = false
+shader_parameter/color_depth = 8.0000003325
+shader_parameter/use_transparency = false
+shader_parameter/alpha_threshold = 0.5
+shader_parameter/dither_type = 1
+shader_parameter/dither_mode = 2
+shader_parameter/dither_pixel_size = 2.0
+shader_parameter/dither_density = 2048.0
+shader_parameter/world_dither_density = 256.0
+shader_parameter/dither_spread = 1.00000004680148
+shader_parameter/shadow_bias = 0.05000004987499995
+shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_6yijy")
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/global_ambient = Color(0.047058824, 0.09803922, 0.07450981, 1)
+shader_parameter/light_boost = 2.0
+shader_parameter/bounce_strength = 0.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0cip2"]
+render_priority = 0
+shader = ExtResource("2_k6fyf")
+shader_parameter/lit_color = Color(1, 1, 1, 1)
+shader_parameter/shadow_color = Color(0.38928655, 0.38928664, 0.38928658, 1)
+shader_parameter/color_gradient = SubResource("GradientTexture1D_mohoo")
+shader_parameter/use_gradient = true
+shader_parameter/use_inverse_gradient = false
+shader_parameter/color_depth = 16.0000007125
+shader_parameter/use_transparency = false
+shader_parameter/alpha_threshold = 0.5
+shader_parameter/dither_type = 2
+shader_parameter/dither_mode = 2
+shader_parameter/dither_pixel_size = 2.0
+shader_parameter/dither_density = 2048.0
+shader_parameter/world_dither_density = 1024.0
+shader_parameter/dither_spread = 2.0
+shader_parameter/shadow_bias = 0.13700005400750004
+shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_6yijy")
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/global_ambient = Color(0.047058824, 0.09803922, 0.07450981, 1)
+shader_parameter/light_boost = 2.0
+shader_parameter/bounce_strength = 0.5
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_k6fyf"]
+frequency = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_kvwbb"]
+width = 2048
+height = 2048
+noise = SubResource("FastNoiseLite_k6fyf")
+seamless = true
+in_3d_space = true
+
+[sub_resource type="Gradient" id="Gradient_m4lv8"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.203125, 0.41562498, 0.640625, 0.828125)
+colors = PackedColorArray(0.047058824, 0.09803922, 0.07450981, 1, 0.28627452, 0.3764706, 0.29803923, 1, 0.6392157, 0.64705884, 0.43529412, 1, 0.8666667, 0.7058824, 0.7294118, 1, 0.8862745, 0.8862745, 0.85882354, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_qtgio"]
+gradient = SubResource("Gradient_m4lv8")
+width = 5
+use_hdr = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kpv8n"]
+render_priority = 0
+shader = ExtResource("2_k6fyf")
+shader_parameter/lit_color = Color(1, 1, 1, 1)
+shader_parameter/shadow_color = Color(0, 0, 0, 1)
+shader_parameter/color_gradient = SubResource("GradientTexture1D_qtgio")
+shader_parameter/use_gradient = false
+shader_parameter/use_inverse_gradient = false
+shader_parameter/color_depth = 4.000000142499999
+shader_parameter/use_transparency = false
+shader_parameter/alpha_threshold = 0.5
+shader_parameter/dither_type = 3
+shader_parameter/dither_mode = 2
+shader_parameter/dither_pixel_size = 2.0
+shader_parameter/dither_density = 2048.0
+shader_parameter/world_dither_density = 512.0
+shader_parameter/dither_spread = 1.53700007230898
+shader_parameter/shadow_bias = 0.1730000557175
+shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_kvwbb")
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/global_ambient = Color(0.047058824, 0.09803922, 0.07450981, 1)
+shader_parameter/light_boost = 2.0
+shader_parameter/bounce_strength = 0.5
+
+[node name="wheelchair" unique_id=372267110 instance=ExtResource("1_id7l6")]
+
+[node name="Cube_001" parent="." index="0" unique_id=978634035]
+material_override = SubResource("ShaderMaterial_kvwbb")
+
+[node name="Cube_002" parent="." index="1" unique_id=857687048]
+material_override = SubResource("ShaderMaterial_m4lv8")
+
+[node name="Circle" parent="." index="2" unique_id=1472083539]
+material_override = SubResource("ShaderMaterial_qtgio")
+
+[node name="Cube_003" parent="." index="3" unique_id=1187094180]
+material_override = SubResource("ShaderMaterial_0cip2")
+
+[node name="Plane" parent="." index="4" unique_id=888585307]
+material_override = SubResource("ShaderMaterial_kpv8n")

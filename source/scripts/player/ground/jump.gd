@@ -10,3 +10,4 @@ func trans_out():
 	idle_trans()
 	walk_trans()
 	fall_trans()
+	crouch_trans()

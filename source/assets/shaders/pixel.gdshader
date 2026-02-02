@@ -275,10 +275,10 @@ void fragment() {
                 // The original code set ALBEDO = shadow_c;
                 // Since we removed early shadow_c calc, we can just use shadow_color if use_gradient is false, or 0.
                 if (use_gradient) {
-                    float gradient_val = use_inverse_gradient ? 0.0 : 1.0;
+                    float gradient_val = use_inverse_gradient ? 1.0 : 0.0;
                     ALBEDO = texture(color_gradient, vec2(gradient_val, 0.0)).rgb;
                 } else {
-                    ALBEDO = lit_color;
+                    ALBEDO = shadow_color;
                 }
             }
         }
@@ -399,10 +399,10 @@ void fragment() {
     val /= (bands - 1.0);
 
     if (use_gradient) {
-        float gradient_val = use_inverse_gradient ? val : 1.0 - val;
+        float gradient_val = use_inverse_gradient ? 1.0 - val : val;
         final_color = texture(color_gradient, vec2(gradient_val, 0.0)).rgb;
     } else {
-        final_color = mix(lit_color, shadow_color, val);
+        final_color = mix(shadow_color, lit_color, val);
     }
 
     ALBEDO = final_color;

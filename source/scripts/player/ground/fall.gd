@@ -8,3 +8,4 @@ func Physics_Update(_delta: float):
 func Update(_delta: float):
 	walk_trans()
 	idle_trans()
+	crouch_trans()

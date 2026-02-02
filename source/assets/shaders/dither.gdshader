@@ -151,11 +151,11 @@ void fragment() {
         vec3 blend = abs(world_norm);
         blend /= (blend.x + blend.y + blend.z);
         if (blend.x > blend.y && blend.x > blend.z) {
-             dither_uv = vec2(v_world_pos.z * -sign(world_norm.x), v_world_pos.y);
+             dither_uv = v_world_pos.zy;
         } else if (blend.y > blend.z) {
-             dither_uv = vec2(v_world_pos.x, v_world_pos.z * -sign(world_norm.y));
+             dither_uv = v_world_pos.xz;
         } else {
-             dither_uv = vec2(v_world_pos.x * sign(world_norm.z), v_world_pos.y);
+             dither_uv = v_world_pos.xy;
         }
     }
     float density = (dither_mode == 2) ? world_dither_density : dither_density;
@@ -175,10 +175,10 @@ void fragment() {
      val /= (bands - 1.0);
 
      if (use_gradient) {
-         float gradient_val = use_inverse_gradient ? val : 1.0 - val;
+         float gradient_val = use_inverse_gradient ? 1.0 - val : val;
          final_albedo = texture(color_gradient, vec2(gradient_val, 0.0)).rgb;
      } else {
-         final_albedo = mix(lit_color, shadow_color, val);
+         final_albedo = mix(shadow_color, lit_color, val);
      }
 
     ALBEDO = final_albedo;
@@ -199,7 +199,15 @@ void light() {
     vec3 base_color = tex.rgb;
     float texture_brightness = get_lum(base_color);
 
-    // 1. Recalculate Dither for Light Pass
+    // 1. Calculate Dynamic Light Brightness
+    float NdotL = max(0.0, dot(NORMAL, LIGHT));
+    vec3 light_intensity = LIGHT_COLOR * NdotL * ATTENUATION * light_boost;
+    float light_brightness = get_lum(light_intensity);
+
+    // Combined Brightness
+    float total_lum = light_brightness * texture_brightness;
+
+    // 2. Recalculate Dither for Light Pass
     vec2 dither_uv;
     if (dither_mode == 0) { // Object UV
         dither_uv = uv;
@@ -210,24 +218,15 @@ void light() {
         vec3 blend = abs(world_norm);
         blend /= (blend.x + blend.y + blend.z);
         if (blend.x > blend.y && blend.x > blend.z) {
-             dither_uv = vec2(v_world_pos.z * -sign(world_norm.x), v_world_pos.y);
+             dither_uv = v_world_pos.zy;
         } else if (blend.y > blend.z) {
-             dither_uv = vec2(v_world_pos.x, v_world_pos.z * -sign(world_norm.y));
+             dither_uv = v_world_pos.xz;
         } else {
-             dither_uv = vec2(v_world_pos.x * sign(world_norm.z), v_world_pos.y);
+             dither_uv = v_world_pos.xy;
         }
     }
     float density = (dither_mode == 2) ? world_dither_density : dither_density;
     float noise_val = get_uv_dither(dither_uv, density, dither_pixel_size);
-
-    // 2. Calculate Dynamic Light Brightness
-    float shadow_attenuation = step(noise_val, ATTENUATION);
-    float NdotL = max(0.0, dot(NORMAL, LIGHT));
-    vec3 light_intensity = LIGHT_COLOR * NdotL * shadow_attenuation * light_boost;
-    float light_brightness = get_lum(light_intensity);
-
-    // Combined Brightness
-    float total_lum = light_brightness * texture_brightness;
 
     // Determine Palette Size
     // 4. Add Light
@@ -241,10 +240,10 @@ void light() {
      val /= (bands - 1.0);
 
      if (use_gradient) {
-         float gradient_pos = use_inverse_gradient ? 1.0 : 0.0;
+         float gradient_pos = use_inverse_gradient ? 0.0 : 1.0;
          vec3 lit_c = texture(color_gradient, vec2(gradient_pos, 0.0)).rgb;
          SPECULAR_LIGHT += mix(vec3(0.0), lit_c, val);
      } else {
-         SPECULAR_LIGHT += mix(vec3(0.0), shadow_color, val);
+         SPECULAR_LIGHT += mix(vec3(0.0), lit_color, val);
      }
 }

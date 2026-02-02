@@ -1,0 +1,150 @@
+[gd_scene format=3 uid="uid://bchalkxryrgfy"]
+
+[ext_resource type="PackedScene" uid="uid://c3570io8x0mw1" path="res://assets/models/torch.blend" id="1_my26j"]
+[ext_resource type="Shader" uid="uid://dcxcwwd03jc52" path="res://assets/shaders/dither.gdshader" id="2_o2tjn"]
+[ext_resource type="Script" uid="uid://1xbyyhgroi2r" path="res://scripts/misc/light_flicker.gd" id="3_ndh0a"]
+[ext_resource type="Texture2D" uid="uid://dyoswsent6pjx" path="res://assets/textures/flame.png" id="4_ktql7"]
+[ext_resource type="Script" uid="uid://1aj1hxpkdetj" path="res://scripts/misc/flame.gd" id="5_gybtl"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_5fs4t"]
+frequency = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_6yijy"]
+width = 2048
+height = 2048
+noise = SubResource("FastNoiseLite_5fs4t")
+seamless = true
+in_3d_space = true
+
+[sub_resource type="Gradient" id="Gradient_pmb4f"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.203125, 0.41562498, 0.640625, 0.828125)
+colors = PackedColorArray(0.047058824, 0.09803922, 0.07450981, 1, 0.28627452, 0.3764706, 0.29803923, 1, 0.6392157, 0.64705884, 0.43529412, 1, 0.8666667, 0.7058824, 0.7294118, 1, 0.8862745, 0.8862745, 0.85882354, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_mohoo"]
+gradient = SubResource("Gradient_pmb4f")
+width = 5
+use_hdr = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r3k50"]
+render_priority = 0
+shader = ExtResource("2_o2tjn")
+shader_parameter/lit_color = Color(0.39688927, 0.39688927, 0.39688924, 1)
+shader_parameter/shadow_color = Color(0, 0, 0, 1)
+shader_parameter/color_gradient = SubResource("GradientTexture1D_mohoo")
+shader_parameter/use_gradient = true
+shader_parameter/use_inverse_gradient = false
+shader_parameter/color_depth = 8.0000003325
+shader_parameter/use_transparency = false
+shader_parameter/alpha_threshold = 0.5
+shader_parameter/dither_type = 3
+shader_parameter/dither_mode = 0
+shader_parameter/dither_pixel_size = 2.0
+shader_parameter/dither_density = 128.0
+shader_parameter/world_dither_density = 64.0
+shader_parameter/dither_spread = 1.00000004680148
+shader_parameter/shadow_bias = 4.7499999933364734e-08
+shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_6yijy")
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/global_ambient = Color(0.047058824, 0.09803922, 0.07450981, 1)
+shader_parameter/light_boost = 2.0
+shader_parameter/bounce_strength = 0.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ndh0a"]
+render_priority = 0
+shader = ExtResource("2_o2tjn")
+shader_parameter/lit_color = Color(0.6872149, 0.68721503, 0.6872149, 1)
+shader_parameter/shadow_color = Color(0.34407577, 0.34407574, 0.34407574, 1)
+shader_parameter/color_gradient = SubResource("GradientTexture1D_mohoo")
+shader_parameter/use_gradient = false
+shader_parameter/use_inverse_gradient = false
+shader_parameter/color_depth = 8.0000003325
+shader_parameter/use_transparency = false
+shader_parameter/alpha_threshold = 0.5
+shader_parameter/dither_type = 3
+shader_parameter/dither_mode = 0
+shader_parameter/dither_pixel_size = 2.0
+shader_parameter/dither_density = 56.0
+shader_parameter/world_dither_density = 32.0
+shader_parameter/dither_spread = 1.00000004680148
+shader_parameter/shadow_bias = 4.7499999933364734e-08
+shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_6yijy")
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/global_ambient = Color(0.047058824, 0.09803922, 0.07450981, 1)
+shader_parameter/light_boost = 2.0
+shader_parameter/bounce_strength = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_21l5o"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+diffuse_mode = 3
+albedo_texture = ExtResource("4_ktql7")
+texture_filter = 2
+texture_repeat = false
+billboard_mode = 1
+
+[sub_resource type="Animation" id="Animation_yj68g"]
+resource_name = "flame"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wjrvc"]
+_data = {
+&"flame": SubResource("Animation_yj68g")
+}
+
+[node name="torch" unique_id=1836886530 instance=ExtResource("1_my26j")]
+
+[node name="Cylinder" parent="." index="0" unique_id=1062861853]
+material_override = SubResource("ShaderMaterial_r3k50")
+
+[node name="Cylinder_001" parent="." index="1" unique_id=1062649697]
+material_override = SubResource("ShaderMaterial_ndh0a")
+
+[node name="Cylinder_002" parent="." index="2" unique_id=838068679]
+material_override = SubResource("ShaderMaterial_ndh0a")
+
+[node name="Cylinder_003" parent="." index="3" unique_id=1397636730]
+material_override = SubResource("ShaderMaterial_ndh0a")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." index="4" unique_id=592766888]
+transform = Transform3D(0.92703235, -0.07197614, 0.36800873, -0.13505206, 0.85145885, 0.50673354, -0.34981698, -0.5194587, 0.7796094, 0, 0.3805146, 0)
+light_energy = 1.4519743
+shadow_enabled = true
+shadow_blur = 3.9519746
+omni_attenuation = 2.0
+script = ExtResource("3_ndh0a")
+probability = 15
+min_brightness = 0.0
+max_brightness = 2.5
+
+[node name="Sprite3D2" type="Sprite3D" parent="OmniLight3D" index="0" unique_id=1329841238 node_paths=PackedStringArray("animation_player")]
+transform = Transform3D(0.1446208, 0.1321401, -0.13631143, 0.08403425, -0.2453199, -0.066533506, -0.1501088, -0.010026507, -0.16857481, 0.026110124, -0.11933008, -0.06779456)
+layers = 2
+material_override = SubResource("StandardMaterial3D_21l5o")
+cast_shadow = 0
+pixel_size = 0.0131142
+billboard = 1
+texture_filter = 2
+texture = ExtResource("4_ktql7")
+hframes = 4
+script = ExtResource("5_gybtl")
+animation_player = NodePath("AnimationPlayer2")
+
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="OmniLight3D/Sprite3D2" index="0" unique_id=1612007238]
+libraries/ = SubResource("AnimationLibrary_wjrvc")

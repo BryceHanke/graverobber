@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://v23xafiwc0lo" path="res://scripts/input/input_gather.gd" id="2_0owmy"]
 [ext_resource type="Material" uid="uid://cw3vtka5voiak" path="res://assets/materials/dither.tres" id="2_h17s1"]
 [ext_resource type="Script" uid="uid://0x2i8kdr51fu" path="res://scripts/camera/camera_movement.gd" id="2_qek5x"]
-[ext_resource type="Script" uid="uid://1xbyyhgroi2r" path="res://scripts/misc/light_flicker.gd" id="4_kvlxm"]
+[ext_resource type="Texture2D" uid="uid://cdr3agq0jdx7y" path="res://assets/textures/colors.tres" id="3_8ydkj"]
 [ext_resource type="Script" uid="uid://dlyn7myxb1v18" path="res://scripts/statemachine/statemachine.gd" id="5_5tt2p"]
 [ext_resource type="PackedScene" uid="uid://dg7xl4dtseqsv" path="res://scenes/pixel_dither.tscn" id="5_kvlxm"]
 [ext_resource type="Script" uid="uid://c5cfuh8tg3iw5" path="res://scripts/camera/hand_camera.gd" id="6_fm80t"]
@@ -13,12 +13,7 @@
 [ext_resource type="Script" uid="uid://dmw47mb382ebt" path="res://scripts/player/ground/jump.gd" id="8_nwn0c"]
 [ext_resource type="Script" uid="uid://brdohbduwyyb6" path="res://scripts/player/ground/fall.gd" id="9_y4pjd"]
 [ext_resource type="Script" uid="uid://vptqvkhe206v" path="res://scripts/player/ground/crouch.gd" id="12_lgqa7"]
-[ext_resource type="Shader" uid="uid://dcxcwwd03jc52" path="res://assets/shaders/dither.gdshader" id="13_fcs02"]
 [ext_resource type="Shader" uid="uid://d0bv8q2atrbtp" path="res://assets/shaders/pixel.gdshader" id="13_gx1jg"]
-[ext_resource type="Texture2D" uid="uid://d8mapeiowbk3" path="res://assets/textures/hand.png" id="14_fcs02"]
-[ext_resource type="Texture2D" uid="uid://bt3p36ojgoxw" path="res://assets/textures/atlas.png" id="14_myrg7"]
-[ext_resource type="Texture2D" uid="uid://dyoswsent6pjx" path="res://assets/textures/flame.png" id="16_uf5tr"]
-[ext_resource type="Script" uid="uid://1aj1hxpkdetj" path="res://scripts/misc/flame.gd" id="17_lgqa7"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_6agyq"]
 radial_segments = 16
@@ -26,140 +21,25 @@ rings = 2
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8xumb"]
 
+[sub_resource type="Environment" id="Environment_3j4b4"]
+tonemap_mode = 4
+glow_bloom = 0.48
+volumetric_fog_albedo = Color(0.6955032, 0.6955031, 0.6955031, 1)
+volumetric_fog_emission = Color(0.4661808, 0.46618086, 0.46618068, 1)
+adjustment_enabled = true
+adjustment_brightness = 0.85
+adjustment_color_correction = ExtResource("3_8ydkj")
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lgqa7"]
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_inglc"]
-frequency = 1.0
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_bn"]
-width = 2048
-height = 2048
-noise = SubResource("FastNoiseLite_inglc")
-seamless = true
-in_3d_space = true
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_myrg7"]
-render_priority = 0
-shader = ExtResource("13_fcs02")
-shader_parameter/color_mode = 0
-shader_parameter/texture_albedo = ExtResource("14_myrg7")
-shader_parameter/lit_color = Color(1, 1, 1, 1)
-shader_parameter/shadow_color = Color(0, 0, 0, 1)
-shader_parameter/palette_size = 4.0
-shader_parameter/use_transparency = false
-shader_parameter/alpha_threshold = 0.5
-shader_parameter/dither_type = 2
-shader_parameter/dither_mode = 2
-shader_parameter/dither_pixel_size = 4.000000142499999
-shader_parameter/dither_density = 128.0
-shader_parameter/world_dither_density = 32.0
-shader_parameter/dither_spread = 0.25000001117647996
-shader_parameter/dither_smoothing = 0.150000007125
-shader_parameter/shadow_bias = 0.150000054625
-shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_bn")
-shader_parameter/uv_scale = Vector2(1, 1)
-shader_parameter/uv_offset = Vector2(0, 0)
-shader_parameter/global_ambient = Color(0, 0, 0, 1)
-shader_parameter/light_boost = 2.50000007125
-shader_parameter/bounce_strength = 0.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_kvlxm"]
-render_priority = 0
-shader = ExtResource("13_fcs02")
-shader_parameter/color_mode = 0
-shader_parameter/texture_albedo = ExtResource("14_fcs02")
-shader_parameter/lit_color = Color(1, 1, 1, 1)
-shader_parameter/shadow_color = Color(0, 0, 0, 1)
-shader_parameter/palette_size = 4.0
-shader_parameter/use_transparency = true
-shader_parameter/alpha_threshold = 0.034000001615
-shader_parameter/dither_type = 2
-shader_parameter/dither_mode = 0
-shader_parameter/dither_pixel_size = 2.0000000475
-shader_parameter/dither_density = 512.0
-shader_parameter/world_dither_density = 32.0
-shader_parameter/dither_spread = 0.05500000191398
-shader_parameter/dither_smoothing = 0.150000007125
-shader_parameter/shadow_bias = 0.3950000662624999
-shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_bn")
-shader_parameter/uv_scale = Vector2(1, 1)
-shader_parameter/uv_offset = Vector2(0, 0)
-shader_parameter/global_ambient = Color(0, 0, 0, 1)
-shader_parameter/light_boost = 2.4730000699675
-shader_parameter/bounce_strength = 0.0
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_mohoo"]
-frequency = 1.0
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_8ydkj"]
-width = 2048
-height = 2048
-noise = SubResource("FastNoiseLite_mohoo")
-seamless = true
-in_3d_space = true
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_8ydkj"]
-render_priority = 0
-shader = ExtResource("13_fcs02")
-shader_parameter/color_mode = 0
-shader_parameter/texture_albedo = ExtResource("16_uf5tr")
-shader_parameter/lit_color = Color(1, 1, 1, 1)
-shader_parameter/shadow_color = Color(1, 1, 1, 1)
-shader_parameter/palette_size = 1.0
-shader_parameter/use_transparency = true
-shader_parameter/alpha_threshold = 0.1210000057475
-shader_parameter/dither_type = 4
-shader_parameter/dither_mode = 2
-shader_parameter/dither_pixel_size = 2.0000000475
-shader_parameter/dither_density = 512.0
-shader_parameter/world_dither_density = 32.0
-shader_parameter/dither_spread = 0.05500000191398
-shader_parameter/dither_smoothing = 0.150000007125
-shader_parameter/shadow_bias = 1.0
-shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_8ydkj")
-shader_parameter/uv_scale = Vector2(1, 1)
-shader_parameter/uv_offset = Vector2(0, 0)
-shader_parameter/global_ambient = Color(1, 1, 1, 1)
-shader_parameter/light_boost = 100.0
-shader_parameter/bounce_strength = 5.0
-
-[sub_resource type="Animation" id="Animation_3j4b4"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [1]
-}
-
-[sub_resource type="Animation" id="Animation_yj68g"]
-resource_name = "flame"
-length = 2.0
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:frame")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5, 1, 1.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 2, 3]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_ioxgp"]
-_data = {
-&"RESET": SubResource("Animation_3j4b4"),
-&"flame": SubResource("Animation_yj68g")
-}
+[sub_resource type="Environment" id="Environment_yj68g"]
+tonemap_mode = 4
+glow_bloom = 0.48
+volumetric_fog_albedo = Color(0.6955032, 0.6955031, 0.6955031, 1)
+volumetric_fog_emission = Color(0.4661808, 0.46618086, 0.46618068, 1)
+adjustment_enabled = true
+adjustment_brightness = 0.85
+adjustment_color_correction = ExtResource("3_8ydkj")
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_pmb4f"]
 frequency = 1.0
@@ -175,10 +55,11 @@ render_priority = 10
 shader = ExtResource("13_gx1jg")
 shader_parameter/pixel_factor = 2
 shader_parameter/pixel_aspect = 1.0
-shader_parameter/color_mode = 0
 shader_parameter/lit_color = Color(0.7907865, 0.77826524, 0.7543345, 1)
 shader_parameter/shadow_color = Color(0.026415206, 0.08691933, 0.10444739, 1)
-shader_parameter/palette_size = 4.000000142499999
+shader_parameter/use_gradient = false
+shader_parameter/use_inverse_gradient = false
+shader_parameter/color_depth = 8.0
 shader_parameter/contrast = 1.0000000475
 shader_parameter/brightness = 0.0
 shader_parameter/use_transparency = true
@@ -190,7 +71,6 @@ shader_parameter/dither_scale = 1.0
 shader_parameter/dither_density = 32.0
 shader_parameter/dither_offset = Vector2(0, 0)
 shader_parameter/dither_spread = 0.5
-shader_parameter/dither_smoothing = 0.0
 shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_kxnkg")
 shader_parameter/outline_enabled = true
 shader_parameter/outline_mode = 0
@@ -198,7 +78,6 @@ shader_parameter/outline_color_mode = 1
 shader_parameter/line_thickness = 2.000000095
 shader_parameter/thickness_dark = 1.0000000475
 shader_parameter/edge_threshold_sobel = 1.018000048355
-shader_parameter/depth_threshold = 1.0
 shader_parameter/normal_threshold = 0.030000001425
 shader_parameter/depth_fade_dist = 14.3950006362625
 shader_parameter/cutout_light = 0.2030000096425
@@ -248,6 +127,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 [node name="camera" type="Camera3D" parent="head/lean" unique_id=1055946145 node_paths=PackedStringArray("cam", "head", "lean")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 cull_mask = 1048573
+environment = SubResource("Environment_3j4b4")
 fov = 90.0
 far = 100000.0
 script = ExtResource("2_qek5x")
@@ -255,22 +135,9 @@ cam = NodePath(".")
 head = NodePath("../..")
 lean = NodePath("..")
 
-[node name="OmniLight3D" type="OmniLight3D" parent="head/lean/camera" unique_id=1302507535]
-transform = Transform3D(0.62314665, 0.008226224, -0.78206176, -0.021657908, 0.99974275, -0.0067410865, 0.7818051, 0.021138508, 0.6231645, 0.49774396, 0.03346014, -0.41518673)
-visible = false
-light_energy = 0.015737582
-light_cull_mask = 4294967293
-shadow_enabled = true
-shadow_caster_mask = 4294967291
-omni_range = 15.0
-omni_attenuation = 2.0
-script = ExtResource("4_kvlxm")
-probability = 50
-min_range = 0.0
-max_range = 0.03
-
 [node name="PixelDither" parent="head/lean/camera" unique_id=93580127 instance=ExtResource("5_kvlxm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.6292108)
+cast_shadow = 0
 
 [node name="logic" type="Node" parent="." unique_id=717132806]
 
@@ -329,53 +196,11 @@ render_target_update_mode = 0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 visible = false
 cull_mask = 1047554
+environment = SubResource("Environment_yj68g")
 fov = 90.0
 far = 1000000.0
 script = ExtResource("6_fm80t")
 node_to_match = NodePath("../../../head/lean/camera")
-
-[node name="match" type="CSGCylinder3D" parent="SubViewportContainer/hand_view/camera" unique_id=276680950]
-transform = Transform3D(0.3901671, -0.013110429, 0.92065185, 0.016064346, 0.9998432, 0.0074302256, -0.9206051, 0.011890574, 0.39031652, 0.48962447, -0.039318383, -0.4644176)
-layers = 2
-material_override = SubResource("ShaderMaterial_myrg7")
-radius = 0.003
-height = 0.1817627
-sides = 6
-smooth_faces = false
-
-[node name="OmniLight3D" type="OmniLight3D" parent="SubViewportContainer/hand_view/camera/match" unique_id=1411284164]
-transform = Transform3D(0.99999857, -4.4703537e-08, 2.0861627e-07, 4.4703484e-08, 0.99999976, -7.4499553e-09, -2.0861626e-07, 7.449973e-09, 0.9999986, 0, 0.07, 0)
-layers = 2
-light_energy = 0.036577202
-light_size = 0.46
-omni_range = 10.0
-script = ExtResource("4_kvlxm")
-probability = 50
-min_range = 0.01
-max_range = 0.05
-
-[node name="hand" type="Sprite3D" parent="SubViewportContainer/hand_view/camera" unique_id=1527820100]
-transform = Transform3D(0.056457404, -0.0080463225, -0.075979, 0.017925004, 0.093229905, 0.0034462423, 0.074271426, -0.016384115, 0.056923702, 0.52117676, -0.20807844, -0.4318061)
-layers = 2
-material_override = SubResource("ShaderMaterial_kvlxm")
-shaded = true
-texture_filter = 2
-texture = ExtResource("14_fcs02")
-
-[node name="flame" type="Sprite3D" parent="SubViewportContainer/hand_view/camera" unique_id=2089370123 node_paths=PackedStringArray("animation_player")]
-transform = Transform3D(0.14020793, -0.0038245765, -0.17593202, -0.004873045, 0.22477622, -0.008769959, 0.17590606, 0.0092752995, 0.13998571, 0.48481196, 0.052017212, -0.46270147)
-layers = 2
-material_override = SubResource("ShaderMaterial_8ydkj")
-cast_shadow = 0
-texture_filter = 2
-texture = ExtResource("16_uf5tr")
-hframes = 4
-frame = 1
-script = ExtResource("17_lgqa7")
-animation_player = NodePath("AnimationPlayer")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="SubViewportContainer/hand_view/camera/flame" unique_id=2142478786]
-libraries/ = SubResource("AnimationLibrary_ioxgp")
 
 [node name="PixelDither" type="MeshInstance3D" parent="SubViewportContainer/hand_view/camera" unique_id=900704282]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.37776482)
