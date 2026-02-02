@@ -17,6 +17,8 @@ group_uniforms Transparency;
 uniform bool use_transparency = false;
 uniform float alpha_threshold : hint_range(0.0, 1.0) = 0.5;
 uniform int cull_mode : hint_enum("Back", "Front", "Disabled") = 0;
+uniform bool use_dithered_transparency = false;
+uniform float opacity : hint_range(0.0, 1.0) = 1.0;
 
 group_uniforms Outline_Options;
 uniform bool no_outlines = false;
@@ -176,6 +178,13 @@ void fragment() {
 	float density = (dither_mode == 2) ? world_dither_density : dither_density;
 	// Pre-scale UV by density before passing to noise function
 	float noise_val = get_dither_noise(dither_uv * density);
+
+	if (use_dithered_transparency) {
+		float alpha = tex.a * opacity;
+		if (alpha <= 0.0 || alpha < noise_val) {
+			discard;
+		}
+	}
 
 	// Pass dither noise in Roughness for light() and potential post-processing effects
 	// If no_outlines is true, we set Roughness to 0.0 as a flag for the pixel shader.
