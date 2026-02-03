@@ -12,10 +12,14 @@ var next_item:bool=true
 
 var player : CharacterBody3D
 
+var reveal_effect = RevealEffect.new()
+
 func _ready():
 	visible = false
 	buttons.visible = false
 	
+	rich_text_label.install_effect(reveal_effect)
+
 	for i in get_tree().get_nodes_in_group("player"):
 		player = i
 
@@ -131,21 +135,31 @@ func _text_resource(i:DialogueText) -> void:
 		sprite_2d.hframes = i.character_h_frames
 		sprite_2d.frame = 0
 	
-	rich_text_label.visible_characters = 0
-	rich_text_label.text = i.text
+	reveal_effect.style = i.reveal_type
+	reveal_effect.progress = 0.0
+
+	rich_text_label.visible_characters = -1
+	rich_text_label.text = "[reveal]" + i.text + "[/reveal]"
 	
 	var text_without_square_brackets:String = _text_without_square_brackets(i.text)
 	var total_characters:int = text_without_square_brackets.length()
+	var current_visible_characters:int = 0
 	var character_timer:float=0.0
-	while rich_text_label.visible_characters < total_characters:
+	while current_visible_characters < total_characters:
 		if Input.is_action_just_pressed("ui_cancel"):
-			rich_text_label.visible_characters = total_characters
+			current_visible_characters = total_characters
+			reveal_effect.progress = float(total_characters)
 			break
 		
 		character_timer += get_process_delta_time()
-		if character_timer >= (1.0/i.text_speed) or text_without_square_brackets[rich_text_label.visible_characters] == " ":
-			var character: String = text_without_square_brackets[rich_text_label.visible_characters]
-			rich_text_label.visible_characters += 1
+
+		var fraction = min(character_timer * i.text_speed, 1.0)
+		reveal_effect.progress = float(current_visible_characters) + fraction
+
+		if character_timer >= (1.0/i.text_speed) or text_without_square_brackets[current_visible_characters] == " ":
+			var character: String = text_without_square_brackets[current_visible_characters]
+			current_visible_characters += 1
+			reveal_effect.progress = float(current_visible_characters)
 			if character != " ":
 				$AudioStreamPlayer.pitch_scale = randf_range(i.min_pitch, i.max_pitch)
 				$AudioStreamPlayer.play()
@@ -159,7 +173,7 @@ func _text_resource(i:DialogueText) -> void:
 	sprite_2d.frame = min(i.character_rest_frame, i.character_h_frames-1)
 	while true:
 		await get_tree().process_frame
-		if rich_text_label.visible_characters == total_characters:
+		if current_visible_characters == total_characters:
 			if Input.is_action_just_pressed("ui_accept"):
 				current_dialogue_item += 1
 				next_item = true
