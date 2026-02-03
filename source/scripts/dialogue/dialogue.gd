@@ -163,6 +163,7 @@ func _text_resource(i:DialogueText) -> void:
 			if Input.is_action_just_pressed("ui_accept"):
 				current_dialogue_item += 1
 				next_item = true
+				break
 				
 
 func _text_without_square_brackets(text:String)->String:
