@@ -62,9 +62,9 @@ func _function_resource(i:DialogueFunction) -> void:
 			target_node.connect(signal_name, callable, CONNECT_ONE_SHOT)
 			while not signal_state.done:
 				await get_tree().process_frame
-
-	current_dialogue_item += 1
-	next_item = true
+	if Input.is_action_just_pressed("ui_accept"):
+		current_dialogue_item += 1
+		next_item = true
 
 func _choice_resource(i:DialogueChoice) -> void:
 	rich_text_label.text = i.text
@@ -110,8 +110,9 @@ func _choice_button_pressed(target_node:Node, wait_for_signal:String):
 			target_node.connect(signal_name, callable, CONNECT_ONE_SHOT)
 			while not signal_state.done:
 				await get_tree().process_frame
-	current_dialogue_item += 1
-	next_item = true
+	if Input.is_action_just_pressed("ui_accept"):
+		current_dialogue_item += 1
+		next_item = true
 
 func _text_resource(i:DialogueText) -> void:
 	$AudioStreamPlayer.stream = i.text_sound
