@@ -1,6 +1,13 @@
 extends DE
 class_name DialogueText
 
+enum RevealType {
+	NONE,
+	HOP,
+	FADE,
+	SLIDE
+}
+
 @export var character_name: String
 @export var character_icon: Texture
 @export var character_h_frames :int= 1
@@ -16,3 +23,5 @@ class_name DialogueText
 
 @export var camera_position:Vector2
 @export_range(0.05, 10.0, 0.05) var camera_transition_time:float=1.0
+
+@export var reveal_type: RevealType = RevealType.NONE
