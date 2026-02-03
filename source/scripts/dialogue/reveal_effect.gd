@@ -15,7 +15,7 @@ var progress: float = 0.0
 var style: int = RevealType.NONE
 
 func _process_custom_fx(char_fx: CharFXTransform) -> bool:
-	var idx = char_fx.absolute_index
+	var idx = char_fx.relative_index
 
 	# If the character is not yet reached by progress, hide it.
 	if idx >= progress:
