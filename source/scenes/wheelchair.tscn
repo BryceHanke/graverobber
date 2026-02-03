@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://cmi6rk4iio68s" path="res://assets/models/wheelchair.blend" id="1_id7l6"]
 [ext_resource type="Shader" uid="uid://dcxcwwd03jc52" path="res://assets/shaders/dither.gdshader" id="2_k6fyf"]
+[ext_resource type="Material" uid="uid://cw3vtka5voiak" path="res://assets/materials/dither.tres" id="3_kvwbb"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_5fs4t"]
 frequency = 1.0
@@ -31,17 +32,20 @@ shader_parameter/shadow_color = Color(0, 0, 0, 1)
 shader_parameter/color_gradient = SubResource("GradientTexture1D_mohoo")
 shader_parameter/use_gradient = false
 shader_parameter/use_inverse_gradient = false
-shader_parameter/color_depth = 8.0000003325
+shader_parameter/color_depth = 16.0000007125
 shader_parameter/use_transparency = false
 shader_parameter/alpha_threshold = 0.5
 shader_parameter/cull_mode = 0
+shader_parameter/use_dithered_transparency = false
+shader_parameter/opacity = 1.0
+shader_parameter/no_outlines = false
 shader_parameter/dither_type = 1
 shader_parameter/dither_mode = 2
 shader_parameter/dither_pixel_size = 2.0
 shader_parameter/dither_density = 2048.0
-shader_parameter/world_dither_density = 256.0
+shader_parameter/world_dither_density = 128.0
 shader_parameter/dither_spread = 1.00000004680148
-shader_parameter/shadow_bias = 0.16800005548000008
+shader_parameter/shadow_bias = 0.13700005400750004
 shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_6yijy")
 shader_parameter/uv_scale = Vector2(1, 1)
 shader_parameter/uv_offset = Vector2(0, 0)
@@ -52,22 +56,25 @@ shader_parameter/bounce_strength = 0.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_k6fyf"]
 render_priority = 0
 shader = ExtResource("2_k6fyf")
-shader_parameter/lit_color = Color(0.22310299, 0.22310284, 0.22310299, 1)
+shader_parameter/lit_color = Color(0.2738726, 0.27387276, 0.27387273, 1)
 shader_parameter/shadow_color = Color(0, 0, 0, 1)
 shader_parameter/color_gradient = SubResource("GradientTexture1D_mohoo")
 shader_parameter/use_gradient = false
 shader_parameter/use_inverse_gradient = false
-shader_parameter/color_depth = 8.0000003325
+shader_parameter/color_depth = 16.0000007125
 shader_parameter/use_transparency = false
 shader_parameter/alpha_threshold = 0.5
 shader_parameter/cull_mode = 0
+shader_parameter/use_dithered_transparency = false
+shader_parameter/opacity = 1.0
+shader_parameter/no_outlines = false
 shader_parameter/dither_type = 1
 shader_parameter/dither_mode = 2
 shader_parameter/dither_pixel_size = 2.0
 shader_parameter/dither_density = 2048.0
 shader_parameter/world_dither_density = 256.0
 shader_parameter/dither_spread = 1.00000004680148
-shader_parameter/shadow_bias = 0.16800005548000008
+shader_parameter/shadow_bias = 0.07800005120500009
 shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_6yijy")
 shader_parameter/uv_scale = Vector2(1, 1)
 shader_parameter/uv_offset = Vector2(0, 0)
@@ -79,7 +86,7 @@ shader_parameter/bounce_strength = 0.0
 render_priority = 0
 shader = ExtResource("2_k6fyf")
 shader_parameter/lit_color = Color(0.61339027, 0.61339027, 0.61339027, 1)
-shader_parameter/shadow_color = Color(0.38928655, 0.38928664, 0.38928658, 1)
+shader_parameter/shadow_color = Color(0.34781685, 0.34781697, 0.3478169, 1)
 shader_parameter/color_gradient = SubResource("GradientTexture1D_mohoo")
 shader_parameter/use_gradient = false
 shader_parameter/use_inverse_gradient = false
@@ -87,13 +94,16 @@ shader_parameter/color_depth = 16.0000007125
 shader_parameter/use_transparency = false
 shader_parameter/alpha_threshold = 0.5
 shader_parameter/cull_mode = 0
+shader_parameter/use_dithered_transparency = false
+shader_parameter/opacity = 1.0
+shader_parameter/no_outlines = false
 shader_parameter/dither_type = 2
 shader_parameter/dither_mode = 2
 shader_parameter/dither_pixel_size = 2.0
 shader_parameter/dither_density = 2048.0
 shader_parameter/world_dither_density = 256.0
 shader_parameter/dither_spread = 2.0
-shader_parameter/shadow_bias = 0.22500005818750002
+shader_parameter/shadow_bias = 0.18300005619250004
 shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_6yijy")
 shader_parameter/uv_scale = Vector2(1, 1)
 shader_parameter/uv_offset = Vector2(0, 0)
@@ -133,6 +143,9 @@ shader_parameter/color_depth = 16.0000007125
 shader_parameter/use_transparency = false
 shader_parameter/alpha_threshold = 0.5
 shader_parameter/cull_mode = 0
+shader_parameter/use_dithered_transparency = false
+shader_parameter/opacity = 1.0
+shader_parameter/no_outlines = false
 shader_parameter/dither_type = 3
 shader_parameter/dither_mode = 2
 shader_parameter/dither_pixel_size = 2.0
@@ -147,22 +160,31 @@ shader_parameter/global_ambient = Color(0.047058824, 0.09803922, 0.07450981, 1)
 shader_parameter/light_boost = 2.0
 shader_parameter/bounce_strength = 0.0
 
-[node name="wheelchair" unique_id=372267110 instance=ExtResource("1_id7l6")]
+[node name="wheelchair" unique_id=1823650738 instance=ExtResource("1_id7l6")]
 
-[node name="Cube_001" parent="." index="0" unique_id=978634035]
+[node name="Cube_001" parent="." index="0" unique_id=1064528059]
 material_override = SubResource("ShaderMaterial_qtgio")
 
-[node name="Cube_002" parent="." index="1" unique_id=857687048]
+[node name="Cube_002" parent="." index="1" unique_id=1068457529]
 material_override = SubResource("ShaderMaterial_qtgio")
 
-[node name="Circle" parent="." index="2" unique_id=1472083539]
+[node name="Circle" parent="." index="2" unique_id=1930882552]
 material_override = SubResource("ShaderMaterial_k6fyf")
 
-[node name="Cube_003" parent="." index="3" unique_id=1187094180]
+[node name="Cube_003" parent="." index="3" unique_id=1871021193]
 material_override = SubResource("ShaderMaterial_0cip2")
 
-[node name="Plane" parent="." index="4" unique_id=888585307]
+[node name="Plane" parent="." index="4" unique_id=2002102037]
 material_override = SubResource("ShaderMaterial_kpv8n")
 
-[node name="Plane_001" parent="." index="5" unique_id=2000724056]
+[node name="Plane_001" parent="." index="5" unique_id=2062905357]
 material_override = SubResource("ShaderMaterial_kpv8n")
+
+[node name="Cylinder" parent="." index="6" unique_id=1063263990]
+material_override = SubResource("ShaderMaterial_0cip2")
+
+[node name="Cylinder_001" parent="." index="7" unique_id=151533459]
+material_override = ExtResource("3_kvwbb")
+
+[node name="Cylinder_002" parent="." index="8" unique_id=1133940015]
+material_override = ExtResource("3_kvwbb")

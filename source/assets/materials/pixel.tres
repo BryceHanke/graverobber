@@ -3,6 +3,12 @@
 [ext_resource type="Shader" uid="uid://d0bv8q2atrbtp" path="res://assets/shaders/pixel.gdshader" id="1_pmb4f"]
 
 [resource]
-render_priority = 10
+render_priority = 1
 shader = ExtResource("1_pmb4f")
 shader_parameter/resolution_scale = 0.50000002305148
+shader_parameter/line_color = Color(0, 0, 0, 1)
+shader_parameter/line_thickness = 1.5000000712500001
+shader_parameter/depth_threshold = 0.5
+shader_parameter/normal_threshold = 0.8090000384275
+shader_parameter/min_line_width = 0.0
+shader_parameter/max_line_width = 10.0

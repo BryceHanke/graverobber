@@ -1,0 +1,13 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://bnbtgyxvyjlm8"]
+
+[ext_resource type="Shader" uid="uid://b518d4ppmj50o" path="res://assets/shaders/screen_outline.gdshader" id="2_j13l3"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("2_j13l3")
+shader_parameter/line_color = Color(0, 0, 0, 1)
+shader_parameter/line_thickness = 2.000000095
+shader_parameter/depth_threshold = 0.5
+shader_parameter/normal_threshold = 0.5
+shader_parameter/min_line_width = 0.0
+shader_parameter/max_line_width = 10.0

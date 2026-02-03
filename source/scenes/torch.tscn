@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://bchalkxryrgfy"]
 
 [ext_resource type="PackedScene" uid="uid://c3570io8x0mw1" path="res://assets/models/torch.blend" id="1_my26j"]
-[ext_resource type="Material" uid="uid://dy5nandnjkeqk" path="res://assets/materials/reverse_hull_outlines.tres" id="2_ktql7"]
 [ext_resource type="Shader" uid="uid://dcxcwwd03jc52" path="res://assets/shaders/dither.gdshader" id="2_o2tjn"]
 [ext_resource type="Script" uid="uid://1xbyyhgroi2r" path="res://scripts/misc/light_flicker.gd" id="3_ndh0a"]
 [ext_resource type="Texture2D" uid="uid://dyoswsent6pjx" path="res://assets/textures/flame.png" id="4_ktql7"]
@@ -29,7 +28,6 @@ use_hdr = true
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_r3k50"]
 render_priority = 0
-next_pass = ExtResource("2_ktql7")
 shader = ExtResource("2_o2tjn")
 shader_parameter/lit_color = Color(0.39688927, 0.39688927, 0.39688924, 1)
 shader_parameter/shadow_color = Color(0, 0, 0, 1)
@@ -57,7 +55,6 @@ shader_parameter/bounce_strength = 0.5
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ndh0a"]
 render_priority = 0
-next_pass = ExtResource("2_ktql7")
 shader = ExtResource("2_o2tjn")
 shader_parameter/lit_color = Color(0.6872149, 0.68721503, 0.6872149, 1)
 shader_parameter/shadow_color = Color(0.34407577, 0.34407574, 0.34407574, 1)
@@ -169,9 +166,9 @@ material_override = SubResource("ShaderMaterial_ndh0a")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="." index="4" unique_id=592766888]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3805146, 0)
-light_energy = 1.7077261
+light_energy = 1.8230035
 shadow_enabled = true
-shadow_blur = 6.769316
+shadow_blur = 7.0575085
 omni_attenuation = 2.0
 script = ExtResource("3_ndh0a")
 probability = 50
@@ -188,6 +185,7 @@ billboard = 1
 texture_filter = 2
 texture = ExtResource("4_ktql7")
 hframes = 4
+frame = 3
 script = ExtResource("5_gybtl")
 animation_player = NodePath("AnimationPlayer2")
 
@@ -203,6 +201,7 @@ billboard = 1
 texture_filter = 2
 texture = ExtResource("4_ktql7")
 hframes = 4
+frame = 3
 script = ExtResource("5_gybtl")
 animation_player = NodePath("AnimationPlayer2")
 

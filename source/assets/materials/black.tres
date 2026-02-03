@@ -1,6 +1,6 @@
-[gd_resource type="ShaderMaterial" format=3 uid="uid://cw3vtka5voiak"]
+[gd_resource type="ShaderMaterial" format=3 uid="uid://708af34f4m43"]
 
-[ext_resource type="Shader" uid="uid://dcxcwwd03jc52" path="res://assets/shaders/dither.gdshader" id="1_52sdg"]
+[ext_resource type="Shader" uid="uid://dcxcwwd03jc52" path="res://assets/shaders/dither.gdshader" id="1_iv63j"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_k6fyf"]
 frequency = 1.0
@@ -24,13 +24,13 @@ use_hdr = true
 
 [resource]
 render_priority = 0
-shader = ExtResource("1_52sdg")
-shader_parameter/lit_color = Color(0.55295575, 0.55295557, 0.5529553, 1)
-shader_parameter/shadow_color = Color(0.08468992, 0.08468994, 0.08468988, 1)
+shader = ExtResource("1_iv63j")
+shader_parameter/lit_color = Color(0, 0.014809188, 0.015851432, 1)
+shader_parameter/shadow_color = Color(0, 0.014809188, 0.015851432, 1)
 shader_parameter/color_gradient = SubResource("GradientTexture1D_qtgio")
 shader_parameter/use_gradient = false
 shader_parameter/use_inverse_gradient = false
-shader_parameter/color_depth = 32.0000014725
+shader_parameter/color_depth = 1.0
 shader_parameter/use_transparency = false
 shader_parameter/alpha_threshold = 0.5
 shader_parameter/cull_mode = 2
@@ -43,10 +43,10 @@ shader_parameter/dither_pixel_size = 2.0
 shader_parameter/dither_density = 2048.0
 shader_parameter/world_dither_density = 256.0
 shader_parameter/dither_spread = 1.51700007135898
-shader_parameter/shadow_bias = 0.1570000549574999
+shader_parameter/shadow_bias = 0.0
 shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_kvwbb")
 shader_parameter/uv_scale = Vector2(1, 1)
 shader_parameter/uv_offset = Vector2(0, 0)
 shader_parameter/global_ambient = Color(0.047058824, 0.09803922, 0.07450981, 1)
-shader_parameter/light_boost = 2.0
+shader_parameter/light_boost = 1.0
 shader_parameter/bounce_strength = 0.0

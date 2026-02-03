@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://0x2i8kdr51fu" path="res://scripts/camera/camera_movement.gd" id="2_qek5x"]
 [ext_resource type="Texture2D" uid="uid://cdr3agq0jdx7y" path="res://assets/textures/colors.tres" id="3_8ydkj"]
 [ext_resource type="Script" uid="uid://dlyn7myxb1v18" path="res://scripts/statemachine/statemachine.gd" id="5_5tt2p"]
-[ext_resource type="PackedScene" uid="uid://dg7xl4dtseqsv" path="res://scenes/pixel_dither.tscn" id="5_kvlxm"]
+[ext_resource type="PackedScene" uid="uid://dg7xl4dtseqsv" path="res://scenes/outline_pixelate.tscn" id="5_kvlxm"]
 [ext_resource type="Script" uid="uid://c5cfuh8tg3iw5" path="res://scripts/camera/hand_camera.gd" id="6_fm80t"]
 [ext_resource type="Script" uid="uid://bs6sc1frb1nfc" path="res://scripts/player/ground/idle.gd" id="6_rkuj1"]
 [ext_resource type="Script" uid="uid://b01bw7djd0wvp" path="res://scripts/player/ground/walk.gd" id="7_ers80"]

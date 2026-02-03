@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://dqd8w1vprm4c"]
+
+[ext_resource type="FontFile" uid="uid://5isvb6xg3rjw" path="res://assets/fonts/pixeled/Pixeled.ttf" id="1_dac1i"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_or1tu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mt4jy"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tt537"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_in83j"]
+
+[node name="DialogueButton" type="Button" unique_id=854588125]
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.84705883, 0.7882353, 0.80784315, 1)
+theme_override_colors/font_focus_color = Color(0.4547913, 0.5706523, 0.313848, 1)
+theme_override_colors/font_pressed_color = Color(0.030094907, 0.26529083, 0.40248516, 1)
+theme_override_colors/font_hover_color = Color(0.4547913, 0.5706523, 0.313848, 1)
+theme_override_fonts/font = ExtResource("1_dac1i")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_or1tu")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_mt4jy")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_tt537")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_in83j")
+text = "AAAA"

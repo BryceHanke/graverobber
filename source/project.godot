@@ -16,7 +16,7 @@ config/use_custom_user_dir=true
 config/custom_user_dir_name="snatched"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 run/max_fps=144
-boot_splash/bg_color=Color(0.019607844, 0.101960786, 0.03137255, 1)
+boot_splash/bg_color=Color(0, 0.015686275, 0.015686275, 1)
 boot_splash/show_image=false
 boot_splash/stretch_mode=0
 boot_splash/use_filter=false
@@ -31,6 +31,10 @@ window/size/resizable=false
 window/stretch/mode="canvas_items"
 window/stretch/aspect="keep_width"
 window/vsync/vsync_mode=0
+
+[global_group]
+
+player=""
 
 [input]
 
@@ -93,7 +97,7 @@ lights_and_shadows/directional_shadow/soft_shadow_filter_quality=5
 lights_and_shadows/positional_shadow/soft_shadow_filter_quality=5
 lights_and_shadows/positional_shadow/soft_shadow_filter_quality.mobile=5
 anti_aliasing/quality/msaa_3d=3
-environment/defaults/default_clear_color=Color(0.019607844, 0.101960786, 0.03137255, 1)
+environment/defaults/default_clear_color=Color(0, 0.015686275, 0.015686275, 1)
 lights_and_shadows/positional_shadow/atlas_size=16384
 lights_and_shadows/positional_shadow/atlas_quadrant_0_subdiv=3
 lights_and_shadows/positional_shadow/atlas_quadrant_1_subdiv=4
