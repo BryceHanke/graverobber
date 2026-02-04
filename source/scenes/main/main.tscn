@@ -21,7 +21,9 @@
 [ext_resource type="FontFile" uid="uid://5isvb6xg3rjw" path="res://assets/fonts/pixeled/Pixeled.ttf" id="17_nvumn"]
 [ext_resource type="Texture2D" uid="uid://d1jr1v8o3nxtp" path="res://assets/textures/king_sad.png" id="17_pg34l"]
 [ext_resource type="PackedScene" uid="uid://dmhwr2wlyqndm" path="res://scenes/king.tscn" id="18_ou6is"]
+[ext_resource type="Texture2D" uid="uid://bp7ek1ok1uars" path="res://assets/textures/king_sad-sheet.png" id="19_p8abn"]
 [ext_resource type="PackedScene" uid="uid://bchalkxryrgfy" path="res://scenes/torch.tscn" id="21_pg34l"]
+[ext_resource type="Material" uid="uid://sieciuw0oa22" path="res://assets/materials/canvas_pixel.tres" id="21_s17dp"]
 
 [sub_resource type="Animation" id="Animation_l3cfh"]
 resource_name = "intro_cutscene"
@@ -592,6 +594,7 @@ text_sound = ExtResource("16_r4lks")
 sound_volume = 5
 min_pitch = 0.45
 max_pitch = 0.75
+reveal_type = 2
 metadata/_custom_type_script = "uid://c7ndm8smowye4"
 
 [sub_resource type="Resource" id="Resource_s17dp"]
@@ -604,6 +607,7 @@ text_sound = ExtResource("16_r4lks")
 sound_volume = 10
 min_pitch = 0.6
 max_pitch = 0.8
+reveal_type = 3
 metadata/_custom_type_script = "uid://c7ndm8smowye4"
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_th5th"]
@@ -620,18 +624,7 @@ text_sound = ExtResource("12_7smn1")
 sound_volume = 5
 min_pitch = 0.5
 max_pitch = 0.75
-metadata/_custom_type_script = "uid://c7ndm8smowye4"
-
-[sub_resource type="Resource" id="Resource_hxu8e"]
-script = ExtResource("10_blune")
-character_name = "?"
-character_icon = SubResource("CompressedTexture2D_th5th")
-text = "[i]where am i?[/i]"
-text_speed = 5.0
-text_sound = ExtResource("12_7smn1")
-sound_volume = 7
-min_pitch = 0.5
-max_pitch = 0.75
+reveal_type = 3
 metadata/_custom_type_script = "uid://c7ndm8smowye4"
 
 [sub_resource type="Resource" id="Resource_nvumn"]
@@ -644,6 +637,7 @@ text_sound = ExtResource("12_7smn1")
 sound_volume = 10
 min_pitch = 0.5
 max_pitch = 1.0
+reveal_type = 2
 metadata/_custom_type_script = "uid://c7ndm8smowye4"
 
 [sub_resource type="Resource" id="Resource_m4h2d"]
@@ -656,17 +650,19 @@ text_sound = ExtResource("12_7smn1")
 sound_volume = 10
 min_pitch = 0.5
 max_pitch = 1.0
+reveal_type = 1
 metadata/_custom_type_script = "uid://c7ndm8smowye4"
 
 [sub_resource type="Resource" id="Resource_ou6is"]
 script = ExtResource("10_blune")
 character_name = "??"
-text = "[i]so, you're finally awake?[i]"
+text = "[i]So, you're finally awake?[i]"
 text_speed = 7.0
 text_sound = ExtResource("13_raeie")
 sound_volume = 5
 min_pitch = 0.5
 max_pitch = 0.75
+reveal_type = 3
 metadata/_custom_type_script = "uid://c7ndm8smowye4"
 
 [sub_resource type="Resource" id="Resource_r4lks"]
@@ -680,24 +676,53 @@ script = ExtResource("10_blune")
 character_name = "King"
 character_icon = ExtResource("12_raeie")
 character_h_frames = 2
-text = "you're lucky we found you"
+text = "You're lucky we found you when we did"
 text_speed = 7.0
 text_sound = ExtResource("13_raeie")
 sound_volume = 7
 min_pitch = 0.5
 max_pitch = 0.75
+reveal_type = 3
+metadata/_custom_type_script = "uid://c7ndm8smowye4"
+
+[sub_resource type="Resource" id="Resource_62atk"]
+script = ExtResource("10_blune")
+character_name = "King"
+character_icon = ExtResource("12_raeie")
+character_h_frames = 2
+text = "Any later and you may not be here now"
+text_speed = 7.0
+text_sound = ExtResource("13_raeie")
+sound_volume = 7
+min_pitch = 0.5
+max_pitch = 0.75
+reveal_type = 3
+metadata/_custom_type_script = "uid://c7ndm8smowye4"
+
+[sub_resource type="Resource" id="Resource_i7in8"]
+script = ExtResource("10_blune")
+character_name = "?"
+character_icon = ExtResource("13_pg34l")
+text = "*cough*"
+text_speed = 5.0
+text_sound = ExtResource("16_r4lks")
+sound_volume = 10
+min_pitch = 0.6
+max_pitch = 0.8
+reveal_type = 1
 metadata/_custom_type_script = "uid://c7ndm8smowye4"
 
 [sub_resource type="Resource" id="Resource_pg34l"]
 script = ExtResource("10_blune")
 character_name = "?"
 character_icon = ExtResource("10_th5th")
-text = "you should've.."
+text = "where..."
 text_speed = 3.0
 text_sound = ExtResource("16_r4lks")
 sound_volume = 7
 min_pitch = 0.5
 max_pitch = 0.75
+reveal_type = 3
 metadata/_custom_type_script = "uid://c7ndm8smowye4"
 
 [sub_resource type="Resource" id="Resource_37hlw"]
@@ -710,18 +735,20 @@ text_sound = ExtResource("16_r4lks")
 sound_volume = 10
 min_pitch = 0.6
 max_pitch = 0.8
+reveal_type = 1
 metadata/_custom_type_script = "uid://c7ndm8smowye4"
 
 [sub_resource type="Resource" id="Resource_6llfj"]
 script = ExtResource("10_blune")
 character_name = "?"
 character_icon = ExtResource("10_th5th")
-text = "left me to die"
+text = "...am i?"
 text_speed = 3.0
 text_sound = ExtResource("16_r4lks")
 sound_volume = 7
 min_pitch = 0.5
 max_pitch = 0.75
+reveal_type = 3
 metadata/_custom_type_script = "uid://c7ndm8smowye4"
 
 [sub_resource type="Resource" id="Resource_p8abn"]
@@ -730,16 +757,86 @@ target_path = NodePath("../AnimationPlayer")
 function_name = "sad_king"
 metadata/_custom_type_script = "uid://bcx3w7mgoa2tv"
 
-[sub_resource type="Resource" id="Resource_0bhws"]
+[sub_resource type="Resource" id="Resource_gkmcc"]
 script = ExtResource("10_blune")
 character_name = "King"
 character_icon = ExtResource("17_pg34l")
+text = "..."
+text_speed = 5.0
+text_sound = ExtResource("13_raeie")
+sound_volume = 7
+min_pitch = 0.5
+max_pitch = 0.7
+reveal_type = 2
+metadata/_custom_type_script = "uid://c7ndm8smowye4"
+
+[sub_resource type="Resource" id="Resource_0bhws"]
+script = ExtResource("10_blune")
+character_name = "King"
+character_icon = ExtResource("19_p8abn")
+character_h_frames = 2
 text = "what happened down there?"
 text_speed = 5.0
 text_sound = ExtResource("13_raeie")
 sound_volume = 7
 min_pitch = 0.5
 max_pitch = 0.7
+reveal_type = 3
+metadata/_custom_type_script = "uid://c7ndm8smowye4"
+
+[sub_resource type="Resource" id="Resource_7nlll"]
+script = ExtResource("10_blune")
+character_name = "King"
+character_icon = ExtResource("19_p8abn")
+character_h_frames = 2
+text = "where is the necklace?"
+text_speed = 5.0
+text_sound = ExtResource("13_raeie")
+sound_volume = 7
+min_pitch = 0.5
+max_pitch = 0.7
+metadata/_custom_type_script = "uid://c7ndm8smowye4"
+
+[sub_resource type="Resource" id="Resource_ii537"]
+script = ExtResource("10_blune")
+character_name = "?"
+character_icon = ExtResource("10_th5th")
+text = "...
+necklace?"
+text_speed = 3.0
+text_sound = ExtResource("16_r4lks")
+sound_volume = 7
+min_pitch = 0.5
+max_pitch = 0.75
+reveal_type = 3
+metadata/_custom_type_script = "uid://c7ndm8smowye4"
+
+[sub_resource type="Resource" id="Resource_rofvo"]
+script = ExtResource("10_blune")
+character_name = "King"
+character_icon = ExtResource("19_p8abn")
+character_h_frames = 2
+text = "I need you to think really hard"
+text_speed = 4.0
+text_sound = ExtResource("13_raeie")
+sound_volume = 7
+min_pitch = 0.5
+max_pitch = 0.7
+reveal_type = 3
+metadata/_custom_type_script = "uid://c7ndm8smowye4"
+
+[sub_resource type="Resource" id="Resource_tbnf8"]
+script = ExtResource("10_blune")
+character_name = "King"
+character_icon = ExtResource("19_p8abn")
+character_h_frames = 2
+text = "What happened down there?"
+text_speed = 4.0
+text_sound = ExtResource("13_raeie")
+sound_volume = 7
+min_pitch = 0.45
+max_pitch = 0.65
+reveal_type = 3
 metadata/_custom_type_script = "uid://c7ndm8smowye4"
 
 [node name="Main" type="Node3D" unique_id=1106574498]
@@ -754,7 +851,7 @@ script = ExtResource("1_6q06x")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.85)
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1999611765]
-transform = Transform3D(0.999575, -0.029143346, -0.00017129208, 0.029133795, 0.9993665, -0.02040735, 0.00076592294, 0.020393694, 0.999791, 0, 0.341, -0.606)
+transform = Transform3D(0.9962918, 0.046689548, -0.07226606, -0.05029905, 0.99753284, -0.04895979, 0.06980193, 0.05241317, 0.9961823, 0, 0.341, -0.606)
 fov = 90.0
 script = ExtResource("4_hujxm")
 do_rotate = true
@@ -772,12 +869,13 @@ environment = SubResource("Environment_yyfjg")
 
 [node name="handle_dialogue" type="Node3D" parent="." unique_id=1762330469]
 script = ExtResource("8_yyfjg")
-dialogue = Array[ExtResource("9_ouso4")]([SubResource("Resource_7smn1"), SubResource("Resource_s17dp"), SubResource("Resource_raeie"), SubResource("Resource_hxu8e"), SubResource("Resource_nvumn"), SubResource("Resource_m4h2d"), SubResource("Resource_ou6is"), SubResource("Resource_r4lks"), SubResource("Resource_necax"), SubResource("Resource_pg34l"), SubResource("Resource_37hlw"), SubResource("Resource_6llfj"), SubResource("Resource_p8abn"), SubResource("Resource_0bhws")])
+dialogue = Array[ExtResource("9_ouso4")]([SubResource("Resource_7smn1"), SubResource("Resource_s17dp"), SubResource("Resource_raeie"), SubResource("Resource_nvumn"), SubResource("Resource_m4h2d"), SubResource("Resource_ou6is"), SubResource("Resource_r4lks"), SubResource("Resource_necax"), SubResource("Resource_62atk"), SubResource("Resource_i7in8"), SubResource("Resource_pg34l"), SubResource("Resource_37hlw"), SubResource("Resource_6llfj"), SubResource("Resource_p8abn"), SubResource("Resource_gkmcc"), SubResource("Resource_0bhws"), SubResource("Resource_7nlll"), SubResource("Resource_ii537"), SubResource("Resource_rofvo"), SubResource("Resource_tbnf8")])
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1717856567]
 script = ExtResource("15_hxu8e")
 
 [node name="main menu" type="Control" parent="CanvasLayer" unique_id=298665458]
+material = ExtResource("21_s17dp")
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
