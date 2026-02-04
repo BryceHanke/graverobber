@@ -12,6 +12,12 @@ uniform float dither_size : hint_range(1.0, 8.0) = 2.0;
 uniform float world_dither_density = 32.0;
 uniform sampler2D blue_noise_texture : filter_nearest, repeat_enable;
 
+// --- OVERLAY ---
+group_uniforms Overlay;
+uniform bool use_dither_overlay = false;
+uniform float dither_overlay_strength : hint_range(0.0, 1.0) = 0.5;
+uniform vec4 dither_overlay_color : source_color = vec4(0.0, 0.0, 0.0, 1.0);
+
 // --- TRANSPARENCY ---
 group_uniforms Transparency;
 uniform bool use_transparency = false;
@@ -151,16 +157,10 @@ void fragment() {
 	edge_intensity = clamp(edge_intensity, 0.0, 1.0);
 
 	vec3 screen_color = texture(screen_texture, uv).rgb;
-	ALBEDO = mix(screen_color, line_color.rgb, edge_intensity * line_color.a);
+	vec3 final_color = mix(screen_color, line_color.rgb, edge_intensity * line_color.a);
 
-	// --- TRANSPARENCY ---
-	if (use_transparency) {
-		if (opacity < alpha_threshold) {
-			discard;
-		}
-	}
-
-	if (use_dithered_transparency) {
+	float noise = 0.0;
+	if (use_dithered_transparency || use_dither_overlay) {
 		vec2 dither_coord;
 		if (dither_mode == 1) { // World Space
 			vec3 world_pos = (INV_VIEW_MATRIX * vec4(view_pos_c, 1.0)).xyz;
@@ -182,7 +182,23 @@ void fragment() {
 			dither_coord = floor(SCREEN_UV * grid_size);
 		}
 
-		float noise = get_dither_noise(dither_coord);
+		noise = get_dither_noise(dither_coord);
+	}
+
+	if (use_dither_overlay) {
+		final_color = mix(final_color, dither_overlay_color.rgb, noise * dither_overlay_strength * dither_overlay_color.a);
+	}
+
+	ALBEDO = final_color;
+
+	// --- TRANSPARENCY ---
+	if (use_transparency) {
+		if (opacity < alpha_threshold) {
+			discard;
+		}
+	}
+
+	if (use_dithered_transparency) {
 		if (opacity < noise) {
 			discard;
 		}
