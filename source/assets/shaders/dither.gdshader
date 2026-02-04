@@ -38,6 +38,7 @@ uniform float shadow_bias : hint_range(-1.0, 1.0) = 0.0;
 uniform sampler2D blue_noise_texture : hint_default_white, filter_nearest, repeat_enable;
 
 group_uniforms Texture_Controls;
+uniform int albedo_mapping : hint_enum("Object UV", "World Space") = 0;
 uniform vec2 uv_scale = vec2(1.0, 1.0);
 uniform vec2 uv_offset = vec2(0.0, 0.0);
 
@@ -134,7 +135,20 @@ void fragment() {
 
 	// 0. Texture Read with Scale/Offset
 	vec2 uv = UV * uv_scale + uv_offset;
-	vec4 tex = texture(texture_albedo, uv);
+	vec4 tex;
+	if (albedo_mapping == 1) { // World Space
+		vec3 world_norm = normalize((INV_VIEW_MATRIX * vec4(NORMAL, 0.0)).xyz);
+		vec3 blend = abs(world_norm);
+		blend /= (blend.x + blend.y + blend.z);
+
+		vec4 x_tex = texture(texture_albedo, v_world_pos.zy * uv_scale + uv_offset);
+		vec4 y_tex = texture(texture_albedo, v_world_pos.xz * uv_scale + uv_offset);
+		vec4 z_tex = texture(texture_albedo, v_world_pos.xy * uv_scale + uv_offset);
+
+		tex = x_tex * blend.x + y_tex * blend.y + z_tex * blend.z;
+	} else { // Object UV
+		tex = texture(texture_albedo, uv);
+	}
 	vec3 base_color = tex.rgb;
 
 	if (use_transparency && tex.a < alpha_threshold) {
@@ -216,8 +230,21 @@ void fragment() {
 
 void light() {
 	// 0. Texture Read
-	vec2 uv = UV * uv_scale + uv_offset;
-	vec4 tex = texture(texture_albedo, uv);
+	vec4 tex;
+	if (albedo_mapping == 1) { // World Space
+		vec3 world_norm = normalize((INV_VIEW_MATRIX * vec4(NORMAL, 0.0)).xyz);
+		vec3 blend = abs(world_norm);
+		blend /= (blend.x + blend.y + blend.z);
+
+		vec4 x_tex = texture(texture_albedo, v_world_pos.zy * uv_scale + uv_offset);
+		vec4 y_tex = texture(texture_albedo, v_world_pos.xz * uv_scale + uv_offset);
+		vec4 z_tex = texture(texture_albedo, v_world_pos.xy * uv_scale + uv_offset);
+
+		tex = x_tex * blend.x + y_tex * blend.y + z_tex * blend.z;
+	} else { // Object UV
+		vec2 uv = UV * uv_scale + uv_offset;
+		tex = texture(texture_albedo, uv);
+	}
 	vec3 base_color = tex.rgb;
 	float texture_brightness = get_lum(base_color);
 
