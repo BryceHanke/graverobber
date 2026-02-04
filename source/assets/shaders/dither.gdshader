@@ -221,7 +221,7 @@ void fragment() {
 		float gradient_val = use_inverse_gradient ? 1.0 - val : val;
 		final_albedo = texture(color_gradient, vec2(gradient_val, 0.0)).rgb;
 	} else {
-		final_albedo = mix(shadow_color, lit_color, val);
+		final_albedo = mix(shadow_color, base_color * lit_color, val);
 	}
 
 	ALBEDO = vec3(0.0);
@@ -275,6 +275,6 @@ void light() {
 		vec3 lit_c = texture(color_gradient, vec2(gradient_pos, 0.0)).rgb;
 		SPECULAR_LIGHT += lit_c;
 	} else {
-		SPECULAR_LIGHT += mix(vec3(0.0), lit_color, val);
+		SPECULAR_LIGHT += mix(vec3(0.0), base_color * lit_color, val);
 	}
 }
