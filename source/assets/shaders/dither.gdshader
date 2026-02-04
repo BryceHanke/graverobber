@@ -5,6 +5,10 @@ render_mode blend_mix, depth_draw_opaque, cull_disabled;
 group_uniforms Color_Style;
 uniform sampler2D texture_albedo : source_color, filter_nearest;
 uniform vec3 lit_color : source_color = vec3(1.0, 1.0, 1.0);
+
+group_uniforms Normal_Map;
+uniform sampler2D texture_normal : hint_normal, filter_nearest;
+uniform float normal_scale : hint_range(-16.0, 16.0) = 1.0;
 uniform vec3 shadow_color : source_color = vec3(0.0, 0.0, 0.0);
 uniform sampler2D color_gradient : source_color;
 uniform bool use_gradient = false;
@@ -51,9 +55,11 @@ uniform float bounce_strength : hint_range(0.0, 5.0) = 0.5;
 
 // --- VARYINGS ---
 varying vec3 v_world_pos;
+varying vec3 v_world_norm;
 
 void vertex() {
 	v_world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
+	v_world_norm = MODEL_NORMAL_MATRIX * NORMAL;
 }
 
 // --- DITHER MAPPING ---
@@ -137,7 +143,7 @@ void fragment() {
 	vec2 uv = UV * uv_scale + uv_offset;
 	vec4 tex;
 	if (albedo_mapping == 1) { // World Space
-		vec3 world_norm = normalize((INV_VIEW_MATRIX * vec4(NORMAL, 0.0)).xyz);
+		vec3 world_norm = normalize(v_world_norm);
 		vec3 blend = abs(world_norm);
 		blend /= (blend.x + blend.y + blend.z);
 
@@ -151,6 +157,9 @@ void fragment() {
 	}
 	vec3 base_color = tex.rgb;
 
+	NORMAL_MAP = texture(texture_normal, uv).rgb;
+	NORMAL_MAP_DEPTH = normal_scale;
+
 	if (use_transparency && tex.a < alpha_threshold) {
 		discard;
 	}
@@ -162,7 +171,7 @@ void fragment() {
 	float ambient_brightness = get_lum(global_ambient);
 
 	// Bounce Light
-	vec3 world_normal = (INV_VIEW_MATRIX * vec4(NORMAL, 0.0)).xyz;
+	vec3 world_normal = normalize(v_world_norm);
 	float bounce_factor = clamp(-world_normal.y * 0.5 + 0.5, 0.0, 1.0);
 	bounce_factor = pow(bounce_factor, 2.0);
 	float bounce_lum = bounce_strength * bounce_factor;
@@ -177,7 +186,7 @@ void fragment() {
 		dither_uv = SCREEN_UV;
 	} else { // World Space
 		// Triplanar Mapping
-		vec3 world_norm = normalize((INV_VIEW_MATRIX * vec4(NORMAL, 0.0)).xyz);
+		vec3 world_norm = normalize(v_world_norm);
 		vec3 blend = abs(world_norm);
 		blend /= (blend.x + blend.y + blend.z);
 		if (blend.x > blend.y && blend.x > blend.z) {
@@ -232,7 +241,7 @@ void light() {
 	// 0. Texture Read
 	vec4 tex;
 	if (albedo_mapping == 1) { // World Space
-		vec3 world_norm = normalize((INV_VIEW_MATRIX * vec4(NORMAL, 0.0)).xyz);
+		vec3 world_norm = normalize(v_world_norm);
 		vec3 blend = abs(world_norm);
 		blend /= (blend.x + blend.y + blend.z);
 
