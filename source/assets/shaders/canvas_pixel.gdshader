@@ -14,6 +14,13 @@ uniform float dither_size : hint_range(1.0, 8.0) = 2.0;
 uniform float dither_amount : hint_range(0.0, 1.0) = 1.0;
 uniform sampler2D blue_noise_texture : filter_nearest, repeat_enable;
 
+// --- TRANSPARENCY ---
+group_uniforms Transparency;
+uniform bool use_transparency = false;
+uniform float alpha_threshold : hint_range(0.0, 1.0) = 0.5;
+uniform bool use_dithered_transparency = false;
+uniform float opacity : hint_range(0.0, 1.0) = 1.0;
+
 // --- COLOR & PALETTE ---
 group_uniforms Color;
 uniform float color_depth : hint_range(1.0, 256.0) = 32.0;
@@ -112,10 +119,27 @@ void fragment() {
 		color = texture(TEXTURE, uv);
 	}
 
-	if (use_dithering) {
-		// Use FRAGCOORD to keep dither pattern screen-aligned
-		float noise = get_dither_noise(FRAGCOORD.xy);
+	// --- TRANSPARENCY ---
+	if (use_transparency) {
+		if (color.a < alpha_threshold) {
+			discard;
+		}
+	}
 
+	float noise = 0.0;
+	if (use_dithering || use_dithered_transparency) {
+		// Use FRAGCOORD to keep dither pattern screen-aligned
+		noise = get_dither_noise(FRAGCOORD.xy);
+	}
+
+	if (use_dithered_transparency) {
+		float alpha = color.a * opacity;
+		if (alpha < noise) {
+			discard;
+		}
+	}
+
+	if (use_dithering) {
 		if (use_gradient) {
 			float lum = get_lum(color.rgb);
 			float val = quantize_value(lum, noise);
