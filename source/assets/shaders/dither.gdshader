@@ -213,9 +213,10 @@ void fragment() {
 		}
 	}
 
-	// Pass dither noise in SPECULAR for light().
-	SPECULAR = noise_val;
-	METALLIC = 0.0;
+	// Pass dither noise in METALLIC for light().
+	// SPECULAR is not available in light(), so we use METALLIC which is unused.
+	METALLIC = noise_val;
+	SPECULAR = 0.0;
 
 	float r = texture(texture_roughness, uv).r * roughness_scale;
 	ROUGHNESS = r;
@@ -256,7 +257,7 @@ void light() {
 	float texture_brightness = get_lum(base_color);
 
 	// 1. Dither Calculation - Reuse from Fragment
-	float noise_val = SPECULAR_AMOUNT;
+	float noise_val = METALLIC;
 
 	// 2. Calculate Dynamic Light Brightness
 	float NdotL = max(0.0, dot(NORMAL, LIGHT));
