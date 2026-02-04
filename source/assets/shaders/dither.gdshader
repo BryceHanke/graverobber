@@ -214,17 +214,11 @@ void fragment() {
 	}
 
 	// Pass dither noise in SPECULAR for light().
-	// If no_outlines is true, we set Roughness to 0.0 as a flag for the pixel shader.
-	// Otherwise, we use the roughness texture.
 	SPECULAR = noise_val;
 	METALLIC = 0.0;
 
-	if (no_outlines) {
-		ROUGHNESS = 0.0;
-	} else {
-		float r = texture(texture_roughness, uv).r * roughness_scale;
-		ROUGHNESS = r;
-	}
+	float r = texture(texture_roughness, uv).r * roughness_scale;
+	ROUGHNESS = r;
 
 	// 4. Output Logic
 	vec3 final_albedo;
