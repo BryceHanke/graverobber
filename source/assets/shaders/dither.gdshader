@@ -17,7 +17,7 @@ uniform bool use_inverse_gradient = false;
 uniform float color_depth : hint_range(1.0, 256.0) = 32.0;
 
 group_uniforms Roughness;
-uniform sampler2D texture_roughness : hint_roughness_r, filter_nearest, hint_default_white;
+uniform sampler2D texture_roughness : hint_roughness_r, filter_nearest;
 uniform float roughness_scale : hint_range(0.0, 1.0) = 1.0;
 
 // --- TRANSPARENCY ---
