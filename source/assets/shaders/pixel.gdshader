@@ -46,6 +46,10 @@ vec3 get_view_position_from_depth(vec2 uv, mat4 inv_mat) {
 	return view_pos.xyz;
 }
 
+float get_lum(vec3 color) {
+	return dot(color, vec3(0.299, 0.587, 0.114));
+}
+
 float get_dither_noise(vec2 uv) {
 	// Quantize the UVs (The "Pixel" Look)
 	vec2 stepped_pos = floor(uv / dither_size);
@@ -186,7 +190,9 @@ void fragment() {
 	}
 
 	if (use_dither_overlay) {
-		final_color = mix(final_color, dither_overlay_color.rgb, noise * dither_overlay_strength * dither_overlay_color.a);
+		float lum = get_lum(final_color);
+		float intensity_scale = 1.0 - lum;
+		final_color = mix(final_color, dither_overlay_color.rgb, noise * dither_overlay_strength * dither_overlay_color.a * intensity_scale);
 	}
 
 	ALBEDO = final_color;
