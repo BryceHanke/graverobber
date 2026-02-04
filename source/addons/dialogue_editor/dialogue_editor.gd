@@ -95,7 +95,7 @@ func refresh_list():
 		if item is DialogueText:
 			label += " [Text] "
 			if item.text:
-				 label += item.text.left(30).replace("\n", " ")
+				label += item.text.left(30).replace("\n", " ")
 		elif item is DialogueChoice:
 			label += " [Choice] "
 			if item.text:
