@@ -7,7 +7,9 @@ uniform sampler2D screen_texture : hint_screen_texture, filter_nearest;
 // --- DITHERING ---
 group_uniforms Dithering;
 uniform int dither_type : hint_enum("Bayer 8x8", "Bayer 4x4", "Blue Noise", "White Noise", "Diffused") = 0;
+uniform int dither_mode : hint_enum("Screen Space", "World Space") = 0;
 uniform float dither_size : hint_range(1.0, 8.0) = 2.0;
+uniform float world_dither_density = 32.0;
 uniform sampler2D blue_noise_texture : filter_nearest, repeat_enable;
 
 // --- TRANSPARENCY ---
@@ -159,7 +161,28 @@ void fragment() {
 	}
 
 	if (use_dithered_transparency) {
-		float noise = get_dither_noise(FRAGCOORD.xy);
+		vec2 dither_coord;
+		if (dither_mode == 1) { // World Space
+			vec3 world_pos = (INV_VIEW_MATRIX * vec4(view_pos_c, 1.0)).xyz;
+			vec3 world_normal = normalize((INV_VIEW_MATRIX * vec4(normal_c, 0.0)).xyz);
+			vec3 blend = abs(world_normal);
+			blend /= (blend.x + blend.y + blend.z);
+
+			vec2 world_uv;
+			if (blend.x > blend.y && blend.x > blend.z) {
+				world_uv = world_pos.zy;
+			} else if (blend.y > blend.z) {
+				world_uv = world_pos.xz;
+			} else {
+				world_uv = world_pos.xy;
+			}
+			dither_coord = world_uv * world_dither_density;
+		} else { // Screen Space
+			// Use the quantized grid coordinates to ensure dither aligns with pixels
+			dither_coord = floor(SCREEN_UV * grid_size);
+		}
+
+		float noise = get_dither_noise(dither_coord);
 		if (opacity < noise) {
 			discard;
 		}
