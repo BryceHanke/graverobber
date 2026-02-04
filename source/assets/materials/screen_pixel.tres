@@ -1,0 +1,17 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://sieciuw0oa22"]
+
+[ext_resource type="Shader" uid="uid://nnm2vfpswuif" path="res://assets/shaders/canvas_pixel.gdshader" id="1_bomwt"]
+[ext_resource type="Texture2D" uid="uid://cdr3agq0jdx7y" path="res://assets/textures/colors.tres" id="2_o0imi"]
+
+[resource]
+shader = ExtResource("1_bomwt")
+shader_parameter/pixel_size = 2.0000000475
+shader_parameter/use_screen_texture = true
+shader_parameter/use_dithering = true
+shader_parameter/dither_type = 0
+shader_parameter/dither_size = 4.000000142499999
+shader_parameter/dither_amount = 1.0
+shader_parameter/color_depth = 8.0000003325
+shader_parameter/use_gradient = true
+shader_parameter/color_gradient = ExtResource("2_o0imi")
+shader_parameter/gradient_mix = 1.0

@@ -2,15 +2,10 @@
 
 [ext_resource type="Script" uid="uid://djt6by1ebmi0" path="res://scripts/dialogue/dialogue.gd" id="1_esu7l"]
 [ext_resource type="FontFile" uid="uid://5isvb6xg3rjw" path="res://assets/fonts/pixeled/Pixeled.ttf" id="2_2qw3d"]
-[ext_resource type="Texture2D" uid="uid://cxikv8kpfecvb" path="res://assets/textures/king-sheet.png" id="2_vh7tq"]
 [ext_resource type="Texture2D" uid="uid://lg66ekbxfk7x" path="res://assets/textures/frame.png" id="2_vokea"]
 [ext_resource type="AudioStream" uid="uid://budx2jedix1i8" path="res://assets/sounds/uh.mp3" id="3_2qw3d"]
-[ext_resource type="Material" uid="uid://sieciuw0oa22" path="res://assets/materials/canvas_pixel.tres" id="3_r7qq7"]
-[ext_resource type="Shader" uid="uid://nnm2vfpswuif" path="res://assets/shaders/canvas_pixel.gdshader" id="5_8y7i8"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_te4m7"]
-shader = ExtResource("5_8y7i8")
-shader_parameter/pixel_size = 1.050000002375
+[ext_resource type="Material" uid="uid://dbf647kxf1i0q" path="res://assets/materials/ui_pixel.tres" id="4_ccvd7"]
+[ext_resource type="Texture2D" uid="uid://dwcut4jwjoxtr" path="res://assets/textures/wheelchair_icon.png" id="5_ccvd7"]
 
 [sub_resource type="FontVariation" id="FontVariation_vokea"]
 base_font = ExtResource("2_2qw3d")
@@ -33,10 +28,9 @@ stream = ExtResource("3_2qw3d")
 max_polyphony = 1000
 
 [node name="Control" type="TextureRect" parent="." unique_id=470235611]
-modulate = Color(0.4547913, 0.5706523, 0.313848, 1)
 z_index = -1
 texture_filter = 1
-material = ExtResource("3_r7qq7")
+material = ExtResource("4_ccvd7")
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -52,6 +46,7 @@ texture = ExtResource("2_vokea")
 
 [node name="dialogue_box" type="HBoxContainer" parent="." unique_id=2078838560]
 texture_filter = 1
+material = ExtResource("4_ccvd7")
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -67,19 +62,19 @@ mouse_filter = 2
 
 [node name="character_icon" type="Control" parent="dialogue_box" unique_id=987715291]
 texture_filter = 1
+material = ExtResource("4_ccvd7")
 layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="dialogue_box/character_icon" unique_id=1009960502]
 texture_filter = 1
-material = SubResource("ShaderMaterial_te4m7")
+material = ExtResource("4_ccvd7")
 position = Vector2(-43, 46)
-texture = ExtResource("2_vh7tq")
-hframes = 2
-frame = 1
+texture = ExtResource("5_ccvd7")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="dialogue_box/character_icon/Sprite2D" unique_id=1272823855]
 z_index = 1
 texture_filter = 1
+material = ExtResource("4_ccvd7")
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0

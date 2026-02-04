@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dqd8w1vprm4c"]
 
 [ext_resource type="FontFile" uid="uid://5isvb6xg3rjw" path="res://assets/fonts/pixeled/Pixeled.ttf" id="1_dac1i"]
+[ext_resource type="Material" uid="uid://dbf647kxf1i0q" path="res://assets/materials/ui_pixel.tres" id="1_or1tu"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_or1tu"]
 
@@ -11,6 +12,8 @@
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_in83j"]
 
 [node name="DialogueButton" type="Button" unique_id=854588125]
+material = ExtResource("1_or1tu")
+scale = Vector2(0.5, 0.5)
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.84705883, 0.7882353, 0.80784315, 1)
 theme_override_colors/font_focus_color = Color(0.4547913, 0.5706523, 0.313848, 1)

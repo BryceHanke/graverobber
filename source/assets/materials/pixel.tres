@@ -5,7 +5,7 @@
 [resource]
 render_priority = 1
 shader = ExtResource("1_pmb4f")
-shader_parameter/resolution_scale = 0.25000001117647996
+shader_parameter/resolution_scale = 0.50000002305148
 shader_parameter/line_color = Color(0, 0, 0, 1)
 shader_parameter/line_thickness = 2.000000095
 shader_parameter/depth_threshold = 0.5
