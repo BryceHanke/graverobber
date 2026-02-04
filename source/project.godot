@@ -103,3 +103,7 @@ lights_and_shadows/positional_shadow/atlas_quadrant_0_subdiv=3
 lights_and_shadows/positional_shadow/atlas_quadrant_1_subdiv=4
 lights_and_shadows/positional_shadow/atlas_quadrant_2_subdiv=5
 lights_and_shadows/positional_shadow/atlas_quadrant_3_subdiv=6
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/dialogue_editor/plugin.cfg")
