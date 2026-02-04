@@ -16,6 +16,10 @@ uniform bool use_inverse_gradient = false;
 // Amount of colors/bands
 uniform float color_depth : hint_range(1.0, 256.0) = 32.0;
 
+group_uniforms Roughness;
+uniform sampler2D texture_roughness : hint_roughness_r, filter_nearest, hint_default_white;
+uniform float roughness_scale : hint_range(0.0, 1.0) = 1.0;
+
 // --- TRANSPARENCY ---
 group_uniforms Transparency;
 uniform bool use_transparency = false;
@@ -209,18 +213,18 @@ void fragment() {
 		}
 	}
 
-	// Pass dither noise in Roughness for light() and potential post-processing effects
+	// Pass dither noise in SPECULAR for light().
 	// If no_outlines is true, we set Roughness to 0.0 as a flag for the pixel shader.
-	// We store the noise in Metallic for the light function to retrieve.
+	// Otherwise, we use the roughness texture.
+	SPECULAR = noise_val;
+	METALLIC = 0.0;
+
 	if (no_outlines) {
 		ROUGHNESS = 0.0;
-		METALLIC = noise_val;
 	} else {
-		// Map noise to 0.05-1.0 range to avoid 0.0 which is our "no outline" flag
-		ROUGHNESS = noise_val * 0.95 + 0.05;
-		METALLIC = 0.0;
+		float r = texture(texture_roughness, uv).r * roughness_scale;
+		ROUGHNESS = r;
 	}
-	SPECULAR = 0.0;
 
 	// 4. Output Logic
 	vec3 final_albedo;
@@ -258,15 +262,7 @@ void light() {
 	float texture_brightness = get_lum(base_color);
 
 	// 1. Dither Calculation - Reuse from Fragment
-	float noise_val;
-	if (no_outlines) {
-		noise_val = METALLIC;
-	} else {
-		// Unmap noise from 0.05-1.0 range back to 0.0-1.0
-		noise_val = (ROUGHNESS - 0.05) / 0.95;
-		// Clamp to ensure precision issues don't cause out of bounds
-		noise_val = clamp(noise_val, 0.0, 1.0);
-	}
+	float noise_val = SPECULAR;
 
 	// 2. Calculate Dynamic Light Brightness
 	float NdotL = max(0.0, dot(NORMAL, LIGHT));
