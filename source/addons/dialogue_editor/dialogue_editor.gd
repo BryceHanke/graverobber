@@ -10,11 +10,6 @@ var item_list: ItemList
 var editor_container: VBoxContainer
 var toolbar: HBoxContainer
 
-const DialogueText = preload("res://scripts/dialogue/dialogue_text.gd")
-const DialogueChoice = preload("res://scripts/dialogue/dialogue_choice.gd")
-const DialogueFunction = preload("res://scripts/dialogue/dialogue_function.gd")
-const DialogueExportResource = preload("res://scripts/dialogue/dialogue_export_resource.gd")
-
 func _ready():
 	custom_minimum_size.y = 250
 
