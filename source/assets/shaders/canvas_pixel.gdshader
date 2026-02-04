@@ -10,6 +10,7 @@ uniform sampler2D screen_texture : hint_screen_texture, filter_nearest;
 group_uniforms Dithering;
 uniform bool use_dithering = true;
 uniform int dither_type : hint_enum("Bayer 8x8", "Bayer 4x4", "Blue Noise", "White Noise", "Diffused") = 0;
+uniform int dither_mode : hint_enum("Screen Space", "World Space") = 0;
 uniform float dither_size : hint_range(1.0, 8.0) = 2.0;
 uniform float dither_amount : hint_range(0.0, 1.0) = 1.0;
 uniform sampler2D blue_noise_texture : filter_nearest, repeat_enable;
@@ -27,6 +28,12 @@ uniform float color_depth : hint_range(1.0, 256.0) = 32.0;
 uniform bool use_gradient = false;
 uniform sampler2D color_gradient : source_color;
 uniform float gradient_mix : hint_range(0.0, 1.0) = 1.0;
+
+varying vec2 v_world_pos;
+
+void vertex() {
+	v_world_pos = (MODEL_MATRIX * vec4(VERTEX, 0.0, 1.0)).xy;
+}
 
 // Helper: Convert Color -> Brightness (Luminance)
 float get_lum(vec3 color) {
@@ -128,8 +135,9 @@ void fragment() {
 
 	float noise = 0.0;
 	if (use_dithering || use_dithered_transparency) {
-		// Use FRAGCOORD to keep dither pattern screen-aligned
-		noise = get_dither_noise(FRAGCOORD.xy);
+		vec2 noise_uv = (dither_mode == 1) ? v_world_pos : FRAGCOORD.xy;
+		// Use FRAGCOORD to keep dither pattern screen-aligned, or v_world_pos for world-aligned
+		noise = get_dither_noise(noise_uv);
 	}
 
 	if (use_dithered_transparency) {
