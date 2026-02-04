@@ -2,10 +2,29 @@
 
 [ext_resource type="Shader" uid="uid://d0bv8q2atrbtp" path="res://assets/shaders/pixel.gdshader" id="1_pmb4f"]
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_pmb4f"]
+frequency = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_kxnkg"]
+noise = SubResource("FastNoiseLite_pmb4f")
+seamless = true
+
 [resource]
 render_priority = 1
 shader = ExtResource("1_pmb4f")
-shader_parameter/resolution_scale = 0.50000002305148
+shader_parameter/resolution_scale = 0.25000001117647996
+shader_parameter/dither_type = 2
+shader_parameter/dither_mode = 1
+shader_parameter/dither_size = 2.0
+shader_parameter/world_dither_density = 64.0
+shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_kxnkg")
+shader_parameter/use_dither_overlay = true
+shader_parameter/dither_overlay_strength = 1.0
+shader_parameter/dither_overlay_color = Color(0, 0, 0, 1)
+shader_parameter/use_transparency = true
+shader_parameter/alpha_threshold = 0.3190000151525
+shader_parameter/use_dithered_transparency = false
+shader_parameter/opacity = 0.8770000416575
 shader_parameter/line_color = Color(0, 0, 0, 1)
 shader_parameter/line_thickness = 2.000000095
 shader_parameter/depth_threshold = 0.5

@@ -8,12 +8,27 @@
 [ext_resource type="Script" uid="uid://dlyn7myxb1v18" path="res://scripts/statemachine/statemachine.gd" id="5_5tt2p"]
 [ext_resource type="PackedScene" uid="uid://dg7xl4dtseqsv" path="res://scenes/outline_pixelate.tscn" id="5_kvlxm"]
 [ext_resource type="Script" uid="uid://c5cfuh8tg3iw5" path="res://scripts/camera/hand_camera.gd" id="6_fm80t"]
+[ext_resource type="Shader" uid="uid://dcxcwwd03jc52" path="res://assets/shaders/dither.gdshader" id="6_myrg7"]
 [ext_resource type="Script" uid="uid://bs6sc1frb1nfc" path="res://scripts/player/ground/idle.gd" id="6_rkuj1"]
 [ext_resource type="Script" uid="uid://b01bw7djd0wvp" path="res://scripts/player/ground/walk.gd" id="7_ers80"]
 [ext_resource type="Script" uid="uid://dmw47mb382ebt" path="res://scripts/player/ground/jump.gd" id="8_nwn0c"]
 [ext_resource type="Script" uid="uid://brdohbduwyyb6" path="res://scripts/player/ground/fall.gd" id="9_y4pjd"]
 [ext_resource type="Script" uid="uid://vptqvkhe206v" path="res://scripts/player/ground/crouch.gd" id="12_lgqa7"]
 [ext_resource type="Shader" uid="uid://d0bv8q2atrbtp" path="res://assets/shaders/pixel.gdshader" id="13_gx1jg"]
+[ext_resource type="Material" uid="uid://sieciuw0oa22" path="res://assets/materials/screen_pixel.tres" id="15_fcs02"]
+
+[sub_resource type="Environment" id="Environment_ugbui"]
+tonemap_mode = 4
+glow_normalized = true
+glow_bloom = 0.33
+fog_mode = 1
+fog_light_color = Color(0, 0, 0, 1)
+fog_light_energy = 0.0
+fog_density = 1.0
+volumetric_fog_density = 0.25
+volumetric_fog_albedo = Color(0, 0, 0, 1)
+adjustment_enabled = true
+adjustment_color_correction = ExtResource("3_8ydkj")
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_6agyq"]
 radial_segments = 16
@@ -21,75 +36,114 @@ rings = 2
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8xumb"]
 
-[sub_resource type="Environment" id="Environment_3j4b4"]
-tonemap_mode = 4
-glow_bloom = 0.48
-volumetric_fog_albedo = Color(0.6955032, 0.6955031, 0.6955031, 1)
-volumetric_fog_emission = Color(0.4661808, 0.46618086, 0.46618068, 1)
-adjustment_enabled = true
-adjustment_brightness = 0.85
-adjustment_color_correction = ExtResource("3_8ydkj")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_lgqa7"]
-
-[sub_resource type="Environment" id="Environment_yj68g"]
-tonemap_mode = 4
-glow_bloom = 0.48
-volumetric_fog_albedo = Color(0.6955032, 0.6955031, 0.6955031, 1)
-volumetric_fog_emission = Color(0.4661808, 0.46618086, 0.46618068, 1)
-adjustment_enabled = true
-adjustment_brightness = 0.85
-adjustment_color_correction = ExtResource("3_8ydkj")
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_pmb4f"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_kvlxm"]
 frequency = 1.0
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_kxnkg"]
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_kvwbb"]
 width = 2048
 height = 2048
-noise = SubResource("FastNoiseLite_pmb4f")
+noise = SubResource("FastNoiseLite_kvlxm")
 seamless = true
+in_3d_space = true
+
+[sub_resource type="Gradient" id="Gradient_uf5tr"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.203125, 0.41562498, 0.640625, 0.828125)
+colors = PackedColorArray(0.047058824, 0.09803922, 0.07450981, 1, 0.28627452, 0.3764706, 0.29803923, 1, 0.6392157, 0.64705884, 0.43529412, 1, 0.8666667, 0.7058824, 0.7294118, 1, 0.8862745, 0.8862745, 0.85882354, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_qtgio"]
+gradient = SubResource("Gradient_uf5tr")
+width = 5
+use_hdr = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8ydkj"]
+render_priority = 0
+shader = ExtResource("6_myrg7")
+shader_parameter/lit_color = Color(0, 0.015686275, 0.015686275, 1)
+shader_parameter/shadow_color = Color(0, 0.015686275, 0.015686275, 1)
+shader_parameter/color_gradient = SubResource("GradientTexture1D_qtgio")
+shader_parameter/use_gradient = false
+shader_parameter/use_inverse_gradient = false
+shader_parameter/color_depth = 2.0000000475
+shader_parameter/use_transparency = true
+shader_parameter/alpha_threshold = 0.5
+shader_parameter/cull_mode = 2
+shader_parameter/use_dithered_transparency = true
+shader_parameter/opacity = 1.0
+shader_parameter/no_outlines = false
+shader_parameter/dither_type = 4
+shader_parameter/dither_mode = 2
+shader_parameter/dither_pixel_size = 1.0
+shader_parameter/dither_density = 2048.0
+shader_parameter/world_dither_density = 1024.0
+shader_parameter/dither_spread = 1.00000004680148
+shader_parameter/shadow_bias = 1.0
+shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_kvwbb")
+shader_parameter/albedo_mapping = 0
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/global_ambient = Color(0.047058824, 0.09803922, 0.07450981, 1)
+shader_parameter/light_boost = 2.0
+shader_parameter/bounce_strength = 0.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_3j4b4"]
+size = Vector2(5, 5)
+
+[sub_resource type="Animation" id="Animation_kvlxm"]
+resource_name = "fade_out"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material_override:shader_parameter/opacity")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_uf5tr"]
+_data = {
+&"fade_out": SubResource("Animation_kvlxm")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lgqa7"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3j4b4"]
 render_priority = 10
 shader = ExtResource("13_gx1jg")
-shader_parameter/pixel_factor = 2
-shader_parameter/pixel_aspect = 1.0
-shader_parameter/lit_color = Color(0.7907865, 0.77826524, 0.7543345, 1)
-shader_parameter/shadow_color = Color(0.026415206, 0.08691933, 0.10444739, 1)
-shader_parameter/use_gradient = false
-shader_parameter/use_inverse_gradient = false
-shader_parameter/color_depth = 8.0
-shader_parameter/contrast = 1.0000000475
-shader_parameter/brightness = 0.0
-shader_parameter/use_transparency = true
-shader_parameter/depth_cull_sky = true
-shader_parameter/dither_mode = 1
-shader_parameter/dither_type = 2
-shader_parameter/dither_pixel_size = 1.0
-shader_parameter/dither_scale = 1.0
-shader_parameter/dither_density = 32.0
-shader_parameter/dither_offset = Vector2(0, 0)
-shader_parameter/dither_spread = 0.5
-shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_kxnkg")
-shader_parameter/outline_enabled = true
-shader_parameter/outline_mode = 0
-shader_parameter/outline_color_mode = 1
+shader_parameter/resolution_scale = 1.0
+shader_parameter/dither_type = 0
+shader_parameter/dither_mode = 0
+shader_parameter/dither_size = 2.0
+shader_parameter/world_dither_density = 32.0
+shader_parameter/use_dither_overlay = false
+shader_parameter/dither_overlay_strength = 0.5
+shader_parameter/dither_overlay_color = Color(0, 0, 0, 1)
+shader_parameter/use_transparency = false
+shader_parameter/alpha_threshold = 0.5
+shader_parameter/use_dithered_transparency = false
+shader_parameter/opacity = 1.0
+shader_parameter/line_color = Color(0, 0, 0, 1)
 shader_parameter/line_thickness = 2.000000095
-shader_parameter/thickness_dark = 1.0000000475
-shader_parameter/edge_threshold_sobel = 1.018000048355
+shader_parameter/depth_threshold = 0.5
 shader_parameter/normal_threshold = 0.030000001425
-shader_parameter/depth_fade_dist = 14.3950006362625
-shader_parameter/cutout_light = 0.2030000096425
-shader_parameter/cutout_dark = 0.0
-shader_parameter/cutout_sensitivity = 5.0
-shader_parameter/use_noise_cutout = true
-shader_parameter/cutout_noise_scale = 0.16900000476762
-shader_parameter/use_smart_color = true
-shader_parameter/contrast_threshold = 0.5
-shader_parameter/line_color_on_light = Color(0, 0, 0, 1)
-shader_parameter/line_color_on_dark = Color(1, 1, 1, 1)
-shader_parameter/fixed_line_color = Color(0, 0, 0, 1)
+shader_parameter/min_line_width = 0.0
+shader_parameter/max_line_width = 10.0
 
 [sub_resource type="QuadMesh" id="QuadMesh_yj68g"]
 material = SubResource("ShaderMaterial_3j4b4")
@@ -109,6 +163,9 @@ acceleration = 2.0
 strafe_speed = 5.0
 camera = NodePath("head/lean/camera")
 
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=444993200]
+environment = SubResource("Environment_ugbui")
+
 [node name="mesh" type="MeshInstance3D" parent="." unique_id=295009724]
 visible = false
 layers = 4
@@ -127,7 +184,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 [node name="camera" type="Camera3D" parent="head/lean" unique_id=1055946145 node_paths=PackedStringArray("cam", "head", "lean")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 cull_mask = 1048573
-environment = SubResource("Environment_3j4b4")
 fov = 90.0
 far = 100000.0
 script = ExtResource("2_qek5x")
@@ -135,9 +191,16 @@ cam = NodePath(".")
 head = NodePath("../..")
 lean = NodePath("..")
 
-[node name="PixelDither" parent="head/lean/camera" unique_id=93580127 instance=ExtResource("5_kvlxm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.6292108)
+[node name="pixelate" parent="head/lean/camera" unique_id=93580127 instance=ExtResource("5_kvlxm")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="head/lean/camera" unique_id=2118913192]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1)
+material_override = SubResource("ShaderMaterial_8ydkj")
 cast_shadow = 0
+mesh = SubResource("QuadMesh_3j4b4")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="head/lean/camera/MeshInstance3D" unique_id=515804271]
+libraries/ = SubResource("AnimationLibrary_uf5tr")
 
 [node name="logic" type="Node" parent="." unique_id=717132806]
 
@@ -175,7 +238,6 @@ player = NodePath("../../..")
 metadata/_custom_type_script = "uid://vptqvkhe206v"
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=897390686]
-visible = false
 texture_filter = 1
 material = SubResource("ShaderMaterial_lgqa7")
 anchors_preset = 15
@@ -190,13 +252,11 @@ transparent_bg = true
 handle_input_locally = false
 canvas_item_default_texture_filter = 0
 size = Vector2i(960, 540)
-render_target_update_mode = 0
+render_target_update_mode = 4
 
 [node name="camera" type="Camera3D" parent="SubViewportContainer/hand_view" unique_id=1232050989 node_paths=PackedStringArray("node_to_match")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-visible = false
 cull_mask = 1047554
-environment = SubResource("Environment_yj68g")
 fov = 90.0
 far = 1000000.0
 script = ExtResource("6_fm80t")
@@ -204,6 +264,17 @@ node_to_match = NodePath("../../../head/lean/camera")
 
 [node name="PixelDither" type="MeshInstance3D" parent="SubViewportContainer/hand_view/camera" unique_id=900704282]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.37776482)
-visible = false
 layers = 2
 mesh = SubResource("QuadMesh_yj68g")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=650718009]
+
+[node name="Control" type="ColorRect" parent="CanvasLayer" unique_id=485828585]
+material = ExtResource("15_fcs02")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+metadata/_edit_use_anchors_ = true

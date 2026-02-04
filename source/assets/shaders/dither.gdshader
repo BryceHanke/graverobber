@@ -262,7 +262,7 @@ void light() {
 	float texture_brightness = get_lum(base_color);
 
 	// 1. Dither Calculation - Reuse from Fragment
-	float noise_val = SPECULAR;
+	float noise_val = SPECULAR_AMOUNT;
 
 	// 2. Calculate Dynamic Light Brightness
 	float NdotL = max(0.0, dot(NORMAL, LIGHT));

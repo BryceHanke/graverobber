@@ -27,31 +27,34 @@
 [ext_resource type="AudioStream" uid="uid://bxev6vxhrprae" path="res://assets/sounds/steps.mp3" id="25_6llfj"]
 [ext_resource type="AudioStream" uid="uid://duusr86tgxjs5" path="res://assets/sounds/ambience.wav" id="26_0bhws"]
 
-[sub_resource type="Animation" id="Animation_s17dp"]
+[sub_resource type="Animation" id="Animation_6llfj"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Camera3D:position")
+tracks/0/path = NodePath("Camera3D/MeshInstance3D:material_override:shader_parameter/opacity")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(0, 0.341, -0.476)]
+"values": [1.0]
 }
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Camera3D:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+
+[sub_resource type="Animation" id="Animation_0bhws"]
+resource_name = "fade_out"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera3D/MeshInstance3D:material_override:shader_parameter/opacity")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.99),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(-0.12467037, -0.032654837, -0.023094429)]
+"values": [0.0, 1.0]
 }
 
 [sub_resource type="Animation" id="Animation_l3cfh"]
@@ -331,7 +334,7 @@ tracks/4/loop_wrap = true
 tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
+"update": 0,
 "values": [true]
 }
 
@@ -547,7 +550,8 @@ tracks/27/keys = PackedFloat32Array(0, 1, 0.9504795, 0.79418933, -0.017125947, 0
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_6q06x"]
 _data = {
-&"RESET": SubResource("Animation_s17dp"),
+&"RESET": SubResource("Animation_6llfj"),
+&"fade_out": SubResource("Animation_0bhws"),
 &"intro_cutscene": SubResource("Animation_l3cfh"),
 &"king_intro": SubResource("Animation_nvumn"),
 &"main_menu": SubResource("Animation_hxu8e"),
@@ -557,7 +561,7 @@ _data = {
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_k6fyf"]
 frequency = 1.0
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_kvwbb"]
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_62atk"]
 width = 2048
 height = 2048
 noise = SubResource("FastNoiseLite_k6fyf")
@@ -569,7 +573,7 @@ interpolation_mode = 1
 offsets = PackedFloat32Array(0, 0.203125, 0.41562498, 0.640625, 0.828125)
 colors = PackedColorArray(0.047058824, 0.09803922, 0.07450981, 1, 0.28627452, 0.3764706, 0.29803923, 1, 0.6392157, 0.64705884, 0.43529412, 1, 0.8666667, 0.7058824, 0.7294118, 1, 0.8862745, 0.8862745, 0.85882354, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_qtgio"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_i7in8"]
 gradient = SubResource("Gradient_m4lv8")
 width = 5
 use_hdr = true
@@ -579,7 +583,7 @@ render_priority = 0
 shader = ExtResource("4_ow5a4")
 shader_parameter/lit_color = Color(0, 0.015686275, 0.015686275, 1)
 shader_parameter/shadow_color = Color(0, 0.015686275, 0.015686275, 1)
-shader_parameter/color_gradient = SubResource("GradientTexture1D_qtgio")
+shader_parameter/color_gradient = SubResource("GradientTexture1D_i7in8")
 shader_parameter/use_gradient = false
 shader_parameter/use_inverse_gradient = false
 shader_parameter/color_depth = 2.0000000475
@@ -587,7 +591,7 @@ shader_parameter/use_transparency = true
 shader_parameter/alpha_threshold = 0.5
 shader_parameter/cull_mode = 2
 shader_parameter/use_dithered_transparency = true
-shader_parameter/opacity = 0.0
+shader_parameter/opacity = 1.0
 shader_parameter/no_outlines = false
 shader_parameter/dither_type = 4
 shader_parameter/dither_mode = 2
@@ -596,7 +600,8 @@ shader_parameter/dither_density = 2048.0
 shader_parameter/world_dither_density = 1024.0
 shader_parameter/dither_spread = 1.00000004680148
 shader_parameter/shadow_bias = 1.0
-shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_kvwbb")
+shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_62atk")
+shader_parameter/albedo_mapping = 0
 shader_parameter/uv_scale = Vector2(1, 1)
 shader_parameter/uv_offset = Vector2(0, 0)
 shader_parameter/global_ambient = Color(0.047058824, 0.09803922, 0.07450981, 1)
@@ -613,7 +618,6 @@ glow_bloom = 0.33
 fog_mode = 1
 fog_light_color = Color(1, 1, 1, 1)
 fog_density = 1.0
-volumetric_fog_enabled = true
 volumetric_fog_density = 0.1
 adjustment_enabled = true
 adjustment_color_correction = ExtResource("5_ow5a4")
@@ -873,6 +877,25 @@ max_pitch = 0.65
 reveal_type = 3
 metadata/_custom_type_script = "uid://c7ndm8smowye4"
 
+[sub_resource type="Resource" id="Resource_r1bmu"]
+script = ExtResource("10_blune")
+character_name = "?"
+character_icon = ExtResource("10_th5th")
+text = "..."
+text_speed = 5.0
+text_sound = ExtResource("12_7smn1")
+sound_volume = 7
+min_pitch = 0.5
+max_pitch = 0.75
+reveal_type = 2
+metadata/_custom_type_script = "uid://c7ndm8smowye4"
+
+[sub_resource type="Resource" id="Resource_6w6mm"]
+script = ExtResource("13_7smn1")
+target_path = NodePath("../AnimationPlayer")
+function_name = "transition_scene"
+metadata/_custom_type_script = "uid://bcx3w7mgoa2tv"
+
 [node name="Main" type="Node3D" unique_id=1106574498]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1514278286]
@@ -885,7 +908,7 @@ script = ExtResource("1_6q06x")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.85)
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1999611765]
-transform = Transform3D(0.9991062, 0.027138798, -0.032395605, -0.022913141, 0.9919735, 0.12434756, 0.035510268, -0.12349422, 0.9917088, 0, 0.341, -0.476)
+transform = Transform3D(0.9985543, 0.04008736, 0.035797633, -0.042557955, 0.9965566, 0.07115258, -0.03282208, -0.07257325, 0.9968219, 0, 0.341, -0.606)
 fov = 90.0
 script = ExtResource("4_hujxm")
 do_rotate = true
@@ -902,7 +925,7 @@ environment = SubResource("Environment_yyfjg")
 
 [node name="handle_dialogue" type="Node3D" parent="." unique_id=1762330469]
 script = ExtResource("8_yyfjg")
-dialogue = Array[ExtResource("9_ouso4")]([SubResource("Resource_7smn1"), SubResource("Resource_s17dp"), SubResource("Resource_raeie"), SubResource("Resource_nvumn"), SubResource("Resource_m4h2d"), SubResource("Resource_ou6is"), SubResource("Resource_r4lks"), SubResource("Resource_necax"), SubResource("Resource_62atk"), SubResource("Resource_i7in8"), SubResource("Resource_pg34l"), SubResource("Resource_37hlw"), SubResource("Resource_6llfj"), SubResource("Resource_p8abn"), SubResource("Resource_gkmcc"), SubResource("Resource_0bhws"), SubResource("Resource_7nlll"), SubResource("Resource_ii537"), SubResource("Resource_rofvo"), SubResource("Resource_tbnf8")])
+dialogue = Array[ExtResource("9_ouso4")]([SubResource("Resource_7smn1"), SubResource("Resource_s17dp"), SubResource("Resource_raeie"), SubResource("Resource_nvumn"), SubResource("Resource_m4h2d"), SubResource("Resource_ou6is"), SubResource("Resource_r4lks"), SubResource("Resource_necax"), SubResource("Resource_62atk"), SubResource("Resource_i7in8"), SubResource("Resource_pg34l"), SubResource("Resource_37hlw"), SubResource("Resource_6llfj"), SubResource("Resource_p8abn"), SubResource("Resource_gkmcc"), SubResource("Resource_0bhws"), SubResource("Resource_7nlll"), SubResource("Resource_ii537"), SubResource("Resource_rofvo"), SubResource("Resource_tbnf8"), SubResource("Resource_r1bmu"), SubResource("Resource_6w6mm")])
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1717856567]
 script = ExtResource("15_hxu8e")
@@ -915,6 +938,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+metadata/_edit_use_anchors_ = true
 
 [node name="main menu" type="Control" parent="CanvasLayer" unique_id=298665458]
 material = ExtResource("21_s17dp")
@@ -955,7 +979,7 @@ text = "Start"
 flat = true
 
 [node name="king" parent="." unique_id=1319535891 instance=ExtResource("18_ou6is")]
-transform = Transform3D(-0.078498065, 0, -0.23735623, 0, 0.25, 0, 0.23735623, 0, -0.078498065, 0.528, -1, -2.773)
+transform = Transform3D(-0.078498065, 0, -0.23735623, 0, 0.25, 0, 0.23735623, 0, -0.078498065, 4.552, -1, -3.472)
 
 [node name="Skeleton3D" parent="king/Armature" parent_id_path=PackedInt32Array(1319535891, 1532664018) index="0" unique_id=1233176041]
 transform = Transform3D(0.9957108, -0.06564935, -0.06519371, 0.06826067, 0.9969178, 0.038667582, 0.062454283, -0.042951904, 0.99712324, 0, 0, 0)

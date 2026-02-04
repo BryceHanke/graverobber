@@ -25,23 +25,49 @@ gradient = SubResource("Gradient_pmb4f")
 width = 5
 use_hdr = true
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ds1sf"]
+frequency = 0.0665
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ecwuj"]
+width = 64
+height = 64
+noise = SubResource("FastNoiseLite_ds1sf")
+seamless = true
+in_3d_space = true
+as_normal_map = true
+
+[sub_resource type="Gradient" id="Gradient_ds1sf"]
+offsets = PackedFloat32Array(0.775, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ecwuj"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_k6tqi"]
+noise = SubResource("FastNoiseLite_ecwuj")
+color_ramp = SubResource("Gradient_ds1sf")
+seamless = true
+in_3d_space = true
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ds1sf"]
 render_priority = 0
 shader = ExtResource("2_nm02e")
 shader_parameter/texture_albedo = ExtResource("3_ds1sf")
 shader_parameter/lit_color = Color(0.3217281, 0.32172793, 0.321728, 1)
+shader_parameter/texture_normal = SubResource("NoiseTexture2D_ecwuj")
+shader_parameter/normal_scale = 1.0
 shader_parameter/shadow_color = Color(0, 0, 0, 1)
 shader_parameter/color_gradient = SubResource("GradientTexture1D_mohoo")
 shader_parameter/use_gradient = false
 shader_parameter/use_inverse_gradient = false
 shader_parameter/color_depth = 16.0000007125
+shader_parameter/texture_roughness = SubResource("NoiseTexture2D_k6tqi")
+shader_parameter/roughness_scale = 1.0
 shader_parameter/use_transparency = false
 shader_parameter/alpha_threshold = 0.5
 shader_parameter/cull_mode = 2
 shader_parameter/use_dithered_transparency = false
 shader_parameter/opacity = 1.0
 shader_parameter/no_outlines = false
-shader_parameter/dither_type = 3
+shader_parameter/dither_type = 2
 shader_parameter/dither_mode = 2
 shader_parameter/dither_pixel_size = 2.0
 shader_parameter/dither_density = 2048.0
@@ -49,6 +75,7 @@ shader_parameter/world_dither_density = 64.0
 shader_parameter/dither_spread = 1.00000004680148
 shader_parameter/shadow_bias = 0.0
 shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_6yijy")
+shader_parameter/albedo_mapping = 0
 shader_parameter/uv_scale = Vector2(10, 10)
 shader_parameter/uv_offset = Vector2(0, 0)
 shader_parameter/global_ambient = Color(0.047058824, 0.09803922, 0.07450981, 1)
@@ -59,11 +86,13 @@ shader_parameter/bounce_strength = 0.0
 render_priority = 0
 shader = ExtResource("2_nm02e")
 shader_parameter/lit_color = Color(0.19434938, 0.19434923, 0.19434929, 1)
+shader_parameter/normal_scale = 1.0
 shader_parameter/shadow_color = Color(0, 0, 0, 1)
 shader_parameter/color_gradient = SubResource("GradientTexture1D_mohoo")
 shader_parameter/use_gradient = false
 shader_parameter/use_inverse_gradient = false
 shader_parameter/color_depth = 4.000000142499999
+shader_parameter/roughness_scale = 1.0
 shader_parameter/use_transparency = false
 shader_parameter/alpha_threshold = 0.5
 shader_parameter/cull_mode = 0
@@ -78,6 +107,7 @@ shader_parameter/world_dither_density = 128.0
 shader_parameter/dither_spread = 0.5
 shader_parameter/shadow_bias = 4.7499999933364734e-08
 shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_6yijy")
+shader_parameter/albedo_mapping = 0
 shader_parameter/uv_scale = Vector2(1, 1)
 shader_parameter/uv_offset = Vector2(0, 0)
 shader_parameter/global_ambient = Color(0.047058824, 0.09803922, 0.07450981, 1)
