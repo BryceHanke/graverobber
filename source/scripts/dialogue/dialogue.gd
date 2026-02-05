@@ -73,11 +73,20 @@ func _function_resource(i:DialogueFunction) -> void:
 func _choice_resource(i:DialogueChoice) -> void:
 	rich_text_label.text = i.text
 	rich_text_label.visible_characters = -1
-	if i.character_icon:
+
+	var c_name = i.get_character_name()
+	if c_name != "":
+		$dialogue_box/character_icon/Sprite2D/RichTextLabel.text = c_name
+		$dialogue_box/character_icon/Sprite2D/RichTextLabel.visible = true
+	else:
+		$dialogue_box/character_icon/Sprite2D/RichTextLabel.visible = false
+
+	var c_icon = i.get_character_icon()
+	if c_icon:
 		$dialogue_box/character_icon.visible = true
-		sprite_2d.texture = i.character_icon
-		sprite_2d.hframes = i.character_h_frames
-		sprite_2d.frame = min(i.character_rest_frame, i.character_h_frames-1)
+		sprite_2d.texture = c_icon
+		sprite_2d.hframes = i.get_character_h_frames()
+		sprite_2d.frame = min(i.get_character_rest_frame(), i.get_character_h_frames()-1)
 	else:
 		$dialogue_box/character_icon.visible = false
 		$dialogue_box/dialogue_container/buttons.visible = true
@@ -119,20 +128,25 @@ func _choice_button_pressed(target_node:Node, wait_for_signal:String):
 		next_item = true
 
 func _text_resource(i:DialogueText) -> void:
-	$AudioStreamPlayer.stream = i.text_sound
-	$AudioStreamPlayer.volume_db = i.sound_volume
+	$AudioStreamPlayer.stream = i.get_text_sound()
+	$AudioStreamPlayer.volume_db = i.get_sound_volume()
 	
-	if !i.character_name:
+	var c_name = i.get_character_name()
+	if c_name == "":
 		$dialogue_box/character_icon/Sprite2D/RichTextLabel.visible = false
 	else:
-		$dialogue_box/character_icon/Sprite2D/RichTextLabel.text = i.character_name
+		$dialogue_box/character_icon/Sprite2D/RichTextLabel.text = c_name
+		$dialogue_box/character_icon/Sprite2D/RichTextLabel.visible = true
 	
-	if !i.character_icon:
+	var c_icon = i.get_character_icon()
+	var c_h_frames = i.get_character_h_frames()
+
+	if !c_icon:
 		$dialogue_box/character_icon.visible = false
 	else:
 		$dialogue_box/character_icon.visible = true
-		sprite_2d.texture = i.character_icon
-		sprite_2d.hframes = i.character_h_frames
+		sprite_2d.texture = c_icon
+		sprite_2d.hframes = c_h_frames
 		sprite_2d.frame = 0
 	
 	reveal_effect.style = i.reveal_type
@@ -145,6 +159,11 @@ func _text_resource(i:DialogueText) -> void:
 	var total_characters:int = text_without_square_brackets.length()
 	var current_visible_characters:int = 0
 	var character_timer:float=0.0
+
+	var text_speed = i.get_text_speed()
+	var min_pitch = i.get_min_pitch()
+	var max_pitch = i.get_max_pitch()
+
 	while current_visible_characters < total_characters:
 		if Input.is_action_just_pressed("ui_cancel"):
 			current_visible_characters = total_characters
@@ -153,24 +172,24 @@ func _text_resource(i:DialogueText) -> void:
 		
 		character_timer += get_process_delta_time()
 
-		var fraction = min(character_timer * i.text_speed, 1.0)
+		var fraction = min(character_timer * text_speed, 1.0)
 		reveal_effect.progress = float(current_visible_characters) + fraction
 
-		if character_timer >= (1.0/i.text_speed) or text_without_square_brackets[current_visible_characters] == " ":
+		if character_timer >= (1.0/text_speed) or text_without_square_brackets[current_visible_characters] == " ":
 			var character: String = text_without_square_brackets[current_visible_characters]
 			current_visible_characters += 1
 			reveal_effect.progress = float(current_visible_characters)
 			if character != " ":
-				$AudioStreamPlayer.pitch_scale = randf_range(i.min_pitch, i.max_pitch)
+				$AudioStreamPlayer.pitch_scale = randf_range(min_pitch, max_pitch)
 				$AudioStreamPlayer.play()
-				if i.character_h_frames != 1:
-					if sprite_2d.frame < i.character_h_frames -1:
+				if c_h_frames != 1:
+					if sprite_2d.frame < c_h_frames -1:
 						sprite_2d.frame += 1
 					else:
 						sprite_2d.frame = 0
 			character_timer = 0.0
 		await get_tree().process_frame
-	sprite_2d.frame = min(i.character_rest_frame, i.character_h_frames-1)
+	sprite_2d.frame = min(i.get_character_rest_frame(), c_h_frames-1)
 	while true:
 		await get_tree().process_frame
 		if current_visible_characters == total_characters:
