@@ -230,19 +230,26 @@ func _on_item_selected(index):
 
 	if item is DialogueText:
 		_add_label("Dialogue Text", true)
-		_add_string_prop(item, "character_name", "Character Name")
+		_add_resource_prop(item, "character", "Character", "Resource")
+		_add_string_prop(item, "character_name", "Override Name")
 		_add_multiline_string_prop(item, "text", "Text")
-		_add_float_prop(item, "text_speed", "Speed", 0.1, 30.0)
-		_add_resource_prop(item, "character_icon", "Icon", "Texture2D")
+		_add_float_prop(item, "text_speed", "Speed (<=0 uses char)", -1.0, 30.0)
+		_add_resource_prop(item, "character_icon", "Override Icon", "Texture2D")
 		_add_resource_prop(item, "text_sound", "Sound", "AudioStream")
-		_add_int_prop(item, "character_h_frames", "H Frames")
-		_add_int_prop(item, "character_rest_frame", "Rest Frame")
+		_add_int_prop(item, "character_h_frames", "H Frames", 0, 100)
+		_add_int_prop(item, "character_rest_frame", "Rest Frame", -1, 100)
+		_add_int_prop(item, "sound_volume", "Volume", -999, 20)
+		_add_float_prop(item, "min_pitch", "Min Pitch", 0.0, 4.0)
+		_add_float_prop(item, "max_pitch", "Max Pitch", 0.0, 4.0)
 		_add_enum_prop(item, "reveal_type", "Reveal Type", {"NONE": 0, "HOP": 1, "FADE": 2, "SLIDE": 3})
 
 	elif item is DialogueChoice:
 		_add_label("Dialogue Choice", true)
+		_add_resource_prop(item, "character", "Character", "Resource")
 		_add_multiline_string_prop(item, "text", "Prompt Text")
-		_add_resource_prop(item, "character_icon", "Icon", "Texture2D")
+		_add_resource_prop(item, "character_icon", "Override Icon", "Texture2D")
+		_add_int_prop(item, "character_h_frames", "H Frames", 0, 100)
+		_add_int_prop(item, "character_rest_frame", "Rest Frame", -1, 100)
 
 		_add_label("Choices:", true)
 		_build_choices_editor(item)
@@ -311,7 +318,7 @@ func _add_float_prop(obj, prop, label_text, min_val, max_val):
 	spin.value_changed.connect(func(val): obj.set(prop, val))
 	hbox.add_child(spin)
 
-func _add_int_prop(obj, prop, label_text):
+func _add_int_prop(obj, prop, label_text, min_val=-1, max_val=100):
 	var hbox = HBoxContainer.new()
 	editor_container.add_child(hbox)
 	var label = Label.new()
@@ -320,6 +327,8 @@ func _add_int_prop(obj, prop, label_text):
 	hbox.add_child(label)
 
 	var spin = SpinBox.new()
+	spin.min_value = min_val
+	spin.max_value = max_val
 	spin.value = obj.get(prop)
 	spin.value_changed.connect(func(val): obj.set(prop, int(val)))
 	hbox.add_child(spin)
