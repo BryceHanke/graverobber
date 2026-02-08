@@ -28,6 +28,9 @@ uniform int cull_mode : hint_enum("Back", "Front", "Disabled") = 0;
 uniform bool use_dithered_transparency = false;
 uniform float opacity : hint_range(0.0, 1.0) = 1.0;
 
+group_uniforms Billboard;
+uniform int billboard_mode : hint_enum("Disabled", "Enabled", "Y-Billboard") = 0;
+
 group_uniforms Outline_Options;
 uniform bool no_outlines = false;
 
@@ -62,8 +65,57 @@ varying vec3 v_world_pos;
 varying vec3 v_world_norm;
 
 void vertex() {
-	v_world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
-	v_world_norm = MODEL_NORMAL_MATRIX * NORMAL;
+	if (billboard_mode == 1) { // Enabled
+		MODELVIEW_MATRIX = VIEW_MATRIX * mat4(
+			INV_VIEW_MATRIX[0],
+			INV_VIEW_MATRIX[1],
+			INV_VIEW_MATRIX[2],
+			MODEL_MATRIX[3]
+		);
+
+		// Restore scaling
+		vec3 scale = vec3(length(MODEL_MATRIX[0]), length(MODEL_MATRIX[1]), length(MODEL_MATRIX[2]));
+		MODELVIEW_MATRIX[0] *= scale.x;
+		MODELVIEW_MATRIX[1] *= scale.y;
+		MODELVIEW_MATRIX[2] *= scale.z;
+
+		// Re-calculate world position and normal for dithering
+		mat4 model_matrix = INV_VIEW_MATRIX * MODELVIEW_MATRIX;
+		v_world_pos = (model_matrix * vec4(VERTEX, 1.0)).xyz;
+		v_world_norm = mat3(model_matrix) * NORMAL;
+	} else if (billboard_mode == 2) { // Y-Billboard
+		vec3 scale = vec3(length(MODEL_MATRIX[0]), length(MODEL_MATRIX[1]), length(MODEL_MATRIX[2]));
+
+		vec3 cam_pos = INV_VIEW_MATRIX[3].xyz;
+		vec3 obj_pos = MODEL_MATRIX[3].xyz;
+		vec3 target = cam_pos - obj_pos;
+		target.y = 0.0; // Project to XZ plane
+
+		if (length(target) > 0.001) {
+			target = normalize(target);
+			vec3 up = vec3(0.0, 1.0, 0.0);
+			vec3 right = normalize(cross(up, target));
+
+			// Construct rotation matrix
+			mat4 rot_mat = mat4(
+				vec4(right * scale.x, 0.0),
+				vec4(up * scale.y, 0.0),
+				vec4(target * scale.z, 0.0),
+				vec4(MODEL_MATRIX[3].xyz, 1.0)
+			);
+
+			MODELVIEW_MATRIX = VIEW_MATRIX * rot_mat;
+
+			v_world_pos = (rot_mat * vec4(VERTEX, 1.0)).xyz;
+			v_world_norm = mat3(rot_mat) * NORMAL;
+		} else {
+			v_world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
+			v_world_norm = MODEL_NORMAL_MATRIX * NORMAL;
+		}
+	} else {
+		v_world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
+		v_world_norm = MODEL_NORMAL_MATRIX * NORMAL;
+	}
 }
 
 // --- DITHER MAPPING ---
