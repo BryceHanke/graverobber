@@ -16,6 +16,7 @@
 [ext_resource type="Script" uid="uid://vptqvkhe206v" path="res://scripts/player/ground/crouch.gd" id="12_lgqa7"]
 [ext_resource type="Shader" uid="uid://d0bv8q2atrbtp" path="res://assets/shaders/pixel.gdshader" id="13_gx1jg"]
 [ext_resource type="Material" uid="uid://sieciuw0oa22" path="res://assets/materials/screen_pixel.tres" id="15_fcs02"]
+[ext_resource type="Script" path="res://scripts/chalk.gd" id="16_chalk"]
 
 [sub_resource type="Environment" id="Environment_ugbui"]
 tonemap_mode = 4
@@ -201,6 +202,15 @@ mesh = SubResource("QuadMesh_3j4b4")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="head/lean/camera/MeshInstance3D" unique_id=515804271]
 libraries/ = SubResource("AnimationLibrary_uf5tr")
+
+[node name="ChalkManager" type="Node3D" parent="head/lean/camera"]
+script = ExtResource("16_chalk")
+
+[node name="RayCast3D" type="RayCast3D" parent="head/lean/camera/ChalkManager"]
+target_position = Vector3(0, 0, -2.5)
+
+[node name="MultiMeshInstance3D" type="MultiMeshInstance3D" parent="head/lean/camera/ChalkManager"]
+top_level = true
 
 [node name="logic" type="Node" parent="." unique_id=717132806]
 
