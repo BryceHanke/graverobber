@@ -6,7 +6,7 @@ const CHALK_MARK = preload("uid://l8swa4qt65y3")
 var og_pos := Vector3.ZERO
 @export var chalk_instancer : MultiMeshInstance3D
 
-const MAX_MARKS = 5000
+const MAX_MARKS = 25000
 var current_mark_index = 0
 
 const TIMER_INTERVAL : float = 0.01

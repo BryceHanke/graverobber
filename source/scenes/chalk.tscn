@@ -6,9 +6,9 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6pvgg"]
 render_priority = 0
 shader = ExtResource("2_31u13")
-shader_parameter/lit_color = Color(0.5609549, 0.5609549, 0.56095505, 1)
+shader_parameter/lit_color = Color(0.8486136, 0.78635126, 0.80753696, 1)
 shader_parameter/normal_scale = 1.0
-shader_parameter/shadow_color = Color(0.27022174, 0.27022198, 0.27022186, 1)
+shader_parameter/shadow_color = Color(0.030094907, 0.26529083, 0.40248516, 1)
 shader_parameter/use_gradient = false
 shader_parameter/use_inverse_gradient = false
 shader_parameter/color_depth = 16.0000007125

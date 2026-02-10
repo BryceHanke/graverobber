@@ -3,33 +3,44 @@
 [ext_resource type="Script" uid="uid://btaeb6p8bt2yi" path="res://scripts/chalk.gd" id="1_mvm36"]
 [ext_resource type="PackedScene" uid="uid://dpvwrwmb5pmri" path="res://scenes/chalk.tscn" id="1_ywxhb"]
 [ext_resource type="Shader" uid="uid://dcxcwwd03jc52" path="res://assets/shaders/dither.gdshader" id="3_covl5"]
-[ext_resource type="Texture2D" uid="uid://bxpmsw3vi1crh" path="res://assets/textures/smoke.png" id="4_3ng48"]
+[ext_resource type="Texture2D" uid="uid://btc31bwc7114k" path="res://assets/textures/chalk.png" id="4_covl5"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_covl5"]
+frequency = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_3ng48"]
+width = 128
+height = 128
+noise = SubResource("FastNoiseLite_covl5")
+seamless = true
+in_3d_space = true
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_i5dfw"]
 render_priority = 0
 shader = ExtResource("3_covl5")
-shader_parameter/texture_albedo = ExtResource("4_3ng48")
-shader_parameter/lit_color = Color(1, 1, 1, 1)
+shader_parameter/texture_albedo = ExtResource("4_covl5")
+shader_parameter/lit_color = Color(0.8486136, 0.78635126, 0.80753696, 1)
 shader_parameter/normal_scale = 1.000000807500001
-shader_parameter/shadow_color = Color(0.37036446, 0.3703645, 0.37036443, 1)
+shader_parameter/shadow_color = Color(0.030094907, 0.26529083, 0.40248516, 1)
 shader_parameter/use_gradient = false
 shader_parameter/use_inverse_gradient = false
-shader_parameter/color_depth = 4.000000142499999
+shader_parameter/color_depth = 16.0000007125
 shader_parameter/roughness_scale = 1.0
 shader_parameter/use_transparency = true
 shader_parameter/alpha_threshold = 0.5
 shader_parameter/cull_mode = 2
 shader_parameter/use_dithered_transparency = true
-shader_parameter/opacity = 0.3930000186675
+shader_parameter/opacity = 0.5230000248425
 shader_parameter/billboard_mode = 0
-shader_parameter/no_outlines = false
-shader_parameter/dither_type = 0
-shader_parameter/dither_mode = 0
+shader_parameter/no_outlines = true
+shader_parameter/dither_type = 2
+shader_parameter/dither_mode = 2
 shader_parameter/dither_pixel_size = 2.0000000475
 shader_parameter/dither_density = 64.0
-shader_parameter/world_dither_density = 32.0
-shader_parameter/dither_spread = 0.94700004428398
-shader_parameter/shadow_bias = 0.0
+shader_parameter/world_dither_density = 256.0
+shader_parameter/dither_spread = 0.41900001920398
+shader_parameter/shadow_bias = -0.149999959625
+shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_3ng48")
 shader_parameter/albedo_mapping = 0
 shader_parameter/uv_scale = Vector2(1, 1)
 shader_parameter/uv_offset = Vector2(0, 0)
@@ -39,6 +50,7 @@ shader_parameter/bounce_strength = 0.0
 
 [sub_resource type="QuadMesh" id="QuadMesh_8bsue"]
 material = SubResource("ShaderMaterial_i5dfw")
+size = Vector2(0.075, 0.075)
 
 [sub_resource type="MultiMesh" id="MultiMesh_cix0w"]
 transform_format = 1
@@ -52,12 +64,12 @@ chalk_instancer = NodePath("MultiMeshInstance3D")
 transform = Transform3D(-0.91004497, -0.37905705, -0.16773136, -0.33036608, 0.90767324, -0.258819, 0.2503525, -0.1801242, -0.9512511, 0.768, -0.745, -0.655)
 
 [node name="Cylinder" parent="chalk" index="0" unique_id=138191848]
-transform = Transform3D(0.9619094, -0.028841153, 0.2718425, 0.18178982, 0.8101625, -0.55730546, -0.20416333, 0.5854955, 0.78454596, -0.01789993, -0.11226618, 0.016547203)
+transform = Transform3D(0.90159667, 0.04998696, -0.4296803, -0.39288875, 0.51025367, -0.76503646, 0.18100308, 0.8585705, 0.4796819, -0.044561803, -0.029954612, 0.025415897)
 layers = 2
 
 [node name="RayCast3D" type="RayCast3D" parent="." unique_id=385624287]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, -0.5, 0)
-target_position = Vector3(0, -1.5, 0)
+target_position = Vector3(0, -2, 0)
 
 [node name="Timer" type="Timer" parent="." unique_id=1313295319]
 wait_time = 0.05
