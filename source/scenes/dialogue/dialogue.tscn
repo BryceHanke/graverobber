@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://djt6by1ebmi0" path="res://scripts/dialogue/dialogue.gd" id="1_esu7l"]
 [ext_resource type="FontFile" uid="uid://5isvb6xg3rjw" path="res://assets/fonts/pixeled/Pixeled.ttf" id="2_2qw3d"]
+[ext_resource type="AudioStream" uid="uid://bed8orobcewqh" path="res://assets/sounds/short_cough.mp3" id="2_ccvd7"]
 [ext_resource type="Texture2D" uid="uid://lg66ekbxfk7x" path="res://assets/textures/frame.png" id="2_vokea"]
-[ext_resource type="AudioStream" uid="uid://budx2jedix1i8" path="res://assets/sounds/uh.mp3" id="3_2qw3d"]
 [ext_resource type="Material" uid="uid://dbf647kxf1i0q" path="res://assets/materials/ui_pixel.tres" id="4_ccvd7"]
 [ext_resource type="Texture2D" uid="uid://dwcut4jwjoxtr" path="res://assets/textures/wheelchair_icon.png" id="5_ccvd7"]
 
@@ -24,8 +24,9 @@ variation_transform = Transform2D(1, 0.5, 0, 1, 0, 0)
 script = ExtResource("1_esu7l")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1690431893]
-stream = ExtResource("3_2qw3d")
+stream = ExtResource("2_ccvd7")
 max_polyphony = 1000
+bus = &"dialogue"
 
 [node name="Control" type="TextureRect" parent="." unique_id=470235611]
 z_index = -1
@@ -45,6 +46,7 @@ grow_vertical = 0
 texture = ExtResource("2_vokea")
 
 [node name="dialogue_box" type="HBoxContainer" parent="." unique_id=2078838560]
+z_index = 8
 texture_filter = 1
 material = ExtResource("4_ccvd7")
 anchors_preset = 7
@@ -66,13 +68,14 @@ material = ExtResource("4_ccvd7")
 layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="dialogue_box/character_icon" unique_id=1009960502]
+z_index = 10
 texture_filter = 1
 material = ExtResource("4_ccvd7")
 position = Vector2(-43, 46)
 texture = ExtResource("5_ccvd7")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="dialogue_box/character_icon/Sprite2D" unique_id=1272823855]
-z_index = 1
+z_index = 9
 texture_filter = 1
 material = ExtResource("4_ccvd7")
 anchors_preset = 7
@@ -81,20 +84,21 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -63.0
-offset_top = -120.0
+offset_top = -117.0
 offset_right = 3.0
-offset_bottom = -83.16667
+offset_bottom = -80.16667
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_colors/default_color = Color(0.8486136, 0.78635126, 0.80753696, 1)
 theme_override_fonts/normal_font = ExtResource("2_2qw3d")
-theme_override_font_sizes/normal_font_size = 12
+theme_override_font_sizes/normal_font_size = 8
 bbcode_enabled = true
 text = "KING"
 scroll_active = false
 horizontal_alignment = 1
 
 [node name="dialogue_container" type="VBoxContainer" parent="dialogue_box" unique_id=1303553003]
+z_index = 7
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
@@ -112,11 +116,11 @@ theme_override_fonts/bold_font = SubResource("FontVariation_vokea")
 theme_override_fonts/bold_italics_font = SubResource("FontVariation_ccvd7")
 theme_override_fonts/italics_font = SubResource("FontVariation_r7qq7")
 theme_override_fonts/mono_font = ExtResource("2_2qw3d")
-theme_override_font_sizes/normal_font_size = 12
-theme_override_font_sizes/bold_font_size = 12
-theme_override_font_sizes/bold_italics_font_size = 12
-theme_override_font_sizes/italics_font_size = 12
-theme_override_font_sizes/mono_font_size = 12
+theme_override_font_sizes/normal_font_size = 8
+theme_override_font_sizes/bold_font_size = 8
+theme_override_font_sizes/bold_italics_font_size = 8
+theme_override_font_sizes/italics_font_size = 8
+theme_override_font_sizes/mono_font_size = 8
 bbcode_enabled = true
 text = "adpoiaseifboawdawd"
 scroll_active = false

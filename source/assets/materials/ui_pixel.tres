@@ -3,28 +3,28 @@
 [ext_resource type="Shader" uid="uid://nnm2vfpswuif" path="res://assets/shaders/canvas_pixel.gdshader" id="1_i7rbp"]
 [ext_resource type="Texture2D" uid="uid://cdr3agq0jdx7y" path="res://assets/textures/colors.tres" id="2_gis51"]
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_i7rbp"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_kvlxm"]
 frequency = 0.3574
 fractal_octaves = 10
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_gis51"]
-noise = SubResource("FastNoiseLite_i7rbp")
+noise = SubResource("FastNoiseLite_kvlxm")
 
 [resource]
 shader = ExtResource("1_i7rbp")
-shader_parameter/pixel_size = 1.050000002375
+shader_parameter/pixel_size = 1.0
 shader_parameter/use_screen_texture = false
 shader_parameter/use_dithering = true
-shader_parameter/dither_type = 1
-shader_parameter/dither_mode = 0
-shader_parameter/dither_size = 4.000000142499999
-shader_parameter/dither_amount = 1.0
+shader_parameter/dither_type = 4
+shader_parameter/dither_mode = 1
+shader_parameter/dither_size = 1.0
+shader_parameter/dither_amount = 0.50000002375
 shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_gis51")
 shader_parameter/use_transparency = false
 shader_parameter/alpha_threshold = 0.5
 shader_parameter/use_dithered_transparency = false
 shader_parameter/opacity = 1.0
-shader_parameter/color_depth = 5.00000019
+shader_parameter/color_depth = 8.0000003325
 shader_parameter/use_gradient = true
 shader_parameter/color_gradient = ExtResource("2_gis51")
 shader_parameter/gradient_mix = 1.0

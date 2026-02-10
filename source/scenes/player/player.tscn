@@ -5,18 +5,25 @@
 [ext_resource type="Material" uid="uid://cw3vtka5voiak" path="res://assets/materials/dither.tres" id="2_h17s1"]
 [ext_resource type="Script" uid="uid://0x2i8kdr51fu" path="res://scripts/camera/camera_movement.gd" id="2_qek5x"]
 [ext_resource type="Texture2D" uid="uid://cdr3agq0jdx7y" path="res://assets/textures/colors.tres" id="3_8ydkj"]
+[ext_resource type="Script" uid="uid://cu4pxvtbu3ogn" path="res://scripts/camera/dynamic_sway_recoil.gd" id="3_ioxgp"]
 [ext_resource type="Script" uid="uid://dlyn7myxb1v18" path="res://scripts/statemachine/statemachine.gd" id="5_5tt2p"]
 [ext_resource type="PackedScene" uid="uid://dg7xl4dtseqsv" path="res://scenes/outline_pixelate.tscn" id="5_kvlxm"]
 [ext_resource type="Script" uid="uid://c5cfuh8tg3iw5" path="res://scripts/camera/hand_camera.gd" id="6_fm80t"]
-[ext_resource type="Shader" uid="uid://dcxcwwd03jc52" path="res://assets/shaders/dither.gdshader" id="6_myrg7"]
 [ext_resource type="Script" uid="uid://bs6sc1frb1nfc" path="res://scripts/player/ground/idle.gd" id="6_rkuj1"]
 [ext_resource type="Script" uid="uid://b01bw7djd0wvp" path="res://scripts/player/ground/walk.gd" id="7_ers80"]
 [ext_resource type="Script" uid="uid://dmw47mb382ebt" path="res://scripts/player/ground/jump.gd" id="8_nwn0c"]
 [ext_resource type="Script" uid="uid://brdohbduwyyb6" path="res://scripts/player/ground/fall.gd" id="9_y4pjd"]
 [ext_resource type="Script" uid="uid://vptqvkhe206v" path="res://scripts/player/ground/crouch.gd" id="12_lgqa7"]
-[ext_resource type="Shader" uid="uid://d0bv8q2atrbtp" path="res://assets/shaders/pixel.gdshader" id="13_gx1jg"]
 [ext_resource type="Material" uid="uid://sieciuw0oa22" path="res://assets/materials/screen_pixel.tres" id="15_fcs02"]
-[ext_resource type="Script" path="res://scripts/chalk.gd" id="16_chalk"]
+[ext_resource type="AudioStream" uid="uid://4u5ivtiif5oj" path="res://assets/sounds/step 1.mp3" id="16_lgqa7"]
+[ext_resource type="Shader" uid="uid://nnm2vfpswuif" path="res://assets/shaders/canvas_pixel.gdshader" id="16_myrg7"]
+[ext_resource type="AudioStream" uid="uid://doan5eyctitrk" path="res://assets/sounds/step 2.mp3" id="17_8ydkj"]
+[ext_resource type="AudioStream" uid="uid://cbwsjme7v7t55" path="res://assets/sounds/step 3.mp3" id="18_3j4b4"]
+[ext_resource type="Script" uid="uid://bdnt7gg01aapm" path="res://scripts/player/ground/run.gd" id="18_cnsyf"]
+[ext_resource type="PackedScene" uid="uid://bchalkxryrgfy" path="res://scenes/torch.tscn" id="19_ioxgp"]
+[ext_resource type="AudioStream" uid="uid://y8ma5gjdshwm" path="res://assets/sounds/step 4.mp3" id="19_yj68g"]
+[ext_resource type="Script" uid="uid://dmnvhxj0y77t2" path="res://scripts/steps.gd" id="20_8ydkj"]
+[ext_resource type="PackedScene" uid="uid://w0e5qalsukw6" path="res://scenes/chalk_item.tscn" id="22_cnsyf"]
 
 [sub_resource type="Environment" id="Environment_ugbui"]
 tonemap_mode = 4
@@ -37,65 +44,58 @@ rings = 2
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8xumb"]
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_kvlxm"]
-frequency = 1.0
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_ioxgp"]
+random_pitch = 1.1892071
+random_volume_offset_db = 3.0
+streams_count = 4
+stream_0/stream = ExtResource("16_lgqa7")
+stream_1/stream = ExtResource("17_8ydkj")
+stream_2/stream = ExtResource("18_3j4b4")
+stream_3/stream = ExtResource("19_yj68g")
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_kvwbb"]
-width = 2048
-height = 2048
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lgqa7"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_kvlxm"]
+frequency = 0.3574
+fractal_octaves = 10
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_gis51"]
 noise = SubResource("FastNoiseLite_kvlxm")
-seamless = true
-in_3d_space = true
 
 [sub_resource type="Gradient" id="Gradient_uf5tr"]
 interpolation_mode = 1
-offsets = PackedFloat32Array(0, 0.203125, 0.41562498, 0.640625, 0.828125)
-colors = PackedColorArray(0.047058824, 0.09803922, 0.07450981, 1, 0.28627452, 0.3764706, 0.29803923, 1, 0.6392157, 0.64705884, 0.43529412, 1, 0.8666667, 0.7058824, 0.7294118, 1, 0.8862745, 0.8862745, 0.85882354, 1)
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 0.014809188, 0.015851432, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_qtgio"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_0bhws"]
 gradient = SubResource("Gradient_uf5tr")
-width = 5
-use_hdr = true
+width = 1
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8ydkj"]
-render_priority = 0
-shader = ExtResource("6_myrg7")
-shader_parameter/lit_color = Color(0, 0.015686275, 0.015686275, 1)
-shader_parameter/shadow_color = Color(0, 0.015686275, 0.015686275, 1)
-shader_parameter/color_gradient = SubResource("GradientTexture1D_qtgio")
-shader_parameter/use_gradient = false
-shader_parameter/use_inverse_gradient = false
-shader_parameter/color_depth = 2.0000000475
-shader_parameter/use_transparency = true
+shader = ExtResource("16_myrg7")
+shader_parameter/pixel_size = 2.0000000475
+shader_parameter/use_screen_texture = false
+shader_parameter/use_dithering = true
+shader_parameter/dither_type = 4
+shader_parameter/dither_mode = 0
+shader_parameter/dither_size = 4.000000142499999
+shader_parameter/dither_amount = 1.0
+shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_gis51")
+shader_parameter/use_transparency = false
 shader_parameter/alpha_threshold = 0.5
-shader_parameter/cull_mode = 2
 shader_parameter/use_dithered_transparency = true
 shader_parameter/opacity = 1.0
-shader_parameter/no_outlines = false
-shader_parameter/dither_type = 4
-shader_parameter/dither_mode = 2
-shader_parameter/dither_pixel_size = 1.0
-shader_parameter/dither_density = 2048.0
-shader_parameter/world_dither_density = 1024.0
-shader_parameter/dither_spread = 1.00000004680148
-shader_parameter/shadow_bias = 1.0
-shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_kvwbb")
-shader_parameter/albedo_mapping = 0
-shader_parameter/uv_scale = Vector2(1, 1)
-shader_parameter/uv_offset = Vector2(0, 0)
-shader_parameter/global_ambient = Color(0.047058824, 0.09803922, 0.07450981, 1)
-shader_parameter/light_boost = 2.0
-shader_parameter/bounce_strength = 0.0
-
-[sub_resource type="QuadMesh" id="QuadMesh_3j4b4"]
-size = Vector2(5, 5)
+shader_parameter/color_depth = 5.00000019
+shader_parameter/use_gradient = true
+shader_parameter/color_gradient = SubResource("GradientTexture1D_0bhws")
+shader_parameter/gradient_mix = 1.0
 
 [sub_resource type="Animation" id="Animation_kvlxm"]
 resource_name = "fade_out"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:material_override:shader_parameter/opacity")
+tracks/0/path = NodePath(".:material:shader_parameter/opacity")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -104,53 +104,13 @@ tracks/0/keys = {
 "update": 0,
 "values": [1.0, 0.0]
 }
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_uf5tr"]
 _data = {
 &"fade_out": SubResource("Animation_kvlxm")
 }
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_lgqa7"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_3j4b4"]
-render_priority = 10
-shader = ExtResource("13_gx1jg")
-shader_parameter/resolution_scale = 1.0
-shader_parameter/dither_type = 0
-shader_parameter/dither_mode = 0
-shader_parameter/dither_size = 2.0
-shader_parameter/world_dither_density = 32.0
-shader_parameter/use_dither_overlay = false
-shader_parameter/dither_overlay_strength = 0.5
-shader_parameter/dither_overlay_color = Color(0, 0, 0, 1)
-shader_parameter/use_transparency = false
-shader_parameter/alpha_threshold = 0.5
-shader_parameter/use_dithered_transparency = false
-shader_parameter/opacity = 1.0
-shader_parameter/line_color = Color(0, 0, 0, 1)
-shader_parameter/line_thickness = 2.000000095
-shader_parameter/depth_threshold = 0.5
-shader_parameter/normal_threshold = 0.030000001425
-shader_parameter/min_line_width = 0.0
-shader_parameter/max_line_width = 10.0
-
-[sub_resource type="QuadMesh" id="QuadMesh_yj68g"]
-material = SubResource("ShaderMaterial_3j4b4")
-size = Vector2(5, 5)
-
-[node name="player" type="CharacterBody3D" unique_id=1570651658 node_paths=PackedStringArray("camera")]
+[node name="player" type="CharacterBody3D" unique_id=1570651658 node_paths=PackedStringArray("step", "camera")]
 axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true
@@ -158,23 +118,13 @@ floor_constant_speed = true
 floor_snap_length = 0.5
 script = ExtResource("1_rkuj1")
 maximum_speed = 10.0
-walk_speed = 5.0
 jump_height = 2.5
 acceleration = 2.0
-strafe_speed = 5.0
+step = NodePath("steps")
 camera = NodePath("head/lean/camera")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=444993200]
 environment = SubResource("Environment_ugbui")
-
-[node name="mesh" type="MeshInstance3D" parent="." unique_id=295009724]
-visible = false
-layers = 4
-material_override = ExtResource("2_h17s1")
-mesh = SubResource("CapsuleMesh_6agyq")
-
-[node name="collision" type="CollisionShape3D" parent="." unique_id=1018871596]
-shape = SubResource("CapsuleShape3D_8xumb")
 
 [node name="head" type="Node3D" parent="." unique_id=951371490]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
@@ -193,24 +143,24 @@ head = NodePath("../..")
 lean = NodePath("..")
 
 [node name="pixelate" parent="head/lean/camera" unique_id=93580127 instance=ExtResource("5_kvlxm")]
+visible = false
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="head/lean/camera" unique_id=2118913192]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1)
-material_override = SubResource("ShaderMaterial_8ydkj")
-cast_shadow = 0
-mesh = SubResource("QuadMesh_3j4b4")
+[node name="mesh" type="MeshInstance3D" parent="." unique_id=295009724]
+layers = 4
+material_override = ExtResource("2_h17s1")
+mesh = SubResource("CapsuleMesh_6agyq")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="head/lean/camera/MeshInstance3D" unique_id=515804271]
-libraries/ = SubResource("AnimationLibrary_uf5tr")
+[node name="collision" type="CollisionShape3D" parent="." unique_id=1018871596]
+shape = SubResource("CapsuleShape3D_8xumb")
 
-[node name="ChalkManager" type="Node3D" parent="head/lean/camera"]
-script = ExtResource("16_chalk")
+[node name="steps" type="AudioStreamPlayer3D" parent="." unique_id=59331114]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.854739, 0)
+stream = SubResource("AudioStreamRandomizer_ioxgp")
+bus = &"steps"
+script = ExtResource("20_8ydkj")
 
-[node name="RayCast3D" type="RayCast3D" parent="head/lean/camera/ChalkManager"]
-target_position = Vector3(0, 0, -2.5)
-
-[node name="MultiMeshInstance3D" type="MultiMeshInstance3D" parent="head/lean/camera/ChalkManager"]
-top_level = true
+[node name="Timer" type="Timer" parent="steps" unique_id=458050395]
+process_callback = 0
 
 [node name="logic" type="Node" parent="." unique_id=717132806]
 
@@ -247,6 +197,11 @@ script = ExtResource("12_lgqa7")
 player = NodePath("../../..")
 metadata/_custom_type_script = "uid://vptqvkhe206v"
 
+[node name="run" type="Node" parent="logic/move" unique_id=1994246396 node_paths=PackedStringArray("player")]
+script = ExtResource("18_cnsyf")
+player = NodePath("../../..")
+metadata/_custom_type_script = "uid://bdnt7gg01aapm"
+
 [node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=897390686]
 texture_filter = 1
 material = SubResource("ShaderMaterial_lgqa7")
@@ -272,10 +227,63 @@ far = 1000000.0
 script = ExtResource("6_fm80t")
 node_to_match = NodePath("../../../head/lean/camera")
 
-[node name="PixelDither" type="MeshInstance3D" parent="SubViewportContainer/hand_view/camera" unique_id=900704282]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.37776482)
+[node name="sway" type="Node3D" parent="SubViewportContainer/hand_view" unique_id=568651731 node_paths=PackedStringArray("player", "camera", "holder")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+script = ExtResource("3_ioxgp")
+player = NodePath("../../..")
+camera = NodePath("../camera")
+holder = NodePath("holder")
+
+[node name="holder" type="Node3D" parent="SubViewportContainer/hand_view/sway" unique_id=567501717]
+
+[node name="torch" type="Node3D" parent="SubViewportContainer/hand_view/sway/holder" unique_id=1298538801]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="torch" parent="SubViewportContainer/hand_view/sway/holder/torch" unique_id=1836886530 instance=ExtResource("19_ioxgp")]
+transform = Transform3D(0.27766678, 0, -0.96067744, 0, 1, 0, 0.96067744, 0, 0.27766678, -0.512, -0.655, -0.59)
+
+[node name="Cylinder" parent="SubViewportContainer/hand_view/sway/holder/torch/torch" index="0" unique_id=1062861853]
 layers = 2
-mesh = SubResource("QuadMesh_yj68g")
+
+[node name="Cylinder_001" parent="SubViewportContainer/hand_view/sway/holder/torch/torch" index="1" unique_id=1062649697]
+layers = 2
+
+[node name="Cylinder_002" parent="SubViewportContainer/hand_view/sway/holder/torch/torch" index="2" unique_id=838068679]
+layers = 2
+
+[node name="Cylinder_003" parent="SubViewportContainer/hand_view/sway/holder/torch/torch" index="3" unique_id=1397636730]
+layers = 2
+
+[node name="OmniLight3D" parent="SubViewportContainer/hand_view/sway/holder/torch/torch" index="4" unique_id=592766888]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.012091517, 0.29021314, -0.011543274)
+layers = 2
+light_energy = 2.4948554
+shadow_blur = 1.4979423
+
+[node name="Sprite3D2" parent="SubViewportContainer/hand_view/sway/holder/torch/torch/OmniLight3D" index="0" unique_id=1329841238]
+transform = Transform3D(0.27454087, 0, -0.9615754, 0, 0.5164572, 0, 0.9615754, 0, 0.27454087, 1.1920929e-07, -0.06456745, 0.00080662966)
+layers = 2
+frame = 0
+is_flipped = true
+
+[node name="Sprite3D3" parent="SubViewportContainer/hand_view/sway/holder/torch/torch/OmniLight3D" index="1" unique_id=1148831848]
+transform = Transform3D(-0.7445846, 0, 0.6675277, 0, 0.5164572, 0, -0.6675277, 0, -0.7445846, 1.1920929e-07, -0.06456745, 0.00080662966)
+layers = 2
+frame = 0
+
+[node name="Sprite3D4" parent="SubViewportContainer/hand_view/sway/holder/torch/torch/OmniLight3D" index="2" unique_id=1923378448]
+transform = Transform3D(-0.5930441, 0, -0.8051696, 0, 0.51436794, 0, 0.8051696, 0, -0.5930441, 0, -0.05956757, 0.00080662966)
+layers = 2
+frame = 0
+
+[node name="fire" parent="SubViewportContainer/hand_view/sway/holder/torch/torch/OmniLight3D" index="3" unique_id=2084859198]
+layers = 2
+
+[node name="smoke" parent="SubViewportContainer/hand_view/sway/holder/torch/torch/OmniLight3D" index="4" unique_id=2081439854]
+layers = 2
+
+[node name="chalk" parent="SubViewportContainer/hand_view/sway/holder" unique_id=1123505354 instance=ExtResource("22_cnsyf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=650718009]
 
@@ -288,3 +296,23 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 metadata/_edit_use_anchors_ = true
+
+[node name="dither_trans" type="ColorRect" parent="CanvasLayer" unique_id=2018062212]
+modulate = Color(0, 0, 0, 1)
+self_modulate = Color(0, 0, 0, 1)
+material = SubResource("ShaderMaterial_8ydkj")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/dither_trans" unique_id=210986631]
+libraries/ = SubResource("AnimationLibrary_uf5tr")
+
+[editable path="SubViewportContainer/hand_view/sway/holder/torch/torch"]
+[editable path="SubViewportContainer/hand_view/sway/holder/chalk"]
+[editable path="SubViewportContainer/hand_view/sway/holder/chalk/chalk"]

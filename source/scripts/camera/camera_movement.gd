@@ -14,6 +14,12 @@ extends Node3D
 var sensMult = 0.001
 var FOV = 90
 
+# Head Bob
+var bobfreq = 2
+var bobamp = 0.1
+var tbob = 0.0
+var rotamount = .005
+
 # Lock Mouse Cursor
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -26,7 +32,18 @@ func _unhandled_input(event):
 
 func _physics_process(delta):
 	if canlook == true:
-		cam.rotation.x = clampf(cam.rotation.x, deg_to_rad(-90), deg_to_rad(90))
+		cam.rotation.x = clampf(cam.rotation.x, deg_to_rad(-80), deg_to_rad(80))
+	if !player.ig.input_direction.length() == 0:
+		tbob += delta * player.velocity.length()
+	else:
+		tbob = 0.0
+	if !player.is_on_floor():
+		tbob = 0.0
+	cam.transform.origin = lerp(cam.transform.origin, headbob(tbob), 5*delta)
+	cam_tilt(delta, player.ig.input_direction.x)
+
+func cam_tilt(delta, input_x):
+	cam.rotation.z = lerp(cam.rotation.z, -input_x * (rotamount * player.velocity.length()), 4 * delta)
 
 func _process(delta):
 	if Input.is_action_pressed("lean"):
@@ -43,3 +60,12 @@ func mouse_movement(event):
 	if canlook == true:
 		head.rotate((head.transform.basis.y).normalized(),(-event.relative.x) * (SENS * sensMult))
 		rotate(transform.basis.x,(-event.relative.y) * (SENS * sensMult))
+
+func headbob(time):
+	var pos = Vector3.ZERO
+	pos.y = sin(time * bobfreq*2) * bobamp
+	pos.x = sin(time * bobfreq / 8) * bobamp
+	
+	if player.ig.input_direction.length() == 0:
+		pos = lerp(pos, Vector3.ZERO, 0.1)
+	return pos

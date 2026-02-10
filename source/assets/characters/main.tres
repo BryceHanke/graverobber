@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="DialogueCharacter" format=3 uid="uid://bavjjmxswjahn"]
+
+[ext_resource type="Script" uid="uid://cirudw1yjqvs5" path="res://scripts/dialogue/dialogue_character.gd" id="1_b2mjd"]
+[ext_resource type="Texture2D" uid="uid://dwcut4jwjoxtr" path="res://assets/textures/wheelchair_icon.png" id="1_p8a7l"]
+[ext_resource type="AudioStream" uid="uid://byx2eu0bxc3c8" path="res://assets/sounds/tiny_cough.mp3" id="3_cwcnn"]
+
+[resource]
+script = ExtResource("1_b2mjd")
+character_name = "?"
+icon = ExtResource("1_p8a7l")
+text_speed = 5.0
+text_sound = ExtResource("3_cwcnn")
+sound_volume = 5
+min_pitch = 0.5
+max_pitch = 0.75

@@ -5,9 +5,9 @@
 [ext_resource type="PackedScene" uid="uid://dg7xl4dtseqsv" path="res://scenes/outline_pixelate.tscn" id="3_l3cfh"]
 [ext_resource type="Script" uid="uid://bpi38cpwqc2mc" path="res://scripts/cell/cell_camera_shake.gd" id="4_hujxm"]
 [ext_resource type="PackedScene" uid="uid://dxwwdfsun0hba" path="res://scenes/cell.tscn" id="4_l3cfh"]
-[ext_resource type="Shader" uid="uid://dcxcwwd03jc52" path="res://assets/shaders/dither.gdshader" id="4_ow5a4"]
 [ext_resource type="Texture2D" uid="uid://cdr3agq0jdx7y" path="res://assets/textures/colors.tres" id="5_ow5a4"]
 [ext_resource type="Script" uid="uid://dbqhrjhus4ed1" path="res://scripts/dialogue/handle_dialogue.gd" id="8_yyfjg"]
+[ext_resource type="Resource" uid="uid://bavjjmxswjahn" path="res://assets/characters/main.tres" id="9_i7in8"]
 [ext_resource type="Script" uid="uid://dgxkqqhrkljed" path="res://scripts/dialogue/dialogue_export_resource.gd" id="9_ouso4"]
 [ext_resource type="Script" uid="uid://c7ndm8smowye4" path="res://scripts/dialogue/dialogue_text.gd" id="10_blune"]
 [ext_resource type="Texture2D" uid="uid://dwcut4jwjoxtr" path="res://assets/textures/wheelchair_icon.png" id="10_th5th"]
@@ -16,6 +16,8 @@
 [ext_resource type="Script" uid="uid://bcx3w7mgoa2tv" path="res://scripts/dialogue/dialogue_function.gd" id="13_7smn1"]
 [ext_resource type="Texture2D" uid="uid://k3tq7h3a48b8" path="res://assets/textures/wheelchair_cough_icon.png" id="13_pg34l"]
 [ext_resource type="AudioStream" uid="uid://budx2jedix1i8" path="res://assets/sounds/uh.mp3" id="13_raeie"]
+[ext_resource type="Resource" uid="uid://uv1e5xs4yyb" path="res://assets/characters/king.tres" id="14_gkmcc"]
+[ext_resource type="AudioStream" uid="uid://cc8fw80mbifi3" path="res://assets/sounds/hmm.mp3" id="14_i7in8"]
 [ext_resource type="Script" uid="uid://bh7m4tekff4qn" path="res://scripts/main_menu/main_menu.gd" id="15_hxu8e"]
 [ext_resource type="AudioStream" uid="uid://dvol5sk11xjbx" path="res://assets/sounds/cough.mp3" id="16_r4lks"]
 [ext_resource type="FontFile" uid="uid://5isvb6xg3rjw" path="res://assets/fonts/pixeled/Pixeled.ttf" id="17_nvumn"]
@@ -24,22 +26,23 @@
 [ext_resource type="Texture2D" uid="uid://bp7ek1ok1uars" path="res://assets/textures/king_sad-sheet.png" id="19_p8abn"]
 [ext_resource type="PackedScene" uid="uid://bchalkxryrgfy" path="res://scenes/torch.tscn" id="21_pg34l"]
 [ext_resource type="Material" uid="uid://sieciuw0oa22" path="res://assets/materials/screen_pixel.tres" id="21_s17dp"]
+[ext_resource type="Shader" uid="uid://nnm2vfpswuif" path="res://assets/shaders/canvas_pixel.gdshader" id="22_6llfj"]
 [ext_resource type="AudioStream" uid="uid://bxev6vxhrprae" path="res://assets/sounds/steps.mp3" id="25_6llfj"]
 [ext_resource type="AudioStream" uid="uid://duusr86tgxjs5" path="res://assets/sounds/ambience.wav" id="26_0bhws"]
 
-[sub_resource type="Animation" id="Animation_6llfj"]
-length = 0.001
+[sub_resource type="Animation" id="Animation_62atk"]
+resource_name = "fade_in"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Camera3D/MeshInstance3D:material_override:shader_parameter/opacity")
+tracks/0/path = NodePath("CanvasLayer/dither_trans:material:shader_parameter/opacity")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [1.0]
+"values": [1.0, 0.0]
 }
 
 [sub_resource type="Animation" id="Animation_0bhws"]
@@ -47,11 +50,11 @@ resource_name = "fade_out"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Camera3D/MeshInstance3D:material_override:shader_parameter/opacity")
+tracks/0/path = NodePath("CanvasLayer/dither_trans:material:shader_parameter/opacity")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.99),
+"times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [0.0, 1.0]
@@ -72,25 +75,13 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector3(-0.52883476, 0, 0), Vector3(-0.52883476, 0, 0), Vector3(-0.17104226, 0, 0), Vector3(0.108210415, 0, 0), Vector3(0.108210415, 0, 0), Vector3(0.108210415, -0.2268928, 0), Vector3(0.108210415, 0.25307274, 0), Vector3(0.038397245, -0.061086524, 0), Vector3(0.108210415, 0, 0), Vector3(0, 0, 0), Vector3(-0.12467037, -0.032654837, -0.023094429)]
 }
-tracks/1/type = "value"
+tracks/1/type = "method"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Camera3D/MeshInstance3D:material_override:shader_parameter/opacity")
+tracks/1/path = NodePath("handle_dialogue")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(1, 1.9333334),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [1.0, 0.0]
-}
-tracks/2/type = "method"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("handle_dialogue")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
 "times": PackedFloat32Array(3.5),
 "transitions": PackedFloat32Array(1),
 "values": [{
@@ -98,37 +89,37 @@ tracks/2/keys = {
 "method": &"spawn_dialogue"
 }]
 }
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Camera3D:position")
-tracks/3/interp = 2
-tracks/3/loop_wrap = true
-tracks/3/keys = {
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Camera3D:position")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
 "times": PackedFloat32Array(1, 7),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector3(0, 0.341, -0.606), Vector3(0, 0.341, -0.556)]
 }
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("wheelchair:position")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("wheelchair:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
 "times": PackedFloat32Array(1.66),
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector3(0, 0, -0.85)]
 }
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("king:position")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("king:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
 "times": PackedFloat32Array(1),
 "transitions": PackedFloat32Array(1),
 "update": 0,
@@ -328,14 +319,14 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Camera3D/MeshInstance3D:visible")
+tracks/4/path = NodePath("CanvasLayer/dither_trans:material:shader_parameter/opacity")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [true]
+"values": [0.0]
 }
 
 [sub_resource type="Animation" id="Animation_m4h2d"]
@@ -550,66 +541,13 @@ tracks/27/keys = PackedFloat32Array(0, 1, 0.9504795, 0.79418933, -0.017125947, 0
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_6q06x"]
 _data = {
-&"RESET": SubResource("Animation_6llfj"),
+&"fade_in": SubResource("Animation_62atk"),
 &"fade_out": SubResource("Animation_0bhws"),
 &"intro_cutscene": SubResource("Animation_l3cfh"),
 &"king_intro": SubResource("Animation_nvumn"),
 &"main_menu": SubResource("Animation_hxu8e"),
 &"sad_king": SubResource("Animation_m4h2d")
 }
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_k6fyf"]
-frequency = 1.0
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_62atk"]
-width = 2048
-height = 2048
-noise = SubResource("FastNoiseLite_k6fyf")
-seamless = true
-in_3d_space = true
-
-[sub_resource type="Gradient" id="Gradient_m4lv8"]
-interpolation_mode = 1
-offsets = PackedFloat32Array(0, 0.203125, 0.41562498, 0.640625, 0.828125)
-colors = PackedColorArray(0.047058824, 0.09803922, 0.07450981, 1, 0.28627452, 0.3764706, 0.29803923, 1, 0.6392157, 0.64705884, 0.43529412, 1, 0.8666667, 0.7058824, 0.7294118, 1, 0.8862745, 0.8862745, 0.85882354, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_i7in8"]
-gradient = SubResource("Gradient_m4lv8")
-width = 5
-use_hdr = true
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_hujxm"]
-render_priority = 0
-shader = ExtResource("4_ow5a4")
-shader_parameter/lit_color = Color(0, 0.015686275, 0.015686275, 1)
-shader_parameter/shadow_color = Color(0, 0.015686275, 0.015686275, 1)
-shader_parameter/color_gradient = SubResource("GradientTexture1D_i7in8")
-shader_parameter/use_gradient = false
-shader_parameter/use_inverse_gradient = false
-shader_parameter/color_depth = 2.0000000475
-shader_parameter/use_transparency = true
-shader_parameter/alpha_threshold = 0.5
-shader_parameter/cull_mode = 2
-shader_parameter/use_dithered_transparency = true
-shader_parameter/opacity = 1.0
-shader_parameter/no_outlines = false
-shader_parameter/dither_type = 4
-shader_parameter/dither_mode = 2
-shader_parameter/dither_pixel_size = 1.0
-shader_parameter/dither_density = 2048.0
-shader_parameter/world_dither_density = 1024.0
-shader_parameter/dither_spread = 1.00000004680148
-shader_parameter/shadow_bias = 1.0
-shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_62atk")
-shader_parameter/albedo_mapping = 0
-shader_parameter/uv_scale = Vector2(1, 1)
-shader_parameter/uv_offset = Vector2(0, 0)
-shader_parameter/global_ambient = Color(0.047058824, 0.09803922, 0.07450981, 1)
-shader_parameter/light_boost = 2.0
-shader_parameter/bounce_strength = 0.0
-
-[sub_resource type="QuadMesh" id="QuadMesh_yyfjg"]
-size = Vector2(5, 5)
 
 [sub_resource type="Environment" id="Environment_yyfjg"]
 tonemap_mode = 4
@@ -624,53 +562,46 @@ adjustment_color_correction = ExtResource("5_ow5a4")
 
 [sub_resource type="Resource" id="Resource_7smn1"]
 script = ExtResource("10_blune")
-character_name = "?"
-character_icon = ExtResource("10_th5th")
+character = ExtResource("9_i7in8")
+character_rest_frame = 0
 text = "..."
-text_speed = 3.0
-text_sound = ExtResource("16_r4lks")
+text_speed = 5.0
 sound_volume = 5
-min_pitch = 0.45
-max_pitch = 0.75
 reveal_type = 2
 metadata/_custom_type_script = "uid://c7ndm8smowye4"
 
 [sub_resource type="Resource" id="Resource_s17dp"]
 script = ExtResource("10_blune")
-character_name = "?"
-character_icon = ExtResource("13_pg34l")
+character = ExtResource("9_i7in8")
+character_h_frames = 1
+character_rest_frame = 0
 text = "*cough*"
 text_speed = 5.0
-text_sound = ExtResource("16_r4lks")
-sound_volume = 10
-min_pitch = 0.6
-max_pitch = 0.8
+sound_volume = 5
+reveal_type = 3
+metadata/_custom_type_script = "uid://c7ndm8smowye4"
+
+[sub_resource type="Resource" id="Resource_raeie"]
+script = ExtResource("10_blune")
+character = ExtResource("9_i7in8")
+character_rest_frame = 0
+text = "	[i]h...[/i] 
+[i]...hello?[/i]"
+text_speed = 5.0
+sound_volume = 5
 reveal_type = 3
 metadata/_custom_type_script = "uid://c7ndm8smowye4"
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_th5th"]
 load_path = "res://.godot/imported/wheelchair_icon.png-7d8dab9fd9b39c0b2c6ce2a725c85e55.ctex"
 
-[sub_resource type="Resource" id="Resource_raeie"]
-script = ExtResource("10_blune")
-character_name = "?"
-character_icon = SubResource("CompressedTexture2D_th5th")
-text = "	[i]h...[/i] 
-[i]...hello?[/i]"
-text_speed = 3.0
-text_sound = ExtResource("12_7smn1")
-sound_volume = 5
-min_pitch = 0.5
-max_pitch = 0.75
-reveal_type = 3
-metadata/_custom_type_script = "uid://c7ndm8smowye4"
-
 [sub_resource type="Resource" id="Resource_nvumn"]
 script = ExtResource("10_blune")
+character = ExtResource("9_i7in8")
 character_name = "?"
 character_icon = SubResource("CompressedTexture2D_th5th")
 text = "..."
-text_speed = 5.0
+text_speed = 3.0
 text_sound = ExtResource("12_7smn1")
 sound_volume = 10
 min_pitch = 0.5
@@ -680,12 +611,13 @@ metadata/_custom_type_script = "uid://c7ndm8smowye4"
 
 [sub_resource type="Resource" id="Resource_m4h2d"]
 script = ExtResource("10_blune")
+character = ExtResource("9_i7in8")
 character_name = "?"
 character_icon = SubResource("CompressedTexture2D_th5th")
 text = "[i][b]HELLO?[b][i]"
-text_speed = 7.0
+text_speed = 5.0
 text_sound = ExtResource("12_7smn1")
-sound_volume = 10
+sound_volume = 5
 min_pitch = 0.5
 max_pitch = 1.0
 reveal_type = 1
@@ -695,8 +627,8 @@ metadata/_custom_type_script = "uid://c7ndm8smowye4"
 script = ExtResource("10_blune")
 character_name = "??"
 text = "[i]So, you're finally awake?[i]"
-text_speed = 7.0
-text_sound = ExtResource("13_raeie")
+text_speed = 10.0
+text_sound = ExtResource("14_i7in8")
 sound_volume = 5
 min_pitch = 0.5
 max_pitch = 0.75
@@ -711,11 +643,12 @@ metadata/_custom_type_script = "uid://bcx3w7mgoa2tv"
 
 [sub_resource type="Resource" id="Resource_necax"]
 script = ExtResource("10_blune")
+character = ExtResource("14_gkmcc")
 character_name = "King"
 character_icon = ExtResource("12_raeie")
 character_h_frames = 2
 text = "You're lucky we found you when we did"
-text_speed = 7.0
+text_speed = 10.0
 text_sound = ExtResource("13_raeie")
 sound_volume = 7
 min_pitch = 0.5
@@ -725,11 +658,12 @@ metadata/_custom_type_script = "uid://c7ndm8smowye4"
 
 [sub_resource type="Resource" id="Resource_62atk"]
 script = ExtResource("10_blune")
+character = ExtResource("14_gkmcc")
 character_name = "King"
 character_icon = ExtResource("12_raeie")
 character_h_frames = 2
 text = "Any later and you may not be here now"
-text_speed = 7.0
+text_speed = 10.0
 text_sound = ExtResource("13_raeie")
 sound_volume = 7
 min_pitch = 0.5
@@ -739,10 +673,11 @@ metadata/_custom_type_script = "uid://c7ndm8smowye4"
 
 [sub_resource type="Resource" id="Resource_i7in8"]
 script = ExtResource("10_blune")
+character = ExtResource("9_i7in8")
 character_name = "?"
 character_icon = ExtResource("13_pg34l")
 text = "*cough*"
-text_speed = 5.0
+text_speed = 10.0
 text_sound = ExtResource("16_r4lks")
 sound_volume = 10
 min_pitch = 0.6
@@ -752,10 +687,11 @@ metadata/_custom_type_script = "uid://c7ndm8smowye4"
 
 [sub_resource type="Resource" id="Resource_pg34l"]
 script = ExtResource("10_blune")
+character = ExtResource("9_i7in8")
 character_name = "?"
 character_icon = ExtResource("10_th5th")
-text = "where..."
-text_speed = 3.0
+text = "how did i..."
+text_speed = 10.0
 text_sound = ExtResource("16_r4lks")
 sound_volume = 7
 min_pitch = 0.5
@@ -763,25 +699,13 @@ max_pitch = 0.75
 reveal_type = 3
 metadata/_custom_type_script = "uid://c7ndm8smowye4"
 
-[sub_resource type="Resource" id="Resource_37hlw"]
-script = ExtResource("10_blune")
-character_name = "?"
-character_icon = ExtResource("13_pg34l")
-text = "*cough*"
-text_speed = 5.0
-text_sound = ExtResource("16_r4lks")
-sound_volume = 10
-min_pitch = 0.6
-max_pitch = 0.8
-reveal_type = 1
-metadata/_custom_type_script = "uid://c7ndm8smowye4"
-
 [sub_resource type="Resource" id="Resource_6llfj"]
 script = ExtResource("10_blune")
+character = ExtResource("9_i7in8")
 character_name = "?"
 character_icon = ExtResource("10_th5th")
-text = "...am i?"
-text_speed = 3.0
+text = "...get here?"
+text_speed = 10.0
 text_sound = ExtResource("16_r4lks")
 sound_volume = 7
 min_pitch = 0.5
@@ -797,10 +721,11 @@ metadata/_custom_type_script = "uid://bcx3w7mgoa2tv"
 
 [sub_resource type="Resource" id="Resource_gkmcc"]
 script = ExtResource("10_blune")
+character = ExtResource("14_gkmcc")
 character_name = "King"
 character_icon = ExtResource("17_pg34l")
 text = "..."
-text_speed = 5.0
+text_speed = 3.0
 text_sound = ExtResource("13_raeie")
 sound_volume = 7
 min_pitch = 0.5
@@ -810,11 +735,12 @@ metadata/_custom_type_script = "uid://c7ndm8smowye4"
 
 [sub_resource type="Resource" id="Resource_0bhws"]
 script = ExtResource("10_blune")
+character = ExtResource("14_gkmcc")
 character_name = "King"
 character_icon = ExtResource("19_p8abn")
 character_h_frames = 2
 text = "what happened down there?"
-text_speed = 5.0
+text_speed = 10.0
 text_sound = ExtResource("13_raeie")
 sound_volume = 7
 min_pitch = 0.5
@@ -824,11 +750,12 @@ metadata/_custom_type_script = "uid://c7ndm8smowye4"
 
 [sub_resource type="Resource" id="Resource_7nlll"]
 script = ExtResource("10_blune")
+character = ExtResource("14_gkmcc")
 character_name = "King"
 character_icon = ExtResource("19_p8abn")
 character_h_frames = 2
 text = "where is the necklace?"
-text_speed = 5.0
+text_speed = 10.0
 text_sound = ExtResource("13_raeie")
 sound_volume = 7
 min_pitch = 0.5
@@ -837,11 +764,11 @@ metadata/_custom_type_script = "uid://c7ndm8smowye4"
 
 [sub_resource type="Resource" id="Resource_ii537"]
 script = ExtResource("10_blune")
+character = ExtResource("9_i7in8")
 character_name = "?"
 character_icon = ExtResource("10_th5th")
-text = "...
-necklace?"
-text_speed = 3.0
+text = "necklace?"
+text_speed = 10.0
 text_sound = ExtResource("16_r4lks")
 sound_volume = 7
 min_pitch = 0.5
@@ -851,11 +778,12 @@ metadata/_custom_type_script = "uid://c7ndm8smowye4"
 
 [sub_resource type="Resource" id="Resource_rofvo"]
 script = ExtResource("10_blune")
+character = ExtResource("14_gkmcc")
 character_name = "King"
 character_icon = ExtResource("19_p8abn")
 character_h_frames = 2
 text = "I need you to think really hard"
-text_speed = 4.0
+text_speed = 10.0
 text_sound = ExtResource("13_raeie")
 sound_volume = 7
 min_pitch = 0.5
@@ -865,11 +793,27 @@ metadata/_custom_type_script = "uid://c7ndm8smowye4"
 
 [sub_resource type="Resource" id="Resource_tbnf8"]
 script = ExtResource("10_blune")
+character = ExtResource("14_gkmcc")
 character_name = "King"
 character_icon = ExtResource("19_p8abn")
 character_h_frames = 2
 text = "What happened to the necklace?"
-text_speed = 4.0
+text_speed = 10.0
+text_sound = ExtResource("13_raeie")
+sound_volume = 7
+min_pitch = 0.45
+max_pitch = 0.65
+reveal_type = 3
+metadata/_custom_type_script = "uid://c7ndm8smowye4"
+
+[sub_resource type="Resource" id="Resource_os81g"]
+script = ExtResource("10_blune")
+character = ExtResource("14_gkmcc")
+character_name = "King"
+character_icon = ExtResource("19_p8abn")
+character_h_frames = 2
+text = "Start from the beginning"
+text_speed = 10.0
 text_sound = ExtResource("13_raeie")
 sound_volume = 7
 min_pitch = 0.45
@@ -879,10 +823,11 @@ metadata/_custom_type_script = "uid://c7ndm8smowye4"
 
 [sub_resource type="Resource" id="Resource_r1bmu"]
 script = ExtResource("10_blune")
+character = ExtResource("9_i7in8")
 character_name = "?"
 character_icon = ExtResource("10_th5th")
 text = "..."
-text_speed = 5.0
+text_speed = 3.0
 text_sound = ExtResource("12_7smn1")
 sound_volume = 7
 min_pitch = 0.5
@@ -894,7 +839,43 @@ metadata/_custom_type_script = "uid://c7ndm8smowye4"
 script = ExtResource("13_7smn1")
 target_path = NodePath("../AnimationPlayer")
 function_name = "transition_scene"
+hide = true
 metadata/_custom_type_script = "uid://bcx3w7mgoa2tv"
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_i7rbp"]
+frequency = 0.3574
+fractal_octaves = 10
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_6llfj"]
+noise = SubResource("FastNoiseLite_i7rbp")
+
+[sub_resource type="Gradient" id="Gradient_6llfj"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 0.014809188, 0.015851432, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_0bhws"]
+gradient = SubResource("Gradient_6llfj")
+width = 1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_62atk"]
+shader = ExtResource("22_6llfj")
+shader_parameter/pixel_size = 2.0000000475
+shader_parameter/use_screen_texture = false
+shader_parameter/use_dithering = true
+shader_parameter/dither_type = 4
+shader_parameter/dither_mode = 0
+shader_parameter/dither_size = 4.000000142499999
+shader_parameter/dither_amount = 1.0
+shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_6llfj")
+shader_parameter/use_transparency = false
+shader_parameter/alpha_threshold = 0.5
+shader_parameter/use_dithered_transparency = true
+shader_parameter/opacity = 0.0
+shader_parameter/color_depth = 5.00000019
+shader_parameter/use_gradient = true
+shader_parameter/color_gradient = SubResource("GradientTexture1D_0bhws")
+shader_parameter/gradient_mix = 1.0
 
 [node name="Main" type="Node3D" unique_id=1106574498]
 
@@ -902,21 +883,20 @@ metadata/_custom_type_script = "uid://bcx3w7mgoa2tv"
 libraries/ = SubResource("AnimationLibrary_6q06x")
 script = ExtResource("1_6q06x")
 
-[node name="cell" parent="." unique_id=954708517 instance=ExtResource("4_l3cfh")]
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="." unique_id=1214987998]
+libraries/ = SubResource("AnimationLibrary_6q06x")
 
-[node name="wheelchair" parent="." unique_id=372267110 instance=ExtResource("2_k2fmo")]
+[node name="cell" parent="." unique_id=954708517 instance=ExtResource("4_l3cfh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.6226044e-06, 0.006449461, 2.2649765e-05)
+
+[node name="wheelchair" parent="." unique_id=1823650738 instance=ExtResource("2_k2fmo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.85)
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1999611765]
-transform = Transform3D(0.9985543, 0.04008736, 0.035797633, -0.042557955, 0.9965566, 0.07115258, -0.03282208, -0.07257325, 0.9968219, 0, 0.341, -0.606)
+transform = Transform3D(0.9999062, -0.008345473, -0.010759225, 0.008283188, 0.99994767, -0.005820551, 0.010807252, 0.005730892, 0.9999239, 0, 0.341, -0.606)
 fov = 90.0
 script = ExtResource("4_hujxm")
 do_rotate = true
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Camera3D" unique_id=1563191413]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1)
-material_override = SubResource("ShaderMaterial_hujxm")
-mesh = SubResource("QuadMesh_yyfjg")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=524840437]
 environment = SubResource("Environment_yyfjg")
@@ -925,7 +905,7 @@ environment = SubResource("Environment_yyfjg")
 
 [node name="handle_dialogue" type="Node3D" parent="." unique_id=1762330469]
 script = ExtResource("8_yyfjg")
-dialogue = Array[ExtResource("9_ouso4")]([SubResource("Resource_7smn1"), SubResource("Resource_s17dp"), SubResource("Resource_raeie"), SubResource("Resource_nvumn"), SubResource("Resource_m4h2d"), SubResource("Resource_ou6is"), SubResource("Resource_r4lks"), SubResource("Resource_necax"), SubResource("Resource_62atk"), SubResource("Resource_i7in8"), SubResource("Resource_pg34l"), SubResource("Resource_37hlw"), SubResource("Resource_6llfj"), SubResource("Resource_p8abn"), SubResource("Resource_gkmcc"), SubResource("Resource_0bhws"), SubResource("Resource_7nlll"), SubResource("Resource_ii537"), SubResource("Resource_rofvo"), SubResource("Resource_tbnf8"), SubResource("Resource_r1bmu"), SubResource("Resource_6w6mm")])
+dialogue = Array[ExtResource("9_ouso4")]([SubResource("Resource_7smn1"), SubResource("Resource_s17dp"), SubResource("Resource_raeie"), SubResource("Resource_nvumn"), SubResource("Resource_m4h2d"), SubResource("Resource_ou6is"), SubResource("Resource_r4lks"), SubResource("Resource_necax"), SubResource("Resource_62atk"), SubResource("Resource_i7in8"), SubResource("Resource_pg34l"), SubResource("Resource_6llfj"), SubResource("Resource_p8abn"), SubResource("Resource_gkmcc"), SubResource("Resource_0bhws"), SubResource("Resource_7nlll"), SubResource("Resource_ii537"), SubResource("Resource_rofvo"), SubResource("Resource_tbnf8"), SubResource("Resource_os81g"), SubResource("Resource_r1bmu"), SubResource("Resource_6w6mm")])
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1717856567]
 script = ExtResource("15_hxu8e")
@@ -965,58 +945,39 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -220.0
-offset_top = -111.0
-offset_right = -132.0
-offset_bottom = -57.0
+offset_left = -44.0
+offset_top = -27.0
+offset_right = 44.0
+offset_bottom = 27.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Button" type="Button" parent="CanvasLayer/main menu/HBoxContainer" unique_id=1522883375]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 theme_override_fonts/font = ExtResource("17_nvumn")
 text = "Start"
 flat = true
 
+[node name="dither_trans" type="ColorRect" parent="CanvasLayer" unique_id=1867738555]
+modulate = Color(0, 0, 0, 1)
+self_modulate = Color(0, 0, 0, 1)
+material = SubResource("ShaderMaterial_62atk")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
 [node name="king" parent="." unique_id=1319535891 instance=ExtResource("18_ou6is")]
-transform = Transform3D(-0.078498065, 0, -0.23735623, 0, 0.25, 0, 0.23735623, 0, -0.078498065, 4.552, -1, -3.472)
+transform = Transform3D(-0.24827363, 0, -0.029327972, 0, 0.25, 0, 0.029327972, 0, -0.24827363, 4.947, -1, -3.472)
 
 [node name="Skeleton3D" parent="king/Armature" parent_id_path=PackedInt32Array(1319535891, 1532664018) index="0" unique_id=1233176041]
 transform = Transform3D(0.9957108, -0.06564935, -0.06519371, 0.06826067, 0.9969178, 0.038667582, 0.062454283, -0.042951904, 0.99712324, 0, 0, 0)
-bones/0/position = Vector3(0, 0, 0)
-bones/0/rotation = Quaternion(-2.9802326e-08, 1.19209275e-07, 0, 1)
-bones/1/position = Vector3(3.4028336e-14, 3.212235, -4.6954426e-08)
-bones/1/rotation = Quaternion(0.118213125, 0.03418457, -0.22820129, 0.9658061)
-bones/1/scale = Vector3(0.99999994, 0.99999994, 1)
-bones/2/position = Vector3(1.6371402e-07, 3.3778045, 4.0811167e-07)
-bones/2/rotation = Quaternion(-0.13202074, 0.045543026, 0.017575948, 0.9900442)
-bones/2/scale = Vector3(1.0000004, 1.0000001, 1.0000002)
-bones/6/scale = Vector3(1, 1.0000001, 1.0000001)
-bones/9/scale = Vector3(0.9999999, 1.0000001, 0.9999999)
-bones/10/scale = Vector3(1.0000001, 1.0000001, 0.99999994)
-bones/11/scale = Vector3(1.0000001, 1.0000002, 1.0000001)
-bones/12/scale = Vector3(1.0000001, 1.0000004, 1)
-
-[node name="Bone_010" parent="king/Armature/Skeleton3D" index="0" unique_id=1028500608]
-transform = Transform3D(0.9493365, -0.12564474, 0.28805247, 0.18477127, 0.96459144, -0.18821076, -0.25420523, 0.23189913, 0.93893725, 1.9842322, 7.70594, 0.8688917)
-
-[node name="Bone_006" parent="king/Armature/Skeleton3D" index="1" unique_id=1501495969]
-transform = Transform3D(-0.37172106, 0.90517807, 0.20609838, -0.92759055, -0.3710954, -0.0431724, 0.037403483, -0.20722303, 0.97757864, 2.4033208, 6.956484, 0.25519028)
-
-[node name="Bone_008" parent="king/Armature/Skeleton3D" index="2" unique_id=1338864386]
-transform = Transform3D(-0.37172106, 0.90517807, 0.20609838, -0.92759055, -0.3710954, -0.0431724, 0.037403483, -0.20722303, 0.97757864, 2.525065, 6.9309816, 0.832656)
-
-[node name="Bone_005" parent="king/Armature/Skeleton3D" index="3" unique_id=1321371060]
-transform = Transform3D(0.6873556, -0.6299931, 0.36145756, -0.36806092, 0.12690642, 0.9211003, -0.626158, -0.7661621, -0.14464596, 2.6708963, 7.141619, 0.32338256)
-
-[node name="Bone_009" parent="king/Armature/Skeleton3D" index="4" unique_id=1262144176]
-transform = Transform3D(-0.9637642, -0.26548657, -0.026010923, -0.040856887, 0.050551448, 0.99788535, -0.26361012, 0.9627888, -0.059566636, 2.7428272, 7.1265516, 0.66456985)
-
-[node name="Bone_002" parent="king/Armature/Skeleton3D" index="5" unique_id=1275721252]
-transform = Transform3D(0.8983315, 0.3879749, 0.20609838, -0.38775328, 0.92075163, -0.04317239, -0.20651525, -0.04113224, 0.97757864, 1.5162238, 6.1438303, 0.71859354)
-
-[node name="Bone_001" parent="king/Armature/Skeleton3D" index="6" unique_id=1724999197]
-transform = Transform3D(0.8935111, 0.44887844, 0.012078792, -0.43271413, 0.8678996, -0.24394372, -0.11998426, 0.21273977, 0.96971416, 9.227577e-18, 3.212235, -2.3841858e-07)
 
 [node name="torch" parent="king/Armature/Skeleton3D/Bone_001/Empty" parent_id_path=PackedInt32Array(1319535891, 1717881124) index="0" unique_id=1836886530 instance=ExtResource("21_pg34l")]
 transform = Transform3D(1.4685333, 0.058866262, -2.7861135, -1.3709736, 2.7570882, -0.66437304, 2.4261763, 1.5223315, 1.3109778, -0.90050983, 0.25866938, 1.6938407)
@@ -1024,12 +985,15 @@ transform = Transform3D(1.4685333, 0.058866262, -2.7861135, -1.3709736, 2.757088
 [node name="music" type="AudioStreamPlayer" parent="." unique_id=819134821]
 stream = ExtResource("25_6llfj")
 volume_db = -21.341
+pitch_scale = 0.75
 autoplay = true
+bus = &"music"
 
 [node name="ambience" type="AudioStreamPlayer" parent="." unique_id=883516513]
 stream = ExtResource("26_0bhws")
 volume_db = -22.187
 autoplay = true
+bus = &"ambience"
 
 [connection signal="pressed" from="CanvasLayer/main menu/HBoxContainer/Button" to="CanvasLayer" method="_on_button_pressed"]
 

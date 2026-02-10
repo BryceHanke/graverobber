@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="DialogueCharacter" format=3 uid="uid://uv1e5xs4yyb"]
+
+[ext_resource type="Script" uid="uid://cirudw1yjqvs5" path="res://scripts/dialogue/dialogue_character.gd" id="1_byt5s"]
+[ext_resource type="Texture2D" uid="uid://cxikv8kpfecvb" path="res://assets/textures/king-sheet.png" id="1_obhqt"]
+[ext_resource type="AudioStream" uid="uid://cc8fw80mbifi3" path="res://assets/sounds/hmm.mp3" id="3_s0ta5"]
+
+[resource]
+script = ExtResource("1_byt5s")
+character_name = "King"
+icon = ExtResource("1_obhqt")
+h_frames = 2
+text_speed = 7.0
+text_sound = ExtResource("3_s0ta5")
+sound_volume = 7
+min_pitch = 0.75
+max_pitch = 0.95

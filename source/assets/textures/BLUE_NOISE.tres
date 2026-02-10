@@ -1,0 +1,5 @@
+[gd_resource type="FastNoiseLite" format=3 uid="uid://dvbfmnewdh1f7"]
+
+[resource]
+seed = 2137306796
+frequency = 1.0

@@ -1,0 +1,135 @@
+[gd_resource type="AudioBusLayout" format=3 uid="uid://dmqw7awhqf127"]
+
+[sub_resource type="AudioEffectStereoEnhance" id="AudioEffectStereoEnhance_6ke3j"]
+resource_name = "StereoEnhance"
+pan_pullout = 0.59
+surround = 0.51
+
+[sub_resource type="AudioEffectDelay" id="AudioEffectDelay_6ke3j"]
+resource_name = "Delay"
+tap1_level_db = -9.85
+tap2_level_db = -24.05
+
+[sub_resource type="AudioEffectCompressor" id="AudioEffectCompressor_6ke3j"]
+resource_name = "Compressor"
+threshold = -1.7
+gain = 1.1
+
+[sub_resource type="AudioEffectPanner" id="AudioEffectPanner_tskd7"]
+resource_name = "Panner"
+pan = 0.35
+
+[sub_resource type="AudioEffectReverb" id="AudioEffectReverb_tskd7"]
+resource_name = "Reverb"
+
+[sub_resource type="AudioEffectStereoEnhance" id="AudioEffectStereoEnhance_7papk"]
+resource_name = "StereoEnhance"
+surround = 1.0
+
+[sub_resource type="AudioEffectPanner" id="AudioEffectPanner_6ke3j"]
+resource_name = "Panner"
+pan = 0.45
+
+[sub_resource type="AudioEffectReverb" id="AudioEffectReverb_6ke3j"]
+resource_name = "Reverb"
+room_size = 0.83
+damping = 0.39
+spread = 0.59
+hipass = 0.17
+dry = 0.86
+wet = 0.45
+
+[sub_resource type="AudioEffectLowPassFilter" id="AudioEffectLowPassFilter_6ke3j"]
+resource_name = "LowPassFilter"
+cutoff_hz = 1250.0
+resonance = 0.57
+
+[sub_resource type="AudioEffectStereoEnhance" id="AudioEffectStereoEnhance_tskd7"]
+resource_name = "StereoEnhance"
+surround = 1.0
+
+[sub_resource type="AudioEffectPitchShift" id="AudioEffectPitchShift_6ke3j"]
+resource_name = "PitchShift"
+pitch_scale = 0.5
+oversampling = 12
+
+[sub_resource type="AudioEffectReverb" id="AudioEffectReverb_7papk"]
+resource_name = "Reverb"
+
+[sub_resource type="AudioEffectLowPassFilter" id="AudioEffectLowPassFilter_tskd7"]
+resource_name = "LowPassFilter"
+cutoff_hz = 1000.0
+resonance = 0.75
+
+[sub_resource type="AudioEffectDistortion" id="AudioEffectDistortion_6ke3j"]
+resource_name = "Distortion"
+mode = 3
+pre_gain = 9.27
+drive = 0.39
+post_gain = 5.5
+
+[resource]
+bus/1/name = &"effects"
+bus/1/solo = false
+bus/1/mute = false
+bus/1/bypass_fx = false
+bus/1/volume_db = 0.0
+bus/1/send = &"Master"
+bus/1/effect/0/effect = SubResource("AudioEffectStereoEnhance_6ke3j")
+bus/1/effect/0/enabled = true
+bus/1/effect/1/effect = SubResource("AudioEffectDelay_6ke3j")
+bus/1/effect/1/enabled = true
+bus/1/effect/2/effect = SubResource("AudioEffectCompressor_6ke3j")
+bus/1/effect/2/enabled = true
+bus/1/effect/3/effect = SubResource("AudioEffectPanner_tskd7")
+bus/1/effect/3/enabled = true
+bus/2/name = &"ambience"
+bus/2/solo = false
+bus/2/mute = false
+bus/2/bypass_fx = false
+bus/2/volume_db = 0.0
+bus/2/send = &"effects"
+bus/2/effect/0/effect = SubResource("AudioEffectReverb_tskd7")
+bus/2/effect/0/enabled = true
+bus/2/effect/1/effect = SubResource("AudioEffectStereoEnhance_7papk")
+bus/2/effect/1/enabled = true
+bus/2/effect/2/effect = SubResource("AudioEffectPanner_6ke3j")
+bus/2/effect/2/enabled = true
+bus/3/name = &"steps"
+bus/3/solo = false
+bus/3/mute = false
+bus/3/bypass_fx = false
+bus/3/volume_db = 0.0
+bus/3/send = &"effects"
+bus/3/effect/0/effect = SubResource("AudioEffectReverb_6ke3j")
+bus/3/effect/0/enabled = true
+bus/4/name = &"music"
+bus/4/solo = false
+bus/4/mute = false
+bus/4/bypass_fx = false
+bus/4/volume_db = -9.632782
+bus/4/send = &"effects"
+bus/4/effect/0/effect = SubResource("AudioEffectLowPassFilter_6ke3j")
+bus/4/effect/0/enabled = true
+bus/4/effect/1/effect = SubResource("AudioEffectStereoEnhance_tskd7")
+bus/4/effect/1/enabled = true
+bus/4/effect/2/effect = SubResource("AudioEffectPitchShift_6ke3j")
+bus/4/effect/2/enabled = true
+bus/5/name = &"screams"
+bus/5/solo = false
+bus/5/mute = false
+bus/5/bypass_fx = false
+bus/5/volume_db = 0.0
+bus/5/send = &"effects"
+bus/5/effect/0/effect = SubResource("AudioEffectReverb_7papk")
+bus/5/effect/0/enabled = true
+bus/6/name = &"dialogue"
+bus/6/solo = false
+bus/6/mute = false
+bus/6/bypass_fx = false
+bus/6/volume_db = -3.3268216
+bus/6/send = &"Master"
+bus/6/effect/0/effect = SubResource("AudioEffectLowPassFilter_tskd7")
+bus/6/effect/0/enabled = true
+bus/6/effect/1/effect = SubResource("AudioEffectDistortion_6ke3j")
+bus/6/effect/1/enabled = true
