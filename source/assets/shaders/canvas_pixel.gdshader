@@ -29,10 +29,25 @@ uniform bool use_gradient = false;
 uniform sampler2D color_gradient : source_color;
 uniform float gradient_mix : hint_range(0.0, 1.0) = 1.0;
 
+// --- WORLD SPACE ---
+uniform sampler2D depth_texture : hint_depth_texture, filter_nearest;
+uniform mat4 inv_view_matrix;
+uniform mat4 inv_proj_matrix;
+uniform float world_dither_density = 32.0;
+
 varying vec2 v_world_pos;
 
 void vertex() {
 	v_world_pos = (MODEL_MATRIX * vec4(VERTEX, 0.0, 1.0)).xy;
+}
+
+// Helper: Reconstruct View Position from Depth
+vec3 get_view_position_from_depth(vec2 uv) {
+	float depth = texture(depth_texture, uv).x;
+	vec3 ndc = vec3(uv * 2.0 - 1.0, depth);
+	vec4 view_pos = inv_proj_matrix * vec4(ndc, 1.0);
+	view_pos.xyz /= view_pos.w;
+	return view_pos.xyz;
 }
 
 // Helper: Convert Color -> Brightness (Luminance)
@@ -135,8 +150,38 @@ void fragment() {
 
 	float noise = 0.0;
 	if (use_dithering || use_dithered_transparency) {
-		vec2 noise_uv = (dither_mode == 1) ? v_world_pos : FRAGCOORD.xy;
-		// Use FRAGCOORD to keep dither pattern screen-aligned, or v_world_pos for world-aligned
+		vec2 noise_uv;
+		if (dither_mode == 1) { // World Space
+			if (use_screen_texture) {
+				// 3D World Space reconstruction
+				vec3 view_pos = get_view_position_from_depth(SCREEN_UV);
+				vec3 world_pos = (inv_view_matrix * vec4(view_pos, 1.0)).xyz;
+
+				// Calculate world normal using derivatives
+				vec3 dx = dFdx(world_pos);
+				vec3 dy = dFdy(world_pos);
+				vec3 world_normal = normalize(cross(dx, dy));
+
+				// Triplanar mapping logic
+				vec3 blend = abs(world_normal);
+				blend /= (blend.x + blend.y + blend.z);
+
+				vec2 world_uv;
+				if (blend.x > blend.y && blend.x > blend.z) {
+					world_uv = world_pos.zy;
+				} else if (blend.y > blend.z) {
+					world_uv = world_pos.xz;
+				} else {
+					world_uv = world_pos.xy;
+				}
+				noise_uv = world_uv * world_dither_density;
+			} else {
+				// 2D World Space fallback
+				noise_uv = v_world_pos;
+			}
+		} else {
+			noise_uv = FRAGCOORD.xy;
+		}
 		noise = get_dither_noise(noise_uv);
 	}
 

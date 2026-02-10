@@ -24,6 +24,7 @@
 [ext_resource type="AudioStream" uid="uid://y8ma5gjdshwm" path="res://assets/sounds/step 4.mp3" id="19_yj68g"]
 [ext_resource type="Script" uid="uid://dmnvhxj0y77t2" path="res://scripts/steps.gd" id="20_8ydkj"]
 [ext_resource type="PackedScene" uid="uid://w0e5qalsukw6" path="res://scenes/chalk_item.tscn" id="22_cnsyf"]
+[ext_resource type="Script" path="res://scripts/post_process/canvas_pixel_dither_world.gd" id="23_canvas_dither"]
 
 [sub_resource type="Environment" id="Environment_ugbui"]
 tonemap_mode = 4
@@ -294,6 +295,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+script = ExtResource("23_canvas_dither")
 metadata/_edit_use_anchors_ = true
 
 [node name="dither_trans" type="ColorRect" parent="CanvasLayer" unique_id=2018062212]
