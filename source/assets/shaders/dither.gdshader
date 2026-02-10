@@ -8,6 +8,9 @@ uniform vec3 lit_color : source_color = vec3(1.0, 1.0, 1.0);
 
 group_uniforms Normal_Map;
 uniform sampler2D texture_normal : hint_normal, filter_nearest;
+uniform int normal_mapping : hint_enum("Object UV", "World Space") = 0;
+uniform vec2 normal_uv_scale = vec2(1.0, 1.0);
+uniform vec2 normal_uv_offset = vec2(0.0, 0.0);
 uniform float normal_scale : hint_range(-16.0, 16.0) = 1.0;
 uniform vec3 shadow_color : source_color = vec3(0.0, 0.0, 0.0);
 uniform sampler2D color_gradient : source_color;
@@ -213,7 +216,19 @@ void fragment() {
 	}
 	vec3 base_color = tex.rgb;
 
-	NORMAL_MAP = texture(texture_normal, uv).rgb;
+	if (normal_mapping == 1) { // World Space
+		vec3 world_norm = normalize(v_world_norm);
+		vec3 blend = abs(world_norm);
+		blend /= (blend.x + blend.y + blend.z);
+
+		vec3 x_n = texture(texture_normal, v_world_pos.zy * normal_uv_scale + normal_uv_offset).rgb;
+		vec3 y_n = texture(texture_normal, v_world_pos.xz * normal_uv_scale + normal_uv_offset).rgb;
+		vec3 z_n = texture(texture_normal, v_world_pos.xy * normal_uv_scale + normal_uv_offset).rgb;
+
+		NORMAL_MAP = x_n * blend.x + y_n * blend.y + z_n * blend.z;
+	} else { // Object UV
+		NORMAL_MAP = texture(texture_normal, UV * normal_uv_scale + normal_uv_offset).rgb;
+	}
 	NORMAL_MAP_DEPTH = normal_scale;
 
 	if (use_transparency && tex.a < alpha_threshold) {
