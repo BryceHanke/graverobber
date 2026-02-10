@@ -52,6 +52,7 @@ func place_mark():
 		y_axis = z_axis.cross(x_axis).normalized()
 
 		var basis = Basis(x_axis, y_axis, z_axis)
+		basis = basis.rotated(z_axis, randf_range(0, TAU))
 
 		var offset_pos = point + (normal * 0.01)
 		var global_transform = Transform3D(basis, offset_pos)
