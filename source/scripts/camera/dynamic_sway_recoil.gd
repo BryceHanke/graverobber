@@ -3,7 +3,7 @@ extends Node3D
 @export var player : player_controller
 @export var camera : Camera3D
 @export var holder : Node3D
-
+@export var speed := 7.0
 @export var sway_amount : float = .075
 var mouse_input : Vector2
 var og_pos : Vector3
@@ -20,12 +20,12 @@ func _process(delta):
 	weapon_sway(delta)
 
 func _physics_process(delta):
-	global_position.x = move_toward(global_position.x, camera.global_position.x, 5*delta)
-	global_position.y = move_toward(global_position.y, camera.global_position.y, 5*delta)
-	global_position.z = move_toward(global_position.z, camera.global_position.z, 5*delta)
-	global_rotation.x = rotate_toward(global_rotation.x, camera.global_rotation.x, 5*delta)
-	global_rotation.y = rotate_toward(global_rotation.y, camera.global_rotation.y, 5*delta)
-	global_rotation.z = rotate_toward(global_rotation.z, camera.global_rotation.z, 5*delta)
+	global_position.x = move_toward(global_position.x, camera.global_position.x, speed*delta)
+	global_position.y = move_toward(global_position.y, camera.global_position.y, speed*delta)
+	global_position.z = move_toward(global_position.z, camera.global_position.z, speed*delta)
+	global_rotation.x = rotate_toward(global_rotation.x, camera.global_rotation.x, speed*delta)
+	global_rotation.y = rotate_toward(global_rotation.y, camera.global_rotation.y, speed*delta)
+	global_rotation.z = rotate_toward(global_rotation.z, camera.global_rotation.z, speed*delta)
 	rotation.x = clampf(rotation.x, deg_to_rad(-75), deg_to_rad(75))
 	holder.rotation.x = clampf(holder.rotation.x, deg_to_rad(-75), deg_to_rad(75))
 

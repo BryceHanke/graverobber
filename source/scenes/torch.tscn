@@ -96,7 +96,7 @@ shader_parameter/light_boost = 2.0
 shader_parameter/bounce_strength = 0.5
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_21l5o"]
-seed = -485223400
+seed = 718852925
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_wjrvc"]
 noise = SubResource("FastNoiseLite_21l5o")
@@ -168,7 +168,7 @@ _data = {
 }
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_2bkw1"]
-seed = -746201245
+seed = -1449978245
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_etrdt"]
 noise = SubResource("FastNoiseLite_2bkw1")
@@ -222,7 +222,7 @@ shader_parameter/use_transparency = true
 shader_parameter/alpha_threshold = 0.2010000095475
 shader_parameter/cull_mode = 2
 shader_parameter/use_dithered_transparency = true
-shader_parameter/opacity = 0.186000008835
+shader_parameter/opacity = 0.7710000366225
 shader_parameter/billboard_mode = 1
 shader_parameter/no_outlines = true
 shader_parameter/dither_type = 2
@@ -602,7 +602,7 @@ void light() {
 render_priority = -1
 shader = SubResource("Shader_wjrvc")
 shader_parameter/texture_albedo = ExtResource("8_21l5o")
-shader_parameter/lit_color = Color(0.6174547, 0.61745477, 0.6174546, 1)
+shader_parameter/lit_color = Color(0.5609555, 0.56095475, 0.5609549, 1)
 shader_parameter/normal_scale = 1.0
 shader_parameter/shadow_color = Color(0.18717626, 0.18717608, 0.18717623, 1)
 shader_parameter/use_gradient = false
@@ -663,9 +663,9 @@ material_override = SubResource("ShaderMaterial_ndh0a")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="." index="4" unique_id=592766888]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.27679542, 0)
-light_energy = 3.253928
+light_energy = 2.9461617
 shadow_enabled = true
-shadow_blur = 1.8015714
+shadow_blur = 1.6784648
 omni_attenuation = 2.0
 script = ExtResource("3_ndh0a")
 probability = 50
@@ -683,7 +683,6 @@ billboard = 1
 texture_filter = 2
 texture = ExtResource("4_ktql7")
 hframes = 4
-frame = 1
 script = ExtResource("5_gybtl")
 animation_player = NodePath("AnimationPlayer2")
 randomize_noise = true
@@ -692,7 +691,7 @@ randomize_noise = true
 libraries/ = SubResource("AnimationLibrary_wjrvc")
 
 [node name="Sprite3D3" type="Sprite3D" parent="OmniLight3D" index="1" unique_id=1148831848 node_paths=PackedStringArray("animation_player")]
-transform = Transform3D(-0.33283615, 0, 0.9429844, 0, 0.51436794, 0, -0.9429844, 0, -0.33283615, 0, -0.05956757, 0.00080662966)
+transform = Transform3D(0.13633129, 0, 0.990663, 0, 0.51436794, 0, -0.990663, 0, 0.13633129, 0, -0.05956757, 0.00080662966)
 material_override = SubResource("ShaderMaterial_21l5o")
 cast_shadow = 0
 pixel_size = 0.02
@@ -700,7 +699,6 @@ billboard = 1
 texture_filter = 2
 texture = ExtResource("4_ktql7")
 hframes = 4
-frame = 1
 script = ExtResource("5_gybtl")
 animation_player = NodePath("AnimationPlayer2")
 do_rotate = true
@@ -710,7 +708,7 @@ randomize_noise = true
 libraries/ = SubResource("AnimationLibrary_wjrvc")
 
 [node name="Sprite3D4" type="Sprite3D" parent="OmniLight3D" index="2" unique_id=1923378448 node_paths=PackedStringArray("animation_player")]
-transform = Transform3D(-0.7714608, 0, -0.6362765, 0, 0.51436794, 0, 0.6362765, 0, -0.7714608, 0, -0.05956757, 0.00080662966)
+transform = Transform3D(-0.39412242, 0, -0.91905767, 0, 0.51436794, 0, 0.91905767, 0, -0.39412242, 0, -0.05956757, 0.00080662966)
 material_override = SubResource("ShaderMaterial_21l5o")
 cast_shadow = 0
 pixel_size = 0.02
@@ -718,7 +716,6 @@ billboard = 1
 texture_filter = 2
 texture = ExtResource("4_ktql7")
 hframes = 4
-frame = 1
 script = ExtResource("5_gybtl")
 animation_player = NodePath("AnimationPlayer2")
 is_flipped = true
@@ -741,7 +738,6 @@ draw_pass_1 = SubResource("QuadMesh_wjrvc")
 
 [node name="smoke" type="GPUParticles3D" parent="OmniLight3D" index="4" unique_id=2081439854]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.022156477, 0)
-visible = false
 material_override = SubResource("ShaderMaterial_2bkw1")
 cast_shadow = 0
 amount = 32

@@ -38,9 +38,9 @@ bus = &"ambience"
 
 [node name="OmniLight3D" type="OmniLight3D" parent="player/head/lean/camera" parent_id_path=PackedInt32Array(1570651658, 1055946145) index="1" unique_id=1260396475]
 layers = 3
-light_energy = 1.463009
+light_energy = 1.6080799
 shadow_enabled = true
-shadow_blur = 6.1575227
+shadow_blur = 6.5202003
 omni_attenuation = 2.0
 script = ExtResource("6_7cme6")
 probability = 50
@@ -58,19 +58,19 @@ max_polyphony = 3
 autostart = true
 
 [node name="OmniLight3D" parent="player/SubViewportContainer/hand_view/sway/holder/torch/torch" parent_id_path=PackedInt32Array(1570651658, 1836886530) index="4" unique_id=592766888]
-light_energy = 3.3243434
-shadow_blur = 1.8297371
+light_energy = 3.2651064
+shadow_blur = 1.8060426
 
 [node name="Sprite3D2" parent="player/SubViewportContainer/hand_view/sway/holder/torch/torch/OmniLight3D" index="0" unique_id=1329841238]
-frame = 0
+frame = 2
 
 [node name="Sprite3D3" parent="player/SubViewportContainer/hand_view/sway/holder/torch/torch/OmniLight3D" index="1" unique_id=1148831848]
-transform = Transform3D(0.9502054, 0, 0.31162098, 0, 0.5164572, 0, -0.31162098, 0, 0.9502054, 1.1920929e-07, -0.06456745, 0.00080662966)
-frame = 0
+transform = Transform3D(0.95232576, 0, 0.30507946, 0, 0.5164572, 0, -0.30507946, 0, 0.95232576, 1.1920929e-07, -0.06456745, 0.00080662966)
+frame = 2
 
 [node name="Sprite3D4" parent="player/SubViewportContainer/hand_view/sway/holder/torch/torch/OmniLight3D" index="2" unique_id=1923378448]
-transform = Transform3D(0.99249786, 0, -0.12225617, 0, 0.51436794, 0, 0.12225617, 0, 0.99249786, 0, -0.05956757, 0.00080662966)
-frame = 0
+transform = Transform3D(0.9932374, 0, -0.11609519, 0, 0.51436794, 0, 0.11609519, 0, 0.9932374, 0, -0.05956757, 0.00080662966)
+frame = 2
 
 [node name="Area3D" type="Area3D" parent="." unique_id=335482119]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.10440302, -2.7429214, -9.901158)
