@@ -2,13 +2,15 @@ extends Node3D
 
 const CHALK_MARK = preload("uid://l8swa4qt65y3")
 @onready var ray_cast_3d : RayCast3D = $RayCast3D
-@onready var timer = $Timer
 @onready var chalk = $chalk
 var og_pos := Vector3.ZERO
 @export var chalk_instancer : MultiMeshInstance3D
 
 const MAX_MARKS = 5000
 var current_mark_index = 0
+
+const TIMER_INTERVAL : float = 0.01
+var timer : float = 0.0
 
 func _ready():
 	og_pos = chalk.position
@@ -19,18 +21,17 @@ func _ready():
 			chalk_instancer.multimesh.instance_count = MAX_MARKS
 			chalk_instancer.multimesh.visible_instance_count = 0
 
-	if timer:
-		timer.one_shot = true
-		timer.stop()
-
 func _process(delta):
+	if timer > 0.0:
+		timer -= delta
+
 	if ray_cast_3d.is_colliding():
 		var target_pos = to_local(ray_cast_3d.get_collision_point())
 		chalk.position = chalk.position.lerp(target_pos, 10 * delta)
 
-		if Input.is_action_pressed("r_click") and timer.is_stopped():
+		if Input.is_action_pressed("r_click") and timer <= 0.0:
 			place_mark()
-			timer.start()
+			timer = TIMER_INTERVAL
 	else:
 		chalk.position = chalk.position.lerp(og_pos, 10 * delta)
 
