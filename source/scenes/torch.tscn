@@ -96,7 +96,7 @@ shader_parameter/light_boost = 2.0
 shader_parameter/bounce_strength = 0.5
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_21l5o"]
-seed = 718852925
+seed = 828744585
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_wjrvc"]
 noise = SubResource("FastNoiseLite_21l5o")
@@ -168,7 +168,7 @@ _data = {
 }
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_2bkw1"]
-seed = -1449978245
+seed = -1742716674
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_etrdt"]
 noise = SubResource("FastNoiseLite_2bkw1")
@@ -663,9 +663,9 @@ material_override = SubResource("ShaderMaterial_ndh0a")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="." index="4" unique_id=592766888]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.27679542, 0)
-light_energy = 2.9461617
+light_energy = 3.202629
 shadow_enabled = true
-shadow_blur = 1.6784648
+shadow_blur = 1.7810512
 omni_attenuation = 2.0
 script = ExtResource("3_ndh0a")
 probability = 50
@@ -691,7 +691,7 @@ randomize_noise = true
 libraries/ = SubResource("AnimationLibrary_wjrvc")
 
 [node name="Sprite3D3" type="Sprite3D" parent="OmniLight3D" index="1" unique_id=1148831848 node_paths=PackedStringArray("animation_player")]
-transform = Transform3D(0.13633129, 0, 0.990663, 0, 0.51436794, 0, -0.990663, 0, 0.13633129, 0, -0.05956757, 0.00080662966)
+transform = Transform3D(0.24414606, 0, -0.9697381, 0, 0.51436794, 0, 0.9697381, 0, 0.24414606, 0, -0.05956757, 0.00080662966)
 material_override = SubResource("ShaderMaterial_21l5o")
 cast_shadow = 0
 pixel_size = 0.02
@@ -708,7 +708,7 @@ randomize_noise = true
 libraries/ = SubResource("AnimationLibrary_wjrvc")
 
 [node name="Sprite3D4" type="Sprite3D" parent="OmniLight3D" index="2" unique_id=1923378448 node_paths=PackedStringArray("animation_player")]
-transform = Transform3D(-0.39412242, 0, -0.91905767, 0, 0.51436794, 0, 0.91905767, 0, -0.39412242, 0, -0.05956757, 0.00080662966)
+transform = Transform3D(0.71350664, 0, 0.70064807, 0, 0.51436794, 0, -0.70064807, 0, 0.71350664, 0, -0.05956757, 0.00080662966)
 material_override = SubResource("ShaderMaterial_21l5o")
 cast_shadow = 0
 pixel_size = 0.02
@@ -727,6 +727,7 @@ libraries/ = SubResource("AnimationLibrary_wjrvc")
 
 [node name="fire" type="GPUParticles3D" parent="OmniLight3D" index="3" unique_id=2084859198]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.022156477, 0)
+visible = false
 sorting_offset = 5.0
 material_override = SubResource("ShaderMaterial_gybtl")
 cast_shadow = 0
@@ -738,6 +739,7 @@ draw_pass_1 = SubResource("QuadMesh_wjrvc")
 
 [node name="smoke" type="GPUParticles3D" parent="OmniLight3D" index="4" unique_id=2081439854]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.022156477, 0)
+visible = false
 material_override = SubResource("ShaderMaterial_2bkw1")
 cast_shadow = 0
 amount = 32

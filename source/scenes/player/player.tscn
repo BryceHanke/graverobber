@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" uid="uid://bvt0l60nmgv4s" path="res://scripts/player/player_controller.gd" id="1_rkuj1"]
 [ext_resource type="Script" uid="uid://v23xafiwc0lo" path="res://scripts/input/input_gather.gd" id="2_0owmy"]
+[ext_resource type="Texture2D" uid="uid://l2m8nhv330ad" path="res://assets/textures/Warm Autumn Glow.png" id="2_cnsyf"]
 [ext_resource type="Material" uid="uid://cw3vtka5voiak" path="res://assets/materials/dither.tres" id="2_h17s1"]
 [ext_resource type="Script" uid="uid://0x2i8kdr51fu" path="res://scripts/camera/camera_movement.gd" id="2_qek5x"]
-[ext_resource type="Texture2D" uid="uid://cdr3agq0jdx7y" path="res://assets/textures/colors.tres" id="3_8ydkj"]
 [ext_resource type="Script" uid="uid://cu4pxvtbu3ogn" path="res://scripts/camera/dynamic_sway_recoil.gd" id="3_ioxgp"]
 [ext_resource type="Script" uid="uid://dlyn7myxb1v18" path="res://scripts/statemachine/statemachine.gd" id="5_5tt2p"]
 [ext_resource type="PackedScene" uid="uid://dg7xl4dtseqsv" path="res://scenes/outline_pixelate.tscn" id="5_kvlxm"]
@@ -35,8 +35,7 @@ fog_light_energy = 0.0
 fog_density = 1.0
 volumetric_fog_density = 0.25
 volumetric_fog_albedo = Color(0, 0, 0, 1)
-adjustment_enabled = true
-adjustment_color_correction = ExtResource("3_8ydkj")
+adjustment_color_correction = ExtResource("2_cnsyf")
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_6agyq"]
 radial_segments = 16
@@ -257,8 +256,8 @@ layers = 2
 [node name="OmniLight3D" parent="SubViewportContainer/hand_view/sway/holder/torch/torch" index="4" unique_id=592766888]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.012091517, 0.29021314, -0.011543274)
 layers = 2
-light_energy = 2.3457487
-shadow_blur = 1.4382993
+light_energy = 2.7929134
+shadow_blur = 1.6171652
 
 [node name="Sprite3D2" parent="SubViewportContainer/hand_view/sway/holder/torch/torch/OmniLight3D" index="0" unique_id=1329841238]
 transform = Transform3D(0.27454087, 0, -0.9615754, 0, 0.5164572, 0, 0.9615754, 0, 0.27454087, 1.1920929e-07, -0.06456745, 0.00080662966)
@@ -267,12 +266,12 @@ frame = 3
 is_flipped = true
 
 [node name="Sprite3D3" parent="SubViewportContainer/hand_view/sway/holder/torch/torch/OmniLight3D" index="1" unique_id=1148831848]
-transform = Transform3D(0.22111654, 0, -0.97524714, 0, 0.5164572, 0, 0.97524714, 0, 0.22111654, 1.1920929e-07, -0.06456745, 0.00080662966)
+transform = Transform3D(-0.5983903, 0, -0.8012044, 0, 0.5164572, 0, 0.8012044, 0, -0.5983903, 1.1920929e-07, -0.06456745, 0.00080662966)
 layers = 2
 frame = 3
 
 [node name="Sprite3D4" parent="SubViewportContainer/hand_view/sway/holder/torch/torch/OmniLight3D" index="2" unique_id=1923378448]
-transform = Transform3D(0.018002229, 0, 0.9998376, 0, 0.51436794, 0, -0.9998376, 0, 0.018002229, 0, -0.05956757, 0.00080662966)
+transform = Transform3D(-0.74901116, 0, 0.66255677, 0, 0.51436794, 0, -0.66255677, 0, -0.74901116, 0, -0.05956757, 0.00080662966)
 layers = 2
 frame = 3
 

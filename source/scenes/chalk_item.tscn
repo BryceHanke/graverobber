@@ -27,18 +27,18 @@ shader_parameter/use_inverse_gradient = false
 shader_parameter/color_depth = 16.0000007125
 shader_parameter/roughness_scale = 1.0
 shader_parameter/use_transparency = true
-shader_parameter/alpha_threshold = 0.5
-shader_parameter/cull_mode = 2
+shader_parameter/alpha_threshold = 0.0
+shader_parameter/cull_mode = 0
 shader_parameter/use_dithered_transparency = true
-shader_parameter/opacity = 1.0
+shader_parameter/opacity = 0.830000039425
 shader_parameter/billboard_mode = 0
 shader_parameter/no_outlines = true
-shader_parameter/dither_type = 2
-shader_parameter/dither_mode = 2
-shader_parameter/dither_pixel_size = 2.0000000475
+shader_parameter/dither_type = 3
+shader_parameter/dither_mode = 0
+shader_parameter/dither_pixel_size = 8.0
 shader_parameter/dither_density = 64.0
-shader_parameter/world_dither_density = 256.0
-shader_parameter/dither_spread = 0.41900001920398
+shader_parameter/world_dither_density = 128.0
+shader_parameter/dither_spread = 0.86700004048398
 shader_parameter/shadow_bias = -0.149999959625
 shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_3ng48")
 shader_parameter/albedo_mapping = 0
@@ -50,7 +50,7 @@ shader_parameter/bounce_strength = 0.0
 
 [sub_resource type="QuadMesh" id="QuadMesh_8bsue"]
 material = SubResource("ShaderMaterial_i5dfw")
-size = Vector2(0.075, 0.075)
+size = Vector2(0.025, 0.025)
 
 [sub_resource type="MultiMesh" id="MultiMesh_cix0w"]
 transform_format = 1
