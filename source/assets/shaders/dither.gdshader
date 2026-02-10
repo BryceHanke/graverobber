@@ -271,6 +271,9 @@ void fragment() {
 	SPECULAR = 0.0;
 
 	float r = texture(texture_roughness, uv).r * roughness_scale;
+	if (no_outlines) {
+		r = 0.0;
+	}
 	ROUGHNESS = r;
 
 	// 4. Output Logic
