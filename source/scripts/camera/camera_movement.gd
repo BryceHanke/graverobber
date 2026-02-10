@@ -31,12 +31,23 @@ func _unhandled_input(event):
 		mouse_movement(event)
 
 func _physics_process(delta):
+	var prev_tbob = tbob
 	if !player.ig.input_direction.length() == 0:
 		tbob += delta * player.velocity.length()
 	else:
 		tbob = 0.0
 	if !player.is_on_floor():
 		tbob = 0.0
+
+	if bob_interval > 0:
+		var cycle = tbob / bob_interval
+		var prev_cycle = prev_tbob / bob_interval
+
+		if tbob > prev_tbob:
+			if floor(cycle + 0.25) > floor(prev_cycle + 0.25):
+				if player.step:
+					player.step.steps()
+
 	cam.transform.origin = lerp(cam.transform.origin, headbob(tbob), 5*delta)
 	cam_tilt(delta, player.ig.input_direction.x)
 

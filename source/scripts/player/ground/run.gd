@@ -4,8 +4,6 @@ class_name run
 func Enter():
 	player.maximum_speed = player.run_speed
 	player.move_speed = player.run_speed
-	player.step.timer.timeout.connect(player.step.steps)
-	player.step.timer.wait_time = .5
 
 func Physics_Update(_delta: float):
 	handle_crouch(false, _delta)
@@ -23,4 +21,4 @@ func Update(_delta: float):
 	walk_trans()
 
 func Exit():
-	player.step.timer.timeout.disconnect(player.step.steps)
+	pass
