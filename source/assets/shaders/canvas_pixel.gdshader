@@ -30,7 +30,7 @@ uniform sampler2D color_gradient : source_color;
 uniform float gradient_mix : hint_range(0.0, 1.0) = 1.0;
 
 // --- WORLD SPACE ---
-uniform sampler2D depth_texture : hint_depth_texture, filter_nearest;
+uniform sampler2D depth_texture : filter_nearest;
 uniform mat4 inv_view_matrix;
 uniform mat4 inv_proj_matrix;
 uniform float world_dither_density = 32.0;
