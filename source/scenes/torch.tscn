@@ -598,39 +598,6 @@ void light() {
 }
 "
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_2bkw1"]
-render_priority = -1
-shader = SubResource("Shader_wjrvc")
-shader_parameter/texture_albedo = ExtResource("8_21l5o")
-shader_parameter/lit_color = Color(0.5609555, 0.56095475, 0.5609549, 1)
-shader_parameter/normal_scale = 1.0
-shader_parameter/shadow_color = Color(0.18717626, 0.18717608, 0.18717623, 1)
-shader_parameter/use_gradient = false
-shader_parameter/use_inverse_gradient = false
-shader_parameter/color_depth = 16.0000007125
-shader_parameter/roughness_scale = 1.0
-shader_parameter/use_transparency = true
-shader_parameter/alpha_threshold = 0.2010000095475
-shader_parameter/cull_mode = 2
-shader_parameter/use_dithered_transparency = true
-shader_parameter/opacity = 0.43600002071
-shader_parameter/billboard_mode = 1
-shader_parameter/no_outlines = true
-shader_parameter/dither_type = 2
-shader_parameter/dither_mode = 0
-shader_parameter/dither_pixel_size = 2.0
-shader_parameter/dither_density = 64.0
-shader_parameter/world_dither_density = 64.0
-shader_parameter/dither_spread = 0.91500004276398
-shader_parameter/shadow_bias = 0.06400005054000002
-shader_parameter/blue_noise_texture = ExtResource("6_gybtl")
-shader_parameter/albedo_mapping = 0
-shader_parameter/uv_scale = Vector2(1, 1)
-shader_parameter/uv_offset = Vector2(0, 0)
-shader_parameter/global_ambient = Color(0, 0.014809188, 0.015851432, 1)
-shader_parameter/light_boost = 1.0
-shader_parameter/bounce_strength = 0.0
-
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_etrdt"]
 lifetime_randomness = 1.0
 emission_shape = 1
@@ -642,7 +609,7 @@ scale_over_velocity_max = 10.0
 scale_over_velocity_curve = SubResource("CurveTexture_o1df0")
 turbulence_noise_speed_random = 0.77
 turbulence_influence_max = 0.149
-collision_mode = 2
+collision_mode = 1
 collision_use_scale = true
 
 [sub_resource type="QuadMesh" id="QuadMesh_x1r1x"]
