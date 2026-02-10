@@ -48,7 +48,7 @@ func _physics_process(delta):
 				if player.step:
 					player.step.steps()
 
-	cam.transform.origin = lerp(cam.transform.origin, headbob(tbob), 5*delta)
+	cam.transform.origin = headbob(tbob)
 	cam_tilt(delta, player.ig.input_direction.x)
 
 func cam_tilt(delta, input_x):
