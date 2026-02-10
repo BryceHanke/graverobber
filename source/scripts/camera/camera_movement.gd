@@ -15,7 +15,7 @@ var sensMult = 0.001
 var FOV = 90
 
 # Head Bob
-var bobfreq = 2
+@export var bob_interval : float = 2.0
 var bobamp = 0.1
 var tbob = 0.0
 var rotamount = .005
@@ -63,8 +63,11 @@ func mouse_movement(event):
 
 func headbob(time):
 	var pos = Vector3.ZERO
-	pos.y = sin(time * bobfreq*2) * bobamp
-	pos.x = sin(time * bobfreq / 8) * bobamp
+
+	if bob_interval > 0:
+		var theta = (time / bob_interval) * 2 * PI
+		pos.y = sin(theta) * bobamp
+		pos.x = sin(theta / 16.0) * bobamp
 	
 	if player.ig.input_direction.length() == 0:
 		pos = lerp(pos, Vector3.ZERO, 0.1)
