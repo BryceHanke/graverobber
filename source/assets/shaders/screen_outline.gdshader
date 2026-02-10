@@ -11,6 +11,7 @@ uniform vec4 line_color : source_color = vec4(0.0, 0.0, 0.0, 1.0);
 uniform float line_thickness : hint_range(0.0, 10.0) = 1.0; // Use strict pixel-step offsets
 uniform float depth_threshold : hint_range(0.0, 5.0) = 0.5; // Sensitivity for depth cuts (in meters)
 uniform float normal_threshold : hint_range(0.0, 1.0) = 0.5; // Sensitivity for normal cuts (0.0 to 1.0)
+uniform float depth_cutoff : hint_range(0.0, 100.0) = 20.0;
 
 // Optional clamping for line width
 uniform float min_line_width = 0.0;
@@ -67,7 +68,7 @@ void fragment() {
 
 	float edge_intensity = 0.0;
 
-	if (roughness_c >= 0.04) {
+	if (roughness_c >= 0.04 && length(view_pos_c) < depth_cutoff) {
 		for (int i = 0; i < 4; i++) {
 			vec2 uv_n = SCREEN_UV + offsets[i] * offset_size;
 
