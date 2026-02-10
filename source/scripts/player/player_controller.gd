@@ -3,24 +3,18 @@ class_name player_controller
 
 @export var maximum_speed : float = 15.0
 
-@export var walk_speed : float = 5.0
-@export var crouch_speed : float = 3.0
-@export var run_speed : float = 15.0
+@export var walk_speed : float = 4.0
+@export var crouch_speed : float = 1.0
+@export var run_speed : float = 7.0
 
-@export var jump_height : float = 7.0
+@export var jump_height : float = 28.0
 
 # Quake Movement Constants
-@export var ground_acceleration : float = 10.0
+@export var ground_acceleration : float = 8.0
 @export var air_acceleration : float = 2.0
-@export var ground_friction : float = 6.0
+@export var ground_friction : float = 12.0
 @export var stop_speed : float = 2.0
 @export var air_cap : float = 0.85 # Max speed you can gain by strafing in air (wishspeed cap)
-
-# Legacy variables to avoid breakage if referenced elsewhere (though seemingly only used in state machine)
-# Replaced by ground_acceleration and ground_friction
-@export var acceleration : float = 10.0
-@export var deceleration : float = 6.0
-@export var strafe_speed : float = 7.0 # Preserved but maybe unused now
 
 @export var crouching_speed := 5.0
 @export var min_height := 1.0
