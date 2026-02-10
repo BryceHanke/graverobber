@@ -9,7 +9,7 @@ var og_pos := Vector3.ZERO
 const MAX_MARKS = 25000
 var current_mark_index = 0
 
-const TIMER_INTERVAL : float = 0.01
+const TIMER_INTERVAL : float = 0.001
 var timer : float = 0.0
 
 func _ready():

@@ -39,6 +39,9 @@ hipass = 0.17
 dry = 0.86
 wet = 0.45
 
+[sub_resource type="AudioEffectLowPassFilter" id="AudioEffectLowPassFilter_7papk"]
+resource_name = "LowPassFilter"
+
 [sub_resource type="AudioEffectLowPassFilter" id="AudioEffectLowPassFilter_6ke3j"]
 resource_name = "LowPassFilter"
 cutoff_hz = 1250.0
@@ -99,15 +102,17 @@ bus/3/name = &"steps"
 bus/3/solo = false
 bus/3/mute = false
 bus/3/bypass_fx = false
-bus/3/volume_db = 0.0
+bus/3/volume_db = -5.625
 bus/3/send = &"effects"
 bus/3/effect/0/effect = SubResource("AudioEffectReverb_6ke3j")
 bus/3/effect/0/enabled = true
+bus/3/effect/1/effect = SubResource("AudioEffectLowPassFilter_7papk")
+bus/3/effect/1/enabled = true
 bus/4/name = &"music"
 bus/4/solo = false
 bus/4/mute = false
 bus/4/bypass_fx = false
-bus/4/volume_db = -9.632782
+bus/4/volume_db = -8.798218
 bus/4/send = &"effects"
 bus/4/effect/0/effect = SubResource("AudioEffectLowPassFilter_6ke3j")
 bus/4/effect/0/enabled = true

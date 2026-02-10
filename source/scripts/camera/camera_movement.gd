@@ -76,7 +76,7 @@ func headbob(time):
 
 	if bob_interval > 0:
 		var theta = (time / bob_interval) * 2 * PI
-		pos.y = sin(theta) * bobamp
+		pos.y = sin(theta) * bobamp * player.velocity.length()
 		pos.x = sin(theta / 16.0) * bobamp
 	
 	if player.ig.input_direction.length() == 0:

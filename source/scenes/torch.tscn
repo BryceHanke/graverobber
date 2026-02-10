@@ -5,9 +5,6 @@
 [ext_resource type="Script" uid="uid://1xbyyhgroi2r" path="res://scripts/misc/light_flicker.gd" id="3_ndh0a"]
 [ext_resource type="Texture2D" uid="uid://dyoswsent6pjx" path="res://assets/textures/flame.png" id="4_ktql7"]
 [ext_resource type="Script" uid="uid://1aj1hxpkdetj" path="res://scripts/misc/flame.gd" id="5_gybtl"]
-[ext_resource type="Texture2D" uid="uid://cylbyfrmd61vp" path="res://assets/textures/noise.tres" id="6_gybtl"]
-[ext_resource type="Texture2D" uid="uid://dq5n5sbu2xmbt" path="res://assets/textures/flame_single.png" id="6_ktql7"]
-[ext_resource type="Texture2D" uid="uid://bxpmsw3vi1crh" path="res://assets/textures/smoke.png" id="8_21l5o"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_5fs4t"]
 frequency = 1.0
@@ -32,7 +29,7 @@ use_hdr = true
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_r3k50"]
 render_priority = 0
 shader = ExtResource("2_o2tjn")
-shader_parameter/lit_color = Color(0.39688927, 0.39688927, 0.39688924, 1)
+shader_parameter/lit_color = Color(0.2520276, 0.25202766, 0.25202757, 1)
 shader_parameter/normal_scale = 1.0
 shader_parameter/shadow_color = Color(0, 0, 0, 1)
 shader_parameter/color_gradient = SubResource("GradientTexture1D_mohoo")
@@ -61,6 +58,9 @@ shader_parameter/uv_offset = Vector2(0, 0)
 shader_parameter/global_ambient = Color(0.047058824, 0.09803922, 0.07450981, 1)
 shader_parameter/light_boost = 2.0
 shader_parameter/bounce_strength = 0.5
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_ndh0a"]
+data = PackedVector3Array(1.1798999, 4.1144, 1.7899, 1.6682999, -2.4541, -0.3755, 0.35279998, -2.1678, 1.4813, 0.35279998, -2.1678, 1.4813, 1.0841, -15.1377, 0.59349996, 0.4357, -15.4072, 0.9666, 1.0841, -15.1377, 0.59349996, 0.35279998, -2.1678, 1.4813, 1.6682999, -2.4541, -0.3755, 0.9912, -15.3489, -0.9159, 1.0841, -15.1377, 0.59349996, 1.6682999, -2.4541, -0.3755, 0.9912, -15.3489, -0.9159, 1.6682999, -2.4541, -0.3755, 1.5205, 9.6789, -1.6347, 2.2424, 9.566899, 0.16489999, 1.6682999, -2.4541, -0.3755, 1.1798999, 4.1144, 1.7899, 1.6682999, -2.4541, -0.3755, 2.2424, 9.566899, 0.16489999, 1.5205, 9.6789, -1.6347, 1.1798999, 4.1144, 1.7899, 1.4235, 9.6153, 1.5977, 2.2424, 9.566899, 0.16489999, 1.5205, 9.6789, -1.6347, 2.2424, 9.566899, 0.16489999, 1.2437999, 10.6102, -0.5604, -0.80329996, 4.0322, -1.9241999, -1.0749999, -2.4271, -1.9555999, 1.5205, 9.6789, -1.6347, 0.9912, -15.3489, -0.9159, 1.5205, 9.6789, -1.6347, -1.0749999, -2.4271, -1.9555999, -0.7037, -15.340899, -1.1776999, 0.9912, -15.3489, -0.9159, -1.0749999, -2.4271, -1.9555999, -0.80329996, 4.0322, -1.9241999, 1.5205, 9.6789, -1.6347, -0.0025, 9.6403, -2.3460999, -1.7063999, 9.616099, -1.5304999, -0.80329996, 4.0322, -1.9241999, -0.0025, 9.6403, -2.3460999, -0.0025, 9.6403, -2.3460999, -0.51699996, 10.6105995, -1.3713, -1.7063999, 9.616099, -1.5304999, 1.4235, 9.6153, 1.5977, -0.4436, 9.5939, 2.1132, 0.49379998, 10.609, 1.0697, 1.1798999, 4.1144, 1.7899, -0.4436, 9.5939, 2.1132, 1.4235, 9.6153, 1.5977, -0.4436, 9.5939, 2.1132, 1.1798999, 4.1144, 1.7899, -0.94079995, 3.6344, 1.7486999, 0.35279998, -2.1678, 1.4813, -0.94079995, 3.6344, 1.7486999, 1.1798999, 4.1144, 1.7899, -0.4436, 9.5939, 2.1132, -0.94079995, 3.6344, 1.7486999, -2.1787, 9.6213, 0.589, -2.1787, 9.6213, 0.589, -1.1911, 10.6094, 0.4486, -0.4436, 9.5939, 2.1132, -0.94079995, 3.6344, 1.7486999, -1.1106, -15.349299, 0.4886, -2.1787, 9.6213, 0.589, -1.1106, -15.349299, 0.4886, -0.94079995, 3.6344, 1.7486999, 0.35279998, -2.1678, 1.4813, -1.1106, -15.349299, 0.4886, 0.35279998, -2.1678, 1.4813, 0.4357, -15.4072, 0.9666, -0.4436, 9.5939, 2.1132, -1.1911, 10.6094, 0.4486, 0.49379998, 10.609, 1.0697, -1.1911, 10.6094, 0.4486, -2.1787, 9.6213, 0.589, -1.7063999, 9.616099, -1.5304999, -1.1911, 10.6094, 0.4486, -1.7063999, 9.616099, -1.5304999, -0.51699996, 10.6105995, -1.3713, 0.49379998, 10.609, 1.0697, -1.1911, 10.6094, 0.4486, -0.51699996, 10.6105995, -1.3713, 0.49379998, 10.609, 1.0697, -0.51699996, 10.6105995, -1.3713, 1.2437999, 10.6102, -0.5604, 1.2437999, 10.6102, -0.5604, -0.51699996, 10.6105995, -1.3713, -0.0025, 9.6403, -2.3460999, 1.2437999, 10.6102, -0.5604, -0.0025, 9.6403, -2.3460999, 1.5205, 9.6789, -1.6347, 0.49379998, 10.609, 1.0697, 1.2437999, 10.6102, -0.5604, 2.2424, 9.566899, 0.16489999, 0.49379998, 10.609, 1.0697, 2.2424, 9.566899, 0.16489999, 1.4235, 9.6153, 1.5977, -1.7063999, 9.616099, -1.5304999, -1.9863, 0.9026, -0.0491, -0.80329996, 4.0322, -1.9241999, -1.0749999, -2.4271, -1.9555999, -0.80329996, 4.0322, -1.9241999, -1.9863, 0.9026, -0.0491, -2.1787, 9.6213, 0.589, -1.9863, 0.9026, -0.0491, -1.7063999, 9.616099, -1.5304999, -0.7037, -15.340899, -1.1776999, -1.0749999, -2.4271, -1.9555999, -1.9863, 0.9026, -0.0491, -2.1787, 9.6213, 0.589, -1.1106, -15.349299, 0.4886, -1.9863, 0.9026, -0.0491, -0.7037, -15.340899, -1.1776999, -1.9863, 0.9026, -0.0491, -1.1106, -15.349299, 0.4886, 0.4357, -15.4072, 0.9666, -0.7037, -15.340899, -1.1776999, -1.1106, -15.349299, 0.4886, 0.4357, -15.4072, 0.9666, 0.9912, -15.3489, -0.9159, -0.7037, -15.340899, -1.1776999, 1.0841, -15.1377, 0.59349996, 0.9912, -15.3489, -0.9159, 0.4357, -15.4072, 0.9666)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ndh0a"]
 render_priority = 0
@@ -96,7 +96,7 @@ shader_parameter/light_boost = 2.0
 shader_parameter/bounce_strength = 0.5
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_21l5o"]
-seed = 586803387
+seed = 1421052410
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_wjrvc"]
 noise = SubResource("FastNoiseLite_21l5o")
@@ -128,7 +128,7 @@ shader_parameter/alpha_threshold = 0.5
 shader_parameter/cull_mode = 2
 shader_parameter/use_dithered_transparency = true
 shader_parameter/opacity = 1.0
-shader_parameter/billboard_mode = 1
+shader_parameter/billboard_mode = 2
 shader_parameter/no_outlines = true
 shader_parameter/dither_type = 2
 shader_parameter/dither_mode = 2
@@ -168,7 +168,7 @@ _data = {
 }
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_2bkw1"]
-seed = 1125705556
+seed = -551054225
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_etrdt"]
 noise = SubResource("FastNoiseLite_2bkw1")
@@ -207,468 +207,15 @@ shader_parameter/global_ambient = Color(0.047058824, 0.09803922, 0.07450981, 1)
 shader_parameter/light_boost = 2.0
 shader_parameter/bounce_strength = 0.5
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_gybtl"]
-render_priority = 1
-shader = ExtResource("2_o2tjn")
-shader_parameter/texture_albedo = ExtResource("6_ktql7")
-shader_parameter/lit_color = Color(1, 1, 1, 1)
-shader_parameter/normal_scale = 1.0
-shader_parameter/shadow_color = Color(1, 1, 1, 1)
-shader_parameter/use_gradient = false
-shader_parameter/use_inverse_gradient = false
-shader_parameter/color_depth = 8.0000003325
-shader_parameter/roughness_scale = 1.0
-shader_parameter/use_transparency = true
-shader_parameter/alpha_threshold = 0.2010000095475
-shader_parameter/cull_mode = 2
-shader_parameter/use_dithered_transparency = true
-shader_parameter/opacity = 0.246000011685
-shader_parameter/billboard_mode = 1
-shader_parameter/no_outlines = true
-shader_parameter/dither_type = 2
-shader_parameter/dither_mode = 0
-shader_parameter/dither_pixel_size = 2.0
-shader_parameter/dither_density = 128.0
-shader_parameter/world_dither_density = 32.0
-shader_parameter/dither_spread = 0.91500004276398
-shader_parameter/shadow_bias = 0.06400005054000002
-shader_parameter/blue_noise_texture = ExtResource("6_gybtl")
-shader_parameter/albedo_mapping = 0
-shader_parameter/uv_scale = Vector2(1, 1)
-shader_parameter/uv_offset = Vector2(0, 0)
-shader_parameter/global_ambient = Color(0, 0.014809188, 0.015851432, 1)
-shader_parameter/light_boost = 1.0
-shader_parameter/bounce_strength = 0.0
-
-[sub_resource type="Curve" id="Curve_x1r1x"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="CurveTexture_o1df0"]
-curve = SubResource("Curve_x1r1x")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_21l5o"]
-lifetime_randomness = 1.0
-emission_shape = 1
-emission_sphere_radius = 0.06
-radial_velocity_min = -0.10002235
-radial_velocity_max = 0.09997764
-gravity = Vector3(0, 1, 0)
-tangential_accel_min = -0.10000224
-tangential_accel_max = 0.09999776
-scale_min = 0.25
-scale_max = 0.75
-scale_over_velocity_max = 10.0
-scale_over_velocity_curve = SubResource("CurveTexture_o1df0")
-turbulence_noise_speed_random = 0.77
-turbulence_influence_max = 0.149
-collision_mode = 2
-collision_use_scale = true
-
-[sub_resource type="QuadMesh" id="QuadMesh_wjrvc"]
-
-[sub_resource type="Shader" id="Shader_wjrvc"]
-code = "shader_type spatial;
-render_mode blend_mix, depth_draw_opaque, cull_disabled;
-
-// --- COLOR & PALETTE ---
-group_uniforms Color_Style;
-uniform sampler2D texture_albedo : source_color, filter_nearest;
-uniform vec3 lit_color : source_color = vec3(1.0, 1.0, 1.0);
-
-group_uniforms Normal_Map;
-uniform sampler2D texture_normal : hint_normal, filter_nearest;
-uniform float normal_scale : hint_range(-16.0, 16.0) = 1.0;
-uniform vec3 shadow_color : source_color = vec3(0.0, 0.0, 0.0);
-uniform sampler2D color_gradient : source_color;
-uniform bool use_gradient = false;
-uniform bool use_inverse_gradient = false;
-// Amount of colors/bands
-uniform float color_depth : hint_range(1.0, 256.0) = 32.0;
-
-group_uniforms Roughness;
-uniform sampler2D texture_roughness : hint_roughness_r, filter_nearest;
-uniform float roughness_scale : hint_range(0.0, 1.0) = 1.0;
-
-// --- TRANSPARENCY ---
-group_uniforms Transparency;
-uniform bool use_transparency = false;
-uniform float alpha_threshold : hint_range(0.0, 1.0) = 0.5;
-uniform int cull_mode : hint_enum(\"Back\", \"Front\", \"Disabled\") = 0;
-uniform bool use_dithered_transparency = false;
-uniform float opacity : hint_range(0.0, 1.0) = 1.0;
-
-group_uniforms Billboard;
-uniform int billboard_mode : hint_enum(\"Disabled\", \"Enabled\", \"Y-Billboard\") = 0;
-
-group_uniforms Outline_Options;
-uniform bool no_outlines = false;
-
-// --- DITHERING STYLE ---
-group_uniforms Dithering_Style;
-uniform int dither_type : hint_enum(\"Bayer 8x8\", \"Bayer 4x4\", \"Blue Noise\", \"White Noise\", \"Diffused\") = 0;
-uniform int dither_mode : hint_enum(\"Object UV\", \"Screen Space\", \"World Space\") = 2;
-// How \"chunky\" the pixels are
-uniform float dither_pixel_size : hint_range(1.0, 8.0) = 2.0;
-// How dense the grid is (Higher = smaller dots)
-uniform float dither_density = 2048.0;
-uniform float world_dither_density = 32.0;
-// Smoothness of the gradient (0.01 = Hard Cut, 0.5 = Smooth Fade)
-uniform float dither_spread : hint_range(0.01, 2.0) = 0.5;
-uniform float shadow_bias : hint_range(-1.0, 1.0) = 0.0;
-uniform sampler2D blue_noise_texture : hint_default_white, filter_nearest, repeat_enable;
-
-group_uniforms Texture_Controls;
-uniform int albedo_mapping : hint_enum(\"Object UV\", \"World Space\") = 0;
-uniform vec2 uv_scale = vec2(1.0, 1.0);
-uniform vec2 uv_offset = vec2(0.0, 0.0);
-
-group_uniforms Lighting;
-uniform vec3 global_ambient : source_color = vec3(0.1, 0.1, 0.1);
-uniform float light_boost : hint_range(1.0, 100.0) = 2.0;
-
-group_uniforms Bounce_Lighting;
-uniform float bounce_strength : hint_range(0.0, 5.0) = 0.5;
-
-// --- VARYINGS ---
-varying vec3 v_world_pos;
-varying vec3 v_world_norm;
-
-void vertex() {
-	if (billboard_mode == 1) { // Enabled
-		MODELVIEW_MATRIX = VIEW_MATRIX * mat4(
-			INV_VIEW_MATRIX[0],
-			INV_VIEW_MATRIX[1],
-			INV_VIEW_MATRIX[2],
-			MODEL_MATRIX[3]
-		);
-
-		// Restore scaling
-		vec3 scale = vec3(length(MODEL_MATRIX[0]), length(MODEL_MATRIX[1]), length(MODEL_MATRIX[2]));
-		MODELVIEW_MATRIX[0] *= scale.x;
-		MODELVIEW_MATRIX[1] *= scale.y;
-		MODELVIEW_MATRIX[2] *= scale.z;
-
-		// Re-calculate world position and normal for dithering
-		mat4 model_matrix = INV_VIEW_MATRIX * MODELVIEW_MATRIX;
-		v_world_pos = (model_matrix * vec4(VERTEX, 1.0)).xyz;
-		v_world_norm = mat3(model_matrix) * NORMAL;
-	} else if (billboard_mode == 2) { // Y-Billboard
-		vec3 scale = vec3(length(MODEL_MATRIX[0]), length(MODEL_MATRIX[1]), length(MODEL_MATRIX[2]));
-
-		vec3 cam_pos = INV_VIEW_MATRIX[3].xyz;
-		vec3 obj_pos = MODEL_MATRIX[3].xyz;
-		vec3 target = cam_pos - obj_pos;
-		target.y = 0.0; // Project to XZ plane
-
-		if (length(target) > 0.001) {
-			target = normalize(target);
-			vec3 up = vec3(0.0, 1.0, 0.0);
-			vec3 right = normalize(cross(up, target));
-
-			// Construct rotation matrix
-			mat4 rot_mat = mat4(
-				vec4(right * scale.x, 0.0),
-				vec4(up * scale.y, 0.0),
-				vec4(target * scale.z, 0.0),
-				vec4(MODEL_MATRIX[3].xyz, 1.0)
-			);
-
-			MODELVIEW_MATRIX = VIEW_MATRIX * rot_mat;
-
-			v_world_pos = (rot_mat * vec4(VERTEX, 1.0)).xyz;
-			v_world_norm = mat3(rot_mat) * NORMAL;
-		} else {
-			v_world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
-			v_world_norm = MODEL_NORMAL_MATRIX * NORMAL;
-		}
-	} else {
-		v_world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
-		v_world_norm = MODEL_NORMAL_MATRIX * NORMAL;
-	}
-}
-
-// --- DITHER MAPPING ---
-
-// Helper: Convert Color -> Brightness (Luminance)
-float get_lum(vec3 color) {
-	return dot(color, vec3(0.299, 0.587, 0.114));
-}
-
-float get_dither_noise(vec2 uv) {
-	// Quantize the UVs (The \"Pixel\" Look)
-	// We don't apply density here, as it's passed into UV before calling this function
-	vec2 stepped_pos = floor(uv / dither_pixel_size);
-
-	if (dither_type == 0) { // Bayer 8x8
-		const int bayer8[64] = {
-			0, 48, 12, 60, 3, 51, 15, 63,
-			32, 16, 44, 28, 35, 19, 47, 31,
-			8, 56, 4, 52, 11, 59, 7, 55,
-			40, 24, 36, 20, 43, 27, 39, 23,
-			2, 50, 14, 62, 1, 49, 13, 61,
-			34, 18, 46, 30, 33, 17, 45, 29,
-			10, 58, 6, 54, 9, 57, 5, 53,
-			42, 26, 38, 22, 41, 25, 37, 21
-		};
-		int x = int(mod(stepped_pos.x, 8.0));
-		int y = int(mod(stepped_pos.y, 8.0));
-		int idx = y * 8 + x;
-		return float(bayer8[idx]) / 64.0;
-	}
-	else if (dither_type == 1) { // Bayer 4x4
-		const int bayer4[16] = {
-			0, 8, 2, 10,
-			12, 4, 14, 6,
-			3, 11, 1, 9,
-			15, 7, 13, 5
-		};
-		int x = int(mod(stepped_pos.x, 4.0));
-		int y = int(mod(stepped_pos.y, 4.0));
-		int idx = y * 4 + x;
-		return float(bayer4[idx]) / 16.0;
-	}
-	else if (dither_type == 2) { // Blue Noise
-		vec2 tex_size = vec2(textureSize(blue_noise_texture, 0));
-		if (tex_size.x <= 1.0) {
-			// Fallback to Diffused (IGN) if no texture
-			vec3 magic = vec3(0.06711056, 0.00583715, 52.9829189);
-			return fract(magic.z * fract(dot(stepped_pos, magic.xy)));
-		}
-		// Use texture repeat
-		vec2 tex_uv = stepped_pos / tex_size;
-		return texture(blue_noise_texture, tex_uv).r;
-	}
-	else if (dither_type == 3) { // White Noise
-		return fract(sin(dot(stepped_pos, vec2(12.9898, 78.233))) * 43758.5453);
-	}
-	else { // Diffused (IGN) - dither_type == 4 or default
-		vec3 magic = vec3(0.06711056, 0.00583715, 52.9829189);
-		return fract(magic.z * fract(dot(stepped_pos, magic.xy)));
-	}
-}
-
-float quantize_value(float lum, float noise) {
-	float bands = max(2.0, color_depth);
-	float noise_scaled = (noise - 0.5) * dither_spread / (bands - 1.0);
-	float val = lum + noise_scaled + shadow_bias;
-	val = clamp(val, 0.0, 1.0);
-	val = floor(val * bands);
-	val = clamp(val, 0.0, bands - 1.0);
-	val /= (bands - 1.0);
-	return val;
-}
-
-void fragment() {
-	// Culling
-	if ((cull_mode == 0 && !FRONT_FACING) || (cull_mode == 1 && FRONT_FACING)) {
-		discard;
-	}
-
-	// 0. Texture Read with Scale/Offset
-	vec2 uv = UV * uv_scale + uv_offset;
-	vec4 tex;
-	if (albedo_mapping == 1) { // World Space
-		vec3 world_norm = normalize(v_world_norm);
-		vec3 blend = abs(world_norm);
-		blend /= (blend.x + blend.y + blend.z);
-
-		vec4 x_tex = texture(texture_albedo, v_world_pos.zy * uv_scale + uv_offset);
-		vec4 y_tex = texture(texture_albedo, v_world_pos.xz * uv_scale + uv_offset);
-		vec4 z_tex = texture(texture_albedo, v_world_pos.xy * uv_scale + uv_offset);
-
-		tex = x_tex * blend.x + y_tex * blend.y + z_tex * blend.z;
-	} else { // Object UV
-		tex = texture(texture_albedo, uv);
-	}
-	vec3 base_color = tex.rgb;
-
-	NORMAL_MAP = texture(texture_normal, uv).rgb;
-	NORMAL_MAP_DEPTH = normal_scale;
-
-	if (use_transparency && tex.a < alpha_threshold) {
-		discard;
-	}
-
-	// 1. Get Brightness
-	float texture_brightness = get_lum(base_color);
-
-	// --- AMBIENT PASS ---
-	float ambient_brightness = get_lum(global_ambient);
-
-	// Bounce Light
-	vec3 world_normal = normalize(v_world_norm);
-	float bounce_factor = clamp(-world_normal.y * 0.5 + 0.5, 0.0, 1.0);
-	bounce_factor = pow(bounce_factor, 2.0);
-	float bounce_lum = bounce_strength * bounce_factor;
-
-	float total_ambient_lum = (ambient_brightness + bounce_lum) * texture_brightness;
-
-	// 2. Dither Calculation
-	vec2 dither_uv;
-	if (dither_mode == 0) { // Object UV
-		dither_uv = uv;
-	} else if (dither_mode == 1) { // Screen Space
-		dither_uv = SCREEN_UV;
-	} else { // World Space
-		// Triplanar Mapping
-		vec3 world_norm = normalize(v_world_norm);
-		vec3 blend = abs(world_norm);
-		blend /= (blend.x + blend.y + blend.z);
-		if (blend.x > blend.y && blend.x > blend.z) {
-			 dither_uv = v_world_pos.zy;
-		} else if (blend.y > blend.z) {
-			 dither_uv = v_world_pos.xz;
-		} else {
-			 dither_uv = v_world_pos.xy;
-		}
-	}
-
-	float density = (dither_mode == 2) ? world_dither_density : dither_density;
-	// Pre-scale UV by density before passing to noise function
-	float noise_val = get_dither_noise(dither_uv * density);
-
-	if (use_dithered_transparency) {
-		float alpha = tex.a * opacity;
-		if (alpha <= 0.0 || alpha < noise_val) {
-			discard;
-		}
-	}
-
-	// Pass dither noise in METALLIC for light().
-	// SPECULAR is not available in light(), so we use METALLIC which is unused.
-	METALLIC = noise_val;
-	SPECULAR = 0.0;
-
-	float r = texture(texture_roughness, uv).r * roughness_scale;
-	ROUGHNESS = r;
-
-	// 4. Output Logic
-	vec3 final_albedo;
-	float val = quantize_value(total_ambient_lum, noise_val);
-
-	if (use_gradient) {
-		float gradient_val = use_inverse_gradient ? 1.0 - val : val;
-		final_albedo = texture(color_gradient, vec2(gradient_val, 0.0)).rgb;
-	} else {
-		final_albedo = mix(shadow_color, base_color * lit_color, val);
-	}
-
-	ALBEDO = vec3(0.0);
-	EMISSION = final_albedo;
-}
-
-void light() {
-	// 0. Texture Read
-	vec4 tex;
-	if (albedo_mapping == 1) { // World Space
-		vec3 world_norm = normalize(v_world_norm);
-		vec3 blend = abs(world_norm);
-		blend /= (blend.x + blend.y + blend.z);
-
-		vec4 x_tex = texture(texture_albedo, v_world_pos.zy * uv_scale + uv_offset);
-		vec4 y_tex = texture(texture_albedo, v_world_pos.xz * uv_scale + uv_offset);
-		vec4 z_tex = texture(texture_albedo, v_world_pos.xy * uv_scale + uv_offset);
-
-		tex = x_tex * blend.x + y_tex * blend.y + z_tex * blend.z;
-	} else { // Object UV
-		vec2 uv = UV * uv_scale + uv_offset;
-		tex = texture(texture_albedo, uv);
-	}
-	vec3 base_color = tex.rgb;
-	float texture_brightness = get_lum(base_color);
-
-	// 1. Dither Calculation - Reuse from Fragment
-	float noise_val = METALLIC;
-
-	// 2. Calculate Dynamic Light Brightness
-	float NdotL = max(0.0, dot(NORMAL, LIGHT));
-	vec3 light_intensity = LIGHT_COLOR * NdotL * ATTENUATION * light_boost;
-	float light_brightness = get_lum(light_intensity);
-
-	// 3. Combined Brightness
-	float total_lum = light_brightness * texture_brightness;
-
-	// 4. Add Light
-	float val = quantize_value(total_lum, noise_val);
-
-	if (use_gradient) {
-		float gradient_pos = use_inverse_gradient ? 1.0 - val : val;
-		vec3 lit_c = texture(color_gradient, vec2(gradient_pos, 0.0)).rgb;
-		SPECULAR_LIGHT += lit_c;
-	} else {
-		SPECULAR_LIGHT += mix(vec3(0.0), base_color * lit_color, val);
-	}
-}
-"
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_2bkw1"]
-render_priority = 0
-shader = SubResource("Shader_wjrvc")
-shader_parameter/texture_albedo = ExtResource("8_21l5o")
-shader_parameter/lit_color = Color(0.5609555, 0.56095475, 0.5609549, 1)
-shader_parameter/normal_scale = 1.0
-shader_parameter/shadow_color = Color(0.18717626, 0.18717608, 0.18717623, 1)
-shader_parameter/use_gradient = false
-shader_parameter/use_inverse_gradient = false
-shader_parameter/color_depth = 16.0000007125
-shader_parameter/roughness_scale = 1.0
-shader_parameter/use_transparency = true
-shader_parameter/alpha_threshold = 0.2010000095475
-shader_parameter/cull_mode = 2
-shader_parameter/use_dithered_transparency = true
-shader_parameter/opacity = 0.43600002071
-shader_parameter/billboard_mode = 2
-shader_parameter/no_outlines = true
-shader_parameter/dither_type = 2
-shader_parameter/dither_mode = 0
-shader_parameter/dither_pixel_size = 2.0
-shader_parameter/dither_density = 64.0
-shader_parameter/world_dither_density = 64.0
-shader_parameter/dither_spread = 0.91500004276398
-shader_parameter/shadow_bias = 0.06400005054000002
-shader_parameter/blue_noise_texture = ExtResource("6_gybtl")
-shader_parameter/albedo_mapping = 0
-shader_parameter/uv_scale = Vector2(1, 1)
-shader_parameter/uv_offset = Vector2(0, 0)
-shader_parameter/global_ambient = Color(0, 0.014809188, 0.015851432, 1)
-shader_parameter/light_boost = 1.0
-shader_parameter/bounce_strength = 0.0
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_etrdt"]
-lifetime_randomness = 0.5
-emission_shape = 1
-emission_sphere_radius = 0.06
-angle_min = -720.0
-angle_max = 720.0
-radial_velocity_min = -0.050022352
-radial_velocity_max = 0.049977645
-gravity = Vector3(0, 0.25, 0)
-tangential_accel_min = -0.050002236
-tangential_accel_max = 0.04999776
-scale_min = 0.0
-scale_max = 0.25
-scale_over_velocity_max = 10.0
-scale_over_velocity_curve = SubResource("CurveTexture_o1df0")
-turbulence_noise_speed_random = 0.77
-turbulence_influence_max = 0.149
-collision_mode = 1
-collision_friction = 1.0
-collision_bounce = 1.0
-collision_use_scale = true
-
-[sub_resource type="QuadMesh" id="QuadMesh_x1r1x"]
-
-[sub_resource type="QuadMesh" id="QuadMesh_21l5o"]
-orientation = 1
-
-[sub_resource type="QuadMesh" id="QuadMesh_2bkw1"]
-orientation = 0
-
 [node name="torch" unique_id=1836886530 instance=ExtResource("1_my26j")]
 
 [node name="Cylinder" parent="." index="0" unique_id=1062861853]
 material_override = SubResource("ShaderMaterial_r3k50")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Cylinder" index="0" unique_id=259443475]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Cylinder/StaticBody3D" index="0" unique_id=1527423321]
+shape = SubResource("ConcavePolygonShape3D_ndh0a")
 
 [node name="Cylinder_001" parent="." index="1" unique_id=1062649697]
 material_override = SubResource("ShaderMaterial_ndh0a")
@@ -680,10 +227,10 @@ material_override = SubResource("ShaderMaterial_ndh0a")
 material_override = SubResource("ShaderMaterial_ndh0a")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="." index="4" unique_id=592766888]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.27679542, 0)
-light_energy = 2.9306765
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3161108, 0)
+light_energy = 2.3151526
 shadow_enabled = true
-shadow_blur = 1.6722709
+shadow_blur = 1.4260608
 omni_attenuation = 2.0
 script = ExtResource("3_ndh0a")
 probability = 50
@@ -697,7 +244,7 @@ transform = Transform3D(-0.7287186, 0, -0.6848133, 0, 1, 0, 0.6848133, 0, -0.728
 material_override = SubResource("ShaderMaterial_ktql7")
 cast_shadow = 0
 pixel_size = 0.02
-billboard = 1
+billboard = 2
 texture_filter = 2
 texture = ExtResource("4_ktql7")
 hframes = 4
@@ -709,7 +256,7 @@ randomize_noise = true
 libraries/ = SubResource("AnimationLibrary_wjrvc")
 
 [node name="Sprite3D3" type="Sprite3D" parent="OmniLight3D" index="1" unique_id=1148831848 node_paths=PackedStringArray("animation_player")]
-transform = Transform3D(-0.83097863, 0, -0.55630374, 0, 0.51436794, 0, 0.55630374, 0, -0.83097863, 0, -0.05956757, 0.00080662966)
+transform = Transform3D(0.9779551, 0, 0.20881332, 0, 0.51436794, 0, -0.20881332, 0, 0.9779551, 0, -0.12550074, 0.00080662966)
 material_override = SubResource("ShaderMaterial_21l5o")
 cast_shadow = 0
 pixel_size = 0.02
@@ -717,6 +264,7 @@ billboard = 1
 texture_filter = 2
 texture = ExtResource("4_ktql7")
 hframes = 4
+frame = 1
 script = ExtResource("5_gybtl")
 animation_player = NodePath("AnimationPlayer2")
 do_rotate = true
@@ -726,7 +274,7 @@ randomize_noise = true
 libraries/ = SubResource("AnimationLibrary_wjrvc")
 
 [node name="Sprite3D4" type="Sprite3D" parent="OmniLight3D" index="2" unique_id=1923378448 node_paths=PackedStringArray("animation_player")]
-transform = Transform3D(-0.44514275, 0, 0.8954593, 0, 0.51436794, 0, -0.8954593, 0, -0.44514275, 0, -0.05956757, 0.00080662966)
+transform = Transform3D(-0.43735915, 0, 0.89928657, 0, 0.51436794, 0, -0.89928657, 0, -0.43735915, 0, -0.12550074, 0.00080662966)
 material_override = SubResource("ShaderMaterial_21l5o")
 cast_shadow = 0
 pixel_size = 0.02
@@ -734,36 +282,11 @@ billboard = 1
 texture_filter = 2
 texture = ExtResource("4_ktql7")
 hframes = 4
+frame = 1
 script = ExtResource("5_gybtl")
 animation_player = NodePath("AnimationPlayer2")
-is_flipped = true
 do_rotate = true
 randomize_noise = true
 
 [node name="AnimationPlayer2" type="AnimationPlayer" parent="OmniLight3D/Sprite3D4" index="0" unique_id=1582470450]
 libraries/ = SubResource("AnimationLibrary_wjrvc")
-
-[node name="embers" type="GPUParticles3D" parent="OmniLight3D" index="3" unique_id=2084859198]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.022156477, 0)
-sorting_offset = 5.0
-material_override = SubResource("ShaderMaterial_gybtl")
-cast_shadow = 0
-amount = 32
-lifetime = 3.0
-fixed_fps = 24
-process_material = SubResource("ParticleProcessMaterial_21l5o")
-draw_pass_1 = SubResource("QuadMesh_wjrvc")
-
-[node name="smoke" type="GPUParticles3D" parent="OmniLight3D" index="4" unique_id=2081439854]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.11988723, 0)
-material_override = SubResource("ShaderMaterial_2bkw1")
-cast_shadow = 0
-amount = 5000
-lifetime = 60.0
-randomness = 0.15
-fixed_fps = 144
-process_material = SubResource("ParticleProcessMaterial_etrdt")
-draw_passes = 3
-draw_pass_1 = SubResource("QuadMesh_x1r1x")
-draw_pass_2 = SubResource("QuadMesh_21l5o")
-draw_pass_3 = SubResource("QuadMesh_2bkw1")

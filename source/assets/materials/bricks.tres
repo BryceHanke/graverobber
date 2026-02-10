@@ -1,0 +1,62 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://ctcnvs5toy2av"]
+
+[ext_resource type="Shader" uid="uid://dcxcwwd03jc52" path="res://assets/shaders/dither.gdshader" id="1_0u07k"]
+[ext_resource type="Texture2D" uid="uid://ca2lb7avnx1ab" path="res://assets/textures/bricks.png" id="2_7y05r"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_0u07k"]
+frequency = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_7y05r"]
+width = 64
+height = 64
+noise = SubResource("FastNoiseLite_0u07k")
+seamless = true
+in_3d_space = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_g41il"]
+frequency = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_20lrn"]
+width = 64
+height = 64
+noise = SubResource("FastNoiseLite_g41il")
+seamless = true
+in_3d_space = true
+as_normal_map = true
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_0u07k")
+shader_parameter/texture_albedo = ExtResource("2_7y05r")
+shader_parameter/lit_color = Color(0.46618086, 0.46618074, 0.46618092, 1)
+shader_parameter/texture_normal = SubResource("NoiseTexture2D_20lrn")
+shader_parameter/normal_mapping = 1
+shader_parameter/normal_uv_scale = Vector2(1, 1)
+shader_parameter/normal_uv_offset = Vector2(0, 0)
+shader_parameter/normal_scale = 0.25000077187500125
+shader_parameter/shadow_color = Color(0, 0, 0, 1)
+shader_parameter/use_gradient = false
+shader_parameter/use_inverse_gradient = false
+shader_parameter/color_depth = 8.0000003325
+shader_parameter/roughness_scale = 1.0
+shader_parameter/use_transparency = false
+shader_parameter/alpha_threshold = 0.5
+shader_parameter/cull_mode = 0
+shader_parameter/use_dithered_transparency = false
+shader_parameter/opacity = 1.0
+shader_parameter/billboard_mode = 0
+shader_parameter/no_outlines = false
+shader_parameter/dither_type = 2
+shader_parameter/dither_mode = 2
+shader_parameter/dither_pixel_size = 2.0000000475
+shader_parameter/dither_density = 256.0
+shader_parameter/world_dither_density = 128.0
+shader_parameter/dither_spread = 1.50000007055148
+shader_parameter/shadow_bias = 0.0
+shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_7y05r")
+shader_parameter/albedo_mapping = 1
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/global_ambient = Color(0, 0.014809188, 0.015851432, 1)
+shader_parameter/light_boost = 1.0
+shader_parameter/bounce_strength = 0.0

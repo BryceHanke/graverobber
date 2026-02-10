@@ -1,17 +1,28 @@
 [gd_resource type="ShaderMaterial" format=3 uid="uid://sieciuw0oa22"]
 
 [ext_resource type="Shader" uid="uid://nnm2vfpswuif" path="res://assets/shaders/canvas_pixel.gdshader" id="1_bomwt"]
-[ext_resource type="Texture2D" uid="uid://dvcboylmln1iq" path="res://assets/textures/dungeon.png" id="2_bomwt"]
+[ext_resource type="Texture2D" uid="uid://ccxutsnpcili3" path="res://assets/textures/colorss.tres" id="2_bomwt"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_bomwt"]
+frequency = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_o0imi"]
+width = 64
+height = 64
+noise = SubResource("FastNoiseLite_bomwt")
+seamless = true
+in_3d_space = true
 
 [resource]
 shader = ExtResource("1_bomwt")
-shader_parameter/pixel_size = 4.0
+shader_parameter/pixel_size = 2.0000000475
 shader_parameter/use_screen_texture = true
 shader_parameter/use_dithering = true
-shader_parameter/dither_type = 0
+shader_parameter/dither_type = 2
 shader_parameter/dither_mode = 1
-shader_parameter/dither_size = 2.0
-shader_parameter/dither_amount = 1.0
+shader_parameter/dither_size = 8.0
+shader_parameter/dither_amount = 0.0
+shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_o0imi")
 shader_parameter/use_transparency = false
 shader_parameter/alpha_threshold = 0.5
 shader_parameter/use_dithered_transparency = false

@@ -4,7 +4,7 @@ class_name player_controller
 @export var maximum_speed : float = 15.0
 
 @export var walk_speed : float = 7.0
-@export var crouch_speed : float = 4.0
+@export var crouch_speed : float = 5.0
 @export var run_speed : float = 8.0
 
 @export var jump_height : float = 7.0
