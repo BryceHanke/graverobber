@@ -4,6 +4,8 @@
 [ext_resource type="Shader" uid="uid://dcxcwwd03jc52" path="res://assets/shaders/dither.gdshader" id="2_te7j3"]
 [ext_resource type="Texture2D" uid="uid://ca2lb7avnx1ab" path="res://assets/textures/bricks.png" id="3_ji22j"]
 [ext_resource type="PackedScene" uid="uid://bchalkxryrgfy" path="res://scenes/torch.tscn" id="4_g41il"]
+[ext_resource type="Script" uid="uid://d2rx4v0kuvdrp" path="res://scripts/tools/gpu_particle_collision_generator.gd" id="4_u3oxu"]
+[ext_resource type="CompressedTexture3D" uid="uid://c750upt880vn7" path="res://scenes/catacombs/catacombs.GPUParticlesCollisionSDF3D_data.exr" id="5_glxg8"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_5fs4t"]
 frequency = 1.0
@@ -78,11 +80,20 @@ data = PackedVector3Array(-1.6708, 3.8771, -7.7781, -3.1125, 3.8771, -16.689999,
 
 [node name="Cube_001" parent="." index="0" unique_id=1810655160]
 material_override = SubResource("ShaderMaterial_g41il")
+script = ExtResource("4_u3oxu")
+target_mesh_path = NodePath(".")
+generate_mode = 1
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Cube_001" index="0" unique_id=1315940439]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Cube_001/StaticBody3D" index="0" unique_id=654980102]
 shape = SubResource("ConcavePolygonShape3D_g41il")
+
+[node name="GPUParticlesCollisionSDF3D" type="GPUParticlesCollisionSDF3D" parent="Cube_001" index="1" unique_id=315386569]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.8592873, -1.6102829, -6.75581)
+size = Vector3(70.37118, 18.761139, 68.63695)
+resolution = 3
+texture = ExtResource("5_glxg8")
 
 [node name="torch" parent="." index="1" unique_id=1836886530 instance=ExtResource("4_g41il")]
 transform = Transform3D(-0.31533402, 0.44821915, -0.8364592, 0.13850576, 0.893728, 0.42669204, 0.9388188, 0.018696189, -0.34390378, -0.8645923, -2.094061, -9.747051)
