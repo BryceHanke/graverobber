@@ -5,37 +5,50 @@ const CHALK_MARK = preload("uid://l8swa4qt65y3")
 @onready var timer = $Timer
 @onready var chalk = $chalk
 var og_pos := Vector3.ZERO
-var draw := false
 @export var chalk_instancer : MultiMeshInstance3D
 
 func _ready():
 	og_pos = chalk.position
-	chalk_instancer.reparent.call_deferred(get_tree().root.get_child(0))
+	if chalk_instancer:
+		chalk_instancer.reparent.call_deferred(get_tree().root.get_child(0))
+		chalk_instancer.custom_aabb = AABB(Vector3(-10000, -10000, -10000), Vector3(20000, 20000, 20000))
+
+	if timer:
+		timer.one_shot = true
+		timer.stop()
 
 func _process(delta):
-	if Input.is_action_pressed("r_click"):
-		do_draw()
-		chalk.position = lerp(chalk.position, to_local(ray_cast_3d.get_collision_point()), 10*delta)
-	else:
-		chalk.position = lerp(chalk.position, og_pos, 10*delta)
-	if Input.is_action_pressed("r_click"):
-		draw = true
-	else:
-		draw = false
+	if ray_cast_3d.is_colliding():
+		var target_pos = to_local(ray_cast_3d.get_collision_point())
+		chalk.position = chalk.position.lerp(target_pos, 10 * delta)
 
-func do_draw():
-	if draw == true:
-		place_mark()
-		get_tree().create_timer(0.01).timeout.connect(do_draw)
+		if Input.is_action_pressed("r_click") and timer.is_stopped():
+			place_mark()
+			timer.start()
+	else:
+		chalk.position = chalk.position.lerp(og_pos, 10 * delta)
 
 func place_mark():
-	if ray_cast_3d.is_colliding():
+	if chalk_instancer and chalk_instancer.multimesh:
+		var normal = ray_cast_3d.get_collision_normal()
+		var point = ray_cast_3d.get_collision_point()
+
 		chalk_instancer.multimesh.instance_count += 1
-		var pos = ray_cast_3d.get_collision_point()+((ray_cast_3d.global_position - ray_cast_3d.get_collision_point())*0.05)
-		var global_pos = to_global(pos)
-		var mark = chalk_instancer.multimesh.instance_count-1
-		chalk_instancer.multimesh.set_instance_transform(mark, ray_cast_3d.transform)
-		var new_y = ray_cast_3d.get_collision_normal()
-		var new_x = Vector3.UP.cross(new_y).normalized()
-		var new_z = new_x.cross(new_y).normalized()
-		chalk_instancer.multimesh.set_instance_transform(mark, Transform3D(Basis(new_x, new_y, new_z), global_pos))
+		var idx = chalk_instancer.multimesh.instance_count - 1
+
+		var z_axis = normal
+		var y_axis = Vector3.UP
+
+		if abs(z_axis.dot(y_axis)) > 0.95:
+			y_axis = Vector3.RIGHT
+
+		var x_axis = y_axis.cross(z_axis).normalized()
+		y_axis = z_axis.cross(x_axis).normalized()
+
+		var basis = Basis(x_axis, y_axis, z_axis)
+
+		var offset_pos = point + (normal * 0.01)
+		var global_transform = Transform3D(basis, offset_pos)
+		var local_transform = chalk_instancer.global_transform.affine_inverse() * global_transform
+
+		chalk_instancer.multimesh.set_instance_transform(idx, local_transform)
