@@ -5,7 +5,7 @@ func Physics_Update(_delta: float):
 	handle_crouch(false, _delta)
 	player.apply_floor_snap()
 	player.perform_gravity(_delta)
-	friction(2,_delta)
+	apply_friction(1.0, _delta)
 
 func Update(_delta: float):
 	if player.can_move == true:
@@ -14,4 +14,3 @@ func Update(_delta: float):
 		jump_trans()
 		crouch_trans()
 		run_trans()
-	

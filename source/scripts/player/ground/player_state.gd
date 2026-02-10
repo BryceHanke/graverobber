@@ -28,18 +28,67 @@ func run_trans():
 	if player.ig.input_direction.length() != 0.0 && player.is_on_floor() && player.can_move == true && !Input.is_action_pressed("crouch") && Input.is_action_pressed("run"):
 		Transitioned.emit(self, "run")
 
-func move(_delta):
-	var current_speed = player.velocity.dot(player.move_dir)
-	var add_speed = (player.maximum_speed - current_speed)
-	player.velocity = lerp(player.velocity, player.move_dir * (add_speed), player.acceleration * _delta)
+# Quake Physics Implementations
 
-func strafe(_delta):
-	var current_speed = player.velocity.dot(player.move_dir)
-	var add_speed = (player.strafe_speed - current_speed)
-	player.velocity = lerp(player.velocity, player.move_dir * (add_speed), player.acceleration * _delta)
+func accelerate(wishdir: Vector3, wishspeed: float, accel: float, delta: float):
+	var current_speed = player.velocity.dot(wishdir)
+	var add_speed = wishspeed - current_speed
+	if add_speed <= 0:
+		return
 
-func friction(_strength:float,_delta:float):
-	player.velocity = lerp(player.velocity, Vector3.ZERO, player.deceleration * _strength * _delta)
+	var accel_speed = accel * wishspeed * delta
+	if accel_speed > add_speed:
+		accel_speed = add_speed
+
+	player.velocity += accel_speed * wishdir
+
+func apply_friction(t: float, delta: float):
+	var vec = player.velocity
+	vec.y = 0
+	var speed = vec.length()
+
+	if speed < 0.1:
+		player.velocity.x = 0
+		player.velocity.z = 0
+		return
+
+	var drop = 0.0
+	var control = player.stop_speed if speed < player.stop_speed else speed
+	drop += control * player.ground_friction * delta * t
+
+	var new_speed = speed - drop
+	if new_speed < 0:
+		new_speed = 0
+	if speed > 0:
+		new_speed /= speed
+
+	player.velocity.x *= new_speed
+	player.velocity.z *= new_speed
+
+func ground_move(delta: float):
+	apply_friction(1.0, delta)
+
+	var wishdir = player.move_dir
+	wishdir.y = 0
+	wishdir = wishdir.normalized()
+
+	var wishspeed = player.move_speed
+
+	accelerate(wishdir, wishspeed, player.ground_acceleration, delta)
+
+func air_move(delta: float):
+	var wishdir = player.move_dir
+	wishdir.y = 0
+	wishdir = wishdir.normalized()
+
+	var wishspeed = player.move_speed
+
+	# Cap wishspeed for air strafing
+	var dynamic_wishspeed = wishspeed
+	if dynamic_wishspeed > player.air_cap:
+		dynamic_wishspeed = player.air_cap
+
+	accelerate(wishdir, dynamic_wishspeed, player.air_acceleration, delta)
 
 func handle_crouch(_crouched:bool,_delta:float):
 	if _crouched:
