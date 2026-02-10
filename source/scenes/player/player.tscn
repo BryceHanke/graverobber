@@ -24,7 +24,7 @@
 [ext_resource type="AudioStream" uid="uid://y8ma5gjdshwm" path="res://assets/sounds/step 4.mp3" id="19_yj68g"]
 [ext_resource type="Script" uid="uid://dmnvhxj0y77t2" path="res://scripts/steps.gd" id="20_8ydkj"]
 [ext_resource type="PackedScene" uid="uid://w0e5qalsukw6" path="res://scenes/chalk_item.tscn" id="22_cnsyf"]
-[ext_resource type="Script" path="res://scripts/post_process/canvas_pixel_dither_world.gd" id="23_canvas_dither"]
+[ext_resource type="Script" uid="uid://rjx8njkfeek4" path="res://scripts/post_process/canvas_pixel_dither_world.gd" id="23_canvas_dither"]
 
 [sub_resource type="Environment" id="Environment_ugbui"]
 tonemap_mode = 4
@@ -89,6 +89,9 @@ shader_parameter/color_depth = 5.00000019
 shader_parameter/use_gradient = true
 shader_parameter/color_gradient = SubResource("GradientTexture1D_0bhws")
 shader_parameter/gradient_mix = 1.0
+shader_parameter/inv_view_matrix = Projection(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
+shader_parameter/inv_proj_matrix = Projection(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
+shader_parameter/world_dither_density = 32.0
 
 [sub_resource type="Animation" id="Animation_kvlxm"]
 resource_name = "fade_out"
@@ -143,7 +146,6 @@ lean = NodePath("..")
 bob_interval = 1.5
 
 [node name="pixelate" parent="head/lean/camera" unique_id=93580127 instance=ExtResource("5_kvlxm")]
-visible = false
 
 [node name="mesh" type="MeshInstance3D" parent="." unique_id=295009724]
 layers = 4
@@ -240,7 +242,7 @@ holder = NodePath("holder")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
 [node name="torch" parent="SubViewportContainer/hand_view/sway/holder/torch" unique_id=1836886530 instance=ExtResource("19_ioxgp")]
-transform = Transform3D(0.27766678, 0, -0.96067744, 0, 1, 0, 0.96067744, 0, 0.27766678, -0.512, -0.655, -0.59)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.61, -0.495, -0.59)
 
 [node name="Cylinder" parent="SubViewportContainer/hand_view/sway/holder/torch/torch" index="0" unique_id=1062861853]
 layers = 2
@@ -255,26 +257,20 @@ layers = 2
 layers = 2
 
 [node name="OmniLight3D" parent="SubViewportContainer/hand_view/sway/holder/torch/torch" index="4" unique_id=592766888]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.012091517, 0.29021314, -0.011543274)
 layers = 2
-light_energy = 2.7929134
-shadow_blur = 1.6171652
+light_energy = 2.5587978
+shadow_blur = 1.5235195
 
 [node name="Sprite3D2" parent="SubViewportContainer/hand_view/sway/holder/torch/torch/OmniLight3D" index="0" unique_id=1329841238]
-transform = Transform3D(0.27454087, 0, -0.9615754, 0, 0.5164572, 0, 0.9615754, 0, 0.27454087, 1.1920929e-07, -0.06456745, 0.00080662966)
 layers = 2
-frame = 3
-is_flipped = true
 
 [node name="Sprite3D3" parent="SubViewportContainer/hand_view/sway/holder/torch/torch/OmniLight3D" index="1" unique_id=1148831848]
-transform = Transform3D(-0.5983903, 0, -0.8012044, 0, 0.5164572, 0, 0.8012044, 0, -0.5983903, 1.1920929e-07, -0.06456745, 0.00080662966)
+transform = Transform3D(-0.5824524, 0, 0.81286436, 0, 0.51436794, 0, -0.81286436, 0, -0.5824524, 0, -0.05956757, 0.00080662966)
 layers = 2
-frame = 3
 
 [node name="Sprite3D4" parent="SubViewportContainer/hand_view/sway/holder/torch/torch/OmniLight3D" index="2" unique_id=1923378448]
-transform = Transform3D(-0.74901116, 0, 0.66255677, 0, 0.51436794, 0, -0.66255677, 0, -0.74901116, 0, -0.05956757, 0.00080662966)
+transform = Transform3D(-0.92044884, 0, -0.39086223, 0, 0.51436794, 0, 0.39086223, 0, -0.92044884, 0, -0.05956757, 0.00080662966)
 layers = 2
-frame = 3
 
 [node name="fire" parent="SubViewportContainer/hand_view/sway/holder/torch/torch/OmniLight3D" index="3" unique_id=2084859198]
 layers = 2
@@ -296,6 +292,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("23_canvas_dither")
+camera_path = NodePath("../../head/lean/camera")
 metadata/_edit_use_anchors_ = true
 
 [node name="dither_trans" type="ColorRect" parent="CanvasLayer" unique_id=2018062212]

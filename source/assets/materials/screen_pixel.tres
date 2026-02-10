@@ -1,22 +1,25 @@
 [gd_resource type="ShaderMaterial" format=3 uid="uid://sieciuw0oa22"]
 
 [ext_resource type="Shader" uid="uid://nnm2vfpswuif" path="res://assets/shaders/canvas_pixel.gdshader" id="1_bomwt"]
-[ext_resource type="Texture2D" uid="uid://chxwosegpvcba" path="res://assets/textures/unicron.png" id="2_bomwt"]
+[ext_resource type="Texture2D" uid="uid://dvcboylmln1iq" path="res://assets/textures/dungeon.png" id="2_bomwt"]
 
 [resource]
 shader = ExtResource("1_bomwt")
-shader_parameter/pixel_size = 1.0
+shader_parameter/pixel_size = 4.0
 shader_parameter/use_screen_texture = true
 shader_parameter/use_dithering = true
-shader_parameter/dither_type = 1
-shader_parameter/dither_mode = 0
-shader_parameter/dither_size = 4.000000142499999
+shader_parameter/dither_type = 0
+shader_parameter/dither_mode = 1
+shader_parameter/dither_size = 2.0
 shader_parameter/dither_amount = 1.0
-shader_parameter/use_transparency = true
+shader_parameter/use_transparency = false
 shader_parameter/alpha_threshold = 0.5
-shader_parameter/use_dithered_transparency = true
+shader_parameter/use_dithered_transparency = false
 shader_parameter/opacity = 1.0
-shader_parameter/color_depth = 10.0000004275
+shader_parameter/color_depth = 16.0000007125
 shader_parameter/use_gradient = true
 shader_parameter/color_gradient = ExtResource("2_bomwt")
 shader_parameter/gradient_mix = 1.0
+shader_parameter/inv_view_matrix = Projection(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
+shader_parameter/inv_proj_matrix = Projection(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
+shader_parameter/world_dither_density = 32.0
