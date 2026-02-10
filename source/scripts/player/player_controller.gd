@@ -9,19 +9,29 @@ class_name player_controller
 
 @export var jump_height : float = 7.0
 
-@export var acceleration : float = 0.25
-@export var deceleration : float = 7.0
+# Quake Movement Constants
+@export var ground_acceleration : float = 10.0
+@export var air_acceleration : float = 2.0
+@export var ground_friction : float = 6.0
+@export var stop_speed : float = 2.0
+@export var air_cap : float = 0.85 # Max speed you can gain by strafing in air (wishspeed cap)
 
-@export var strafe_speed : float = 7.0
+# Legacy variables to avoid breakage if referenced elsewhere (though seemingly only used in state machine)
+# Replaced by ground_acceleration and ground_friction
+@export var acceleration : float = 10.0
+@export var deceleration : float = 6.0
+@export var strafe_speed : float = 7.0 # Preserved but maybe unused now
 
 @export var crouching_speed := 5.0
 @export var min_height := 1.0
 @export var max_height := 2.0
 
+@export var gravity_magnitude : float = 20.0
+
 @export var can_move := true
 var move_speed : float = 0.0
 var move_dir : Vector3
-var gravity = Vector3()
+var gravity = Vector3() # Kept for compatibility if used elsewhere, but perform_gravity won't use it the same way
 
 @export var step : steps
 
@@ -42,10 +52,11 @@ func align_movement_direction():
 	move_dir = (((ig.input_direction.y * camera.get_parent().global_transform.basis.z) + (ig.input_direction.x * camera.global_transform.basis.x))).normalized()
 
 func perform_gravity(_delta):
-	if is_on_floor():
-		gravity = Vector3.ZERO
-	gravity.y -= -.35 * _delta
-	velocity -= gravity
+	if not is_on_floor():
+		velocity.y -= gravity_magnitude * _delta
+	# Reset gravity accumulator if on floor?
+	# The old code used 'gravity' vector accumulator.
+	# If we switch to direct velocity manipulation, we don't strictly need 'gravity' variable unless for display.
 
 func mouse_change():
 	if Input.is_action_just_pressed("pause"):

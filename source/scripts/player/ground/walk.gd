@@ -10,9 +10,8 @@ func Enter():
 func Physics_Update(_delta: float):
 	handle_crouch(false, _delta)
 	player.apply_floor_snap()
-	friction(.1,_delta)
 	if player.can_move == true:
-		move(_delta)
+		ground_move(_delta)
 	else:
 		Transitioned.emit(self, "idle")
 
