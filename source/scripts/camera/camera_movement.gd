@@ -31,8 +31,6 @@ func _unhandled_input(event):
 		mouse_movement(event)
 
 func _physics_process(delta):
-	if canlook == true:
-		cam.rotation.x = clampf(cam.rotation.x, deg_to_rad(-80), deg_to_rad(80))
 	if !player.ig.input_direction.length() == 0:
 		tbob += delta * player.velocity.length()
 	else:
@@ -58,8 +56,9 @@ func _process(delta):
 
 func mouse_movement(event):
 	if canlook == true:
-		head.rotate((head.transform.basis.y).normalized(),(-event.relative.x) * (SENS * sensMult))
-		rotate(transform.basis.x,(-event.relative.y) * (SENS * sensMult))
+		head.rotation.y -= event.relative.x * SENS * sensMult
+		cam.rotation.x -= event.relative.y * SENS * sensMult
+		cam.rotation.x = clamp(cam.rotation.x, deg_to_rad(-80), deg_to_rad(80))
 
 func headbob(time):
 	var pos = Vector3.ZERO
