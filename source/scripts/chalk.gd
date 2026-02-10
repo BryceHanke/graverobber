@@ -7,11 +7,17 @@ const CHALK_MARK = preload("uid://l8swa4qt65y3")
 var og_pos := Vector3.ZERO
 @export var chalk_instancer : MultiMeshInstance3D
 
+const MAX_MARKS = 5000
+var current_mark_index = 0
+
 func _ready():
 	og_pos = chalk.position
 	if chalk_instancer:
 		chalk_instancer.reparent.call_deferred(get_tree().root.get_child(0))
 		chalk_instancer.custom_aabb = AABB(Vector3(-10000, -10000, -10000), Vector3(20000, 20000, 20000))
+		if chalk_instancer.multimesh:
+			chalk_instancer.multimesh.instance_count = MAX_MARKS
+			chalk_instancer.multimesh.visible_instance_count = 0
 
 	if timer:
 		timer.one_shot = true
@@ -33,8 +39,7 @@ func place_mark():
 		var normal = ray_cast_3d.get_collision_normal()
 		var point = ray_cast_3d.get_collision_point()
 
-		chalk_instancer.multimesh.instance_count += 1
-		var idx = chalk_instancer.multimesh.instance_count - 1
+		var idx = current_mark_index
 
 		var z_axis = normal
 		var y_axis = Vector3.UP
@@ -52,3 +57,7 @@ func place_mark():
 		var local_transform = chalk_instancer.global_transform.affine_inverse() * global_transform
 
 		chalk_instancer.multimesh.set_instance_transform(idx, local_transform)
+
+		current_mark_index = (current_mark_index + 1) % MAX_MARKS
+		if chalk_instancer.multimesh.visible_instance_count < MAX_MARKS:
+			chalk_instancer.multimesh.visible_instance_count += 1
