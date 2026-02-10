@@ -25,17 +25,42 @@ func crouch_trans():
 		Transitioned.emit(self, "crouch")
 
 func move(_delta):
-	var current_speed = player.velocity.dot(player.move_dir)
-	var add_speed = (player.maximum_speed - current_speed)
-	player.velocity = lerp(player.velocity, player.move_dir * (add_speed), player.acceleration * _delta)
+	accelerate(player.move_dir, player.move_speed, player.acceleration, _delta)
 
 func strafe(_delta):
-	var current_speed = player.velocity.dot(player.move_dir)
-	var add_speed = (player.maximum_speed - current_speed)
-	player.velocity = lerp(player.velocity, player.move_dir * (add_speed), player.acceleration * _delta)
+	accelerate(player.move_dir, player.strafe_speed, player.air_acceleration, _delta)
 
-func friction(_strength:float,_delta:float):
-	player.velocity = lerp(player.velocity, Vector3.ZERO, player.deceleration * _strength * _delta)
+func friction(_delta:float):
+	apply_friction(1.0, _delta)
+
+func accelerate(wish_dir: Vector3, wish_speed: float, accel: float, delta: float):
+	var current_speed = player.velocity.dot(wish_dir)
+	var add_speed = wish_speed - current_speed
+	if add_speed <= 0:
+		return
+
+	var accel_speed = accel * wish_speed * delta
+	if accel_speed > add_speed:
+		accel_speed = add_speed
+
+	player.velocity += wish_dir * accel_speed
+
+func apply_friction(t: float, delta: float):
+	var vec = player.velocity
+	vec.y = 0
+	var speed = vec.length()
+	var drop = 0.0
+
+	if player.is_on_floor():
+		var control = max(speed, player.stop_speed)
+		drop = control * player.deceleration * delta * t
+
+	var new_speed = max(speed - drop, 0.0)
+	if speed > 0.0:
+		new_speed /= speed
+
+	player.velocity.x *= new_speed
+	player.velocity.z *= new_speed
 
 func handle_crouch(_crouched:bool,_delta:float):
 	if _crouched:
