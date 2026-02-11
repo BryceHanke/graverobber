@@ -1,6 +1,6 @@
 extends Node3D
 
-@onready var player = $"../../.."
+@onready var player = $"../../../.."
 
 @export var cam : Camera3D
 @export var head : Node3D
@@ -15,8 +15,8 @@ var sensMult = 0.001
 var FOV = 90
 
 # Head Bob
-@export var bob_interval : float = 2.0
-var bobamp = 0.1
+@export var bob_interval : float = 1.0
+var bobamp = 0.05
 var tbob = 0.0
 var rotamount = .005
 
@@ -72,7 +72,7 @@ func mouse_movement(event):
 		cam.rotation.x = clamp(cam.rotation.x, deg_to_rad(-80), deg_to_rad(80))
 
 func headbob(time):
-	var pos = Vector3.ZERO
+	var pos = Vector3(0,1.5,0)
 
 	if bob_interval > 0:
 		var theta = (time / bob_interval) * 2 * PI
@@ -80,5 +80,5 @@ func headbob(time):
 		pos.x = sin(theta / 16.0) * bobamp
 	
 	if player.ig.input_direction.length() == 0:
-		pos = lerp(pos, Vector3.ZERO, 0.1)
+		pos = lerp(pos, Vector3(0,1.5,0), 0.1)
 	return pos

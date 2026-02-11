@@ -14,12 +14,6 @@
 [node name="catacombs" type="Node3D" unique_id=290181263]
 script = ExtResource("1_54ht4")
 
-[node name="catacombs" parent="." unique_id=445882537 instance=ExtResource("1_8thrb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.038729936, 0)
-
-[node name="torch" parent="catacombs" index="2" unique_id=1836886530]
-transform = Transform3D(0.910646, 0.4113064, -0.039381817, -0.41162565, 0.9113529, 0, 0.03589073, 0.016210563, 0.9992242, -0.88983774, -2.8313282, -9.981581)
-
 [node name="music" type="AudioStreamPlayer" parent="." unique_id=1580155449]
 stream = ExtResource("7_pho0m")
 volume_db = -40.0
@@ -38,20 +32,23 @@ bus = &"ambience"
 
 [node name="player" parent="." unique_id=1570651658 instance=ExtResource("2_w60cf")]
 
-[node name="camera" parent="player/head/lean" parent_id_path=PackedInt32Array(1570651658, 1019706298) index="0" unique_id=1055946145]
+[node name="camera" parent="player/head/lean/pivot" parent_id_path=PackedInt32Array(1570651658, 888106981) index="0" unique_id=1055946145]
 current = true
 
-[node name="OmniLight3D" type="OmniLight3D" parent="player/head/lean/camera" index="1" unique_id=1260396475]
+[node name="OmniLight3D" type="OmniLight3D" parent="player/head/lean/pivot/camera" index="1" unique_id=1260396475]
 layers = 3
-light_energy = 1.6015031
+light_energy = 1.5517838
 shadow_enabled = true
-shadow_blur = 6.503759
+shadow_blur = 6.3794603
 omni_attenuation = 2.0
 script = ExtResource("6_7cme6")
 probability = 50
 min_brightness = 0.0
 max_brightness = 3.0
 max_blur = 10.0
+
+[node name="mesh" parent="player" index="2" unique_id=295009724]
+visible = false
 
 [node name="steps" parent="player" index="4" unique_id=59331114]
 max_polyphony = 3
@@ -63,20 +60,17 @@ autostart = true
 current = true
 
 [node name="OmniLight3D" parent="player/SubViewportContainer/hand_view/sway/holder/torch/torch" parent_id_path=PackedInt32Array(1570651658, 1836886530) index="4" unique_id=592766888]
-light_energy = 2.9152212
-shadow_blur = 1.6660883
+light_energy = 3.3551924
+shadow_blur = 1.8420769
 
 [node name="Sprite3D2" parent="player/SubViewportContainer/hand_view/sway/holder/torch/torch/OmniLight3D" index="0" unique_id=1329841238]
 transform = Transform3D(-0.7287186, 0, -0.6848133, 0, 1, 0, 0.6848133, 0, -0.7287186, 0, 0.0012581348, 0.00080662966)
-frame = 2
 
 [node name="Sprite3D3" parent="player/SubViewportContainer/hand_view/sway/holder/torch/torch/OmniLight3D" index="1" unique_id=1148831848]
-transform = Transform3D(-0.013586752, 0, -0.999906, 0, 0.5164572, 0, 0.999906, 0, -0.013586752, 1.1920929e-07, -0.1173017, 0.00080662966)
-frame = 2
+transform = Transform3D(-0.2839377, 0, -0.9588406, 0, 0.5164572, 0, 0.9588406, 0, -0.2839377, 1.1920929e-07, -0.1173017, 0.00080662966)
 
 [node name="Sprite3D4" parent="player/SubViewportContainer/hand_view/sway/holder/torch/torch/OmniLight3D" index="2" unique_id=1923378448]
-transform = Transform3D(-0.9841886, 0, 0.17711508, 0, 0.51436794, 0, -0.17711508, 0, -0.9841886, 0, -0.11230183, 0.00080662966)
-frame = 2
+transform = Transform3D(-0.9042875, 0, 0.42691886, 0, 0.51436794, 0, -0.42691886, 0, -0.9042875, 0, -0.11230183, 0.00080662966)
 
 [node name="Area3D" type="Area3D" parent="." unique_id=335482119]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.10440302, -2.7429214, -9.901158)
@@ -85,17 +79,18 @@ script = ExtResource("8_7cme6")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=316813463]
 shape = SubResource("BoxShape3D_ao5yu")
 
-[node name="scream 1" type="AudioStreamPlayer3D" parent="." unique_id=1699368572]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.205969, -4.4990206, -23.97134)
+[node name="scream 1" type="AudioStreamPlayer3D" parent="Area3D" unique_id=1699368572]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.310372, -1.7560992, -14.070182)
 stream = ExtResource("9_kamq3")
 attenuation_model = 2
 volume_db = 5.0
 max_db = 5.0
 bus = &"screams"
 
+[node name="catacombs" parent="." unique_id=396458305 instance=ExtResource("1_8thrb")]
+
 [connection signal="body_entered" from="Area3D" to="Area3D" method="_on_body_entered"]
 
-[editable path="catacombs"]
 [editable path="player"]
 [editable path="player/SubViewportContainer/hand_view/sway/holder/torch/torch"]
 [editable path="player/SubViewportContainer/hand_view/sway/holder/chalk"]

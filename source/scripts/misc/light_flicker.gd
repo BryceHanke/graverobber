@@ -19,7 +19,7 @@ func _process(delta):
 	if flicker == true:
 		shadow_blur = lerp(shadow_blur, min_blur, delta)
 		light_energy = lerp(light_energy, min_brightness, delta)
-		await get_tree().create_timer(0.5).timeout.connect(reset_brightness)
+		await get_tree().create_timer(1).timeout.connect(reset_brightness)
 	if flicker == false:
 		shadow_blur = lerp(shadow_blur, max_blur, delta)
 		light_energy = lerp(light_energy, max_brightness, delta)

@@ -119,12 +119,13 @@ axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true
 floor_constant_speed = true
-floor_snap_length = 0.5
+floor_max_angle = 1.0471976
+floor_snap_length = 0.25
 script = ExtResource("1_rkuj1")
 maximum_speed = 10.0
 jump_height = 2.5
 step = NodePath("steps")
-camera = NodePath("head/lean/camera")
+camera = NodePath("head/lean/pivot/camera")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=444993200]
 environment = SubResource("Environment_ugbui")
@@ -133,23 +134,24 @@ environment = SubResource("Environment_ugbui")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
 [node name="lean" type="Node3D" parent="head" unique_id=1019706298]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 
-[node name="camera" type="Camera3D" parent="head/lean" unique_id=1055946145 node_paths=PackedStringArray("cam", "head", "lean")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+[node name="pivot" type="Node3D" parent="head/lean" unique_id=888106981]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="camera" type="Camera3D" parent="head/lean/pivot" unique_id=1055946145 node_paths=PackedStringArray("cam", "head", "lean")]
 cull_mask = 1048573
 fov = 90.0
 far = 100000.0
 script = ExtResource("2_qek5x")
 cam = NodePath(".")
-head = NodePath("../..")
-lean = NodePath("..")
+head = NodePath("../../..")
+lean = NodePath("../..")
 bob_interval = 1.5
 
-[node name="pixelate" parent="head/lean/camera" unique_id=93580127 instance=ExtResource("5_kvlxm")]
+[node name="pixelate" parent="head/lean/pivot/camera" unique_id=93580127 instance=ExtResource("5_kvlxm")]
 
 [node name="mesh" type="MeshInstance3D" parent="." unique_id=295009724]
-visible = false
 layers = 4
 material_override = ExtResource("2_h17s1")
 mesh = SubResource("CapsuleMesh_6agyq")
@@ -229,7 +231,7 @@ cull_mask = 1047554
 fov = 90.0
 far = 1000000.0
 script = ExtResource("6_fm80t")
-node_to_match = NodePath("../../../head/lean/camera")
+node_to_match = NodePath("../../../head/lean/pivot/camera")
 
 [node name="sway" type="Node3D" parent="SubViewportContainer/hand_view" unique_id=568651731 node_paths=PackedStringArray("player", "camera", "holder")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
@@ -261,22 +263,22 @@ layers = 2
 
 [node name="OmniLight3D" parent="SubViewportContainer/hand_view/sway/holder/torch/torch" index="4" unique_id=592766888]
 layers = 2
-light_energy = 2.791883
-shadow_blur = 1.6167529
+light_energy = 2.5661776
+shadow_blur = 1.5264709
 
 [node name="Sprite3D2" parent="SubViewportContainer/hand_view/sway/holder/torch/torch/OmniLight3D" index="0" unique_id=1329841238]
 layers = 2
-frame = 2
+frame = 3
 
 [node name="Sprite3D3" parent="SubViewportContainer/hand_view/sway/holder/torch/torch/OmniLight3D" index="1" unique_id=1148831848]
-transform = Transform3D(-0.80903304, 0, 0.58776176, 0, 0.51436794, 0, -0.58776176, 0, -0.80903304, 0, -0.12192166, 0.00080662966)
+transform = Transform3D(-0.8069828, 0, -0.5905733, 0, 0.51436794, 0, 0.5905733, 0, -0.8069828, 0, -0.12192166, 0.00080662966)
 layers = 2
-frame = 2
+frame = 3
 
 [node name="Sprite3D4" parent="SubViewportContainer/hand_view/sway/holder/torch/torch/OmniLight3D" index="2" unique_id=1923378448]
-transform = Transform3D(0.7994557, 0, 0.60072374, 0, 0.5143679, 0, -0.60072374, 0, 0.7994557, 0, -0.12192166, 0.00080662966)
+transform = Transform3D(-0.33304274, 0, 0.9429108, 0, 0.5143679, 0, -0.9429108, 0, -0.33304274, 0, -0.12192166, 0.00080662966)
 layers = 2
-frame = 2
+frame = 3
 
 [node name="chalk" parent="SubViewportContainer/hand_view/sway/holder" unique_id=1123505354 instance=ExtResource("22_cnsyf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
@@ -284,7 +286,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 [node name="lantern" type="Node3D" parent="SubViewportContainer/hand_view/sway/holder" unique_id=181563703]
 
 [node name="lantern" parent="SubViewportContainer/hand_view/sway/holder/lantern" unique_id=1576551668 instance=ExtResource("23_6cv16")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.36, -0.09, -0.33)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.32, -0.13, -0.485)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=650718009]
 
@@ -297,7 +299,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("23_canvas_dither")
-camera_path = NodePath("../../head/lean/camera")
+camera_path = NodePath("../../head/lean/pivot/camera")
 metadata/_edit_use_anchors_ = true
 
 [node name="dither_trans" type="ColorRect" parent="CanvasLayer" unique_id=2018062212]

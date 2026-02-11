@@ -557,7 +557,6 @@ fog_mode = 1
 fog_light_color = Color(1, 1, 1, 1)
 fog_density = 1.0
 volumetric_fog_density = 0.1
-adjustment_enabled = true
 adjustment_color_correction = ExtResource("5_ow5a4")
 
 [sub_resource type="Resource" id="Resource_7smn1"]
@@ -871,11 +870,14 @@ shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_6llfj")
 shader_parameter/use_transparency = false
 shader_parameter/alpha_threshold = 0.5
 shader_parameter/use_dithered_transparency = true
-shader_parameter/opacity = 0.0
+shader_parameter/opacity = 1.0
 shader_parameter/color_depth = 5.00000019
 shader_parameter/use_gradient = true
 shader_parameter/color_gradient = SubResource("GradientTexture1D_0bhws")
 shader_parameter/gradient_mix = 1.0
+shader_parameter/inv_view_matrix = Projection(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
+shader_parameter/inv_proj_matrix = Projection(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
+shader_parameter/world_dither_density = 32.0
 
 [node name="Main" type="Node3D" unique_id=1106574498]
 
@@ -893,7 +895,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.6226044e-06, 0.006449461, 
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.85)
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1999611765]
-transform = Transform3D(0.9999062, -0.008345473, -0.010759225, 0.008283188, 0.99994767, -0.005820551, 0.010807252, 0.005730892, 0.9999239, 0, 0.341, -0.606)
+transform = Transform3D(0.99562687, 0.084580764, 0.039635755, -0.0853742, 0.996171, 0.018769262, -0.03789652, -0.022071084, 0.99903655, 0, 0.341, -0.606)
 fov = 90.0
 script = ExtResource("4_hujxm")
 do_rotate = true
@@ -909,6 +911,22 @@ dialogue = Array[ExtResource("9_ouso4")]([SubResource("Resource_7smn1"), SubReso
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1717856567]
 script = ExtResource("15_hxu8e")
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=167563627]
+offset_left = -377.90054
+offset_top = 473.90933
+offset_right = 784.7687
+offset_bottom = 975.2474
+rotation = -0.9743347
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="CanvasLayer" unique_id=894173157]
+offset_left = -166.0
+offset_top = -398.0
+offset_right = 996.6692
+offset_bottom = 55.109924
+rotation = 0.051929295
+color = Color(0, 0, 0, 1)
 
 [node name="Control" type="ColorRect" parent="CanvasLayer" unique_id=1293535445]
 material = ExtResource("21_s17dp")
@@ -974,7 +992,7 @@ color = Color(0, 0, 0, 1)
 metadata/_edit_use_anchors_ = true
 
 [node name="king" parent="." unique_id=1319535891 instance=ExtResource("18_ou6is")]
-transform = Transform3D(-0.24827363, 0, -0.029327972, 0, 0.25, 0, 0.029327972, 0, -0.24827363, 4.947, -1, -3.472)
+transform = Transform3D(-0.24827363, 0, -0.029327972, 0, 0.25, 0, 0.029327972, 0, -0.24827363, 4.552, -1, -3.472)
 
 [node name="Skeleton3D" parent="king/Armature" parent_id_path=PackedInt32Array(1319535891, 1532664018) index="0" unique_id=1233176041]
 transform = Transform3D(0.9957108, -0.06564935, -0.06519371, 0.06826067, 0.9969178, 0.038667582, 0.062454283, -0.042951904, 0.99712324, 0, 0, 0)
