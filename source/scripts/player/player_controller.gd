@@ -1,8 +1,6 @@
 extends CharacterBody3D
 class_name player_controller
 
-@export var maximum_speed : float = 15.0
-
 @export var walk_speed : float = 7.0
 @export var crouch_speed : float = 5.0
 @export var run_speed : float = 8.0
@@ -24,7 +22,6 @@ class_name player_controller
 @export var can_move := true
 var move_speed : float = 0.0
 var move_dir : Vector3
-var gravity = Vector3() # Kept for compatibility if used elsewhere, but perform_gravity won't use it the same way
 
 @export var step : steps
 
@@ -47,9 +44,6 @@ func align_movement_direction():
 func perform_gravity(_delta):
 	if not is_on_floor():
 		velocity.y -= gravity_magnitude * _delta
-	# Reset gravity accumulator if on floor?
-	# The old code used 'gravity' vector accumulator.
-	# If we switch to direct velocity manipulation, we don't strictly need 'gravity' variable unless for display.
 
 func mouse_change():
 	if Input.is_action_just_pressed("pause"):
