@@ -13,4 +13,5 @@ func Update(_delta: float):
 	run_trans()
 
 func Exit():
+	player.emit_signal("is_loud")
 	player.step.steps()

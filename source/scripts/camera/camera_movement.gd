@@ -16,7 +16,7 @@ var FOV = 90
 
 # Head Bob
 @export var bob_interval : float = 1.0
-var bobamp = 0.05
+var bobamp = 0.02
 var tbob = 0.0
 var rotamount = .005
 

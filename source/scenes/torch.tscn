@@ -29,9 +29,12 @@ use_hdr = true
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_r3k50"]
 render_priority = 0
 shader = ExtResource("2_o2tjn")
-shader_parameter/lit_color = Color(0.2520276, 0.25202766, 0.25202757, 1)
+shader_parameter/lit_color = Color(0.40752956, 0.29608622, 0.25422475, 1)
+shader_parameter/normal_mapping = 0
+shader_parameter/normal_uv_scale = Vector2(1, 1)
+shader_parameter/normal_uv_offset = Vector2(0, 0)
 shader_parameter/normal_scale = 1.0
-shader_parameter/shadow_color = Color(0, 0, 0, 1)
+shader_parameter/shadow_color = Color(0.20816594, 0.04262311, 0.021187572, 1)
 shader_parameter/color_gradient = SubResource("GradientTexture1D_mohoo")
 shader_parameter/use_gradient = false
 shader_parameter/use_inverse_gradient = false
@@ -66,6 +69,9 @@ data = PackedVector3Array(1.1798999, 4.1144, 1.7899, 1.6682999, -2.4541, -0.3755
 render_priority = 0
 shader = ExtResource("2_o2tjn")
 shader_parameter/lit_color = Color(0.6872149, 0.68721503, 0.6872149, 1)
+shader_parameter/normal_mapping = 0
+shader_parameter/normal_uv_scale = Vector2(1, 1)
+shader_parameter/normal_uv_offset = Vector2(0, 0)
 shader_parameter/normal_scale = 1.0
 shader_parameter/shadow_color = Color(0.34407577, 0.34407574, 0.34407574, 1)
 shader_parameter/color_gradient = SubResource("GradientTexture1D_mohoo")
@@ -96,7 +102,7 @@ shader_parameter/light_boost = 2.0
 shader_parameter/bounce_strength = 0.5
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_21l5o"]
-seed = 1421052410
+seed = -165066445
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_wjrvc"]
 noise = SubResource("FastNoiseLite_21l5o")
@@ -116,6 +122,9 @@ render_priority = 1
 shader = ExtResource("2_o2tjn")
 shader_parameter/texture_albedo = ExtResource("4_ktql7")
 shader_parameter/lit_color = Color(1, 1, 1, 1)
+shader_parameter/normal_mapping = 0
+shader_parameter/normal_uv_scale = Vector2(1, 1)
+shader_parameter/normal_uv_offset = Vector2(0, 0)
 shader_parameter/normal_scale = 1.0
 shader_parameter/shadow_color = Color(1, 1, 1, 1)
 shader_parameter/color_gradient = SubResource("GradientTexture1D_qtgio")
@@ -168,7 +177,7 @@ _data = {
 }
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_2bkw1"]
-seed = -551054225
+seed = 1533210455
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_etrdt"]
 noise = SubResource("FastNoiseLite_2bkw1")
@@ -178,6 +187,9 @@ render_priority = 0
 shader = ExtResource("2_o2tjn")
 shader_parameter/texture_albedo = ExtResource("4_ktql7")
 shader_parameter/lit_color = Color(1, 1, 1, 1)
+shader_parameter/normal_mapping = 0
+shader_parameter/normal_uv_scale = Vector2(1, 1)
+shader_parameter/normal_uv_offset = Vector2(0, 0)
 shader_parameter/normal_scale = 1.0
 shader_parameter/shadow_color = Color(1, 1, 1, 1)
 shader_parameter/color_gradient = SubResource("GradientTexture1D_qtgio")
@@ -228,9 +240,9 @@ material_override = SubResource("ShaderMaterial_ndh0a")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="." index="4" unique_id=592766888]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3161108, 0)
-light_energy = 2.3151526
+light_energy = 3.1031911
 shadow_enabled = true
-shadow_blur = 1.4260608
+shadow_blur = 1.7412766
 omni_attenuation = 2.0
 script = ExtResource("3_ndh0a")
 probability = 50
@@ -248,6 +260,7 @@ billboard = 2
 texture_filter = 2
 texture = ExtResource("4_ktql7")
 hframes = 4
+frame = 2
 script = ExtResource("5_gybtl")
 animation_player = NodePath("AnimationPlayer2")
 randomize_noise = true
@@ -256,7 +269,7 @@ randomize_noise = true
 libraries/ = SubResource("AnimationLibrary_wjrvc")
 
 [node name="Sprite3D3" type="Sprite3D" parent="OmniLight3D" index="1" unique_id=1148831848 node_paths=PackedStringArray("animation_player")]
-transform = Transform3D(0.9779551, 0, 0.20881332, 0, 0.51436794, 0, -0.20881332, 0, 0.9779551, 0, -0.12550074, 0.00080662966)
+transform = Transform3D(0.22439378, 0, 0.9744981, 0, 0.51436794, 0, -0.9744981, 0, 0.22439378, 0, -0.12550074, 0.00080662966)
 material_override = SubResource("ShaderMaterial_21l5o")
 cast_shadow = 0
 pixel_size = 0.02
@@ -264,7 +277,7 @@ billboard = 1
 texture_filter = 2
 texture = ExtResource("4_ktql7")
 hframes = 4
-frame = 1
+frame = 2
 script = ExtResource("5_gybtl")
 animation_player = NodePath("AnimationPlayer2")
 do_rotate = true
@@ -274,7 +287,7 @@ randomize_noise = true
 libraries/ = SubResource("AnimationLibrary_wjrvc")
 
 [node name="Sprite3D4" type="Sprite3D" parent="OmniLight3D" index="2" unique_id=1923378448 node_paths=PackedStringArray("animation_player")]
-transform = Transform3D(-0.43735915, 0, 0.89928657, 0, 0.51436794, 0, -0.89928657, 0, -0.43735915, 0, -0.12550074, 0.00080662966)
+transform = Transform3D(-0.9998701, 0, -0.016099125, 0, 0.51436794, 0, 0.016099125, 0, -0.9998701, 0, -0.12550074, 0.00080662966)
 material_override = SubResource("ShaderMaterial_21l5o")
 cast_shadow = 0
 pixel_size = 0.02
@@ -282,7 +295,7 @@ billboard = 1
 texture_filter = 2
 texture = ExtResource("4_ktql7")
 hframes = 4
-frame = 1
+frame = 2
 script = ExtResource("5_gybtl")
 animation_player = NodePath("AnimationPlayer2")
 do_rotate = true

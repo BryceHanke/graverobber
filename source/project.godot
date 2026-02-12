@@ -106,8 +106,7 @@ r_click={
 
 3d/run_on_separate_thread=true
 3d/physics_engine="Jolt Physics"
-jolt_physics_3d/simulation/velocity_steps=20
-jolt_physics_3d/simulation/position_steps=12
+jolt_physics_3d/simulation/position_steps=5
 3d/solver/solver_iterations=64
 
 [rendering]

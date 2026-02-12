@@ -22,7 +22,7 @@
 [ext_resource type="Script" uid="uid://bdnt7gg01aapm" path="res://scripts/player/ground/run.gd" id="18_cnsyf"]
 [ext_resource type="PackedScene" uid="uid://bchalkxryrgfy" path="res://scenes/torch.tscn" id="19_ioxgp"]
 [ext_resource type="AudioStream" uid="uid://y8ma5gjdshwm" path="res://assets/sounds/step 4.mp3" id="19_yj68g"]
-[ext_resource type="Script" uid="uid://dmnvhxj0y77t2" path="res://scripts/steps.gd" id="20_8ydkj"]
+[ext_resource type="Script" uid="uid://dmnvhxj0y77t2" path="res://scripts/player/components/steps.gd" id="20_8ydkj"]
 [ext_resource type="PackedScene" uid="uid://w0e5qalsukw6" path="res://scenes/chalk_item.tscn" id="22_cnsyf"]
 [ext_resource type="PackedScene" uid="uid://dhekfurvwulu4" path="res://scenes/lantern.tscn" id="23_6cv16"]
 [ext_resource type="Script" uid="uid://rjx8njkfeek4" path="res://scripts/post_process/canvas_pixel_dither_world.gd" id="23_canvas_dither"]
@@ -39,11 +39,11 @@ volumetric_fog_density = 0.25
 volumetric_fog_albedo = Color(0, 0, 0, 1)
 adjustment_color_correction = ExtResource("2_cnsyf")
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8xumb"]
+
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_6agyq"]
 radial_segments = 16
 rings = 2
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8xumb"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_ioxgp"]
 random_pitch = 1.1892071
@@ -114,7 +114,7 @@ _data = {
 &"fade_out": SubResource("Animation_kvlxm")
 }
 
-[node name="player" type="CharacterBody3D" unique_id=1570651658 node_paths=PackedStringArray("step", "camera")]
+[node name="player" type="CharacterBody3D" unique_id=1570651658 node_paths=PackedStringArray("step", "camera") groups=["player"]]
 axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true
@@ -122,7 +122,6 @@ floor_constant_speed = true
 floor_max_angle = 1.0471976
 floor_snap_length = 0.25
 script = ExtResource("1_rkuj1")
-maximum_speed = 10.0
 jump_height = 2.5
 step = NodePath("steps")
 camera = NodePath("head/lean/pivot/camera")
@@ -151,7 +150,15 @@ bob_interval = 1.5
 
 [node name="pixelate" parent="head/lean/pivot/camera" unique_id=93580127 instance=ExtResource("5_kvlxm")]
 
+[node name="be_heard" type="Area3D" parent="." unique_id=924165772]
+collision_layer = 4
+collision_mask = 4
+
+[node name="collision" type="CollisionShape3D" parent="be_heard" unique_id=1807059319]
+shape = SubResource("CapsuleShape3D_8xumb")
+
 [node name="mesh" type="MeshInstance3D" parent="." unique_id=295009724]
+visible = false
 layers = 4
 material_override = ExtResource("2_h17s1")
 mesh = SubResource("CapsuleMesh_6agyq")
@@ -263,22 +270,22 @@ layers = 2
 
 [node name="OmniLight3D" parent="SubViewportContainer/hand_view/sway/holder/torch/torch" index="4" unique_id=592766888]
 layers = 2
-light_energy = 2.5661776
-shadow_blur = 1.5264709
+light_energy = 3.4736402
+shadow_blur = 1.8894562
 
 [node name="Sprite3D2" parent="SubViewportContainer/hand_view/sway/holder/torch/torch/OmniLight3D" index="0" unique_id=1329841238]
 layers = 2
-frame = 3
+frame = 1
 
 [node name="Sprite3D3" parent="SubViewportContainer/hand_view/sway/holder/torch/torch/OmniLight3D" index="1" unique_id=1148831848]
-transform = Transform3D(-0.8069828, 0, -0.5905733, 0, 0.51436794, 0, 0.5905733, 0, -0.8069828, 0, -0.12192166, 0.00080662966)
+transform = Transform3D(-0.85096896, 0, -0.5252142, 0, 0.51436794, 0, 0.5252142, 0, -0.85096896, 0, -0.12192166, 0.00080662966)
 layers = 2
-frame = 3
+frame = 1
 
 [node name="Sprite3D4" parent="SubViewportContainer/hand_view/sway/holder/torch/torch/OmniLight3D" index="2" unique_id=1923378448]
-transform = Transform3D(-0.33304274, 0, 0.9429108, 0, 0.5143679, 0, -0.9429108, 0, -0.33304274, 0, -0.12192166, 0.00080662966)
+transform = Transform3D(-0.25589478, 0, 0.96670365, 0, 0.5143679, 0, -0.96670365, 0, -0.25589478, 0, -0.12192166, 0.00080662966)
 layers = 2
-frame = 3
+frame = 1
 
 [node name="chalk" parent="SubViewportContainer/hand_view/sway/holder" unique_id=1123505354 instance=ExtResource("22_cnsyf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)

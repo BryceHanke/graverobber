@@ -5,6 +5,7 @@ func Enter():
 	player.move_speed = player.walk_speed
 
 func Physics_Update(_delta: float):
+	player.emit_signal("made_sound")
 	handle_crouch(false, _delta)
 	player.apply_floor_snap()
 	if player.can_move == true:

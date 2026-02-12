@@ -1,15 +1,17 @@
 extends Node3D
 
+@export var player : CharacterBody3D
 const CHALK_MARK = preload("uid://l8swa4qt65y3")
 @onready var ray_cast_3d : RayCast3D = $RayCast3D
 @onready var chalk = $chalk
 var og_pos := Vector3.ZERO
 @export var chalk_instancer : MultiMeshInstance3D
+@onready var audio_stream_player_3d = $chalk/Cylinder/AudioStreamPlayer3D
 
-const MAX_MARKS = 25000
+const MAX_MARKS = 50000
 var current_mark_index = 0
 
-const TIMER_INTERVAL : float = 0.05
+const TIMER_INTERVAL : float = 0.005
 var timer : float = 0.0
 
 func _ready():
@@ -30,13 +32,17 @@ func _process(delta):
 		chalk.position = chalk.position.lerp(target_pos, 10 * delta)
 
 		if Input.is_action_pressed("r_click") and timer <= 0.0:
-			place_mark()
-			timer = TIMER_INTERVAL
+			if Input.get_last_mouse_velocity().length() != 0.0 || player.velocity.length() != 0.0:
+				place_mark()
+				timer = TIMER_INTERVAL
 	else:
 		chalk.position = chalk.position.lerp(og_pos, 10 * delta)
 
 func place_mark():
 	if chalk_instancer and chalk_instancer.multimesh:
+		audio_stream_player_3d.volume_db = remap(Input.get_last_mouse_velocity().length()/100 + (player.velocity.length() * 2), 0.0, 100.0, -10.0, 10.0)
+		audio_stream_player_3d.pitch_scale = remap(Input.get_last_mouse_velocity().length()/100 + (player.velocity.length() * 2), 0.0, 100.0, 2.0, 5.0)
+		audio_stream_player_3d.play()
 		var normal = ray_cast_3d.get_collision_normal()
 		var point = ray_cast_3d.get_collision_point()
 

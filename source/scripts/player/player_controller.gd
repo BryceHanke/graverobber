@@ -3,7 +3,7 @@ class_name player_controller
 
 @export var walk_speed : float = 7.0
 @export var crouch_speed : float = 5.0
-@export var run_speed : float = 8.0
+@export var run_speed : float = 10.0
 
 @export var jump_height : float = 7.0
 
@@ -30,6 +30,8 @@ var move_dir : Vector3
 @onready var mesh = $mesh
 @onready var collision = $collision
 
+signal is_loud
+signal made_sound
 
 func _process(delta):
 	mouse_change()

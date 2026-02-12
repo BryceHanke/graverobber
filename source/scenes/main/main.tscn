@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dvae5gvtvcw1r" path="res://scenes/wheelchair.tscn" id="2_k2fmo"]
 [ext_resource type="PackedScene" uid="uid://dg7xl4dtseqsv" path="res://scenes/outline_pixelate.tscn" id="3_l3cfh"]
 [ext_resource type="Script" uid="uid://bpi38cpwqc2mc" path="res://scripts/cell/cell_camera_shake.gd" id="4_hujxm"]
-[ext_resource type="PackedScene" uid="uid://dxwwdfsun0hba" path="res://scenes/cell.tscn" id="4_l3cfh"]
+[ext_resource type="PackedScene" uid="uid://dxwwdfsun0hba" path="res://scenes/cell/cell.tscn" id="4_l3cfh"]
 [ext_resource type="Texture2D" uid="uid://cdr3agq0jdx7y" path="res://assets/textures/colors.tres" id="5_ow5a4"]
 [ext_resource type="Script" uid="uid://dbqhrjhus4ed1" path="res://scripts/dialogue/handle_dialogue.gd" id="8_yyfjg"]
 [ext_resource type="Resource" uid="uid://bavjjmxswjahn" path="res://assets/characters/main.tres" id="9_i7in8"]
@@ -895,7 +895,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.6226044e-06, 0.006449461, 
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.85)
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1999611765]
-transform = Transform3D(0.99562687, 0.084580764, 0.039635755, -0.0853742, 0.996171, 0.018769262, -0.03789652, -0.022071084, 0.99903655, 0, 0.341, -0.606)
+transform = Transform3D(0.998226, -0.029183531, -0.051873177, 0.02868408, 0.99953383, -0.010347003, 0.052151024, 0.008840726, 0.9985987, 0, 0.341, -0.606)
 fov = 90.0
 script = ExtResource("4_hujxm")
 do_rotate = true
@@ -911,22 +911,6 @@ dialogue = Array[ExtResource("9_ouso4")]([SubResource("Resource_7smn1"), SubReso
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1717856567]
 script = ExtResource("15_hxu8e")
-
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=167563627]
-offset_left = -377.90054
-offset_top = 473.90933
-offset_right = 784.7687
-offset_bottom = 975.2474
-rotation = -0.9743347
-color = Color(0, 0, 0, 1)
-
-[node name="ColorRect2" type="ColorRect" parent="CanvasLayer" unique_id=894173157]
-offset_left = -166.0
-offset_top = -398.0
-offset_right = 996.6692
-offset_bottom = 55.109924
-rotation = 0.051929295
-color = Color(0, 0, 0, 1)
 
 [node name="Control" type="ColorRect" parent="CanvasLayer" unique_id=1293535445]
 material = ExtResource("21_s17dp")
