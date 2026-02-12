@@ -7,7 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://bspf1mkw7rsbx" path="res://assets/sounds/mhm.mp3" id="7_pho0m"]
 [ext_resource type="Script" uid="uid://blesegkbsfser" path="res://scripts/triggers/scream.gd" id="8_7cme6"]
 [ext_resource type="AudioStream" uid="uid://duusr86tgxjs5" path="res://assets/sounds/ambience.wav" id="8_kamq3"]
-[ext_resource type="PackedScene" uid="uid://04m2i41b26xa" path="res://scenes/monster.tscn" id="9_7cme6"]
+[ext_resource type="PackedScene" uid="uid://04m2i41b26xa" path="res://monster/monster.tscn" id="9_7cme6"]
 [ext_resource type="AudioStream" uid="uid://hob3eo673lhj" path="res://assets/sounds/low_quality_scream.mp3" id="9_kamq3"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ao5yu"]
