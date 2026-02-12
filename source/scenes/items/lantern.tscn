@@ -1,0 +1,337 @@
+[gd_scene format=3 uid="uid://dhekfurvwulu4"]
+
+[ext_resource type="PackedScene" uid="uid://u031csne5b4o" path="res://assets/models/lantern.blend" id="1_hhuhv"]
+[ext_resource type="Shader" uid="uid://dcxcwwd03jc52" path="res://assets/shaders/dither.gdshader" id="3_y6stn"]
+[ext_resource type="Script" uid="uid://1xbyyhgroi2r" path="res://scripts/misc/light_flicker.gd" id="4_5omvi"]
+[ext_resource type="Texture2D" uid="uid://dyoswsent6pjx" path="res://assets/textures/flame.png" id="5_spggs"]
+[ext_resource type="Texture2D" uid="uid://rv18lng6o6yw" path="res://assets/textures/glass.png" id="6_spggs"]
+[ext_resource type="Script" uid="uid://1aj1hxpkdetj" path="res://scripts/misc/flame.gd" id="6_wkn8m"]
+[ext_resource type="Script" uid="uid://bqielnl18iok1" path="res://scripts/tools/physical_bone_simulator_3d.gd" id="7_spggs"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wkn8m"]
+render_priority = 0
+shader = ExtResource("3_y6stn")
+shader_parameter/lit_color = Color(0.3822178, 0.27622285, 0.20219535, 1)
+shader_parameter/normal_mapping = 0
+shader_parameter/normal_uv_scale = Vector2(1, 1)
+shader_parameter/normal_uv_offset = Vector2(0, 0)
+shader_parameter/normal_scale = 1.0
+shader_parameter/shadow_color = Color(0, 0, 0, 1)
+shader_parameter/use_gradient = false
+shader_parameter/use_inverse_gradient = false
+shader_parameter/color_depth = 8.0000003325
+shader_parameter/roughness_scale = 1.0
+shader_parameter/use_transparency = false
+shader_parameter/alpha_threshold = 0.5
+shader_parameter/cull_mode = 2
+shader_parameter/use_dithered_transparency = false
+shader_parameter/opacity = 1.0
+shader_parameter/billboard_mode = 0
+shader_parameter/no_outlines = false
+shader_parameter/dither_type = 1
+shader_parameter/dither_mode = 0
+shader_parameter/dither_pixel_size = 2.0000000475
+shader_parameter/dither_density = 1024.0
+shader_parameter/world_dither_density = 32.0
+shader_parameter/dither_spread = 2.0
+shader_parameter/shadow_bias = 0.1320000537699999
+shader_parameter/albedo_mapping = 0
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/global_ambient = Color(0, 0.014809188, 0.015851432, 1)
+shader_parameter/light_boost = 1.0
+shader_parameter/bounce_strength = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jdg25"]
+render_priority = 0
+shader = ExtResource("3_y6stn")
+shader_parameter/lit_color = Color(0.8486136, 0.78635126, 0.80753696, 1)
+shader_parameter/normal_mapping = 0
+shader_parameter/normal_uv_scale = Vector2(1, 1)
+shader_parameter/normal_uv_offset = Vector2(0, 0)
+shader_parameter/normal_scale = 1.0
+shader_parameter/shadow_color = Color(0.7794144, 0.6224783, 0.5122239, 1)
+shader_parameter/use_gradient = false
+shader_parameter/use_inverse_gradient = false
+shader_parameter/color_depth = 16.0000007125
+shader_parameter/roughness_scale = 1.0
+shader_parameter/use_transparency = false
+shader_parameter/alpha_threshold = 0.5
+shader_parameter/cull_mode = 0
+shader_parameter/use_dithered_transparency = false
+shader_parameter/opacity = 1.0
+shader_parameter/billboard_mode = 0
+shader_parameter/no_outlines = false
+shader_parameter/dither_type = 0
+shader_parameter/dither_mode = 0
+shader_parameter/dither_pixel_size = 2.0000000475
+shader_parameter/dither_density = 256.0
+shader_parameter/world_dither_density = 32.0
+shader_parameter/dither_spread = 2.0
+shader_parameter/shadow_bias = 0.1320000537699999
+shader_parameter/albedo_mapping = 0
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/global_ambient = Color(0, 0.014809188, 0.015851432, 1)
+shader_parameter/light_boost = 1.0
+shader_parameter/bounce_strength = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y6stn"]
+render_priority = 0
+shader = ExtResource("3_y6stn")
+shader_parameter/lit_color = Color(0, 0, 0, 1)
+shader_parameter/normal_mapping = 0
+shader_parameter/normal_uv_scale = Vector2(1, 1)
+shader_parameter/normal_uv_offset = Vector2(0, 0)
+shader_parameter/normal_scale = 1.0
+shader_parameter/shadow_color = Color(0, 0, 0, 1)
+shader_parameter/use_gradient = false
+shader_parameter/use_inverse_gradient = false
+shader_parameter/color_depth = 16.0000007125
+shader_parameter/roughness_scale = 1.0
+shader_parameter/use_transparency = false
+shader_parameter/alpha_threshold = 0.5
+shader_parameter/cull_mode = 0
+shader_parameter/use_dithered_transparency = false
+shader_parameter/opacity = 1.0
+shader_parameter/billboard_mode = 0
+shader_parameter/no_outlines = false
+shader_parameter/dither_type = 0
+shader_parameter/dither_mode = 0
+shader_parameter/dither_pixel_size = 2.0000000475
+shader_parameter/dither_density = 256.0
+shader_parameter/world_dither_density = 32.0
+shader_parameter/dither_spread = 2.0
+shader_parameter/shadow_bias = 0.1320000537699999
+shader_parameter/albedo_mapping = 0
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/global_ambient = Color(0, 0.014809188, 0.015851432, 1)
+shader_parameter/light_boost = 1.0
+shader_parameter/bounce_strength = 0.0
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_v8npp"]
+seed = 1878739164
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_wjrvc"]
+noise = SubResource("FastNoiseLite_v8npp")
+
+[sub_resource type="Gradient" id="Gradient_alqwq"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.203125, 0.41562498, 0.640625, 0.828125)
+colors = PackedColorArray(0.047058824, 0.09803922, 0.07450981, 1, 0.28627452, 0.3764706, 0.29803923, 1, 0.6392157, 0.64705884, 0.43529412, 1, 0.8666667, 0.7058824, 0.7294118, 1, 0.8862745, 0.8862745, 0.85882354, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_qtgio"]
+gradient = SubResource("Gradient_alqwq")
+width = 5
+use_hdr = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gdepf"]
+render_priority = 1
+shader = ExtResource("3_y6stn")
+shader_parameter/texture_albedo = ExtResource("5_spggs")
+shader_parameter/lit_color = Color(1, 1, 1, 1)
+shader_parameter/normal_mapping = 0
+shader_parameter/normal_uv_scale = Vector2(1, 1)
+shader_parameter/normal_uv_offset = Vector2(0, 0)
+shader_parameter/normal_scale = 1.0
+shader_parameter/shadow_color = Color(1, 1, 1, 1)
+shader_parameter/color_gradient = SubResource("GradientTexture1D_qtgio")
+shader_parameter/use_gradient = false
+shader_parameter/use_inverse_gradient = false
+shader_parameter/color_depth = 8.0000003325
+shader_parameter/roughness_scale = 1.0
+shader_parameter/use_transparency = true
+shader_parameter/alpha_threshold = 0.5
+shader_parameter/cull_mode = 2
+shader_parameter/use_dithered_transparency = true
+shader_parameter/opacity = 1.0
+shader_parameter/billboard_mode = 2
+shader_parameter/no_outlines = true
+shader_parameter/dither_type = 2
+shader_parameter/dither_mode = 2
+shader_parameter/dither_pixel_size = 2.0
+shader_parameter/dither_density = 512.0
+shader_parameter/world_dither_density = 128.0
+shader_parameter/dither_spread = 1.00000004680148
+shader_parameter/shadow_bias = 1.0
+shader_parameter/blue_noise_texture = SubResource("NoiseTexture2D_wjrvc")
+shader_parameter/albedo_mapping = 0
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/global_ambient = Color(0.047058824, 0.09803922, 0.07450981, 1)
+shader_parameter/light_boost = 2.0
+shader_parameter/bounce_strength = 0.5
+
+[sub_resource type="Animation" id="Animation_yj68g"]
+resource_name = "flame"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_r1nhv"]
+_data = {
+&"flame": SubResource("Animation_yj68g")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4a08e"]
+render_priority = 0
+shader = ExtResource("3_y6stn")
+shader_parameter/texture_albedo = ExtResource("6_spggs")
+shader_parameter/lit_color = Color(0.8156863, 1, 1, 1)
+shader_parameter/normal_mapping = 0
+shader_parameter/normal_uv_scale = Vector2(1, 1)
+shader_parameter/normal_uv_offset = Vector2(0, 0)
+shader_parameter/normal_scale = 1.0
+shader_parameter/shadow_color = Color(0.32941177, 0.42352942, 0.42352942, 1)
+shader_parameter/use_gradient = false
+shader_parameter/use_inverse_gradient = false
+shader_parameter/color_depth = 8.0000003325
+shader_parameter/roughness_scale = 1.0
+shader_parameter/use_transparency = true
+shader_parameter/alpha_threshold = 0.5
+shader_parameter/cull_mode = 2
+shader_parameter/use_dithered_transparency = true
+shader_parameter/opacity = 0.250000011875
+shader_parameter/billboard_mode = 0
+shader_parameter/no_outlines = false
+shader_parameter/dither_type = 4
+shader_parameter/dither_mode = 0
+shader_parameter/dither_pixel_size = 2.0000000475
+shader_parameter/dither_density = 256.0
+shader_parameter/world_dither_density = 512.0
+shader_parameter/dither_spread = 0.93700004380898
+shader_parameter/shadow_bias = -0.05399995506499999
+shader_parameter/albedo_mapping = 0
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/global_ambient = Color(0, 0.014809188, 0.015851432, 1)
+shader_parameter/light_boost = 1.0
+shader_parameter/bounce_strength = 0.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5omvi"]
+radius = 0.009228408
+height = 0.09228408
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_spggs"]
+height = 0.275
+radius = 0.09
+
+[node name="lantern" unique_id=1393074433 instance=ExtResource("1_hhuhv")]
+
+[node name="Bone_001" parent="Armature/Skeleton3D" parent_id_path=PackedInt32Array(933966681) index="0" unique_id=1596633624]
+transform = Transform3D(3.576278e-07, 0, -0.9999998, 0, -1, 0, -0.9999998, 0, -3.576278e-07, 3.2610217e-12, -0.040896803, 2.2497313e-11)
+
+[node name="top" parent="Armature/Skeleton3D/Bone_001" index="0" unique_id=1454016330]
+layers = 2
+material_override = SubResource("ShaderMaterial_wkn8m")
+
+[node name="attachment" parent="Armature/Skeleton3D/Bone_001/top" index="0" unique_id=431082672]
+layers = 2
+material_override = SubResource("ShaderMaterial_wkn8m")
+
+[node name="base" parent="Armature/Skeleton3D/Bone_001/top" index="1" unique_id=541213411]
+layers = 2
+material_override = SubResource("ShaderMaterial_wkn8m")
+
+[node name="Cylinder" parent="Armature/Skeleton3D/Bone_001/top/base" index="0" unique_id=608639908]
+material_override = SubResource("ShaderMaterial_jdg25")
+
+[node name="Cylinder_001" parent="Armature/Skeleton3D/Bone_001/top/base" index="1" unique_id=719875267]
+material_override = SubResource("ShaderMaterial_y6stn")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Armature/Skeleton3D/Bone_001/top/base/Cylinder_001" index="0" unique_id=1117837402]
+transform = Transform3D(1.0000001, 0, 5.9604645e-08, 0, 1, 0, 0, 0, 1.0000001, 0, -0.022797346, 0)
+light_energy = 6.6983232
+shadow_enabled = true
+shadow_blur = 6.863407
+omni_attenuation = 2.0
+script = ExtResource("4_5omvi")
+probability = 15
+min_brightness = 0.0
+max_brightness = 10.0
+min_blur = 0.5
+max_blur = 10.0
+
+[node name="Sprite3D2" type="Sprite3D" parent="Armature/Skeleton3D/Bone_001/top/base/Cylinder_001/OmniLight3D" index="0" unique_id=1099298432 node_paths=PackedStringArray("animation_player")]
+transform = Transform3D(-0.06922826, 0, -0.06505726, 0, 0.095, 0, 0.06505726, 0, -0.06922826, 0, 0.022781897, 0.00080662966)
+material_override = SubResource("ShaderMaterial_gdepf")
+cast_shadow = 0
+pixel_size = 0.02
+billboard = 2
+texture_filter = 2
+texture = ExtResource("5_spggs")
+hframes = 4
+frame = 2
+script = ExtResource("6_wkn8m")
+animation_player = NodePath("AnimationPlayer2")
+randomize_noise = true
+
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="Armature/Skeleton3D/Bone_001/top/base/Cylinder_001/OmniLight3D/Sprite3D2" index="0" unique_id=157978523]
+libraries/ = SubResource("AnimationLibrary_r1nhv")
+
+[node name="cage" parent="Armature/Skeleton3D/Bone_001/top" index="2" unique_id=627098931]
+layers = 2
+material_override = SubResource("ShaderMaterial_wkn8m")
+
+[node name="glass" parent="Armature/Skeleton3D/Bone_001/top" index="3" unique_id=41717705]
+layers = 2
+material_override = SubResource("ShaderMaterial_4a08e")
+
+[node name="Bone" parent="Armature/Skeleton3D" parent_id_path=PackedInt32Array(933966681) index="1" unique_id=862679058]
+transform = Transform3D(3.576278e-07, 0, -0.9999998, 0, -1, 0, -0.9999998, 0, -3.576278e-07, 0, 0.05138728, 0)
+
+[node name="handle" parent="Armature/Skeleton3D/Bone" index="0" unique_id=1138697430]
+layers = 2
+material_override = SubResource("ShaderMaterial_wkn8m")
+
+[node name="PhysicalBoneSimulator3D" type="PhysicalBoneSimulator3D" parent="Armature/Skeleton3D" parent_id_path=PackedInt32Array(933966681) index="2" unique_id=1144261819]
+script = ExtResource("7_spggs")
+
+[node name="Physical Bone Bone" type="PhysicalBone3D" parent="Armature/Skeleton3D/PhysicalBoneSimulator3D" index="0" unique_id=1638016295]
+transform = Transform3D(3.576279e-07, 0, -1, 0, -1, 0, -1, 0, -3.576279e-07, -0.00029798597, 0.29488206, 0.003512621)
+top_level = true
+disable_mode = 1
+collision_layer = 0
+collision_mask = 0
+mass = 100000.0
+gravity_scale = 0.0
+bone_name = "Bone"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Armature/Skeleton3D/PhysicalBoneSimulator3D/Physical Bone Bone" index="0" unique_id=1093646122]
+transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_5omvi")
+
+[node name="PhysicalBone3D" type="PhysicalBone3D" parent="Armature/Skeleton3D/PhysicalBoneSimulator3D" index="1" unique_id=1750783482]
+transform = Transform3D(3.576279e-07, 0, -1, 0, -1, 0, -1, 0, -3.576279e-07, -0.00029798597, 0.20259798, 0.003512621)
+top_level = true
+collision_layer = 0
+collision_mask = 0
+joint_type = 2
+body_offset = Transform3D(1.0000001, 0, 2.842171e-14, 0, 1, 0, -2.842171e-14, 0, 1.0000001, 0, 0, 0)
+mass = 5.0
+gravity_scale = 2.0
+linear_damp = 5.0
+angular_damp = 5.0
+can_sleep = false
+bone_name = "Bone.001"
+joint_constraints/swing_span = 45.999992
+joint_constraints/twist_span = 90.0
+joint_constraints/bias = 16.0
+joint_constraints/softness = 0.41
+joint_constraints/relaxation = 0.68
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Armature/Skeleton3D/PhysicalBoneSimulator3D/PhysicalBone3D" index="0" unique_id=900520967]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.20216486, 0)
+shape = SubResource("CylinderShape3D_spggs")
