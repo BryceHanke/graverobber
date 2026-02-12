@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://bm0p017yfhurg" path="res://assets/models/cell.blend" id="1_nm02e"]
 [ext_resource type="Shader" uid="uid://dcxcwwd03jc52" path="res://assets/shaders/dither.gdshader" id="2_nm02e"]
 [ext_resource type="Texture2D" uid="uid://ca2lb7avnx1ab" path="res://assets/textures/bricks.png" id="3_ds1sf"]
-[ext_resource type="PackedScene" uid="uid://bchalkxryrgfy" path="res://scenes/torch.tscn" id="3_ecwuj"]
+[ext_resource type="PackedScene" uid="uid://bchalkxryrgfy" path="res://scenes/items/torch.tscn" id="3_ecwuj"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_5fs4t"]
 frequency = 1.0

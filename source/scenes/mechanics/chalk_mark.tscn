@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://l8swa4qt65y3"]
+
+[ext_resource type="Shader" uid="uid://dcxcwwd03jc52" path="res://assets/shaders/dither.gdshader" id="1_iscv4"]
+[ext_resource type="Texture2D" uid="uid://bxpmsw3vi1crh" path="res://assets/textures/smoke.png" id="2_x6uxv"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i1b7y"]
+render_priority = 0
+shader = ExtResource("1_iscv4")
+shader_parameter/texture_albedo = ExtResource("2_x6uxv")
+shader_parameter/lit_color = Color(1, 1, 1, 1)
+shader_parameter/normal_scale = 1.000000807500001
+shader_parameter/shadow_color = Color(0.37036446, 0.3703645, 0.37036443, 1)
+shader_parameter/use_gradient = false
+shader_parameter/use_inverse_gradient = false
+shader_parameter/color_depth = 4.000000142499999
+shader_parameter/roughness_scale = 1.0
+shader_parameter/use_transparency = true
+shader_parameter/alpha_threshold = 0.5
+shader_parameter/cull_mode = 2
+shader_parameter/use_dithered_transparency = true
+shader_parameter/opacity = 0.3930000186675
+shader_parameter/billboard_mode = 0
+shader_parameter/no_outlines = false
+shader_parameter/dither_type = 0
+shader_parameter/dither_mode = 0
+shader_parameter/dither_pixel_size = 2.0000000475
+shader_parameter/dither_density = 64.0
+shader_parameter/world_dither_density = 32.0
+shader_parameter/dither_spread = 0.94700004428398
+shader_parameter/shadow_bias = 0.0
+shader_parameter/albedo_mapping = 0
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/global_ambient = Color(0, 0.014809188, 0.015851432, 1)
+shader_parameter/light_boost = 1.0
+shader_parameter/bounce_strength = 0.0
+
+[node name="ChalkMark" type="Node3D" unique_id=917243958]
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=1034428126]
+transform = Transform3D(0.1, 0, 0, 0, -4.371139e-09, 0.1, 0, -0.1, -4.371139e-09, 0, 0, 0)
+material_override = SubResource("ShaderMaterial_i1b7y")
+shaded = true
+texture_filter = 2
+texture = ExtResource("2_x6uxv")
