@@ -53,8 +53,8 @@ bus = &"screams"
 visible = false
 
 [node name="OmniLight3D" parent="player/SubViewportContainer/hand_view/sway/holder/lantern/lantern/Armature/Skeleton3D/Bone_001/top/base/Cylinder_001" parent_id_path=PackedInt32Array(1570651658, 1576551668, 719875267) index="0" unique_id=1117837402]
-light_energy = 11.163024
-shadow_blur = 6.354873
+light_energy = 10.924527
+shadow_blur = 6.128301
 
 [node name="monster" parent="." unique_id=832945777 node_paths=PackedStringArray("player") instance=ExtResource("9_7cme6")]
 transform = Transform3D(0.6131139, 0, -0.78999454, 0, 1, 0, 0.78999454, 0, 0.6131139, 2.4476185, -0.46678486, -2.938526)
@@ -64,55 +64,68 @@ player = NodePath("../player")
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, -0.48348162, 0)
 
 [node name="l_hand" parent="monster/monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(832945777, 660503573, 1824726652) index="2" unique_id=1925841840]
-transform = Transform3D(0.47635007, -0.7765504, 0.41238216, -0.8791809, -0.426773, 0.21190745, 0.011436954, -0.46350095, -0.886022, 1.0748819, -0.37399334, 1.364474)
+transform = Transform3D(-0.10674134, 0.9900472, -0.09171764, -0.6409895, -0.13903719, -0.75485134, -0.76009077, -0.021783886, 0.6494511, 3.0125828, -0.25602072, -0.28021613)
 
 [node name="l_forearm" parent="monster/monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(832945777, 660503573, 1824726652) index="3" unique_id=1328960560]
-transform = Transform3D(0.56139576, -0.4807934, -0.6735517, -0.8252646, -0.26485536, -0.49878773, 0.06142029, 0.8358761, -0.54547065, 1.662719, -0.05017054, 0.34249818)
+transform = Transform3D(-0.0596793, 0.9900474, -0.12745237, -0.27459872, -0.13903679, -0.9514535, -0.9597049, -0.0217839, 0.28016317, 1.8021109, -0.086028636, -0.25358218)
 
 [node name="l_arm" parent="monster/monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(832945777, 660503573, 1824726652) index="4" unique_id=2038679607]
-transform = Transform3D(0.33130616, 0.87440854, -0.35446495, -0.57730204, -0.10928936, -0.80918336, -0.7462961, 0.4727212, 0.4685896, 0.60870117, 0.08156748, -0.22732306)
+transform = Transform3D(-0.09177067, 0.99004734, -0.10669565, -0.5204648, -0.13903706, -0.842487, -0.8489369, -0.021784363, 0.52804416, 0.60870117, 0.08156748, -0.22732306)
 
 [node name="r_hand" parent="monster/monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(832945777, 660503573, 1824726652) index="5" unique_id=1326891952]
-transform = Transform3D(0.3068447, 0.76823145, -0.56184113, -0.674984, -0.24053009, -0.69752485, -0.6710009, 0.59326595, 0.44473898, -0.86377585, -0.4450978, 1.4486617)
+transform = Transform3D(0.23536983, -0.67232734, 0.7018375, -0.96737933, -0.23167259, 0.10249095, 0.09368871, -0.7030669, -0.70492476, -2.2218442, -0.4809436, -1.934403)
 
 [node name="r_forearm" parent="monster/monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(832945777, 660503573, 1824726652) index="6" unique_id=1626055945]
-transform = Transform3D(0.5415019, 0.55359334, -0.6326998, -0.5943426, -0.28018343, -0.7538257, -0.5945854, 0.78423905, 0.17730439, -1.5406213, -0.1025344, 0.48981965)
+transform = Transform3D(0.7288904, -0.6723272, -0.12920502, -0.041410267, -0.23167199, 0.9719118, -0.68337655, -0.7030673, -0.19670448, -1.39983, -0.197692, -1.0748045)
 
 [node name="r_arm" parent="monster/monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(832945777, 660503573, 1824726652) index="7" unique_id=1575093946]
-transform = Transform3D(0.42769945, -0.78912735, -0.4408517, -0.8318208, -0.15272991, -0.533617, 0.3537605, 0.59493786, -0.72173536, -0.5894017, 0.08156726, -0.22732258)
+transform = Transform3D(-0.052393608, -0.6723275, 0.7383967, -0.9324902, -0.2316722, -0.27710867, 0.35737363, -0.70306706, -0.6148012, -0.5894017, 0.08156726, -0.22732258)
 
 [node name="l_foot" parent="monster/monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(832945777, 660503573, 1824726652) index="9" unique_id=1357696880]
-transform = Transform3D(-0.47720423, -0.60443616, -0.6379128, -0.35537952, -0.531162, 0.769137, -0.8037295, 0.593737, 0.038668662, 2.0193028, -0.17038476, -1.6831355)
+transform = Transform3D(-0.69430625, -0.09333315, 0.71360195, -0.69409883, -0.17517191, -0.69824165, 0.19017228, -0.9801039, 0.056840375, 0.084477544, 0.46424723, -3.840775)
 
 [node name="l_calf" parent="monster/monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(832945777, 660503573, 1824726652) index="10" unique_id=2110775919]
-transform = Transform3D(-0.87867314, 0.45310494, 0.15042967, -0.40008518, -0.526901, -0.74987113, -0.260509, -0.71907663, 0.64425457, 1.3824462, 0.5701947, -0.6724456)
+transform = Transform3D(-0.97204053, -0.093332775, 0.21546742, -0.19700442, -0.17517175, -0.9646263, 0.12777531, -0.98010397, 0.15188706, 0.21566008, 0.7104578, -2.463201)
 
 [node name="l_leg" parent="monster/monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(832945777, 660503573, 1824726652) index="11" unique_id=398573463]
-transform = Transform3D(-0.115246, 0.8422873, -0.526564, -0.9222571, -0.28764534, -0.2582656, -0.3689977, 0.45586374, 0.8099559, 0.3320531, 0.9289093, -1.2409406)
+transform = Transform3D(-0.8709577, -0.09333296, 0.48241204, -0.46260417, -0.17517152, -0.8690869, 0.16561954, -0.980104, 0.10939071, 0.3320531, 0.9289093, -1.2409406)
 
 [node name="r_foot" parent="monster/monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(832945777, 660503573, 1824726652) index="12" unique_id=1545686329]
-transform = Transform3D(-0.6755724, 0.22871435, -0.70092165, -0.73637664, -0.25670254, 0.6259816, -0.03675729, 0.93903834, 0.3418414, -1.8173356, -0.35913283, -1.2514734)
+transform = Transform3D(-0.34698564, 0.5424935, 0.76504934, -0.9342692, -0.12852496, -0.3325988, -0.08210479, -0.83016956, 0.55143166, 1.1262703, 0.5879851, -3.443056)
 
 [node name="r_calf" parent="monster/monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(832945777, 660503573, 1824726652) index="13" unique_id=948173683]
-transform = Transform3D(-0.9093918, -0.36321625, 0.20268288, 0.1712209, -0.7709839, -0.6134064, 0.37906462, -0.5231233, 0.7633167, -1.3068215, 0.72451407, -0.51620406)
+transform = Transform3D(-0.825844, 0.54249364, 0.1538876, -0.26262367, -0.12852398, -0.9563007, -0.49900886, -0.8301697, 0.24861234, 0.3637751, 0.76863056, -2.2762213)
 
 [node name="r_leg" parent="monster/monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(832945777, 660503573, 1824726652) index="14" unique_id=609327675]
-transform = Transform3D(-0.19204277, -0.79712075, -0.5724661, -0.8436644, -0.16389987, 0.5112403, -0.5013474, 0.58114976, -0.6410269, -0.31275418, 0.9289091, -1.24094)
+transform = Transform3D(0.795201, 0.5424939, -0.27084136, 0.39717805, -0.12852378, 0.9086974, 0.45815372, -0.8301694, -0.31766874, -0.31275418, 0.9289091, -1.24094)
 
 [node name="step_targets" parent="monster/monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(832945777, 660503573, 1824726652) index="20" unique_id=2117783646]
-transform = Transform3D(0.9999969, 0, 5.066395e-07, 0, 0.99999917, 0, -5.066395e-07, 0, 0.9999969, -0.0453887, -0.53691506, 0.4069748)
+transform = Transform3D(0.9999969, 0, 5.066395e-07, 0, 0.99999917, 0, -5.066395e-07, 0, 0.9999969, -0.045527935, 1.9630831, 0.40756798)
+look_ahead_seconds = 0.3
+
+[node name="r_arm_step_target" parent="monster/monster/Armature/Skeleton3D/step_targets" index="0" unique_id=1917531191]
+transform = Transform3D(-0.08386499, 0.5229562, 0.84823114, 0.06694608, -0.84648216, 0.5283317, 0.99420714, 0.10111235, 0.035975397, -2089.0393, -704.30524, -2156.9565)
+
+[node name="l_arm_step_target" parent="monster/monster/Armature/Skeleton3D/step_targets" index="1" unique_id=1263795975]
+transform = Transform3D(0.99031526, -0.0925535, 0.10179517, -0.04286611, 0.49542812, 0.867764, -0.13068426, -0.8638706, 0.48675698, 1787.2888, -252.7862, -39.94516)
+
+[node name="r_leg_step_target" parent="monster/monster/Armature/Skeleton3D/step_targets" index="2" unique_id=1296562492]
+transform = Transform3D(0.6839813, -0.72367185, -0.0929707, 0.65397596, 0.5517175, 0.51767224, -0.32332113, -0.41496342, 0.8504131, 1029.1501, -237.62747, -1535.6926)
+
+[node name="l_leg_step_target" parent="monster/monster/Armature/Skeleton3D/step_targets" index="3" unique_id=1182614964]
+transform = Transform3D(0.62696636, -0.7604282, 0.17003572, 0.77296925, 0.6345293, -0.012413016, -0.09847015, 0.13923866, 0.98518896, -217.09485, -409.19778, -2285.3699)
 
 [node name="r_arm_target" parent="monster/monster/Armature" parent_id_path=PackedInt32Array(832945777, 660503573, 761020580) index="1" unique_id=1470774718]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0506458, -1.2167847, -2.8298013)
+transform = Transform3D(-0.41352946, 0.90293574, -0.117029496, -0.5176619, -0.12742274, 0.84603155, 0.7490121, 0.4104455, 0.5201027, 134.66946, -214.85266, -891.2403)
 
 [node name="l_arm_target" parent="monster/monster/Armature" parent_id_path=PackedInt32Array(832945777, 660503573, 761020580) index="2" unique_id=1749603167]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.414322, -1.2167847, -2.5997868)
+transform = Transform3D(0.7105344, 0.6256065, -0.32206693, -0.042873338, 0.49534968, 0.86761445, 0.7023358, -0.60267127, 0.37878913, 340.65723, -76.30258, 413.29727)
 
 [node name="r_leg_target" parent="monster/monster/Armature" parent_id_path=PackedInt32Array(832945777, 660503573, 761020580) index="3" unique_id=253089859]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3899188, -1.2167847, -3.5064368)
+transform = Transform3D(0.5928821, -0.27100122, -0.75831515, 0.51360196, -0.5980256, 0.61528265, -0.62022716, -0.75427043, -0.2153743, 554.01776, -72.45163, -48.153847)
 
 [node name="l_leg_target" parent="monster/monster/Armature" parent_id_path=PackedInt32Array(832945777, 660503573, 761020580) index="4" unique_id=707524935]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.149088, -1.2167847, -2.8572083)
+transform = Transform3D(0.46212235, -0.57614183, -0.67414576, 0.77285314, 0.63443685, -0.012414962, 0.43486008, -0.5152886, 0.7384738, 504.14365, -123.22602, -474.74606)
 
 [connection signal="body_entered" from="Area3D" to="Area3D" method="_on_body_entered"]
 

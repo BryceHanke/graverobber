@@ -136,6 +136,7 @@ material_override = ExtResource("4_5ol2o")
 [node name="step_targets" type="Node3D" parent="Armature/Skeleton3D" index="20" unique_id=2117783646]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.04552692, -0.5008917, 0.40757138)
 script = ExtResource("6_2yaav")
+look_ahead_seconds = null
 
 [node name="r_arm_step_target" type="Node3D" parent="Armature/Skeleton3D/step_targets" index="0" unique_id=1917531191 node_paths=PackedStringArray("ray")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.46108675, 0, 0.9380425)

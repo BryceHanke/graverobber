@@ -58,12 +58,12 @@ func _physics_process(delta):
 
 			# Interpolate rotation (Slerp)
 			var current_rot = step_target.global_transform.basis.get_rotation_quaternion()
-			global_quaternion = start_rot.slerp(current_rot, t)
+			quaternion = start_rot.slerp(current_rot, t)
 
 			if t >= 1.0:
 				state = State.PLANTED
 				global_position = current_target # Snap to finish
-				global_quaternion = current_rot
+				quaternion = current_rot
 
 func can_step() -> bool:
 	# Don't step if adjacent leg is moving
@@ -74,7 +74,7 @@ func can_step() -> bool:
 func start_step():
 	state = State.MOVING
 	start_pos = global_position
-	start_rot = global_quaternion
+	start_rot = quaternion
 	move_time = 0.0
 
 func is_moving() -> bool:
