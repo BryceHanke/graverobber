@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://csloksb3becbr" path="res://assets/models/monster.blend" id="1_ijglf"]
 [ext_resource type="Shader" uid="uid://dcxcwwd03jc52" path="res://assets/shaders/dither.gdshader" id="2_timmr"]
 [ext_resource type="Texture2D" uid="uid://b8aoyiggyrp7o" path="res://assets/textures/monster/eyes.png" id="3_ghe6x"]
+[ext_resource type="Material" uid="uid://dgoqmgjd8po8g" path="res://assets/materials/monster.tres" id="4_5ol2o"]
 [ext_resource type="Script" uid="uid://cfwy2ymlhqgnw" path="res://scripts/tools/start_ik.gd" id="4_ghe6x"]
 [ext_resource type="Script" uid="uid://i22msennjewd" path="res://scripts/tools/step_target.gd" id="5_1fxpq"]
 [ext_resource type="Script" uid="uid://brhk3pvxn24uw" path="res://scripts/tools/ik_target.gd" id="5_cxi1e"]
@@ -43,39 +44,90 @@ shader_parameter/global_ambient = Color(0, 0.014809188, 0.015851432, 1)
 shader_parameter/light_boost = 1.0
 shader_parameter/bounce_strength = 0.0
 
-[node name="monster" unique_id=817746020 instance=ExtResource("1_ijglf")]
+[node name="monster" unique_id=424306187 instance=ExtResource("1_ijglf")]
 
 [node name="eyes" type="Sprite3D" parent="." index="0" unique_id=1949033890]
-transform = Transform3D(1, 4.4945146e-16, 0, 1.0727715e-14, 1, -4.2632564e-14, 0, 0, 1, 0.10811039, 0.06735762, 0.3292282)
+transform = Transform3D(1, -1.0727715e-14, 0, 1.0727715e-14, 1, 0, 0, 0, 1, 0, 0.067, 0.40048385)
 sorting_offset = 1.0
 material_override = SubResource("ShaderMaterial_1fxpq")
 texture = ExtResource("3_ghe6x")
 
-[node name="right_arm" type="SkeletonIK3D" parent="Armature/Skeleton3D" parent_id_path=PackedInt32Array(15885121) index="15" unique_id=1563739400]
+[node name="Cube" parent="Armature/Skeleton3D/head" parent_id_path=PackedInt32Array(596087811) index="0" unique_id=653588781]
+material_override = ExtResource("4_5ol2o")
+
+[node name="Cube_017" parent="Armature/Skeleton3D/neck" parent_id_path=PackedInt32Array(2057961030) index="0" unique_id=1670565517]
+material_override = ExtResource("4_5ol2o")
+
+[node name="Cube_013" parent="Armature/Skeleton3D/l_hand" parent_id_path=PackedInt32Array(1507105876) index="0" unique_id=1482195096]
+material_override = ExtResource("4_5ol2o")
+
+[node name="Cube_012" parent="Armature/Skeleton3D/l_forearm" parent_id_path=PackedInt32Array(475941923) index="0" unique_id=1315372834]
+material_override = ExtResource("4_5ol2o")
+
+[node name="Cube_010" parent="Armature/Skeleton3D/l_arm" parent_id_path=PackedInt32Array(1591578497) index="0" unique_id=1889918198]
+material_override = ExtResource("4_5ol2o")
+
+[node name="Cube_011" parent="Armature/Skeleton3D/l_arm" parent_id_path=PackedInt32Array(1591578497) index="1" unique_id=1459097741]
+material_override = ExtResource("4_5ol2o")
+
+[node name="Cube_006" parent="Armature/Skeleton3D/r_hand" parent_id_path=PackedInt32Array(929232979) index="0" unique_id=2058681414]
+material_override = ExtResource("4_5ol2o")
+
+[node name="Cube_005" parent="Armature/Skeleton3D/r_forearm" parent_id_path=PackedInt32Array(1306662615) index="0" unique_id=700076726]
+material_override = ExtResource("4_5ol2o")
+
+[node name="Cube_003" parent="Armature/Skeleton3D/r_arm" parent_id_path=PackedInt32Array(428994791) index="0" unique_id=954069296]
+material_override = ExtResource("4_5ol2o")
+
+[node name="Cube_004" parent="Armature/Skeleton3D/r_arm" parent_id_path=PackedInt32Array(428994791) index="1" unique_id=770019749]
+material_override = ExtResource("4_5ol2o")
+
+[node name="Cube_001" parent="Armature/Skeleton3D/spine" parent_id_path=PackedInt32Array(1328453284) index="0" unique_id=458422117]
+material_override = ExtResource("4_5ol2o")
+
+[node name="Cube_016" parent="Armature/Skeleton3D/l_foot" parent_id_path=PackedInt32Array(1634990864) index="0" unique_id=1293092297]
+material_override = ExtResource("4_5ol2o")
+
+[node name="Cube_015" parent="Armature/Skeleton3D/l_calf" parent_id_path=PackedInt32Array(217881960) index="0" unique_id=255389878]
+material_override = ExtResource("4_5ol2o")
+
+[node name="Cube_014" parent="Armature/Skeleton3D/l_leg" parent_id_path=PackedInt32Array(54326867) index="0" unique_id=1000995442]
+material_override = ExtResource("4_5ol2o")
+
+[node name="Cube_009" parent="Armature/Skeleton3D/r_foot" parent_id_path=PackedInt32Array(106557357) index="0" unique_id=1478613200]
+material_override = ExtResource("4_5ol2o")
+
+[node name="Cube_008" parent="Armature/Skeleton3D/r_calf" parent_id_path=PackedInt32Array(2095452854) index="0" unique_id=31295757]
+material_override = ExtResource("4_5ol2o")
+
+[node name="Cube_007" parent="Armature/Skeleton3D/r_leg" parent_id_path=PackedInt32Array(736683908) index="0" unique_id=1140307154]
+material_override = ExtResource("4_5ol2o")
+
+[node name="right_arm" type="SkeletonIK3D" parent="Armature/Skeleton3D" parent_id_path=PackedInt32Array(1170014887) index="15" unique_id=1563739400]
 root_bone = &"r_arm"
 tip_bone = &"r_arm_tip"
 target_node = NodePath("../r_arm_target")
 script = ExtResource("4_ghe6x")
 
-[node name="left_arm" type="SkeletonIK3D" parent="Armature/Skeleton3D" parent_id_path=PackedInt32Array(15885121) index="16" unique_id=88774442]
+[node name="left_arm" type="SkeletonIK3D" parent="Armature/Skeleton3D" parent_id_path=PackedInt32Array(1170014887) index="16" unique_id=88774442]
 root_bone = &"l_arm"
 tip_bone = &"l_arm_tip"
 target_node = NodePath("../l_arm_target")
 script = ExtResource("4_ghe6x")
 
-[node name="right_leg" type="SkeletonIK3D" parent="Armature/Skeleton3D" parent_id_path=PackedInt32Array(15885121) index="17" unique_id=267079054]
+[node name="right_leg" type="SkeletonIK3D" parent="Armature/Skeleton3D" parent_id_path=PackedInt32Array(1170014887) index="17" unique_id=267079054]
 root_bone = &"r_leg"
 tip_bone = &"r_leg_tip"
 target_node = NodePath("../r_leg_target")
 script = ExtResource("4_ghe6x")
 
-[node name="left_leg" type="SkeletonIK3D" parent="Armature/Skeleton3D" parent_id_path=PackedInt32Array(15885121) index="18" unique_id=1196829886]
+[node name="left_leg" type="SkeletonIK3D" parent="Armature/Skeleton3D" parent_id_path=PackedInt32Array(1170014887) index="18" unique_id=1196829886]
 root_bone = &"l_leg"
 tip_bone = &"l_leg_tip"
 target_node = NodePath("../l_leg_target")
 script = ExtResource("4_ghe6x")
 
-[node name="r_arm_target" type="Node3D" parent="Armature/Skeleton3D" parent_id_path=PackedInt32Array(15885121) index="19" unique_id=1470774718 node_paths=PackedStringArray("step_target", "adjacent_leg", "opposite_leg")]
+[node name="r_arm_target" type="Node3D" parent="Armature/Skeleton3D" parent_id_path=PackedInt32Array(1170014887) index="19" unique_id=1470774718 node_paths=PackedStringArray("step_target", "adjacent_leg", "opposite_leg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.92890906, -0.6344021, 1.2445128)
 top_level = true
 script = ExtResource("5_cxi1e")
@@ -83,7 +135,7 @@ step_target = NodePath("../../../step_targets/r_arm_step_target")
 adjacent_leg = NodePath("../l_arm_target")
 opposite_leg = NodePath("../l_leg_target")
 
-[node name="l_arm_target" type="Node3D" parent="Armature/Skeleton3D" parent_id_path=PackedInt32Array(15885121) index="20" unique_id=1749603167 node_paths=PackedStringArray("step_target", "adjacent_leg", "opposite_leg")]
+[node name="l_arm_target" type="Node3D" parent="Armature/Skeleton3D" parent_id_path=PackedInt32Array(1170014887) index="20" unique_id=1749603167 node_paths=PackedStringArray("step_target", "adjacent_leg", "opposite_leg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.063676, -0.72069544, 1.245)
 top_level = true
 script = ExtResource("5_cxi1e")
@@ -91,7 +143,7 @@ step_target = NodePath("../../../step_targets/l_arm_step_target")
 adjacent_leg = NodePath("../r_arm_target")
 opposite_leg = NodePath("../r_leg_target")
 
-[node name="r_leg_target" type="Node3D" parent="Armature/Skeleton3D" parent_id_path=PackedInt32Array(15885121) index="21" unique_id=253089859 node_paths=PackedStringArray("step_target", "adjacent_leg", "opposite_leg")]
+[node name="r_leg_target" type="Node3D" parent="Armature/Skeleton3D" parent_id_path=PackedInt32Array(1170014887) index="21" unique_id=253089859 node_paths=PackedStringArray("step_target", "adjacent_leg", "opposite_leg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.580046, -0.7269403, -1.8771847)
 top_level = true
 script = ExtResource("5_cxi1e")
@@ -99,13 +151,16 @@ step_target = NodePath("../../../step_targets/r_leg_step_target")
 adjacent_leg = NodePath("../l_leg_target")
 opposite_leg = NodePath("../l_arm_target")
 
-[node name="l_leg_target" type="Node3D" parent="Armature/Skeleton3D" parent_id_path=PackedInt32Array(15885121) index="22" unique_id=707524935 node_paths=PackedStringArray("step_target", "adjacent_leg", "opposite_leg")]
+[node name="l_leg_target" type="Node3D" parent="Armature/Skeleton3D" parent_id_path=PackedInt32Array(1170014887) index="22" unique_id=707524935 node_paths=PackedStringArray("step_target", "adjacent_leg", "opposite_leg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0289512, -0.58962846, -1.7995806)
 top_level = true
 script = ExtResource("5_cxi1e")
 step_target = NodePath("../../../step_targets/l_leg_step_target")
 adjacent_leg = NodePath("../r_leg_target")
 opposite_leg = NodePath("../r_arm_target")
+
+[node name="Cube_002" parent="Armature/Skeleton3D/root" parent_id_path=PackedInt32Array(1331566919) index="0" unique_id=1692784096]
+material_override = ExtResource("4_5ol2o")
 
 [node name="step_targets" type="Node3D" parent="." index="2" unique_id=2117783646]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.44632506, 0)
