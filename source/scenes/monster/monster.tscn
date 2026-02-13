@@ -7,31 +7,24 @@
 [ext_resource type="Script" uid="uid://gd3kygbrdkps" path="res://scripts/monster/search.gd" id="3_0xprk"]
 [ext_resource type="AudioStream" uid="uid://ck0s5sftvqvug" path="res://assets/sounds/monster/thud_1.mp3" id="3_gdl1p"]
 [ext_resource type="AudioStream" uid="uid://cme26q6qadno" path="res://assets/sounds/monster/thud_2.mp3" id="4_v8ewj"]
-[ext_resource type="AudioStream" uid="uid://kd5wpahptd7w" path="res://assets/sounds/monster/growl_1.mp3" id="6_0iwja"]
+[ext_resource type="Script" uid="uid://u07fggjsf3m3" path="res://scripts/monster/attack.gd" id="5_v8i5r"]
 [ext_resource type="AudioStream" uid="uid://cyrd1qxasq04b" path="res://assets/sounds/monster/purr_1.mp3" id="6_fttm7"]
 [ext_resource type="AudioStream" uid="uid://s1lcukk3380k" path="res://assets/sounds/monster/purr_2.mp3" id="7_akk5r"]
-[ext_resource type="AudioStream" uid="uid://bm3g4fgr21kq" path="res://assets/sounds/monster/growl_2.mp3" id="7_opw4d"]
 [ext_resource type="AudioStream" uid="uid://b6hv8h12hswr" path="res://assets/sounds/monster/purr_3.mp3" id="8_x2c6u"]
-[ext_resource type="AudioStream" uid="uid://d28upwcdhw36v" path="res://assets/sounds/monster/growl_3.mp3" id="8_ydrmy"]
 [ext_resource type="AudioStream" uid="uid://dh2onnnkei140" path="res://assets/sounds/monster/purr_4.mp3" id="9_ei7v0"]
-[ext_resource type="AudioStream" uid="uid://bxfiahie52is2" path="res://assets/sounds/monster/growl_4.mp3" id="9_s0vn4"]
-[ext_resource type="AudioStream" uid="uid://dn5gevefr7gyj" path="res://assets/sounds/monster/growl_5.mp3" id="10_c1jio"]
-[ext_resource type="AudioStream" uid="uid://enwx3i4g57fu" path="res://assets/sounds/monster/growl_6.mp3" id="11_nmppe"]
-[ext_resource type="AudioStream" uid="uid://de6egqhtnbhxr" path="res://assets/sounds/monster/growl_7.mp3" id="12_84d41"]
-[ext_resource type="AudioStream" uid="uid://dfw0osg6bqpoh" path="res://assets/sounds/monster/growl_8.mp3" id="13_nesoo"]
-[ext_resource type="AudioStream" uid="uid://cwsggnewaiuxy" path="res://assets/sounds/monster/growl_9.mp3" id="14_dqnb0"]
-[ext_resource type="AudioStream" uid="uid://b6gigl0ccits0" path="res://assets/sounds/monster/growl_10.mp3" id="15_vivac"]
-[ext_resource type="AudioStream" uid="uid://gkn3oovpmlix" path="res://assets/sounds/monster/breathing.mp3" id="20_opw4d"]
 [ext_resource type="AudioStream" uid="uid://ddh6fsuveww0" path="res://assets/sounds/monster/groan_1.mp3" id="21_6h0bv"]
 [ext_resource type="Shader" uid="uid://dcxcwwd03jc52" path="res://assets/shaders/dither.gdshader" id="21_s0vn4"]
 [ext_resource type="AudioStream" uid="uid://cbvu03qhqhkhx" path="res://assets/sounds/monster/groan_2.mp3" id="22_0xprk"]
-[ext_resource type="Texture2D" uid="uid://b8aoyiggyrp7o" path="res://assets/textures/monster/eyes.png" id="22_c1jio"]
 [ext_resource type="AudioStream" uid="uid://c3iss0ih36qw6" path="res://assets/sounds/monster/groan_3.mp3" id="23_0ix62"]
 [ext_resource type="AudioStream" uid="uid://baxhgylquy6wk" path="res://assets/sounds/monster/groan_4.mp3" id="24_8luhx"]
 [ext_resource type="AudioStream" uid="uid://bco4u4ji4pxsh" path="res://assets/sounds/monster/groan_5.mp3" id="25_xt71w"]
 [ext_resource type="AudioStream" uid="uid://cgbn16af6nhnq" path="res://assets/sounds/monster/groan_6.mp3" id="26_ok33r"]
 [ext_resource type="AudioStream" uid="uid://bgvgjjnfaesjj" path="res://assets/sounds/monster/groan_7.mp3" id="27_hejqc"]
 [ext_resource type="AudioStream" uid="uid://cne2ieyn5vgjw" path="res://assets/sounds/monster/groan_8.mp3" id="30_8luhx"]
+[ext_resource type="AudioStream" uid="uid://dxnakwin4gu5e" path="res://assets/sounds/monster/screech_1.mp3" id="32_nnbp4"]
+[ext_resource type="AudioStream" uid="uid://cm8otp4qgl2kv" path="res://assets/sounds/monster/screech_2.mp3" id="33_4suij"]
+[ext_resource type="AudioStream" uid="uid://gdtsec8s0kmq" path="res://assets/sounds/monster/screech_3.mp3" id="34_ysgge"]
+[ext_resource type="PackedScene" uid="uid://jbyy44t3pgqv" path="res://scenes/monster/monster_visuals.tscn" id="37_4suij"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_yce20"]
 random_pitch = 1.0594631
@@ -40,21 +33,6 @@ streams_count = 3
 stream_0/stream = ExtResource("2_gp4s5")
 stream_1/stream = ExtResource("3_gdl1p")
 stream_2/stream = ExtResource("4_v8ewj")
-
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_6h0bv"]
-random_pitch = 1.0594631
-random_volume_offset_db = 1.0
-streams_count = 10
-stream_0/stream = ExtResource("6_0iwja")
-stream_1/stream = ExtResource("7_opw4d")
-stream_2/stream = ExtResource("8_ydrmy")
-stream_3/stream = ExtResource("9_s0vn4")
-stream_4/stream = ExtResource("10_c1jio")
-stream_5/stream = ExtResource("11_nmppe")
-stream_6/stream = ExtResource("12_84d41")
-stream_7/stream = ExtResource("13_nesoo")
-stream_8/stream = ExtResource("14_dqnb0")
-stream_9/stream = ExtResource("15_vivac")
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_1v1i4"]
 random_pitch = 1.0594631
@@ -78,42 +56,17 @@ stream_5/stream = ExtResource("26_ok33r")
 stream_6/stream = ExtResource("27_hejqc")
 stream_7/stream = ExtResource("30_8luhx")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_nmppe"]
-render_priority = 0
-shader = ExtResource("21_s0vn4")
-shader_parameter/texture_albedo = ExtResource("22_c1jio")
-shader_parameter/lit_color = Color(1, 1, 1, 1)
-shader_parameter/normal_mapping = 0
-shader_parameter/normal_uv_scale = Vector2(1, 1)
-shader_parameter/normal_uv_offset = Vector2(0, 0)
-shader_parameter/normal_scale = 1.0
-shader_parameter/shadow_color = Color(1, 1, 1, 1)
-shader_parameter/use_gradient = false
-shader_parameter/use_inverse_gradient = false
-shader_parameter/color_depth = 16.0000007125
-shader_parameter/roughness_scale = 1.0
-shader_parameter/use_transparency = true
-shader_parameter/alpha_threshold = 0.5
-shader_parameter/cull_mode = 2
-shader_parameter/use_dithered_transparency = false
-shader_parameter/opacity = 1.0
-shader_parameter/billboard_mode = 1
-shader_parameter/no_outlines = false
-shader_parameter/dither_type = 0
-shader_parameter/dither_mode = 0
-shader_parameter/dither_pixel_size = 2.0000000475
-shader_parameter/dither_density = 256.0
-shader_parameter/world_dither_density = 32.0
-shader_parameter/dither_spread = 2.0
-shader_parameter/shadow_bias = 0.1320000537699999
-shader_parameter/albedo_mapping = 0
-shader_parameter/uv_scale = Vector2(1, 1)
-shader_parameter/uv_offset = Vector2(0, 0)
-shader_parameter/global_ambient = Color(0, 0.014809188, 0.015851432, 1)
-shader_parameter/light_boost = 1.0
-shader_parameter/bounce_strength = 0.0
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_l2ec5"]
+random_pitch = 1.3348398
+random_volume_offset_db = 5.0
+streams_count = 3
+stream_0/stream = ExtResource("32_nnbp4")
+stream_1/stream = ExtResource("33_4suij")
+stream_2/stream = ExtResource("34_ysgge")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0xprk"]
+radius = 0.17529297
+height = 0.83691406
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0ix62"]
 render_priority = 0
@@ -152,24 +105,24 @@ shader_parameter/bounce_strength = 0.0
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_0ix62"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_0ix62"]
-radius = 15.0
+radius = 25.0
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_8luhx"]
 radius = 5.0
 
-[node name="monster" type="CharacterBody3D" unique_id=832945777 node_paths=PackedStringArray("monster_steps", "purr_player", "growl_player", "breathing_player", "groan_player", "step_timer", "search_timer", "scream_timer", "wander_timer", "nav_agent")]
+[node name="monster" type="CharacterBody3D" unique_id=832945777 node_paths=PackedStringArray("monster_steps", "purr_player", "groan_player", "screech_player", "step_timer", "search_timer", "screech_timer", "wander_timer", "nav_agent", "sight_rays")]
 collision_layer = 3
 script = ExtResource("1_0ix62")
-monster_steps = NodePath("steps")
+monster_steps = NodePath("heartbeat")
 purr_player = NodePath("purrs")
-growl_player = NodePath("growls")
-breathing_player = NodePath("breathing")
 groan_player = NodePath("groans")
+screech_player = NodePath("screech")
 step_timer = NodePath("logic/steps_timer")
 search_timer = NodePath("logic/search_timer")
-scream_timer = NodePath("logic/scream_timer")
+screech_timer = NodePath("logic/screech_timer")
 wander_timer = NodePath("logic/wander_timer")
 nav_agent = NodePath("NavigationAgent3D")
+sight_rays = [NodePath("sight"), NodePath("sight/sight2"), NodePath("sight/sight3"), NodePath("sight/sight4"), NodePath("sight/sight5")]
 
 [node name="logic" type="Node" parent="." unique_id=92862137]
 
@@ -185,10 +138,13 @@ monster = NodePath("../../..")
 script = ExtResource("3_0xprk")
 monster = NodePath("../../..")
 
-[node name="attack" type="Node" parent="logic/statemachine" unique_id=298553455]
+[node name="attack" type="Node" parent="logic/statemachine" unique_id=298553455 node_paths=PackedStringArray("monster")]
+script = ExtResource("5_v8i5r")
+sound_chance = 5
+monster = NodePath("../../..")
 
-[node name="scream_timer" type="Timer" parent="logic" unique_id=1549204285]
-wait_time = 30.0
+[node name="screech_timer" type="Timer" parent="logic" unique_id=1549204285]
+wait_time = 25.0
 autostart = true
 
 [node name="steps_timer" type="Timer" parent="logic" unique_id=1877996004]
@@ -202,47 +158,44 @@ wait_time = 10.0
 wait_time = 30.0
 autostart = true
 
-[node name="steps" type="AudioStreamPlayer3D" parent="." unique_id=53316577]
+[node name="heartbeat" type="AudioStreamPlayer3D" parent="." unique_id=53316577]
 stream = SubResource("AudioStreamRandomizer_yce20")
 volume_db = -20.0
 max_db = -20.0
 pitch_scale = 0.5
-max_polyphony = 4
-
-[node name="growls" type="AudioStreamPlayer3D" parent="." unique_id=928213485]
-stream = SubResource("AudioStreamRandomizer_6h0bv")
-bus = &"growls"
+max_polyphony = 5
+bus = &"heartbeat"
 
 [node name="purrs" type="AudioStreamPlayer3D" parent="." unique_id=1326645981]
 stream = SubResource("AudioStreamRandomizer_1v1i4")
+pitch_scale = 0.5
+max_polyphony = 5
 bus = &"purrs"
-
-[node name="breathing" type="AudioStreamPlayer3D" parent="." unique_id=789695833]
-stream = ExtResource("20_opw4d")
-bus = &"breathing"
 
 [node name="groans" type="AudioStreamPlayer3D" parent="." unique_id=402786154]
 stream = SubResource("AudioStreamRandomizer_tk6rn")
 pitch_scale = 2.0
+max_polyphony = 5
 bus = &"groans"
 
-[node name="eyes" type="Sprite3D" parent="." unique_id=688820396]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.48828888, 0.6295322)
-material_override = SubResource("ShaderMaterial_nmppe")
-texture = ExtResource("22_c1jio")
+[node name="screech" type="AudioStreamPlayer3D" parent="." unique_id=257641427]
+stream = SubResource("AudioStreamRandomizer_l2ec5")
+volume_db = -5.0
+max_db = -5.0
+pitch_scale = 2.0
+max_polyphony = 5
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=2063737106]
-path_desired_distance = 5.0
-target_desired_distance = 15.0
-path_max_distance = 12.31
 avoidance_enabled = true
 use_3d_avoidance = true
 avoidance_layers = 3
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2000773784]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.58154297, 0)
 shape = SubResource("CapsuleShape3D_0xprk")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=347732696]
+visible = false
 material_override = SubResource("ShaderMaterial_0ix62")
 mesh = SubResource("CapsuleMesh_0ix62")
 
@@ -262,5 +215,61 @@ monitorable = false
 [node name="CollisionShape3D" type="CollisionShape3D" parent="hearing_radius" unique_id=8737666]
 shape = SubResource("SphereShape3D_8luhx")
 
-[node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=46828439]
-transform = Transform3D(1, 0, 0, 0, -1, -8.742278e-08, 0, 8.742278e-08, -1, 0, 0.44544876, 0.23956192)
+[node name="sight" type="RayCast3D" parent="." unique_id=262005093]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
+target_position = Vector3(0, 0, 20)
+
+[node name="sight2" type="RayCast3D" parent="sight" unique_id=2127567241]
+transform = Transform3D(0.98256415, 7.621459e-10, -0.18592386, 7.621459e-10, 1, 8.12699e-09, 0.18592386, -8.12699e-09, 0.98256415, 0, 0, 0)
+target_position = Vector3(0, 0, 20)
+
+[node name="sight3" type="RayCast3D" parent="sight" unique_id=464826459]
+transform = Transform3D(0.9502388, 2.1751312e-09, 0.3115224, 2.1751312e-09, 1, -1.3617076e-08, -0.3115224, 1.3617076e-08, 0.9502388, 0, 0, 0)
+target_position = Vector3(0, 0, 20)
+
+[node name="sight4" type="RayCast3D" parent="sight" unique_id=1664745444]
+transform = Transform3D(1, -3.9659298e-10, 5.8748664e-09, -3.9659298e-10, 0.99092704, 0.13440128, -5.874866e-09, -0.13440128, 0.99092704, 0, 0, 0)
+target_position = Vector3(0, 0, 20)
+
+[node name="sight5" type="RayCast3D" parent="sight" unique_id=1035028372]
+transform = Transform3D(1, -3.1943515e-10, -5.2748272e-09, -3.194316e-10, 0.9926923, -0.120674, 5.2748272e-09, 0.120674, 0.9926923, 0, 0, 0)
+target_position = Vector3(0, 0, 20)
+
+[node name="monster" parent="." unique_id=817746020 instance=ExtResource("37_4suij")]
+transform = Transform3D(0.345, 0, 0, 0, 0.345, 0, 0, 0, 0.345, 0, -0.47170785, 0)
+
+[node name="l_hand" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(817746020, 15885121) index="1" unique_id=1476013842]
+transform = Transform3D(0.53219444, -0.36152843, -0.7655497, -0.7974659, 0.08956528, -0.59667885, 0.28428313, 0.9280492, -0.24064031, 1.2016492, -0.7548642, 0.8908323)
+
+[node name="r_hand" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(817746020, 15885121) index="4" unique_id=376160127]
+transform = Transform3D(0.5394604, -0.22781703, -0.81060565, -0.73691016, 0.33801535, -0.5854136, 0.4073643, 0.9131512, 0.0144651085, -0.841949, -0.7634263, 0.8959497)
+
+[node name="r_forearm" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(817746020, 15885121) index="5" unique_id=659146773]
+transform = Transform3D(0.5455624, 0.5301426, -0.64908445, -0.5960959, -0.29894167, -0.74518716, -0.58909374, 0.79346263, 0.15292439, -1.4901224, -0.39792833, -0.07416946)
+
+[node name="r_arm" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(817746020, 15885121) index="6" unique_id=20867562]
+transform = Transform3D(0.32443926, -0.8788252, -0.34986475, -0.8478598, -0.10620169, -0.5194757, 0.41937196, 0.46517456, -0.7795767, -0.43078062, -0.26991212, -0.634894)
+
+[node name="l_foot" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(817746020, 15885121) index="8" unique_id=1768780469]
+transform = Transform3D(-0.67909783, -0.21764284, -0.7010403, -0.7301842, 0.10243562, 0.6755276, -0.07521218, 0.97063816, -0.22848317, 2.1784253, -0.65998036, -2.4662018)
+
+[node name="l_calf" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(817746020, 15885121) index="9" unique_id=254694473]
+transform = Transform3D(-0.8960989, 0.41213304, 0.16478163, -0.37737712, -0.51200527, -0.7716455, -0.23365156, -0.75365555, 0.6143371, 1.5991566, 0.05966276, -1.4069101)
+
+[node name="r_arm_target" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(817746020, 15885121) index="19" unique_id=1470774718]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3204736, -0.69057655, 0.4293569)
+
+[node name="l_arm_target" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(817746020, 15885121) index="20" unique_id=1749603167]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3669682, -0.72034776, 0.429525)
+
+[node name="r_leg_target" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(817746020, 15885121) index="21" unique_id=253089859]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5451159, -0.72250223, -0.6476287)
+
+[node name="l_leg_target" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(817746020, 15885121) index="22" unique_id=707524935]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6999881, -0.67512965, -0.6208553)
+
+[node name="step_targets" parent="monster" index="2" unique_id=2117783646 node_paths=PackedStringArray("body")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3672692, 0)
+body = NodePath("../..")
+
+[editable path="monster"]

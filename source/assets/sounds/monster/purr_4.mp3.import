@@ -3,12 +3,12 @@
 importer="mp3"
 type="AudioStreamMP3"
 uid="uid://dh2onnnkei140"
-path="res://.godot/imported/purr_4.mp3-473c375fe4b96cd27a5af16dd1477afb.mp3str"
+path="res://.godot/imported/purr_4.mp3-d884842b41941b9b1f1140b994cb4aa4.mp3str"
 
 [deps]
 
 source_file="res://assets/sounds/monster/purr_4.mp3"
-dest_files=["res://.godot/imported/purr_4.mp3-473c375fe4b96cd27a5af16dd1477afb.mp3str"]
+dest_files=["res://.godot/imported/purr_4.mp3-d884842b41941b9b1f1140b994cb4aa4.mp3str"]
 
 [params]
 

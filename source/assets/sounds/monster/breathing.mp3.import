@@ -3,12 +3,12 @@
 importer="mp3"
 type="AudioStreamMP3"
 uid="uid://gkn3oovpmlix"
-path="res://.godot/imported/breathing.mp3-0cc64ded3994efec639691665fbd58ea.mp3str"
+path="res://.godot/imported/breathing.mp3-c6945a934cbe4e1c37660fb1e2e17c1f.mp3str"
 
 [deps]
 
 source_file="res://assets/sounds/monster/breathing.mp3"
-dest_files=["res://.godot/imported/breathing.mp3-0cc64ded3994efec639691665fbd58ea.mp3str"]
+dest_files=["res://.godot/imported/breathing.mp3-c6945a934cbe4e1c37660fb1e2e17c1f.mp3str"]
 
 [params]
 

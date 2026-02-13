@@ -1,7 +1,7 @@
 extends state
 class_name monster_state
 
-const SPEED := 1.0
+var SPEED := 3.0
 
 @export var sound_chance := 1
 
@@ -12,16 +12,31 @@ func play_steps():
 		monster.monster_steps.play()
 
 func search_trans():
-	if monster.hearing_sounds:
+	if monster.hearing_sounds && !monster.see_player():
 		Transitioned.emit(self, "search")
 
 func wander_trans():
-	if not monster.hearing_sounds:
+	if not monster.hearing_sounds && !monster.see_player():
 		Transitioned.emit(self, "wander")
+
+func attack_trans():
+	if monster.see_player() == true:
+		Transitioned.emit(self, "attack")
 
 func randomly_play_sound():
 	if randi() % 2556 <= sound_chance:
-		var players = [monster.growl_player, monster.purr_player, monster.breathing_player, monster.groan_player]
+		var players = [monster.purr_player, monster.groan_player, monster.screech_player]
+		var valid_players = []
+		for p in players:
+			if p: valid_players.append(p)
+
+		if not valid_players.is_empty():
+			var player = valid_players.pick_random()
+			player.play()
+
+func randomly_play_sounds():
+	if randi() % 1024 <= sound_chance:
+		var players = [monster.purr_player, monster.groan_player, monster.screech_player]
 		var valid_players = []
 		for p in players:
 			if p: valid_players.append(p)
@@ -48,7 +63,7 @@ func move():
 	var new_velocity = (next_location - current_location).normalized() * SPEED
 
 	if monster.target_pos != Vector3.ZERO:
-		monster.look_at(monster.target_pos, Vector3.UP, true)
+		monster.look_at(Vector3(monster.target_pos.x, monster.global_position.y,monster.target_pos.z), Vector3.UP, true)
 
 	monster.velocity = new_velocity
 	monster.move_and_slide()

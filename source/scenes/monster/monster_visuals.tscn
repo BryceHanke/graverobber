@@ -1,0 +1,164 @@
+[gd_scene format=3 uid="uid://jbyy44t3pgqv"]
+
+[ext_resource type="PackedScene" uid="uid://csloksb3becbr" path="res://assets/models/monster.blend" id="1_ijglf"]
+[ext_resource type="Shader" uid="uid://dcxcwwd03jc52" path="res://assets/shaders/dither.gdshader" id="2_timmr"]
+[ext_resource type="Texture2D" uid="uid://b8aoyiggyrp7o" path="res://assets/textures/monster/eyes.png" id="3_ghe6x"]
+[ext_resource type="Script" uid="uid://cfwy2ymlhqgnw" path="res://scripts/tools/start_ik.gd" id="4_ghe6x"]
+[ext_resource type="Script" uid="uid://i22msennjewd" path="res://scripts/tools/step_target.gd" id="5_1fxpq"]
+[ext_resource type="Script" uid="uid://brhk3pvxn24uw" path="res://scripts/tools/ik_target.gd" id="5_cxi1e"]
+[ext_resource type="Script" uid="uid://dtffktrhggpkf" path="res://scripts/tools/step_targets.gd" id="6_2yaav"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1fxpq"]
+render_priority = 1
+shader = ExtResource("2_timmr")
+shader_parameter/texture_albedo = ExtResource("3_ghe6x")
+shader_parameter/lit_color = Color(1, 1, 1, 1)
+shader_parameter/normal_mapping = 0
+shader_parameter/normal_uv_scale = Vector2(1, 1)
+shader_parameter/normal_uv_offset = Vector2(0, 0)
+shader_parameter/normal_scale = 1.0
+shader_parameter/shadow_color = Color(1, 1, 1, 1)
+shader_parameter/use_gradient = false
+shader_parameter/use_inverse_gradient = false
+shader_parameter/color_depth = 16.0000007125
+shader_parameter/roughness_scale = 1.0
+shader_parameter/use_transparency = true
+shader_parameter/alpha_threshold = 0.5
+shader_parameter/cull_mode = 0
+shader_parameter/use_dithered_transparency = false
+shader_parameter/opacity = 1.0
+shader_parameter/billboard_mode = 0
+shader_parameter/no_outlines = false
+shader_parameter/dither_type = 0
+shader_parameter/dither_mode = 0
+shader_parameter/dither_pixel_size = 2.0000000475
+shader_parameter/dither_density = 256.0
+shader_parameter/world_dither_density = 32.0
+shader_parameter/dither_spread = 2.0
+shader_parameter/shadow_bias = 0.1320000537699999
+shader_parameter/albedo_mapping = 0
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/global_ambient = Color(0, 0.014809188, 0.015851432, 1)
+shader_parameter/light_boost = 1.0
+shader_parameter/bounce_strength = 0.0
+
+[node name="monster" unique_id=817746020 instance=ExtResource("1_ijglf")]
+
+[node name="eyes" type="Sprite3D" parent="." index="0" unique_id=1949033890]
+transform = Transform3D(1, 4.4945146e-16, 0, 1.0727715e-14, 1, -4.2632564e-14, 0, 0, 1, 0.10811039, 0.06735762, 0.3292282)
+sorting_offset = 1.0
+material_override = SubResource("ShaderMaterial_1fxpq")
+texture = ExtResource("3_ghe6x")
+
+[node name="right_arm" type="SkeletonIK3D" parent="Armature/Skeleton3D" parent_id_path=PackedInt32Array(15885121) index="15" unique_id=1563739400]
+root_bone = &"r_arm"
+tip_bone = &"r_arm_tip"
+target_node = NodePath("../r_arm_target")
+script = ExtResource("4_ghe6x")
+
+[node name="left_arm" type="SkeletonIK3D" parent="Armature/Skeleton3D" parent_id_path=PackedInt32Array(15885121) index="16" unique_id=88774442]
+root_bone = &"l_arm"
+tip_bone = &"l_arm_tip"
+target_node = NodePath("../l_arm_target")
+script = ExtResource("4_ghe6x")
+
+[node name="right_leg" type="SkeletonIK3D" parent="Armature/Skeleton3D" parent_id_path=PackedInt32Array(15885121) index="17" unique_id=267079054]
+root_bone = &"r_leg"
+tip_bone = &"r_leg_tip"
+target_node = NodePath("../r_leg_target")
+script = ExtResource("4_ghe6x")
+
+[node name="left_leg" type="SkeletonIK3D" parent="Armature/Skeleton3D" parent_id_path=PackedInt32Array(15885121) index="18" unique_id=1196829886]
+root_bone = &"l_leg"
+tip_bone = &"l_leg_tip"
+target_node = NodePath("../l_leg_target")
+script = ExtResource("4_ghe6x")
+
+[node name="r_arm_target" type="Node3D" parent="Armature/Skeleton3D" parent_id_path=PackedInt32Array(15885121) index="19" unique_id=1470774718 node_paths=PackedStringArray("step_target", "adjacent_leg", "opposite_leg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.92890906, -0.6344021, 1.2445128)
+top_level = true
+script = ExtResource("5_cxi1e")
+step_target = NodePath("../../../step_targets/r_arm_step_target")
+adjacent_leg = NodePath("../l_arm_target")
+opposite_leg = NodePath("../l_leg_target")
+
+[node name="l_arm_target" type="Node3D" parent="Armature/Skeleton3D" parent_id_path=PackedInt32Array(15885121) index="20" unique_id=1749603167 node_paths=PackedStringArray("step_target", "adjacent_leg", "opposite_leg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.063676, -0.72069544, 1.245)
+top_level = true
+script = ExtResource("5_cxi1e")
+step_target = NodePath("../../../step_targets/l_arm_step_target")
+adjacent_leg = NodePath("../r_arm_target")
+opposite_leg = NodePath("../r_leg_target")
+
+[node name="r_leg_target" type="Node3D" parent="Armature/Skeleton3D" parent_id_path=PackedInt32Array(15885121) index="21" unique_id=253089859 node_paths=PackedStringArray("step_target", "adjacent_leg", "opposite_leg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.580046, -0.7269403, -1.8771847)
+top_level = true
+script = ExtResource("5_cxi1e")
+step_target = NodePath("../../../step_targets/r_leg_step_target")
+adjacent_leg = NodePath("../l_leg_target")
+opposite_leg = NodePath("../l_arm_target")
+
+[node name="l_leg_target" type="Node3D" parent="Armature/Skeleton3D" parent_id_path=PackedInt32Array(15885121) index="22" unique_id=707524935 node_paths=PackedStringArray("step_target", "adjacent_leg", "opposite_leg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0289512, -0.58962846, -1.7995806)
+top_level = true
+script = ExtResource("5_cxi1e")
+step_target = NodePath("../../../step_targets/l_leg_step_target")
+adjacent_leg = NodePath("../r_leg_target")
+opposite_leg = NodePath("../r_arm_target")
+
+[node name="step_targets" type="Node3D" parent="." index="2" unique_id=2117783646]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.44632506, 0)
+script = ExtResource("6_2yaav")
+
+[node name="r_arm_step_target" type="Node3D" parent="step_targets" index="0" unique_id=1917531191]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.92890906, -0.6344021, 1.2445128)
+script = ExtResource("5_1fxpq")
+
+[node name="RayCast3D" type="RayCast3D" parent="step_targets/r_arm_step_target" index="0" unique_id=182663811]
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 1.356595, 0)
+target_position = Vector3(0, -5, 0)
+collision_mask = 2
+hit_from_inside = true
+
+[node name="Marker3D" type="Marker3D" parent="step_targets/r_arm_step_target" index="1" unique_id=1525039937]
+gizmo_extents = 0.78
+
+[node name="l_arm_step_target" type="Node3D" parent="step_targets" index="1" unique_id=1263795975]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.063676, -0.72069544, 1.245)
+script = ExtResource("5_1fxpq")
+
+[node name="RayCast3D" type="RayCast3D" parent="step_targets/l_arm_step_target" index="0" unique_id=1686285805]
+transform = Transform3D(1.0000001, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 1.356595, 0)
+target_position = Vector3(0, -5, 0)
+collision_mask = 2
+hit_from_inside = true
+
+[node name="Marker3D" type="Marker3D" parent="step_targets/l_arm_step_target" index="1" unique_id=918073955]
+gizmo_extents = 0.78
+
+[node name="r_leg_step_target" type="Node3D" parent="step_targets" index="2" unique_id=1296562492]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.580046, -0.7269403, -1.8771847)
+script = ExtResource("5_1fxpq")
+
+[node name="RayCast3D" type="RayCast3D" parent="step_targets/r_leg_step_target" index="0" unique_id=1083423952]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.356595, 0)
+target_position = Vector3(0, -5, 0)
+collision_mask = 2
+hit_from_inside = true
+
+[node name="Marker3D" type="Marker3D" parent="step_targets/r_leg_step_target" index="1" unique_id=781255647]
+gizmo_extents = 0.78
+
+[node name="l_leg_step_target" type="Node3D" parent="step_targets" index="3" unique_id=1182614964]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0289512, -0.58962846, -1.7995806)
+script = ExtResource("5_1fxpq")
+
+[node name="RayCast3D" type="RayCast3D" parent="step_targets/l_leg_step_target" index="0" unique_id=1977958791]
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 1.356595, 0)
+target_position = Vector3(0, -5, 0)
+collision_mask = 2
+hit_from_inside = true
+
+[node name="Marker3D" type="Marker3D" parent="step_targets/l_leg_step_target" index="1" unique_id=1257232960]
+gizmo_extents = 0.78

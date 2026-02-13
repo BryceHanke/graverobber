@@ -1,6 +1,7 @@
-[gd_scene format=3 uid="uid://dhekfurvwulu4"]
+[gd_scene format=3 uid="uid://wrcf2us5gxkh"]
 
 [ext_resource type="PackedScene" uid="uid://u031csne5b4o" path="res://assets/models/lantern.blend" id="1_hhuhv"]
+[ext_resource type="Script" uid="uid://c6ijkxoqih4bt" path="res://scripts/lantern.gd" id="2_wkn8m"]
 [ext_resource type="Shader" uid="uid://dcxcwwd03jc52" path="res://assets/shaders/dither.gdshader" id="3_y6stn"]
 [ext_resource type="Script" uid="uid://1xbyyhgroi2r" path="res://scripts/misc/light_flicker.gd" id="4_5omvi"]
 [ext_resource type="Texture2D" uid="uid://dyoswsent6pjx" path="res://assets/textures/flame.png" id="5_spggs"]
@@ -43,7 +44,7 @@ shader_parameter/light_boost = 1.0
 shader_parameter/bounce_strength = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jdg25"]
-render_priority = 0
+render_priority = 1
 shader = ExtResource("3_y6stn")
 shader_parameter/lit_color = Color(0.8486136, 0.78635126, 0.80753696, 1)
 shader_parameter/normal_mapping = 0
@@ -111,7 +112,7 @@ shader_parameter/light_boost = 1.0
 shader_parameter/bounce_strength = 0.0
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_v8npp"]
-seed = 1878739164
+seed = 1626809673
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_wjrvc"]
 noise = SubResource("FastNoiseLite_v8npp")
@@ -229,6 +230,7 @@ height = 0.275
 radius = 0.09
 
 [node name="lantern" unique_id=1393074433 instance=ExtResource("1_hhuhv")]
+script = ExtResource("2_wkn8m")
 
 [node name="Bone_001" parent="Armature/Skeleton3D" parent_id_path=PackedInt32Array(933966681) index="0" unique_id=1596633624]
 transform = Transform3D(3.576278e-07, 0, -0.9999998, 0, -1, 0, -0.9999998, 0, -3.576278e-07, 3.2610217e-12, -0.040896803, 2.2497313e-11)
@@ -253,14 +255,16 @@ material_override = SubResource("ShaderMaterial_y6stn")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Armature/Skeleton3D/Bone_001/top/base/Cylinder_001" index="0" unique_id=1117837402]
 transform = Transform3D(1.0000001, 0, 5.9604645e-08, 0, 1, 0, 0, 0, 1.0000001, 0, -0.022797346, 0)
-light_energy = 6.6983232
+layers = 3
+light_energy = 10.067751
 shadow_enabled = true
-shadow_blur = 6.863407
+shadow_blur = 5.314386
+omni_range = 15.0
 omni_attenuation = 2.0
 script = ExtResource("4_5omvi")
-probability = 15
-min_brightness = 0.0
-max_brightness = 10.0
+probability = 50
+min_brightness = 5.0
+max_brightness = 15.0
 min_blur = 0.5
 max_blur = 10.0
 
@@ -273,7 +277,7 @@ billboard = 2
 texture_filter = 2
 texture = ExtResource("5_spggs")
 hframes = 4
-frame = 2
+frame = 3
 script = ExtResource("6_wkn8m")
 animation_player = NodePath("AnimationPlayer2")
 randomize_noise = true
@@ -326,7 +330,7 @@ linear_damp = 5.0
 angular_damp = 5.0
 can_sleep = false
 bone_name = "Bone.001"
-joint_constraints/swing_span = 45.999992
+joint_constraints/swing_span = 45.99998
 joint_constraints/twist_span = 90.0
 joint_constraints/bias = 16.0
 joint_constraints/softness = 0.41

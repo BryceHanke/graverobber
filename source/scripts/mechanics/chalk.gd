@@ -43,6 +43,8 @@ func place_mark():
 		audio_stream_player_3d.volume_db = remap(Input.get_last_mouse_velocity().length()/100 + (player.velocity.length() * 2), 0.0, 100.0, -10.0, 10.0)
 		audio_stream_player_3d.pitch_scale = remap(Input.get_last_mouse_velocity().length()/100 + (player.velocity.length() * 2), 0.0, 100.0, 2.0, 5.0)
 		audio_stream_player_3d.play()
+		if audio_stream_player_3d.volume_db >= 5.0:
+			player.emit_signal("is_loud")
 		var normal = ray_cast_3d.get_collision_normal()
 		var point = ray_cast_3d.get_collision_point()
 

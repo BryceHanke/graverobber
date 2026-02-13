@@ -20,11 +20,10 @@
 [ext_resource type="AudioStream" uid="uid://doan5eyctitrk" path="res://assets/sounds/step 2.mp3" id="17_8ydkj"]
 [ext_resource type="AudioStream" uid="uid://cbwsjme7v7t55" path="res://assets/sounds/step 3.mp3" id="18_3j4b4"]
 [ext_resource type="Script" uid="uid://bdnt7gg01aapm" path="res://scripts/player/ground/run.gd" id="18_cnsyf"]
-[ext_resource type="PackedScene" uid="uid://bchalkxryrgfy" path="res://scenes/items/torch.tscn" id="19_ioxgp"]
 [ext_resource type="AudioStream" uid="uid://y8ma5gjdshwm" path="res://assets/sounds/step 4.mp3" id="19_yj68g"]
 [ext_resource type="Script" uid="uid://dmnvhxj0y77t2" path="res://scripts/player/components/steps.gd" id="20_8ydkj"]
 [ext_resource type="PackedScene" uid="uid://w0e5qalsukw6" path="res://scenes/items/chalk_item.tscn" id="22_cnsyf"]
-[ext_resource type="PackedScene" uid="uid://dhekfurvwulu4" path="res://scenes/items/lantern.tscn" id="23_6cv16"]
+[ext_resource type="PackedScene" uid="uid://wrcf2us5gxkh" path="res://scenes/items/lantern.tscn" id="23_6cv16"]
 [ext_resource type="Script" uid="uid://rjx8njkfeek4" path="res://scripts/post_process/canvas_pixel_dither_world.gd" id="23_canvas_dither"]
 
 [sub_resource type="Environment" id="Environment_ugbui"]
@@ -151,8 +150,8 @@ bob_interval = 1.5
 [node name="pixelate" parent="head/lean/pivot/camera" unique_id=93580127 instance=ExtResource("5_kvlxm")]
 
 [node name="be_heard" type="Area3D" parent="." unique_id=924165772]
-collision_layer = 4
-collision_mask = 4
+collision_layer = 12
+collision_mask = 12
 
 [node name="collision" type="CollisionShape3D" parent="be_heard" unique_id=1807059319]
 shape = SubResource("CapsuleShape3D_8xumb")
@@ -163,7 +162,7 @@ layers = 4
 material_override = ExtResource("2_h17s1")
 mesh = SubResource("CapsuleMesh_6agyq")
 
-[node name="collision" type="CollisionShape3D" parent="." unique_id=1018871596]
+[node name="collision" type="CollisionShape3D" parent="." unique_id=1018871596 groups=["player"]]
 shape = SubResource("CapsuleShape3D_8xumb")
 
 [node name="steps" type="AudioStreamPlayer3D" parent="." unique_id=59331114]
@@ -249,51 +248,34 @@ holder = NodePath("holder")
 
 [node name="holder" type="Node3D" parent="SubViewportContainer/hand_view/sway" unique_id=567501717]
 
-[node name="torch" type="Node3D" parent="SubViewportContainer/hand_view/sway/holder" unique_id=1298538801]
+[node name="chalk" parent="SubViewportContainer/hand_view/sway/holder" unique_id=1123505354 node_paths=PackedStringArray("player") instance=ExtResource("22_cnsyf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-visible = false
-
-[node name="torch" parent="SubViewportContainer/hand_view/sway/holder/torch" unique_id=1836886530 instance=ExtResource("19_ioxgp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.61, -0.495, -0.59)
-
-[node name="Cylinder" parent="SubViewportContainer/hand_view/sway/holder/torch/torch" index="0" unique_id=1062861853]
-layers = 2
-
-[node name="Cylinder_001" parent="SubViewportContainer/hand_view/sway/holder/torch/torch" index="1" unique_id=1062649697]
-layers = 2
-
-[node name="Cylinder_002" parent="SubViewportContainer/hand_view/sway/holder/torch/torch" index="2" unique_id=838068679]
-layers = 2
-
-[node name="Cylinder_003" parent="SubViewportContainer/hand_view/sway/holder/torch/torch" index="3" unique_id=1397636730]
-layers = 2
-
-[node name="OmniLight3D" parent="SubViewportContainer/hand_view/sway/holder/torch/torch" index="4" unique_id=592766888]
-layers = 2
-light_energy = 3.4736402
-shadow_blur = 1.8894562
-
-[node name="Sprite3D2" parent="SubViewportContainer/hand_view/sway/holder/torch/torch/OmniLight3D" index="0" unique_id=1329841238]
-layers = 2
-frame = 1
-
-[node name="Sprite3D3" parent="SubViewportContainer/hand_view/sway/holder/torch/torch/OmniLight3D" index="1" unique_id=1148831848]
-transform = Transform3D(-0.85096896, 0, -0.5252142, 0, 0.51436794, 0, 0.5252142, 0, -0.85096896, 0, -0.12192166, 0.00080662966)
-layers = 2
-frame = 1
-
-[node name="Sprite3D4" parent="SubViewportContainer/hand_view/sway/holder/torch/torch/OmniLight3D" index="2" unique_id=1923378448]
-transform = Transform3D(-0.25589478, 0, 0.96670365, 0, 0.5143679, 0, -0.96670365, 0, -0.25589478, 0, -0.12192166, 0.00080662966)
-layers = 2
-frame = 1
-
-[node name="chalk" parent="SubViewportContainer/hand_view/sway/holder" unique_id=1123505354 instance=ExtResource("22_cnsyf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+player = NodePath("../../../../..")
 
 [node name="lantern" type="Node3D" parent="SubViewportContainer/hand_view/sway/holder" unique_id=181563703]
 
 [node name="lantern" parent="SubViewportContainer/hand_view/sway/holder/lantern" unique_id=1576551668 instance=ExtResource("23_6cv16")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.32, -0.13, -0.485)
+
+[node name="Cylinder" parent="SubViewportContainer/hand_view/sway/holder/lantern/lantern/Armature/Skeleton3D/Bone_001/top/base" parent_id_path=PackedInt32Array(1576551668, 541213411) index="0" unique_id=608639908]
+layers = 2
+
+[node name="Cylinder_001" parent="SubViewportContainer/hand_view/sway/holder/lantern/lantern/Armature/Skeleton3D/Bone_001/top/base" parent_id_path=PackedInt32Array(1576551668, 541213411) index="1" unique_id=719875267]
+layers = 2
+
+[node name="OmniLight3D" parent="SubViewportContainer/hand_view/sway/holder/lantern/lantern/Armature/Skeleton3D/Bone_001/top/base/Cylinder_001" index="0" unique_id=1117837402]
+light_energy = 10.572983
+shadow_blur = 5.794334
+
+[node name="Sprite3D2" parent="SubViewportContainer/hand_view/sway/holder/lantern/lantern/Armature/Skeleton3D/Bone_001/top/base/Cylinder_001/OmniLight3D" index="0" unique_id=1099298432]
+layers = 2
+frame = 0
+
+[node name="Physical Bone Bone" parent="SubViewportContainer/hand_view/sway/holder/lantern/lantern/Armature/Skeleton3D/PhysicalBoneSimulator3D" parent_id_path=PackedInt32Array(1576551668, 1144261819) index="0" unique_id=1638016295]
+transform = Transform3D(3.576279e-07, 0, -1, 0, -1, 0, -1, 0, -3.576279e-07, -0.320298, 0.66488206, -0.4814874)
+
+[node name="PhysicalBone3D" parent="SubViewportContainer/hand_view/sway/holder/lantern/lantern/Armature/Skeleton3D/PhysicalBoneSimulator3D" parent_id_path=PackedInt32Array(1576551668, 1144261819) index="1" unique_id=1750783482]
+transform = Transform3D(3.576279e-07, 0, -1, 0, -1, 0, -1, 0, -3.576279e-07, -0.320298, 0.572598, -0.4814874)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=650718009]
 
@@ -325,6 +307,6 @@ metadata/_edit_use_anchors_ = true
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/dither_trans" unique_id=210986631]
 libraries/ = SubResource("AnimationLibrary_uf5tr")
 
-[editable path="SubViewportContainer/hand_view/sway/holder/torch/torch"]
 [editable path="SubViewportContainer/hand_view/sway/holder/chalk"]
 [editable path="SubViewportContainer/hand_view/sway/holder/chalk/chalk"]
+[editable path="SubViewportContainer/hand_view/sway/holder/lantern/lantern"]

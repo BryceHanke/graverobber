@@ -3,7 +3,6 @@
 [ext_resource type="PackedScene" uid="uid://bvvs8e2wk35vx" path="res://scenes/catacombs/catacombs.tscn" id="1_8thrb"]
 [ext_resource type="Script" uid="uid://buw32d3844l06" path="res://scripts/levels/catacombs_level.gd" id="1_54ht4"]
 [ext_resource type="PackedScene" uid="uid://cxk27w5ficlco" path="res://scenes/player/player.tscn" id="2_w60cf"]
-[ext_resource type="Script" uid="uid://1xbyyhgroi2r" path="res://scripts/misc/light_flicker.gd" id="6_7cme6"]
 [ext_resource type="AudioStream" uid="uid://bspf1mkw7rsbx" path="res://assets/sounds/mhm.mp3" id="7_pho0m"]
 [ext_resource type="Script" uid="uid://blesegkbsfser" path="res://scripts/triggers/scream.gd" id="8_7cme6"]
 [ext_resource type="AudioStream" uid="uid://duusr86tgxjs5" path="res://assets/sounds/ambience.wav" id="8_kamq3"]
@@ -31,54 +30,6 @@ autoplay = true
 mix_target = 1
 bus = &"ambience"
 
-[node name="player" parent="." unique_id=1570651658 instance=ExtResource("2_w60cf")]
-
-[node name="camera" parent="player/head/lean/pivot" parent_id_path=PackedInt32Array(1570651658, 888106981) index="0" unique_id=1055946145]
-current = true
-
-[node name="pixelate" parent="player/head/lean/pivot/camera" index="0" unique_id=93580127]
-visible = false
-
-[node name="OmniLight3D" type="OmniLight3D" parent="player/head/lean/pivot/camera" index="1" unique_id=1260396475]
-layers = 3
-light_energy = 1.6188202
-shadow_enabled = true
-shadow_blur = 6.54705
-omni_attenuation = 2.0
-script = ExtResource("6_7cme6")
-probability = 50
-min_brightness = 0.0
-max_brightness = 3.0
-max_blur = 10.0
-
-[node name="steps" parent="player" index="5" unique_id=59331114]
-max_polyphony = 3
-
-[node name="Timer" parent="player/steps" index="0" unique_id=458050395]
-autostart = true
-
-[node name="camera" parent="player/SubViewportContainer/hand_view" parent_id_path=PackedInt32Array(1570651658, 476380750) index="0" unique_id=1232050989]
-current = true
-
-[node name="OmniLight3D" parent="player/SubViewportContainer/hand_view/sway/holder/torch/torch" parent_id_path=PackedInt32Array(1570651658, 1836886530) index="4" unique_id=592766888]
-light_energy = 2.767571
-shadow_blur = 1.6070285
-
-[node name="Sprite3D2" parent="player/SubViewportContainer/hand_view/sway/holder/torch/torch/OmniLight3D" index="0" unique_id=1329841238]
-transform = Transform3D(-0.7287186, 0, -0.6848133, 0, 1, 0, 0.6848133, 0, -0.7287186, 0, 0.0012581348, 0.00080662966)
-frame = 0
-
-[node name="Sprite3D3" parent="player/SubViewportContainer/hand_view/sway/holder/torch/torch/OmniLight3D" index="1" unique_id=1148831848]
-transform = Transform3D(-0.9522775, 0, -0.30522424, 0, 0.5164572, 0, 0.30522424, 0, -0.9522775, 1.1920929e-07, -0.1173017, 0.00080662966)
-frame = 0
-
-[node name="Sprite3D4" parent="player/SubViewportContainer/hand_view/sway/holder/torch/torch/OmniLight3D" index="2" unique_id=1923378448]
-transform = Transform3D(-0.20841111, 0, 0.9780389, 0, 0.51436794, 0, -0.9780389, 0, -0.20841111, 0, -0.11230183, 0.00080662966)
-frame = 0
-
-[node name="chalk" parent="player/SubViewportContainer/hand_view/sway/holder" parent_id_path=PackedInt32Array(1570651658, 567501717) index="1" unique_id=1123505354 node_paths=PackedStringArray("player")]
-player = NodePath("../../../../..")
-
 [node name="Area3D" type="Area3D" parent="." unique_id=335482119]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.10440302, -2.7429214, -9.901158)
 script = ExtResource("8_7cme6")
@@ -96,14 +47,76 @@ bus = &"screams"
 
 [node name="catacombs" parent="." unique_id=396458305 instance=ExtResource("1_8thrb")]
 
-[node name="monster" parent="." unique_id=1254357075 node_paths=PackedStringArray("player") instance=ExtResource("9_7cme6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.489014, 0.61533916, -11.041995)
+[node name="player" parent="." unique_id=1570651658 instance=ExtResource("2_w60cf")]
+
+[node name="pixelate" parent="player/head/lean/pivot/camera" parent_id_path=PackedInt32Array(1570651658, 1055946145) index="0" unique_id=93580127]
+visible = false
+
+[node name="OmniLight3D" parent="player/SubViewportContainer/hand_view/sway/holder/lantern/lantern/Armature/Skeleton3D/Bone_001/top/base/Cylinder_001" parent_id_path=PackedInt32Array(1570651658, 1576551668, 719875267) index="0" unique_id=1117837402]
+light_energy = 10.603842
+shadow_blur = 5.82365
+
+[node name="monster" parent="." unique_id=832945777 node_paths=PackedStringArray("player") instance=ExtResource("9_7cme6")]
+transform = Transform3D(0.91595846, -0.031674735, -0.4000212, 0.014544286, 0.9988455, -0.045788094, 0.4010097, 0.03612195, 0.91536164, 1.7369847, -0.40426707, -2.1777763)
 player = NodePath("../player")
+
+[node name="l_hand" parent="monster/monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(832945777, 817746020, 15885121) index="1" unique_id=1476013842]
+transform = Transform3D(0.5976463, 0.008728266, -0.8017124, -0.7984532, -0.084245, -0.5961336, -0.07274361, 0.9964067, -0.043379635, 1.18679, -0.75114524, 0.9290269)
+
+[node name="l_forearm" parent="monster/monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(832945777, 817746020, 15885121) index="2" unique_id=715991150]
+transform = Transform3D(0.5586555, -0.51604515, -0.64930844, -0.8267745, -0.2842491, -0.48543417, 0.06594044, 0.808022, -0.5854503, 1.8177276, -0.40361083, -0.058893204)
+
+[node name="l_arm" parent="monster/monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(832945777, 817746020, 15885121) index="3" unique_id=1296088344]
+transform = Transform3D(0.33469346, 0.87141174, -0.35863867, -0.5777299, -0.11091581, -0.8086568, -0.7444519, 0.4778483, 0.46631774, 0.7673223, -0.26991224, -0.63489455)
+
+[node name="r_hand" parent="monster/monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(832945777, 817746020, 15885121) index="4" unique_id=376160127]
+transform = Transform3D(0.56311643, -0.039836153, -0.8254168, -0.1677521, 0.9725304, -0.16138, 0.809172, 0.22934112, 0.5409652, -0.9133755, 0.3538342, 1.1551758)
+
+[node name="r_forearm" parent="monster/monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(832945777, 817746020, 15885121) index="5" unique_id=659146773]
+transform = Transform3D(0.84408414, 0.33802223, -0.41624862, -0.5353693, 0.48779565, -0.6895181, -0.030028194, 0.8048579, 0.59270716, -1.3266551, -0.24256438, 0.17112416)
+
+[node name="r_arm" parent="monster/monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(832945777, 817746020, 15885121) index="6" unique_id=20867562]
+transform = Transform3D(0.34190187, -0.7432138, -0.57509685, -0.8461939, 0.02268758, -0.53239197, 0.4087285, 0.6686692, -0.6211459, -0.43078062, -0.26991212, -0.634894)
+
+[node name="l_foot" parent="monster/monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(832945777, 817746020, 15885121) index="8" unique_id=1768780469]
+transform = Transform3D(-0.6666593, 0.30899385, -0.67829776, -0.7216942, -0.040085554, 0.69105035, 0.18634035, 0.95021886, 0.24972266, 2.074201, -0.6145736, -1.9892843)
+
+[node name="l_calf" parent="monster/monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(832945777, 817746020, 15885121) index="9" unique_id=254694473]
+transform = Transform3D(-0.91204077, 0.39315742, 0.1166566, -0.35507238, -0.61470985, -0.704312, -0.20519555, -0.683783, 0.70023966, 1.5216032, 0.24942458, -1.0282013)
+
+[node name="l_leg" parent="monster/monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(832945777, 817746020, 15885121) index="10" unique_id=808525599]
+transform = Transform3D(-0.08498173, 0.82668006, -0.55621743, -0.9322431, -0.26302025, -0.24848182, -0.35171157, 0.49741337, 0.7930188, 0.4906741, 0.57742965, -1.6485115)
+
+[node name="r_foot" parent="monster/monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(832945777, 817746020, 15885121) index="11" unique_id=818933308]
+transform = Transform3D(-0.66666085, -0.30899325, -0.6782967, -0.70343524, -0.040085196, 0.70962846, -0.2464606, 0.95021933, -0.1906333, -1.7376611, -0.6145737, -1.9892834)
+
+[node name="r_calf" parent="monster/monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(832945777, 817746020, 15885121) index="12" unique_id=136013876]
+transform = Transform3D(-0.91204035, -0.39315832, 0.11665708, 0.16636835, -0.61471015, -0.77100813, 0.37483847, -0.68378294, 0.62604916, -1.1850622, 0.24942487, -1.0282005)
+
+[node name="r_leg" parent="monster/monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(832945777, 817746020, 15885121) index="13" unique_id=1727312808]
+transform = Transform3D(-0.08498141, -0.82667994, -0.55621773, -0.8155169, -0.26301992, 0.5155123, -0.57246023, 0.4974139, -0.6518196, -0.15413317, 0.57742953, -1.6485113)
+
+[node name="r_arm_target" parent="monster/monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(832945777, 817746020, 15885121) index="19" unique_id=1470774718]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2786218, -0.64720863, -1.9211639)
+
+[node name="l_arm_target" parent="monster/monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(832945777, 817746020, 15885121) index="20" unique_id=1749603167]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9091692, -0.66694987, -1.6464283)
+
+[node name="r_leg_target" parent="monster/monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(832945777, 817746020, 15885121) index="21" unique_id=253089859]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5046899, -0.6330466, -2.998248)
+
+[node name="l_leg_target" parent="monster/monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(832945777, 817746020, 15885121) index="22" unique_id=707524935]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6329494, -0.56884927, -2.4727566)
+
+[node name="step_targets" parent="monster/monster" parent_id_path=PackedInt32Array(832945777, 817746020) index="2" unique_id=2117783646]
+transform = Transform3D(1.0000015, 6.9569796e-06, 9.715557e-06, 9.313226e-09, 1.0000348, 9.0524554e-07, -2.9802322e-08, 1.744181e-05, 1.00004, 4.7683716e-07, 1.367269, 0)
 
 [connection signal="body_entered" from="Area3D" to="Area3D" method="_on_body_entered"]
 
+[editable path="catacombs"]
 [editable path="player"]
-[editable path="player/SubViewportContainer/hand_view/sway/holder/torch/torch"]
 [editable path="player/SubViewportContainer/hand_view/sway/holder/chalk"]
 [editable path="player/SubViewportContainer/hand_view/sway/holder/chalk/chalk"]
+[editable path="player/SubViewportContainer/hand_view/sway/holder/lantern/lantern"]
 [editable path="monster"]
+[editable path="monster/monster"]

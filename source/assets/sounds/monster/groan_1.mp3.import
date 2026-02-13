@@ -3,12 +3,12 @@
 importer="mp3"
 type="AudioStreamMP3"
 uid="uid://ddh6fsuveww0"
-path="res://.godot/imported/groan_1.mp3-48d3105261feae419596dfabfe371a5e.mp3str"
+path="res://.godot/imported/groan_1.mp3-33f30648e741aaca535a4e2d1b928986.mp3str"
 
 [deps]
 
 source_file="res://assets/sounds/monster/groan_1.mp3"
-dest_files=["res://.godot/imported/groan_1.mp3-48d3105261feae419596dfabfe371a5e.mp3str"]
+dest_files=["res://.godot/imported/groan_1.mp3-33f30648e741aaca535a4e2d1b928986.mp3str"]
 
 [params]
 

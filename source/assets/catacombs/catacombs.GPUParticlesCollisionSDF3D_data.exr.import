@@ -3,7 +3,7 @@
 importer="3d_texture"
 type="CompressedTexture3D"
 uid="uid://dqk1f2yge4d6j"
-path="res://.godot/imported/catacombs.GPUParticlesCollisionSDF3D_data.exr-443774b7cb0bb7d1b0a068246cbaf6c9.ctex3d"
+path="res://.godot/imported/catacombs.GPUParticlesCollisionSDF3D_data.exr-cf5df43601154d3118f3c78c3e5dd0d6.ctex3d"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://assets/catacombs/catacombs.GPUParticlesCollisionSDF3D_data.exr"
-dest_files=["res://.godot/imported/catacombs.GPUParticlesCollisionSDF3D_data.exr-443774b7cb0bb7d1b0a068246cbaf6c9.ctex3d"]
+dest_files=["res://.godot/imported/catacombs.GPUParticlesCollisionSDF3D_data.exr-cf5df43601154d3118f3c78c3e5dd0d6.ctex3d"]
 
 [params]
 

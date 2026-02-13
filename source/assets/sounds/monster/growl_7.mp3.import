@@ -3,12 +3,12 @@
 importer="mp3"
 type="AudioStreamMP3"
 uid="uid://de6egqhtnbhxr"
-path="res://.godot/imported/growl_7.mp3-e9e5f33922ba8f5d6a183092c83f0bc6.mp3str"
+path="res://.godot/imported/growl_7.mp3-d3a1c7e37bdff3ce91a5d0c2b1dceba0.mp3str"
 
 [deps]
 
 source_file="res://assets/sounds/monster/growl_7.mp3"
-dest_files=["res://.godot/imported/growl_7.mp3-e9e5f33922ba8f5d6a183092c83f0bc6.mp3str"]
+dest_files=["res://.godot/imported/growl_7.mp3-d3a1c7e37bdff3ce91a5d0c2b1dceba0.mp3str"]
 
 [params]
 

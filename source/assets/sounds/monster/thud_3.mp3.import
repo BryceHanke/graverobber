@@ -3,12 +3,12 @@
 importer="mp3"
 type="AudioStreamMP3"
 uid="uid://7m2mctf82f43"
-path="res://.godot/imported/thud_3.mp3-7c660b63a7613a8eee54c0247396dc35.mp3str"
+path="res://.godot/imported/thud_3.mp3-c9f8b565ed0053c5867c83a184e2efea.mp3str"
 
 [deps]
 
 source_file="res://assets/sounds/monster/thud_3.mp3"
-dest_files=["res://.godot/imported/thud_3.mp3-7c660b63a7613a8eee54c0247396dc35.mp3str"]
+dest_files=["res://.godot/imported/thud_3.mp3-c9f8b565ed0053c5867c83a184e2efea.mp3str"]
 
 [params]
 
