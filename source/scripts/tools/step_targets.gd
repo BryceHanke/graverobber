@@ -1,7 +1,7 @@
 @tool
 extends Node3D
 
-@export var offset := 20.0
+@export var look_ahead_seconds := 0.3
 @export var h_off := 0.5
 
 @export var body : CharacterBody3D
@@ -14,9 +14,15 @@ func _ready():
 			if child.has_method("setup"):
 				child.setup(body)
 
-func _process(delta):
+func _physics_process(delta):
 	if body:
-		var velocity = body.global_position - previous_position
-		var new_pos = body.global_position + (velocity * offset) - Vector3(0,h_off,0)
-		global_position = lerp(global_position, new_pos, 2*delta)
+		var velocity = Vector3.ZERO
+		if delta > 0.0001:
+			velocity = (body.global_position - previous_position) / delta
+
+		var new_pos = body.global_position + (velocity * look_ahead_seconds) - Vector3(0, h_off, 0)
+
+		# Use a faster lerp for responsiveness, but smooth enough to avoid jitter
+		global_position = global_position.lerp(new_pos, 10.0 * delta)
+
 		previous_position = body.global_position
