@@ -20,6 +20,10 @@ func _physics_process(delta):
 		if delta > 0.0001:
 			velocity = (body.global_position - previous_position) / delta
 
+		# Clamp velocity to avoid explosions on teleport
+		if velocity.length_squared() > 10000.0: # 100 m/s
+			velocity = Vector3.ZERO
+
 		var new_pos = body.global_position + (velocity * look_ahead_seconds) - Vector3(0, h_off, 0)
 
 		# Use a faster lerp for responsiveness, but smooth enough to avoid jitter

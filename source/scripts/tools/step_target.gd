@@ -3,6 +3,13 @@ extends Node3D
 
 @export var ray : RayCast3D
 
+func _ready():
+	# Break feedback loop by reparenting ray to the container (step_targets)
+	# This ensures the ray follows the lookahead position, not the snapped foot position
+	if !Engine.is_editor_hint():
+		if ray and ray.get_parent() == self:
+			ray.reparent(get_parent(), true)
+
 func _physics_process(delta):
 	if ray:
 		if ray.is_colliding():
