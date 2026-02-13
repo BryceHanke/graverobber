@@ -53,14 +53,14 @@ bus = &"screams"
 visible = false
 
 [node name="OmniLight3D" parent="player/SubViewportContainer/hand_view/sway/holder/lantern/lantern/Armature/Skeleton3D/Bone_001/top/base/Cylinder_001" parent_id_path=PackedInt32Array(1570651658, 1576551668, 719875267) index="0" unique_id=1117837402]
-light_energy = 10.633336
-shadow_blur = 5.8516674
+light_energy = 11.38898
+shadow_blur = 6.5695305
 
 [node name="Sprite3D2" parent="player/SubViewportContainer/hand_view/sway/holder/lantern/lantern/Armature/Skeleton3D/Bone_001/top/base/Cylinder_001/OmniLight3D" index="0" unique_id=1099298432]
-frame = 2
+frame = 3
 
 [node name="monster" parent="." unique_id=832945777 node_paths=PackedStringArray("player") instance=ExtResource("9_7cme6")]
-transform = Transform3D(0.89397436, 0, -0.44811794, 0, 1, 0, 0.44811794, 0, 0.89397436, 2.3140974, -0.7970375, -2.9769192)
+transform = Transform3D(0.89397436, 0, -0.44811794, 0, 1, 0, 0.44811794, 0, 0.89397436, 1.0896128, -0.3859899, -1.2362206)
 player = NodePath("../player")
 
 [connection signal="body_entered" from="Area3D" to="Area3D" method="_on_body_entered"]

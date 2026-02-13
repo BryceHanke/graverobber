@@ -2,7 +2,7 @@ extends monster_state
 
 func Enter():
 	monster.screech_player.play()
-	SPEED = 3.0
+	SPEED = 1.0
 	monster.step_timer.wait_time = 1.0
 	monster.groan_player.play()
 	if not monster.step_timer.timeout.is_connected(play_steps):
