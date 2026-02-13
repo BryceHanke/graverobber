@@ -138,7 +138,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.04552692, -0.5008917, 0.40
 script = ExtResource("6_2yaav")
 
 [node name="r_arm_step_target" type="Node3D" parent="Armature/Skeleton3D/step_targets" index="0" unique_id=1917531191 node_paths=PackedStringArray("ray")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0512259, 0, 1.2029494)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.46108675, 0, 0.9380425)
 script = ExtResource("5_1fxpq")
 ray = NodePath("RayCast3D")
 
@@ -152,7 +152,7 @@ hit_from_inside = true
 gizmo_extents = 0.78
 
 [node name="l_arm_step_target" type="Node3D" parent="Armature/Skeleton3D/step_targets" index="1" unique_id=1263795975 node_paths=PackedStringArray("ray")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0078769, 0, 1.2408803)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5659448, 0, 0.95179486)
 script = ExtResource("5_1fxpq")
 ray = NodePath("RayCast3D")
 
@@ -166,7 +166,7 @@ hit_from_inside = true
 gizmo_extents = 0.78
 
 [node name="r_leg_step_target" type="Node3D" parent="Armature/Skeleton3D/step_targets" index="2" unique_id=1296562492 node_paths=PackedStringArray("ray")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9561479, 0, -1.6635383)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7796992, 0, -1.5491825)
 script = ExtResource("5_1fxpq")
 ray = NodePath("RayCast3D")
 
@@ -180,7 +180,7 @@ hit_from_inside = true
 gizmo_extents = 0.78
 
 [node name="l_leg_step_target" type="Node3D" parent="Armature/Skeleton3D/step_targets" index="3" unique_id=1182614964 node_paths=PackedStringArray("ray")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3329983, 0, -1.5930953)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.76510286, 0, -1.5930953)
 script = ExtResource("5_1fxpq")
 ray = NodePath("RayCast3D")
 

@@ -16,7 +16,6 @@ func _physics_process(delta):
 	if is_far_enough():
 		if !stepping && !adjacent_leg.stepping:
 			step()
-			opposite_leg.step()
 
 func is_far_enough()->bool:
 	var pos = global_position

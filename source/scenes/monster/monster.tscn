@@ -196,43 +196,43 @@ target_position = Vector3(0, 0, 20)
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, -0.4427467, 0)
 
 [node name="l_hand" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(660503573, 1824726652) index="2" unique_id=1925841840]
-transform = Transform3D(0.83796114, 0.2772844, -0.4700354, -0.09451692, 0.92202234, 0.37542036, 0.537482, -0.27016163, 0.7988274, 1.6189723, 1.4746146, 0.73504674)
+transform = Transform3D(0.7687968, -0.63817203, 0.041077107, -0.589867, -0.68286294, 0.43099236, -0.24699743, -0.35557568, -0.9014198, 1.0166242, -0.4120177, 1.3301709)
 
 [node name="l_forearm" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(660503573, 1824726652) index="3" unique_id=1328960560]
-transform = Transform3D(0.13827689, 0.0096360445, -0.99034625, -0.26191503, 0.9647075, -0.02718316, 0.9551333, 0.2631456, 0.13592036, 1.6071908, 0.29512423, 0.41331416)
+transform = Transform3D(0.5600242, -0.5237246, -0.6419383, -0.8260138, -0.29327887, -0.48133984, 0.0638227, 0.79981244, -0.59684724, 1.656951, -0.053443015, 0.3522879)
 
 [node name="l_arm" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(660503573, 1824726652) index="4" unique_id=2038679607]
-transform = Transform3D(0.52652466, 0.82834274, -0.1913616, -0.5702526, 0.17716569, -0.802137, -0.6305419, 0.5314699, 0.56564665, 0.60870117, 0.08156748, -0.22732306)
+transform = Transform3D(0.3366074, 0.8696234, -0.36117834, -0.5779745, -0.112004176, -0.8083316, -0.7433978, 0.48084274, 0.46491867, 0.60870117, 0.08156748, -0.22732306)
 
 [node name="r_hand" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(660503573, 1824726652) index="5" unique_id=1326891952]
-transform = Transform3D(0.5687194, -0.1264911, -0.81274676, -0.74434197, 0.34132987, -0.5739757, 0.35001758, 0.93139315, 0.09996814, -0.9003269, 0.9078449, 2.034533)
+transform = Transform3D(0.4778279, 0.2169053, -0.8512529, -0.23047747, -0.90413415, -0.359752, -0.8476791, 0.36809456, -0.38202888, -1.0260432, -0.32768905, 1.3074408)
 
 [node name="r_forearm" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(660503573, 1824726652) index="6" unique_id=1626055945]
-transform = Transform3D(0.75595856, -0.12715852, -0.64214975, -0.5746741, 0.34085602, -0.7440202, 0.31348926, 0.9314757, 0.18459824, -0.7448579, 0.49110055, 0.8956735)
+transform = Transform3D(0.57572734, 0.5218402, -0.62946004, -0.6119446, -0.23557165, -0.7550027, -0.5422741, 0.8198708, 0.1837124, -1.6640661, -0.039669916, 0.30503356)
 
 [node name="r_arm" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(660503573, 1824726652) index="7" unique_id=1575093946]
-transform = Transform3D(0.37073907, -0.12896572, -0.9197388, -0.85483253, 0.33974695, -0.39221537, 0.3630608, 0.9316324, 0.01571335, -0.5894017, 0.08156726, -0.22732258)
+transform = Transform3D(0.30782068, -0.8915366, -0.3322772, -0.84981126, -0.100577824, -0.51740146, 0.42786255, 0.44164017, -0.7885981, -0.5894017, 0.08156726, -0.22732258)
 
 [node name="l_foot" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(660503573, 1824726652) index="9" unique_id=1357696880]
-transform = Transform3D(-0.6252344, 0.123082384, -0.7706699, -0.68955123, 0.3753614, 0.6193723, 0.36551383, 0.91866976, -0.14981717, 1.2240626, 1.5503356, 1.1565318)
+transform = Transform3D(-0.53617936, -0.50310624, -0.67778695, -0.23706448, -0.6808966, 0.69295, -0.8101305, 0.5322253, 0.245814, 1.9602745, -0.20224506, -1.6289079)
 
 [node name="l_calf" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(660503573, 1824726652) index="10" unique_id=2110775919]
-transform = Transform3D(0.26418754, 0.24313135, -0.93332285, -0.93528605, 0.30083883, -0.1863747, 0.23546624, 0.92216206, 0.30687562, 0.88233197, 1.1274949, -0.13960254)
+transform = Transform3D(-0.8964089, 0.42167833, 0.13652009, -0.37771517, -0.565613, -0.7330842, -0.23190832, -0.7087092, 0.6662953, 1.367589, 0.59274566, -0.6327898)
 
 [node name="l_leg" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(660503573, 1824726652) index="11" unique_id=398573463]
-transform = Transform3D(0.27230734, 0.44125652, -0.8550676, -0.9614862, 0.15924151, -0.22402157, 0.03731115, 0.88313895, 0.46762517, 0.3320531, 0.9289093, -1.2409406)
+transform = Transform3D(-0.09261616, 0.83037376, -0.5494551, -0.9297889, -0.26956227, -0.25065517, -0.35625005, 0.48766288, 0.7970385, 0.3320531, 0.9289093, -1.2409406)
 
 [node name="r_foot" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(660503573, 1824726652) index="12" unique_id=1545686329]
-transform = Transform3D(-0.3250959, 0.600883, -0.730241, 0.18295166, 0.7975595, 0.5748282, 0.92781544, 0.053275824, -0.3692157, -0.7177365, 1.2835765, -1.6542587)
+transform = Transform3D(-0.58495677, 0.6902318, -0.4259163, -0.8071422, -0.44382355, 0.3892831, 0.07966402, 0.57148933, 0.8167331, -1.7371513, -0.3659662, -1.4501867)
 
 [node name="r_calf" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(660503573, 1824726652) index="13" unique_id=948173683]
-transform = Transform3D(-0.89058864, 0.43077844, 0.14588279, 0.10095459, 0.4999933, -0.86012495, -0.44346365, -0.75128984, -0.48877764, -1.3232119, 0.5808171, -0.5982924)
+transform = Transform3D(-0.9427767, -0.2911385, 0.16251183, 0.10622556, -0.7242722, -0.6812823, 0.31605044, -0.62503433, 0.7137535, -1.327945, 0.65202594, -0.5716775)
 
 [node name="r_leg" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(660503573, 1824726652) index="14" unique_id=609327675]
-transform = Transform3D(-0.08376376, -0.81026405, -0.5800475, -0.81511307, -0.27912727, 0.5076199, -0.5732134, 0.51532495, -0.63707626, -0.31275418, 0.9289091, -1.24094)
+transform = Transform3D(-0.13176064, -0.81405926, -0.56563765, -0.8293455, -0.22202654, 0.5127275, -0.5429773, 0.53666687, -0.6458824, -0.31275418, 0.9289091, -1.24094)
 
 [node name="step_targets" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(660503573, 1824726652) index="20" unique_id=2117783646 node_paths=PackedStringArray("body")]
-transform = Transform3D(0.99999976, 0, 0, 0, 0.99999976, 0, 0, 0, 0.99999976, -0.045526955, -0.67269576, 0.40757078)
+transform = Transform3D(0.99999976, 0, 0, 0, 0.99999976, 0, 0, 0, 0.99999976, -0.045526925, -0.6726974, 0.4075705)
 h_off = 0.75
 body = NodePath("../../../..")
 
@@ -261,15 +261,19 @@ transform = Transform3D(0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 1.658
 collision_mask = 3
 
 [node name="r_arm_target" parent="monster/Armature" parent_id_path=PackedInt32Array(660503573, 761020580) index="1" unique_id=1470774718]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.35866004, -1.5497208e-06, 1.2407659)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.26932424, -0.74999964, 0.31209916)
+step_distance = 0.5
 
 [node name="l_arm_target" parent="monster/Armature" parent_id_path=PackedInt32Array(660503573, 761020580) index="2" unique_id=1749603167]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.53116894, -1.4305115e-06, 0.067240745)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.24556038, -0.7499997, 0.23605469)
+step_distance = 0.5
 
 [node name="r_leg_target" parent="monster/Armature" parent_id_path=PackedInt32Array(660503573, 761020580) index="3" unique_id=253089859]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.078771204, -1.4305115e-06, -0.60765386)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.36437976, -0.7499997, -0.4388399)
+step_distance = 0.5
 
 [node name="l_leg_target" parent="monster/Armature" parent_id_path=PackedInt32Array(660503573, 761020580) index="4" unique_id=707524935]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4081218, -1.5497208e-06, 0.42804068)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4974576, -0.74999964, -0.5006261)
+step_distance = 0.5
 
 [editable path="monster"]
