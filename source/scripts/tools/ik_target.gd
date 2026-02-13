@@ -1,7 +1,7 @@
 @tool
 extends Node3D
 
-@export var step_target := Node3D
+@export var step_target : Node3D
 @export var step_distance := 1.0
 
 var stepping := false
@@ -20,6 +20,6 @@ func step():
 	var target_pos = step_target.global_position
 	var half = (global_position + step_target.global_position) / 2
 	var t = get_tree().create_tween()
-	t.tween_property(self, "global_position", half + owner.basis.y, 0.05)
+	t.tween_property(self, "global_position", half + owner.global_transform.basis.y, 0.05)
 	t.tween_property(self, "global_position", target_pos, 0.05)
 	t.tween_callback(func(): stepping = false)
