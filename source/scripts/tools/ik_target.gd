@@ -32,8 +32,8 @@ func step():
 	var half = (global_position + step_target.global_position) / 2
 
 	var up_dir = Vector3.UP
-	if owner:
-		up_dir = owner.global_transform.basis.y
+	if get_parent():
+		up_dir = get_parent().global_transform.basis.y
 
 	var t = get_tree().create_tween()
 	t.tween_property(self, "global_position", half + up_dir, 0.1)
