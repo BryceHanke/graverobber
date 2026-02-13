@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://jbyy44t3pgqv"]
 
 [ext_resource type="PackedScene" uid="uid://csloksb3becbr" path="res://assets/models/monster.blend" id="1_ijglf"]
+[ext_resource type="Script" uid="uid://dctbg36n3cfq2" path="res://scripts/monster/movement_noise.gd" id="2_47ph0"]
 [ext_resource type="Shader" uid="uid://dcxcwwd03jc52" path="res://assets/shaders/dither.gdshader" id="2_timmr"]
 [ext_resource type="Texture2D" uid="uid://b8aoyiggyrp7o" path="res://assets/textures/monster/eyes.png" id="3_ghe6x"]
 [ext_resource type="Material" uid="uid://dgoqmgjd8po8g" path="res://assets/materials/monster.tres" id="4_5ol2o"]
@@ -45,6 +46,7 @@ shader_parameter/light_boost = 1.0
 shader_parameter/bounce_strength = 0.0
 
 [node name="monster" unique_id=660503573 instance=ExtResource("1_ijglf")]
+script = ExtResource("2_47ph0")
 
 [node name="eyes" type="Sprite3D" parent="." index="0" unique_id=1949033890]
 transform = Transform3D(1, -1.0727715e-14, 0, 1.0727715e-14, 1, 0, 0, 0, 1, 0, 0.067, 0.40048385)
@@ -199,7 +201,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25004023, -0.13130021, 0.3
 top_level = true
 script = ExtResource("5_cxi1e")
 step_target = NodePath("../Skeleton3D/step_targets/r_arm_step_target")
-step_distance = 2.0
+step_duration = 0.4
 adjacent_leg = NodePath("../l_arm_target")
 opposite_leg = NodePath("../l_leg_target")
 
@@ -208,7 +210,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0078769, -2.9802322e-07, 1.
 top_level = true
 script = ExtResource("5_cxi1e")
 step_target = NodePath("../Skeleton3D/step_targets/l_arm_step_target")
-step_distance = 2.0
+step_duration = 0.4
 adjacent_leg = NodePath("../r_arm_target")
 opposite_leg = NodePath("../r_leg_target")
 
@@ -217,7 +219,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8531926, -2.9802322e-07, -
 top_level = true
 script = ExtResource("5_cxi1e")
 step_target = NodePath("../Skeleton3D/step_targets/r_leg_step_target")
-step_distance = 2.0
+step_duration = 0.4
 adjacent_leg = NodePath("../l_leg_target")
 opposite_leg = NodePath("../l_arm_target")
 
@@ -226,6 +228,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.54614556, -0.11924827, -0.4
 top_level = true
 script = ExtResource("5_cxi1e")
 step_target = NodePath("../Skeleton3D/step_targets/l_leg_step_target")
-step_distance = 2.0
+step_duration = 0.4
 adjacent_leg = NodePath("../r_leg_target")
 opposite_leg = NodePath("../r_arm_target")

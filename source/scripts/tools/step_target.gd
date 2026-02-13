@@ -27,10 +27,6 @@ func _physics_process(delta):
 
 			if new_x.is_normalized() and new_z.is_normalized():
 				global_transform.basis = Basis(new_x, normal, new_z)
-		else:
-			# Fallback: Hanging below the ray origin (fully extended)
-			global_position = ray.to_global(ray.target_position)
-			global_rotation = ray.global_rotation
 
 func setup(body: Node3D):
 	if ray:

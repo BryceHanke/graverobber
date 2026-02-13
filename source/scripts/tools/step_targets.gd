@@ -1,7 +1,7 @@
 @tool
 extends Node3D
 
-@export var look_ahead_seconds := 0.3
+@export var look_ahead_seconds := 0.2
 @export var h_off := 0.5
 
 @export var body : CharacterBody3D

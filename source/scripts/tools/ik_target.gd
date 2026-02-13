@@ -4,7 +4,7 @@ extends Node3D
 @export var step_target : Node3D
 @export var step_distance := 0.5
 @export var step_height := 0.5
-@export var step_duration := 0.4
+@export var step_duration := 0.25
 
 enum State { PLANTED, MOVING }
 var state := State.PLANTED
@@ -29,12 +29,13 @@ func _physics_process(delta):
 
 	match state:
 		State.PLANTED:
-			var dist = global_position.distance_to(step_target.global_position)
+			var dist = abs(global_position.distance_to(step_target.global_position))
 
 			# If too far, try to step
-			if dist > step_distance:
+			if dist >= step_distance:
 				if can_step():
 					start_step()
+					opposite_leg.start_step()
 
 			# Robustness: if extremely far (e.g. teleport), snap immediately
 			if dist > step_distance * 3.0:

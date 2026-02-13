@@ -92,18 +92,18 @@ sight_rays = [NodePath("sight"), NodePath("sight/sight2"), NodePath("sight/sight
 script = ExtResource("1_jlss8")
 initial_state = NodePath("wander")
 
-[node name="wander" type="Node" parent="logic/statemachine" unique_id=224507659 node_paths=PackedStringArray("monster")]
+[node name="wander" type="Node" parent="logic/statemachine" unique_id=224507659 node_paths=PackedStringArray("monster_body")]
 script = ExtResource("2_gdl1p")
-monster = NodePath("../../..")
+monster_body = NodePath("../../..")
 
-[node name="search" type="Node" parent="logic/statemachine" unique_id=1996475802 node_paths=PackedStringArray("monster")]
+[node name="search" type="Node" parent="logic/statemachine" unique_id=1996475802 node_paths=PackedStringArray("monster_body")]
 script = ExtResource("3_0xprk")
-monster = NodePath("../../..")
+monster_body = NodePath("../../..")
 
-[node name="attack" type="Node" parent="logic/statemachine" unique_id=298553455 node_paths=PackedStringArray("monster")]
+[node name="attack" type="Node" parent="logic/statemachine" unique_id=298553455 node_paths=PackedStringArray("monster_body")]
 script = ExtResource("5_v8i5r")
 sound_chance = 5
-monster = NodePath("../../..")
+monster_body = NodePath("../../..")
 
 [node name="screech_timer" type="Timer" parent="logic" unique_id=1549204285]
 wait_time = 25.0
@@ -144,8 +144,9 @@ bus = &"groans"
 stream = SubResource("AudioStreamRandomizer_l2ec5")
 volume_db = -5.0
 max_db = -5.0
-pitch_scale = 2.0
+pitch_scale = 0.5
 max_polyphony = 5
+bus = &"screech"
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=2063737106]
 avoidance_enabled = true
@@ -193,87 +194,66 @@ transform = Transform3D(1, -3.1943515e-10, -5.2748272e-09, -3.194316e-10, 0.9926
 target_position = Vector3(0, 0, 20)
 
 [node name="monster" parent="." unique_id=660503573 instance=ExtResource("37_4suij")]
-transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, -0.4427467, 0)
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -0.044081032, 0.060186982, 0.03273288)
 
-[node name="l_hand" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(660503573, 1824726652) index="2" unique_id=1925841840]
-transform = Transform3D(0.7687968, -0.63817203, 0.041077107, -0.589867, -0.68286294, 0.43099236, -0.24699743, -0.35557568, -0.9014198, 1.0166242, -0.4120177, 1.3301709)
+[node name="eyes" parent="monster" index="0" unique_id=1949033890]
+transform = Transform3D(0.99999976, -1.0727715e-14, 0, 1.0727715e-14, 0.99999976, 0, 0, 0, 0.99999976, 0, -1.2368284, 0.40048376)
 
-[node name="l_forearm" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(660503573, 1824726652) index="3" unique_id=1328960560]
-transform = Transform3D(0.5600242, -0.5237246, -0.6419383, -0.8260138, -0.29327887, -0.48133984, 0.0638227, 0.79981244, -0.59684724, 1.656951, -0.053443015, 0.3522879)
+[node name="Armature" parent="monster" index="1" unique_id=761020580]
+transform = Transform3D(0.99999976, 0, 0, 0, 0.99999976, 0, 0, 0, 0.99999976, 0.04552692, -1.6728483, -0.40757138)
 
-[node name="l_arm" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(660503573, 1824726652) index="4" unique_id=2038679607]
-transform = Transform3D(0.3366074, 0.8696234, -0.36117834, -0.5779745, -0.112004176, -0.8083316, -0.7433978, 0.48084274, 0.46491867, 0.60870117, 0.08156748, -0.22732306)
+[node name="right_arm" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(660503573, 1824726652) index="15" unique_id=1563739400]
+override_tip_basis = false
+magnet = Vector3(-0.455, 2.065, 0)
 
-[node name="r_hand" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(660503573, 1824726652) index="5" unique_id=1326891952]
-transform = Transform3D(0.4778279, 0.2169053, -0.8512529, -0.23047747, -0.90413415, -0.359752, -0.8476791, 0.36809456, -0.38202888, -1.0260432, -0.32768905, 1.3074408)
+[node name="left_arm" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(660503573, 1824726652) index="16" unique_id=88774442]
+override_tip_basis = false
+magnet = Vector3(0.5, 1.095, 0)
 
-[node name="r_forearm" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(660503573, 1824726652) index="6" unique_id=1626055945]
-transform = Transform3D(0.57572734, 0.5218402, -0.62946004, -0.6119446, -0.23557165, -0.7550027, -0.5422741, 0.8198708, 0.1837124, -1.6640661, -0.039669916, 0.30503356)
+[node name="right_leg" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(660503573, 1824726652) index="17" unique_id=267079054]
+override_tip_basis = false
+magnet = Vector3(-2.285, 1.92, -0.7)
 
-[node name="r_arm" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(660503573, 1824726652) index="7" unique_id=1575093946]
-transform = Transform3D(0.30782068, -0.8915366, -0.3322772, -0.84981126, -0.100577824, -0.51740146, 0.42786255, 0.44164017, -0.7885981, -0.5894017, 0.08156726, -0.22732258)
-
-[node name="l_foot" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(660503573, 1824726652) index="9" unique_id=1357696880]
-transform = Transform3D(-0.53617936, -0.50310624, -0.67778695, -0.23706448, -0.6808966, 0.69295, -0.8101305, 0.5322253, 0.245814, 1.9602745, -0.20224506, -1.6289079)
-
-[node name="l_calf" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(660503573, 1824726652) index="10" unique_id=2110775919]
-transform = Transform3D(-0.8964089, 0.42167833, 0.13652009, -0.37771517, -0.565613, -0.7330842, -0.23190832, -0.7087092, 0.6662953, 1.367589, 0.59274566, -0.6327898)
-
-[node name="l_leg" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(660503573, 1824726652) index="11" unique_id=398573463]
-transform = Transform3D(-0.09261616, 0.83037376, -0.5494551, -0.9297889, -0.26956227, -0.25065517, -0.35625005, 0.48766288, 0.7970385, 0.3320531, 0.9289093, -1.2409406)
-
-[node name="r_foot" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(660503573, 1824726652) index="12" unique_id=1545686329]
-transform = Transform3D(-0.58495677, 0.6902318, -0.4259163, -0.8071422, -0.44382355, 0.3892831, 0.07966402, 0.57148933, 0.8167331, -1.7371513, -0.3659662, -1.4501867)
-
-[node name="r_calf" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(660503573, 1824726652) index="13" unique_id=948173683]
-transform = Transform3D(-0.9427767, -0.2911385, 0.16251183, 0.10622556, -0.7242722, -0.6812823, 0.31605044, -0.62503433, 0.7137535, -1.327945, 0.65202594, -0.5716775)
-
-[node name="r_leg" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(660503573, 1824726652) index="14" unique_id=609327675]
-transform = Transform3D(-0.13176064, -0.81405926, -0.56563765, -0.8293455, -0.22202654, 0.5127275, -0.5429773, 0.53666687, -0.6458824, -0.31275418, 0.9289091, -1.24094)
+[node name="left_leg" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(660503573, 1824726652) index="18" unique_id=1196829886]
+override_tip_basis = false
+magnet = Vector3(-0.545, 0.95, -1.755)
 
 [node name="step_targets" parent="monster/Armature/Skeleton3D" parent_id_path=PackedInt32Array(660503573, 1824726652) index="20" unique_id=2117783646 node_paths=PackedStringArray("body")]
-transform = Transform3D(0.99999976, 0, 0, 0, 0.99999976, 0, 0, 0, 0.99999976, -0.045526925, -0.6726974, 0.4075705)
-h_off = 0.75
+transform = Transform3D(0.99999976, 0, 0, 0, 0.99999976, 0, 0, 0, 0.99999976, 0.101409845, -1.0944401, 0.29846165)
+look_ahead_seconds = 0.1
+h_off = 0.77
 body = NodePath("../../../..")
 
-[node name="r_arm_step_target" parent="monster/Armature/Skeleton3D/step_targets" index="0" unique_id=1917531191]
-transform = Transform3D(0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, -0.8977476, 0, 1.0403316)
-
-[node name="RayCast3D" parent="monster/Armature/Skeleton3D/step_targets/r_arm_step_target" index="0" unique_id=182663811]
+[node name="RayCast3D" parent="monster/Armature/Skeleton3D/step_targets/r_arm_step_target" parent_id_path=PackedInt32Array(660503573, 1917531191) index="0" unique_id=182663811]
 collision_mask = 3
 
-[node name="l_arm_step_target" parent="monster/Armature/Skeleton3D/step_targets" index="1" unique_id=1263795975]
-transform = Transform3D(0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0.81853473, 0, 0.78685)
-
-[node name="RayCast3D" parent="monster/Armature/Skeleton3D/step_targets/l_arm_step_target" index="0" unique_id=1686285805]
+[node name="RayCast3D" parent="monster/Armature/Skeleton3D/step_targets/l_arm_step_target" parent_id_path=PackedInt32Array(660503573, 1263795975) index="0" unique_id=1686285805]
 collision_mask = 3
 
-[node name="r_leg_step_target" parent="monster/Armature/Skeleton3D/step_targets" index="2" unique_id=1296562492]
-transform = Transform3D(0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, -1.2145994, 0, -1.4627991)
-
-[node name="RayCast3D" parent="monster/Armature/Skeleton3D/step_targets/r_leg_step_target" index="0" unique_id=1083423952]
+[node name="RayCast3D" parent="monster/Armature/Skeleton3D/step_targets/r_leg_step_target" parent_id_path=PackedInt32Array(660503573, 1296562492) index="0" unique_id=1083423952]
 collision_mask = 3
 
-[node name="l_leg_step_target" parent="monster/Armature/Skeleton3D/step_targets" index="3" unique_id=1182614964]
-transform = Transform3D(0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 1.6581923, 0, -1.6687529)
-
-[node name="RayCast3D" parent="monster/Armature/Skeleton3D/step_targets/l_leg_step_target" index="0" unique_id=1977958791]
+[node name="RayCast3D" parent="monster/Armature/Skeleton3D/step_targets/l_leg_step_target" parent_id_path=PackedInt32Array(660503573, 1182614964) index="0" unique_id=1977958791]
 collision_mask = 3
 
-[node name="r_arm_target" parent="monster/Armature" parent_id_path=PackedInt32Array(660503573, 761020580) index="1" unique_id=1470774718]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.26932424, -0.74999964, 0.31209916)
-step_distance = 0.5
+[node name="r_arm_target" parent="monster/Armature" index="1" unique_id=1470774718]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.12561321, -0.76099885, 0.27615297)
+step_height = 0.25
+step_duration = 0.2
 
-[node name="l_arm_target" parent="monster/Armature" parent_id_path=PackedInt32Array(660503573, 761020580) index="2" unique_id=1749603167]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.24556038, -0.7499997, 0.23605469)
-step_distance = 0.5
+[node name="l_arm_target" parent="monster/Armature" index="2" unique_id=1749603167]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.18249613, -0.76099885, 0.28027868)
+step_height = 0.25
+step_duration = 0.2
 
-[node name="r_leg_target" parent="monster/Armature" parent_id_path=PackedInt32Array(660503573, 761020580) index="3" unique_id=253089859]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.36437976, -0.7499997, -0.4388399)
-step_distance = 0.5
+[node name="r_leg_target" parent="monster/Armature" index="3" unique_id=253089859]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.22119692, -0.76099885, -0.47001427)
+step_height = 0.25
+step_duration = 0.2
 
-[node name="l_leg_target" parent="monster/Armature" parent_id_path=PackedInt32Array(660503573, 761020580) index="4" unique_id=707524935]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4974576, -0.74999964, -0.5006261)
-step_distance = 0.5
+[node name="l_leg_target" parent="monster/Armature" index="4" unique_id=707524935]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.24224353, -0.76099885, -0.4831881)
+step_height = 0.25
+step_duration = 0.2
 
 [editable path="monster"]

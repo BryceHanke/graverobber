@@ -1,4 +1,5 @@
 extends CharacterBody3D
+class_name monster
 
 var target_pos := Vector3.ZERO
 var hearing_sounds := false

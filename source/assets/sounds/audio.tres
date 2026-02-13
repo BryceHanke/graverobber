@@ -49,6 +49,9 @@ resource_name = "Chorus"
 resource_name = "Compressor"
 threshold = -1.5
 
+[sub_resource type="AudioEffectLowPassFilter" id="AudioEffectLowPassFilter_7ofk6"]
+resource_name = "LowPassFilter"
+
 [sub_resource type="AudioEffectStereoEnhance" id="AudioEffectStereoEnhance_7papk"]
 resource_name = "StereoEnhance"
 surround = 1.0
@@ -204,3 +207,11 @@ bus/13/effect/1/effect = SubResource("AudioEffectChorus_6ke3j")
 bus/13/effect/1/enabled = true
 bus/13/effect/2/effect = SubResource("AudioEffectCompressor_tskd7")
 bus/13/effect/2/enabled = true
+bus/14/name = &"screech"
+bus/14/solo = false
+bus/14/mute = false
+bus/14/bypass_fx = false
+bus/14/volume_db = 0.0
+bus/14/send = &"effects"
+bus/14/effect/0/effect = SubResource("AudioEffectLowPassFilter_7ofk6")
+bus/14/effect/0/enabled = false
