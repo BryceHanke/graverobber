@@ -133,91 +133,98 @@ script = ExtResource("4_ghe6x")
 [node name="Cube_002" parent="Armature/Skeleton3D/root" parent_id_path=PackedInt32Array(1113093590) index="0" unique_id=314961394]
 material_override = ExtResource("4_5ol2o")
 
-[node name="step_targets" type="Node3D" parent="Armature" parent_id_path=PackedInt32Array(761020580) index="1" unique_id=2117783646]
+[node name="step_targets" type="Node3D" parent="Armature/Skeleton3D" index="20" unique_id=2117783646]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.04552692, -0.5008917, 0.40757138)
 script = ExtResource("6_2yaav")
-offset = 20.0
 
-[node name="r_arm_step_target" type="Node3D" parent="Armature/step_targets" index="0" unique_id=1917531191]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.92890906, 0.3645854, 1.2445128)
+[node name="r_arm_step_target" type="Node3D" parent="Armature/Skeleton3D/step_targets" index="0" unique_id=1917531191 node_paths=PackedStringArray("ray")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0512259, 0, 1.2029494)
 script = ExtResource("5_1fxpq")
+ray = NodePath("RayCast3D")
 
-[node name="RayCast3D" type="RayCast3D" parent="Armature/step_targets/r_arm_step_target" index="0" unique_id=182663811]
+[node name="RayCast3D" type="RayCast3D" parent="Armature/Skeleton3D/step_targets/r_arm_step_target" index="0" unique_id=182663811]
 transform = Transform3D(0.9903999, 0.13400887, -0.033906844, -0.12878218, 0.98364115, 0.12595657, 0.050231475, -0.12038077, 0.99145615, 0, 0.35659504, 0)
 target_position = Vector3(0, -5, 0)
 collision_mask = 2
 hit_from_inside = true
 
-[node name="Marker3D" type="Marker3D" parent="Armature/step_targets/r_arm_step_target" index="1" unique_id=1525039937]
+[node name="Marker3D" type="Marker3D" parent="Armature/Skeleton3D/step_targets/r_arm_step_target" index="1" unique_id=1525039937]
 gizmo_extents = 0.78
 
-[node name="l_arm_step_target" type="Node3D" parent="Armature/step_targets" index="1" unique_id=1263795975]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.063676, 0.27829218, 1.245)
+[node name="l_arm_step_target" type="Node3D" parent="Armature/Skeleton3D/step_targets" index="1" unique_id=1263795975 node_paths=PackedStringArray("ray")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0078769, 0, 1.2408803)
 script = ExtResource("5_1fxpq")
+ray = NodePath("RayCast3D")
 
-[node name="RayCast3D" type="RayCast3D" parent="Armature/step_targets/l_arm_step_target" index="0" unique_id=1686285805]
+[node name="RayCast3D" type="RayCast3D" parent="Armature/Skeleton3D/step_targets/l_arm_step_target" index="0" unique_id=1686285805]
 transform = Transform3D(0.99924475, -0.013436785, 0.03646388, 0.002684652, 0.9599474, 0.28016734, -0.03876796, -0.27985778, 0.9592584, 0, 0.35659504, 0)
 target_position = Vector3(0, -5, 0)
 collision_mask = 2
 hit_from_inside = true
 
-[node name="Marker3D" type="Marker3D" parent="Armature/step_targets/l_arm_step_target" index="1" unique_id=918073955]
+[node name="Marker3D" type="Marker3D" parent="Armature/Skeleton3D/step_targets/l_arm_step_target" index="1" unique_id=918073955]
 gizmo_extents = 0.78
 
-[node name="r_leg_step_target" type="Node3D" parent="Armature/step_targets" index="2" unique_id=1296562492]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.580046, 0.27204728, -1.8771847)
+[node name="r_leg_step_target" type="Node3D" parent="Armature/Skeleton3D/step_targets" index="2" unique_id=1296562492 node_paths=PackedStringArray("ray")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9561479, 0, -1.6635383)
 script = ExtResource("5_1fxpq")
+ray = NodePath("RayCast3D")
 
-[node name="RayCast3D" type="RayCast3D" parent="Armature/step_targets/r_leg_step_target" index="0" unique_id=1083423952]
+[node name="RayCast3D" type="RayCast3D" parent="Armature/Skeleton3D/step_targets/r_leg_step_target" index="0" unique_id=1083423952]
 transform = Transform3D(0.98313534, 0.17816286, -0.041266788, -0.18188442, 0.97607553, -0.1191416, 0.019052915, 0.1246381, 0.9920193, 0, 0.35659504, 0)
 target_position = Vector3(0, -5, 0)
 collision_mask = 2
 hit_from_inside = true
 
-[node name="Marker3D" type="Marker3D" parent="Armature/step_targets/r_leg_step_target" index="1" unique_id=781255647]
+[node name="Marker3D" type="Marker3D" parent="Armature/Skeleton3D/step_targets/r_leg_step_target" index="1" unique_id=781255647]
 gizmo_extents = 0.78
 
-[node name="l_leg_step_target" type="Node3D" parent="Armature/step_targets" index="3" unique_id=1182614964]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0289512, 0.4093591, -1.7995806)
+[node name="l_leg_step_target" type="Node3D" parent="Armature/Skeleton3D/step_targets" index="3" unique_id=1182614964 node_paths=PackedStringArray("ray")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3329983, 0, -1.5930953)
 script = ExtResource("5_1fxpq")
+ray = NodePath("RayCast3D")
 
-[node name="RayCast3D" type="RayCast3D" parent="Armature/step_targets/l_leg_step_target" index="0" unique_id=1977958791]
+[node name="RayCast3D" type="RayCast3D" parent="Armature/Skeleton3D/step_targets/l_leg_step_target" index="0" unique_id=1977958791]
 transform = Transform3D(0.93586755, -0.34592345, 0.06699889, 0.3480817, 0.9371717, -0.023413526, -0.054690175, 0.045233052, 0.9974783, 0, 0.35659504, 0)
 target_position = Vector3(0, -5, 0)
 collision_mask = 2
 hit_from_inside = true
 
-[node name="Marker3D" type="Marker3D" parent="Armature/step_targets/l_leg_step_target" index="1" unique_id=1257232960]
+[node name="Marker3D" type="Marker3D" parent="Armature/Skeleton3D/step_targets/l_leg_step_target" index="1" unique_id=1257232960]
 gizmo_extents = 0.78
 
-[node name="r_arm_target" type="Node3D" parent="Armature" parent_id_path=PackedInt32Array(761020580) index="2" unique_id=1470774718 node_paths=PackedStringArray("step_target", "adjacent_leg", "opposite_leg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.974436, -0.12632191, 1.6520841)
+[node name="r_arm_target" type="Node3D" parent="Armature" parent_id_path=PackedInt32Array(761020580) index="1" unique_id=1470774718 node_paths=PackedStringArray("step_target", "adjacent_leg", "opposite_leg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25004023, -0.13130021, 0.33499327)
+top_level = true
 script = ExtResource("5_cxi1e")
-step_target = NodePath("../step_targets/r_arm_step_target")
-step_distance = 1.0
+step_target = NodePath("../Skeleton3D/step_targets/r_arm_step_target")
+step_distance = 2.0
 adjacent_leg = NodePath("../l_arm_target")
 opposite_leg = NodePath("../l_leg_target")
 
-[node name="l_arm_target" type="Node3D" parent="Armature" parent_id_path=PackedInt32Array(761020580) index="3" unique_id=1749603167 node_paths=PackedStringArray("step_target", "adjacent_leg", "opposite_leg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0181491, -0.36921626, 1.6525714)
+[node name="l_arm_target" type="Node3D" parent="Armature" parent_id_path=PackedInt32Array(761020580) index="2" unique_id=1749603167 node_paths=PackedStringArray("step_target", "adjacent_leg", "opposite_leg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0078769, -2.9802322e-07, 1.2408803)
+top_level = true
 script = ExtResource("5_cxi1e")
-step_target = NodePath("../step_targets/l_arm_step_target")
-step_distance = 1.0
+step_target = NodePath("../Skeleton3D/step_targets/l_arm_step_target")
+step_distance = 2.0
 adjacent_leg = NodePath("../r_arm_target")
 opposite_leg = NodePath("../r_leg_target")
 
-[node name="r_leg_target" type="Node3D" parent="Armature" parent_id_path=PackedInt32Array(761020580) index="4" unique_id=253089859 node_paths=PackedStringArray("step_target", "adjacent_leg", "opposite_leg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6255729, -0.3754611, -1.4696133)
+[node name="r_leg_target" type="Node3D" parent="Armature" parent_id_path=PackedInt32Array(761020580) index="3" unique_id=253089859 node_paths=PackedStringArray("step_target", "adjacent_leg", "opposite_leg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8531926, -2.9802322e-07, -1.5768392)
+top_level = true
 script = ExtResource("5_cxi1e")
-step_target = NodePath("../step_targets/r_leg_step_target")
-step_distance = 1.0
+step_target = NodePath("../Skeleton3D/step_targets/r_leg_step_target")
+step_distance = 2.0
 adjacent_leg = NodePath("../l_leg_target")
 opposite_leg = NodePath("../l_arm_target")
 
-[node name="l_leg_target" type="Node3D" parent="Armature" parent_id_path=PackedInt32Array(761020580) index="5" unique_id=707524935 node_paths=PackedStringArray("step_target", "adjacent_leg", "opposite_leg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9834242, -0.081548214, -1.3920093)
+[node name="l_leg_target" type="Node3D" parent="Armature" parent_id_path=PackedInt32Array(761020580) index="4" unique_id=707524935 node_paths=PackedStringArray("step_target", "adjacent_leg", "opposite_leg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.54614556, -0.11924827, -0.4844045)
+top_level = true
 script = ExtResource("5_cxi1e")
-step_target = NodePath("../step_targets/l_leg_step_target")
-step_distance = 1.0
+step_target = NodePath("../Skeleton3D/step_targets/l_leg_step_target")
+step_distance = 2.0
 adjacent_leg = NodePath("../r_leg_target")
 opposite_leg = NodePath("../r_arm_target")

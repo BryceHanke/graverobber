@@ -112,6 +112,8 @@ light={
 3d/run_on_separate_thread=true
 3d/physics_engine="Jolt Physics"
 jolt_physics_3d/simulation/position_steps=5
+jolt_physics_3d/queries/use_enhanced_internal_edge_removal=true
+jolt_physics_3d/queries/enable_ray_cast_face_index=true
 3d/solver/solver_iterations=64
 
 [rendering]

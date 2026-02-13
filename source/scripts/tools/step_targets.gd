@@ -1,7 +1,8 @@
 @tool
 extends Node3D
 
-@export var offset := 5.0
+@export var offset := 20.0
+@export var h_off := 0.5
 
 @export var body : CharacterBody3D
 var previous_position := Vector3.ZERO
@@ -16,5 +17,6 @@ func _ready():
 func _process(delta):
 	if body:
 		var velocity = body.global_position - previous_position
-		global_position = body.global_position + (velocity * offset)
+		var new_pos = body.global_position + (velocity * offset) - Vector3(0,h_off,0)
+		global_position = lerp(global_position, new_pos, 2*delta)
 		previous_position = body.global_position

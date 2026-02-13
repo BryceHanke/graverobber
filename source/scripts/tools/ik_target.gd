@@ -2,7 +2,7 @@
 extends Node3D
 
 @export var step_target : Node3D
-@export var step_distance := .5
+@export var step_distance := 0.5
 
 var stepping := false
 
@@ -21,7 +21,7 @@ func _physics_process(delta):
 func is_far_enough()->bool:
 	var pos = global_position
 	var step_pos = step_target.global_position
-	if abs(pos.distance_to(step_pos)) > step_distance:
+	if abs(pos.distance_to(step_pos)) >= step_distance:
 		return true
 	return false
 
